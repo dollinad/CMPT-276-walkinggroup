@@ -6,7 +6,7 @@ import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.dataobjects.GpsLocation;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
-import ca.sfu.djlin.walkinggroup.dataobjects.User;
+import ca.sfu.djlin.walkinggroup.model.User;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;

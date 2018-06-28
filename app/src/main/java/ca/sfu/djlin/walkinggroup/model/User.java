@@ -1,4 +1,4 @@
-package ca.sfu.djlin.walkinggroup.dataobjects;
+package ca.sfu.djlin.walkinggroup.model;
 
 import android.util.Log;
 
@@ -10,6 +10,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.sfu.djlin.walkinggroup.dataobjects.EarnedRewards;
+import ca.sfu.djlin.walkinggroup.dataobjects.Group;
+import ca.sfu.djlin.walkinggroup.dataobjects.IdItemBase;
+
 /**
  * User class to store the data the server expects and returns.
  * (Incomplete: Needs support for monitoring and groups).
@@ -19,7 +23,7 @@ import java.util.List;
 // It ensures deserialization does not fail if server sends you some fields you are not expecting.
 // This is needed for the server to be able to change without breaking your app!
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class User extends IdItemBase{
+public class User extends IdItemBase {
     // NOTE: id, hasFullData, and href in IdItemBase base class.
 
     // Data fields for the user.
