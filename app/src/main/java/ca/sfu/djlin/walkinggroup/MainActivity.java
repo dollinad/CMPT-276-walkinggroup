@@ -19,8 +19,6 @@ public class MainActivity extends AppCompatActivity {
     // Used for checking correct version of Google Play Services
     private static final int ERROR_DIALOG_REQUEST = 9001;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
