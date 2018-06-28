@@ -1,0 +1,239 @@
+-- Merging decision tree log ---
+manifest
+ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:2:1-45:12
+INJECTED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:2:1-45:12
+INJECTED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:2:1-45:12
+INJECTED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:2:1-45:12
+MERGED from [com.android.support:appcompat-v7:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0-alpha3.aar/6c1978d5b816d62518cc297097592478/AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-maps-15.0.1.aar/864f014518636e6806bdcb4326b725c1/AndroidManifest.xml:17:1-32:12
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] /Users/dollina/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.2.aar/86673e99d6371dbc4d179189f4c12d13/AndroidManifest.xml:2:1-11:12
+MERGED from [com.android.support:animated-vector-drawable:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-28.0.0-alpha3.aar/d2d165ed6f306e825c5b7b3c5f2d1fb0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-vector-drawable:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-28.0.0-alpha3.aar/1e5753b3beec38786ff4ed252f4955ef/AndroidManifest.xml:17:1-22:12
+MERGED from [com.google.android.gms:play-services-base:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-base-15.0.1.aar/090e3edc221baeb656bb1f6672293d6a/AndroidManifest.xml:17:1-29:12
+MERGED from [com.google.android.gms:play-services-tasks:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-tasks-15.0.1.aar/2a7c0774fc2c04500b998a904b3c7cf3/AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-basement:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-basement-15.0.1.aar/5801112895cf0330cd1591b5b8d65af4/AndroidManifest.xml:17:1-28:12
+MERGED from [com.android.support:support-v4:26.1.0] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-v4-26.1.0.aar/fa414e911210897e546ca9b7c8f30eac/AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support:support-media-compat:26.1.0] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/296fcd416ef2be75f053bd094ff194fa/AndroidManifest.xml:17:1-31:12
+MERGED from [com.android.support:support-fragment:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0-alpha3.aar/5a62f324127a55f542dc477bafdd84d6/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-ui:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0-alpha3.aar/b1fa6a3963b3dc0aaf286defe2659614/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-core-utils:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-core-utils-28.0.0-alpha3.aar/11a9951c7cbb0d84031c8354327d9c0a/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:loader:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/loader-28.0.0-alpha3.aar/def1a2db5306fc4b0aece8affc807d51/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:viewpager:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/viewpager-28.0.0-alpha3.aar/8f5e64272e35d0fa23e91ce70b916cad/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:coordinatorlayout:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-28.0.0-alpha3.aar/b960bf19418fd3511dc520c6e059a963/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:drawerlayout:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/drawerlayout-28.0.0-alpha3.aar/d9ee3d4a9ab0eb06651f161138a0ff0a/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:slidingpanelayout:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-28.0.0-alpha3.aar/ae2d65465892560fbfb97dd93d300af3/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:customview:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/customview-28.0.0-alpha3.aar/f3923eb0caae003d78119075b530c6e3/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:swiperefreshlayout:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-28.0.0-alpha3.aar/e1437afa2f7a18492510be9a513abe7b/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:asynclayoutinflater:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-28.0.0-alpha3.aar/52694cb6bfc638a3a4aaf49bd11f6c29/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:support-compat:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0-alpha3.aar/ff31a61103bcf4b5198e907ffd7cc384/AndroidManifest.xml:17:1-24:12
+MERGED from [com.android.support:cursoradapter:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/cursoradapter-28.0.0-alpha3.aar/c98dcba21b00b4d5bbb16a56dd7f6410/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/2cf24d5f09cbc17c47f482ec55a2f897/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:versionedparcelable:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0-alpha3.aar/e67e8340b478435e197acd78b3b5dd59/AndroidManifest.xml:17:1-25:12
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.1.aar/4b067f017237b9b493db8bdeacad4793/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.core:runtime:1.1.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/825be7692bf2b3d15f367f561b391373/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:documentfile:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/documentfile-28.0.0-alpha3.aar/8a5ea276fc63688f0149192486780b41/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:localbroadcastmanager:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-28.0.0-alpha3.aar/a3d18de87fa62cf29f0ca56a8f867e05/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:print:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/print-28.0.0-alpha3.aar/73f7cbd90008f7c1eca9362dd7a7c9c5/AndroidManifest.xml:17:1-22:12
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.1.aar/11d99ed1954b1661b442cd3d95ecb2a0/AndroidManifest.xml:17:1-22:12
+MERGED from [com.android.support:interpolator:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/interpolator-28.0.0-alpha3.aar/938c878203df4dcbbee6b2b5ece257fc/AndroidManifest.xml:17:1-22:12
+INJECTED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:2:1-45:12
+INJECTED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:2:1-45:12
+INJECTED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:2:1-45:12
+	package
+		ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:3:5-40
+		INJECTED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml
+	android:versionName
+		INJECTED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml
+		ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:2:1-45:12
+		INJECTED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml
+	android:versionCode
+		INJECTED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml
+		ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:2:1-45:12
+		INJECTED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml
+	xmlns:android
+		ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:2:11-69
+uses-permission#android.permission.ACCESS_FINE_LOCATION
+ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:9:5-79
+	android:name
+		ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:9:22-76
+application
+ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:11:5-43:19
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-maps-15.0.1.aar/864f014518636e6806bdcb4326b725c1/AndroidManifest.xml:30:5-20
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-maps-15.0.1.aar/864f014518636e6806bdcb4326b725c1/AndroidManifest.xml:30:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] /Users/dollina/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.2.aar/86673e99d6371dbc4d179189f4c12d13/AndroidManifest.xml:9:5-20
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] /Users/dollina/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.2.aar/86673e99d6371dbc4d179189f4c12d13/AndroidManifest.xml:9:5-20
+MERGED from [com.google.android.gms:play-services-base:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-base-15.0.1.aar/090e3edc221baeb656bb1f6672293d6a/AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-base:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-base-15.0.1.aar/090e3edc221baeb656bb1f6672293d6a/AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-tasks:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-tasks-15.0.1.aar/2a7c0774fc2c04500b998a904b3c7cf3/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-tasks:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-tasks-15.0.1.aar/2a7c0774fc2c04500b998a904b3c7cf3/AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-basement:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-basement-15.0.1.aar/5801112895cf0330cd1591b5b8d65af4/AndroidManifest.xml:22:5-26:19
+MERGED from [com.google.android.gms:play-services-basement:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-basement-15.0.1.aar/5801112895cf0330cd1591b5b8d65af4/AndroidManifest.xml:22:5-26:19
+MERGED from [com.android.support:support-v4:26.1.0] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-v4-26.1.0.aar/fa414e911210897e546ca9b7c8f30eac/AndroidManifest.xml:25:5-29:19
+MERGED from [com.android.support:support-v4:26.1.0] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-v4-26.1.0.aar/fa414e911210897e546ca9b7c8f30eac/AndroidManifest.xml:25:5-29:19
+MERGED from [com.android.support:support-media-compat:26.1.0] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/296fcd416ef2be75f053bd094ff194fa/AndroidManifest.xml:25:5-29:19
+MERGED from [com.android.support:support-media-compat:26.1.0] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/296fcd416ef2be75f053bd094ff194fa/AndroidManifest.xml:25:5-29:19
+MERGED from [com.android.support:support-compat:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0-alpha3.aar/ff31a61103bcf4b5198e907ffd7cc384/AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:support-compat:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0-alpha3.aar/ff31a61103bcf4b5198e907ffd7cc384/AndroidManifest.xml:22:5-94
+MERGED from [com.android.support:versionedparcelable:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0-alpha3.aar/e67e8340b478435e197acd78b3b5dd59/AndroidManifest.xml:22:5-23:19
+MERGED from [com.android.support:versionedparcelable:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0-alpha3.aar/e67e8340b478435e197acd78b3b5dd59/AndroidManifest.xml:22:5-23:19
+	android:appComponentFactory
+		ADDED from [com.android.support:support-compat:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0-alpha3.aar/ff31a61103bcf4b5198e907ffd7cc384/AndroidManifest.xml:22:18-91
+	android:supportsRtl
+		ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:16:9-35
+	android:label
+		ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:14:9-41
+	android:roundIcon
+		ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:15:9-54
+	android:icon
+		ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:13:9-43
+	android:allowBackup
+		ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:12:9-35
+	android:theme
+		ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:17:9-40
+activity#ca.sfu.djlin.walkinggroup.app.WecomeActivity
+ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:26:9-32:20
+	android:name
+		ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:26:19-53
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:27:9-31:25
+action#android.intent.action.MAIN
+ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:28:13-65
+	android:name
+		ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:28:21-62
+category#android.intent.category.LAUNCHER
+ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:30:13-73
+	android:name
+		ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:30:23-70
+meta-data#com.google.android.geo.API_KEY
+ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:34:9-36:51
+	android:value
+		ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:36:9-48
+	android:name
+		ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:35:9-54
+activity#ca.sfu.djlin.walkinggroup.app.MapsActivity
+ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:37:9-39:58
+	android:label
+		ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:39:13-56
+	android:name
+		ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:38:13-70
+activity#ca.sfu.djlin.walkinggroup.app.SignupActivity
+ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:40:9-80
+	android:name
+		ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml:40:19-78
+uses-sdk
+INJECTED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml
+INJECTED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml
+MERGED from [com.android.support:appcompat-v7:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0-alpha3.aar/6c1978d5b816d62518cc297097592478/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:appcompat-v7:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/appcompat-v7-28.0.0-alpha3.aar/6c1978d5b816d62518cc297097592478/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-maps-15.0.1.aar/864f014518636e6806bdcb4326b725c1/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-maps:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-maps-15.0.1.aar/864f014518636e6806bdcb4326b725c1/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] /Users/dollina/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.2.aar/86673e99d6371dbc4d179189f4c12d13/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support.constraint:constraint-layout:1.1.2] /Users/dollina/.gradle/caches/transforms-1/files-1.1/constraint-layout-1.1.2.aar/86673e99d6371dbc4d179189f4c12d13/AndroidManifest.xml:5:5-7:41
+MERGED from [com.android.support:animated-vector-drawable:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-28.0.0-alpha3.aar/d2d165ed6f306e825c5b7b3c5f2d1fb0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:animated-vector-drawable:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/animated-vector-drawable-28.0.0-alpha3.aar/d2d165ed6f306e825c5b7b3c5f2d1fb0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-28.0.0-alpha3.aar/1e5753b3beec38786ff4ed252f4955ef/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-vector-drawable:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-vector-drawable-28.0.0-alpha3.aar/1e5753b3beec38786ff4ed252f4955ef/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-base-15.0.1.aar/090e3edc221baeb656bb1f6672293d6a/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-base-15.0.1.aar/090e3edc221baeb656bb1f6672293d6a/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-tasks:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-tasks-15.0.1.aar/2a7c0774fc2c04500b998a904b3c7cf3/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-tasks:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-tasks-15.0.1.aar/2a7c0774fc2c04500b998a904b3c7cf3/AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-basement:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-basement-15.0.1.aar/5801112895cf0330cd1591b5b8d65af4/AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-basement:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-basement-15.0.1.aar/5801112895cf0330cd1591b5b8d65af4/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-v4:26.1.0] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-v4-26.1.0.aar/fa414e911210897e546ca9b7c8f30eac/AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-v4:26.1.0] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-v4-26.1.0.aar/fa414e911210897e546ca9b7c8f30eac/AndroidManifest.xml:21:5-23:54
+MERGED from [com.android.support:support-media-compat:26.1.0] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/296fcd416ef2be75f053bd094ff194fa/AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-media-compat:26.1.0] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/296fcd416ef2be75f053bd094ff194fa/AndroidManifest.xml:21:5-23:63
+MERGED from [com.android.support:support-fragment:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0-alpha3.aar/5a62f324127a55f542dc477bafdd84d6/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-fragment:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-fragment-28.0.0-alpha3.aar/5a62f324127a55f542dc477bafdd84d6/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0-alpha3.aar/b1fa6a3963b3dc0aaf286defe2659614/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-ui:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-core-ui-28.0.0-alpha3.aar/b1fa6a3963b3dc0aaf286defe2659614/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-core-utils-28.0.0-alpha3.aar/11a9951c7cbb0d84031c8354327d9c0a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-core-utils:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-core-utils-28.0.0-alpha3.aar/11a9951c7cbb0d84031c8354327d9c0a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/loader-28.0.0-alpha3.aar/def1a2db5306fc4b0aece8affc807d51/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:loader:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/loader-28.0.0-alpha3.aar/def1a2db5306fc4b0aece8affc807d51/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/viewpager-28.0.0-alpha3.aar/8f5e64272e35d0fa23e91ce70b916cad/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:viewpager:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/viewpager-28.0.0-alpha3.aar/8f5e64272e35d0fa23e91ce70b916cad/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-28.0.0-alpha3.aar/b960bf19418fd3511dc520c6e059a963/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:coordinatorlayout:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/coordinatorlayout-28.0.0-alpha3.aar/b960bf19418fd3511dc520c6e059a963/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/drawerlayout-28.0.0-alpha3.aar/d9ee3d4a9ab0eb06651f161138a0ff0a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:drawerlayout:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/drawerlayout-28.0.0-alpha3.aar/d9ee3d4a9ab0eb06651f161138a0ff0a/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-28.0.0-alpha3.aar/ae2d65465892560fbfb97dd93d300af3/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:slidingpanelayout:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/slidingpanelayout-28.0.0-alpha3.aar/ae2d65465892560fbfb97dd93d300af3/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/customview-28.0.0-alpha3.aar/f3923eb0caae003d78119075b530c6e3/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:customview:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/customview-28.0.0-alpha3.aar/f3923eb0caae003d78119075b530c6e3/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-28.0.0-alpha3.aar/e1437afa2f7a18492510be9a513abe7b/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:swiperefreshlayout:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/swiperefreshlayout-28.0.0-alpha3.aar/e1437afa2f7a18492510be9a513abe7b/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-28.0.0-alpha3.aar/52694cb6bfc638a3a4aaf49bd11f6c29/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:asynclayoutinflater:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/asynclayoutinflater-28.0.0-alpha3.aar/52694cb6bfc638a3a4aaf49bd11f6c29/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0-alpha3.aar/ff31a61103bcf4b5198e907ffd7cc384/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:support-compat:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-compat-28.0.0-alpha3.aar/ff31a61103bcf4b5198e907ffd7cc384/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/cursoradapter-28.0.0-alpha3.aar/c98dcba21b00b4d5bbb16a56dd7f6410/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:cursoradapter:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/cursoradapter-28.0.0-alpha3.aar/c98dcba21b00b4d5bbb16a56dd7f6410/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/2cf24d5f09cbc17c47f482ec55a2f897/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:runtime:1.1.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/2cf24d5f09cbc17c47f482ec55a2f897/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0-alpha3.aar/e67e8340b478435e197acd78b3b5dd59/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:versionedparcelable:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/versionedparcelable-28.0.0-alpha3.aar/e67e8340b478435e197acd78b3b5dd59/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.1.aar/4b067f017237b9b493db8bdeacad4793/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:livedata-core:1.1.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/livedata-core-1.1.1.aar/4b067f017237b9b493db8bdeacad4793/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/825be7692bf2b3d15f367f561b391373/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.core:runtime:1.1.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/runtime-1.1.1.aar/825be7692bf2b3d15f367f561b391373/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/documentfile-28.0.0-alpha3.aar/8a5ea276fc63688f0149192486780b41/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:documentfile:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/documentfile-28.0.0-alpha3.aar/8a5ea276fc63688f0149192486780b41/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-28.0.0-alpha3.aar/a3d18de87fa62cf29f0ca56a8f867e05/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:localbroadcastmanager:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/localbroadcastmanager-28.0.0-alpha3.aar/a3d18de87fa62cf29f0ca56a8f867e05/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/print-28.0.0-alpha3.aar/73f7cbd90008f7c1eca9362dd7a7c9c5/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:print:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/print-28.0.0-alpha3.aar/73f7cbd90008f7c1eca9362dd7a7c9c5/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.1.aar/11d99ed1954b1661b442cd3d95ecb2a0/AndroidManifest.xml:20:5-44
+MERGED from [android.arch.lifecycle:viewmodel:1.1.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/viewmodel-1.1.1.aar/11d99ed1954b1661b442cd3d95ecb2a0/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/interpolator-28.0.0-alpha3.aar/938c878203df4dcbbee6b2b5ece257fc/AndroidManifest.xml:20:5-44
+MERGED from [com.android.support:interpolator:28.0.0-alpha3] /Users/dollina/.gradle/caches/transforms-1/files-1.1/interpolator-28.0.0-alpha3.aar/938c878203df4dcbbee6b2b5ece257fc/AndroidManifest.xml:20:5-44
+INJECTED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml
+INJECTED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml
+	tools:overrideLibrary
+		ADDED from [com.android.support:support-v4:26.1.0] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-v4-26.1.0.aar/fa414e911210897e546ca9b7c8f30eac/AndroidManifest.xml:23:9-51
+	android:targetSdkVersion
+		INJECTED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml
+		ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml
+		ADDED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml
+		INJECTED from /Users/dollina/AndroidStudioProjects/walkinggroup/app/src/main/AndroidManifest.xml
+uses-permission#android.permission.ACCESS_NETWORK_STATE
+ADDED from [com.google.android.gms:play-services-maps:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-maps-15.0.1.aar/864f014518636e6806bdcb4326b725c1/AndroidManifest.xml:23:5-79
+	android:name
+		ADDED from [com.google.android.gms:play-services-maps:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-maps-15.0.1.aar/864f014518636e6806bdcb4326b725c1/AndroidManifest.xml:23:22-76
+uses-permission#android.permission.INTERNET
+ADDED from [com.google.android.gms:play-services-maps:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-maps-15.0.1.aar/864f014518636e6806bdcb4326b725c1/AndroidManifest.xml:24:5-67
+	android:name
+		ADDED from [com.google.android.gms:play-services-maps:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-maps-15.0.1.aar/864f014518636e6806bdcb4326b725c1/AndroidManifest.xml:24:22-64
+uses-feature#0x00020000
+ADDED from [com.google.android.gms:play-services-maps:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-maps-15.0.1.aar/864f014518636e6806bdcb4326b725c1/AndroidManifest.xml:26:5-28:35
+	android:glEsVersion
+		ADDED from [com.google.android.gms:play-services-maps:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-maps-15.0.1.aar/864f014518636e6806bdcb4326b725c1/AndroidManifest.xml:27:9-41
+	android:required
+		ADDED from [com.google.android.gms:play-services-maps:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-maps-15.0.1.aar/864f014518636e6806bdcb4326b725c1/AndroidManifest.xml:28:9-32
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-base-15.0.1.aar/090e3edc221baeb656bb1f6672293d6a/AndroidManifest.xml:23:9-26:75
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-base-15.0.1.aar/090e3edc221baeb656bb1f6672293d6a/AndroidManifest.xml:25:13-37
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-base-15.0.1.aar/090e3edc221baeb656bb1f6672293d6a/AndroidManifest.xml:26:13-72
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-base-15.0.1.aar/090e3edc221baeb656bb1f6672293d6a/AndroidManifest.xml:24:13-79
+meta-data#com.google.android.gms.version
+ADDED from [com.google.android.gms:play-services-basement:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-basement-15.0.1.aar/5801112895cf0330cd1591b5b8d65af4/AndroidManifest.xml:23:9-25:69
+	android:value
+		ADDED from [com.google.android.gms:play-services-basement:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-basement-15.0.1.aar/5801112895cf0330cd1591b5b8d65af4/AndroidManifest.xml:25:13-66
+	android:name
+		ADDED from [com.google.android.gms:play-services-basement:15.0.1] /Users/dollina/.gradle/caches/transforms-1/files-1.1/play-services-basement-15.0.1.aar/5801112895cf0330cd1591b5b8d65af4/AndroidManifest.xml:24:13-58
+meta-data#android.support.VERSION
+ADDED from [com.android.support:support-v4:26.1.0] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-v4-26.1.0.aar/fa414e911210897e546ca9b7c8f30eac/AndroidManifest.xml:26:9-28:38
+MERGED from [com.android.support:support-media-compat:26.1.0] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/296fcd416ef2be75f053bd094ff194fa/AndroidManifest.xml:26:9-28:38
+MERGED from [com.android.support:support-media-compat:26.1.0] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-media-compat-26.1.0.aar/296fcd416ef2be75f053bd094ff194fa/AndroidManifest.xml:26:9-28:38
+	android:value
+		ADDED from [com.android.support:support-v4:26.1.0] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-v4-26.1.0.aar/fa414e911210897e546ca9b7c8f30eac/AndroidManifest.xml:28:13-35
+	android:name
+		ADDED from [com.android.support:support-v4:26.1.0] /Users/dollina/.gradle/caches/transforms-1/files-1.1/support-v4-26.1.0.aar/fa414e911210897e546ca9b7c8f30eac/AndroidManifest.xml:27:13-51
