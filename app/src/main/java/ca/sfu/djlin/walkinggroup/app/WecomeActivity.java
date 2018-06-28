@@ -11,6 +11,8 @@ import android.widget.Button;
 import ca.sfu.djlin.walkinggroup.R;
 
 public class WecomeActivity extends AppCompatActivity {
+
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
