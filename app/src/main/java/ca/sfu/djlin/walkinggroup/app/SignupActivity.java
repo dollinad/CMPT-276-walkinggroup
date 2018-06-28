@@ -20,6 +20,8 @@ import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 import retrofit2.Call;
 
+
+
 public class SignupActivity extends AppCompatActivity {
     //REMOVE!!!!
     private static final String TAG = "ServerTest";
