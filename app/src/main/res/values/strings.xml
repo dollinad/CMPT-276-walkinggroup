@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Walking Group</string>
     <string name="title_activity_maps">Map</string>
+
+    <!--- API KEY !-->
+    <string name="apikey">BB23730A-C1B3-4B65-855E-C538EE7143FDC</string>
 </resources>
