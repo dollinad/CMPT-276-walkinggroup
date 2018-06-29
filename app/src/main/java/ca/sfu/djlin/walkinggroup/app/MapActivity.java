@@ -1,4 +1,4 @@
-package ca.sfu.djlin.walkinggroup;
+package ca.sfu.djlin.walkinggroup.app;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -14,6 +14,8 @@ import android.widget.Toast;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+
+import ca.sfu.djlin.walkinggroup.R;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback{
 

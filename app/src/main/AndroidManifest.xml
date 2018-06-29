@@ -35,36 +35,19 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity
-            android:name=".MapsActivity"
-            android:label="@string/title_activity_maps">
-
-        </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".app.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-        <activity android:name=".app.WecomeActivity">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MapActivity"
-            android:label="@string/title_activity_map">
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+        <activity
+            android:name=".app.MapActivity"
+            android:label="@string/title_activity_map">
         </activity>
 
-        <meta-data
-        android:name="com.google.android.geo.API_KEY"
-        android:value="@string/google_maps_key" />
-        <activity
-            android:name="ca.sfu.djlin.walkinggroup.app.MapsActivity"
-            android:label="@string/title_activity_maps"/>
-        <activity android:name="ca.sfu.djlin.walkinggroup.app.SignupActivity"/>
+        <activity android:name="ca.sfu.djlin.walkinggroup.app.SignupActivity"></activity>
 
 
     </application>
