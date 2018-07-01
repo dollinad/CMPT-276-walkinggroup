@@ -38,6 +38,18 @@ public class User extends IdItemBase {
     private Integer totalPointsEarned;
     private EarnedRewards rewards;
 
+    //MAKING USER SINGLETON--- TO BE REMOVED LATER (TESTING)
+    /*private static User user;
+    private User(){
+    }
+
+    public static User getUser(){
+        if(user==null){
+            user=new User();
+        }
+        return user;
+    }*/
+
     private List<User> monitoredByUsers = new ArrayList<>();// <-- TO BE IMPLEMENTED
     private List<User> monitorsUsers = new ArrayList<>();   // <-- TO BE IMPLEMENTED
 

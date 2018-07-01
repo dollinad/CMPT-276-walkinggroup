@@ -43,6 +43,11 @@
         </activity>
 
         <activity
+            android:name="ca.sfu.djlin.walkinggroup.app.MapsActivity"
+            android:label="@string/title_activity_maps"/>
+        <activity android:name="ca.sfu.djlin.walkinggroup.app.SignupActivity"/>
+        <activity android:name="ca.sfu.djlin.walkinggroup.app.LoginActivity"/>
+        <activity android:name="ca.sfu.djlin.walkinggroup.app.check"/>
             android:name=".app.MapActivity"
             android:label="@string/title_activity_map">
         </activity>
