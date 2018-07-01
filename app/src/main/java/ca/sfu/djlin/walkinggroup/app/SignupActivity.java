@@ -114,7 +114,8 @@ public class SignupActivity extends AppCompatActivity {
             public void onClick(View view) {
 
                 //Build User
-                User user = new User();
+                User user=new User();
+                //user=User.getUser();
                 user.setName(user_name_string);
                 user.setEmail(user_email_string);
                 user.setPassword(password_confirmed_string);
