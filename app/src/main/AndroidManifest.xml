@@ -6,7 +6,10 @@
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality. 
     -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -23,23 +26,33 @@
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/. 
         -->
-        <activity android:name=".app.WecomeActivity">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-        </activity>
 
         <meta-data
-        android:name="com.google.android.geo.API_KEY"
-        android:value="@string/google_maps_key" />
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_maps_key" />
+
+        <activity android:name=".app.WelcomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity
             android:name="ca.sfu.djlin.walkinggroup.app.MapsActivity"
             android:label="@string/title_activity_maps"/>
         <activity android:name="ca.sfu.djlin.walkinggroup.app.SignupActivity"/>
         <activity android:name="ca.sfu.djlin.walkinggroup.app.LoginActivity"/>
         <activity android:name="ca.sfu.djlin.walkinggroup.app.check"/>
+            android:name=".app.MapActivity"
+            android:label="@string/title_activity_map">
+        </activity>
+
+        <activity android:name="ca.sfu.djlin.walkinggroup.app.SignupActivity"></activity>
 
 
     </application>
