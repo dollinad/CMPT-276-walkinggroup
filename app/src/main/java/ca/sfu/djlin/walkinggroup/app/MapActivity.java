@@ -69,7 +69,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             // Hide the default location button because the position for it cannot be moved
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
+            // Enable zoom controls
             mMap.getUiSettings().setZoomControlsEnabled(true);
+            // Disable Map Toolbar:
+            mMap.getUiSettings().setMapToolbarEnabled(false);
 
             // Initialize search box listeners
             init();
@@ -137,6 +140,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     Log.i(TAG, "The actionId is: " + actionId);
                     Log.i(TAG, "The keyEvent is: " + keyEvent);
                     */
+                    mSearchText.clearFocus();
                     geoLocate();
                 }
                 return false;
