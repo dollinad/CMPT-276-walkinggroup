@@ -14,7 +14,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import ca.sfu.djlin.walkinggroup.R;
-import ca.sfu.djlin.walkinggroup.dataobjects.EarnedRewards;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
@@ -48,7 +47,7 @@ public class SignupActivity extends AppCompatActivity {
 
     private void setupCreateAccount() {
         // Setup text watcher for user's name
-        EditText userName = findViewById(R.id.username_input);
+        EditText userName = findViewById(R.id.name_input);
         userName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -58,13 +57,13 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText user_name = findViewById(R.id.username_input);
+                EditText user_name = findViewById(R.id.name_input);
                 user_name_string = user_name.getText().toString();
             }
         });
 
         // Setup text watcher for user's email
-        EditText userEmail = findViewById(R.id.useremail_input);
+        EditText userEmail = findViewById(R.id.email_input);
         userEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -74,13 +73,13 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText user_email = findViewById(R.id.useremail_input);
+                EditText user_email = findViewById(R.id.email_input);
                 user_email_string = user_email.getText().toString();
             }
         });
 
         // Setup text watcher for user's password
-        EditText userPassword = findViewById(R.id.userconfirm_pass_input);
+        EditText userPassword = findViewById(R.id.confirm_password_input);
         //EditText user_password_notCon = findViewById(R.id.userpassword_input);
         userPassword.addTextChangedListener(new TextWatcher() {
             @Override
@@ -91,7 +90,7 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText user_password = findViewById(R.id.userconfirm_pass_input);
+                EditText user_password = findViewById(R.id.confirm_password_input);
                 //String password_notcon_string = user_password_notCon.getText().toString();
                 password_confirmed_string = user_password.getText().toString();
                 //if(password_notcon_string.equals(password_confirmed_string)==false){

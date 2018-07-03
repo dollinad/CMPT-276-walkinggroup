@@ -98,7 +98,7 @@ public class WelcomeActivity extends AppCompatActivity {
             Log.d(TAG, "isServicesOK: Google Play Services is working!");
             return true;
         } else if (GoogleApiAvailability.getInstance().isUserResolvableError(available)) {
-            Log.d(TAG, "isServicesOK: Error occured but we can fix it!");
+            Log.d(TAG, "isServicesOK: Error occurred but we can fix it!");
             Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(WelcomeActivity.this, available, ERROR_DIALOG_REQUEST);
             dialog.show();
         } else {
