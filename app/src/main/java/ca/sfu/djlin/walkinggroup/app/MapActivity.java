@@ -2,6 +2,7 @@ package ca.sfu.djlin.walkinggroup.app;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -108,6 +109,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         getLocationPermission();
 
         setupImageView();
+    }
+
+
+    public static Intent launchIntentMap(Context context) {
+        Intent intentMap = new Intent(context, MapActivity.class);
+        return intentMap;
     }
 
     private void init() {

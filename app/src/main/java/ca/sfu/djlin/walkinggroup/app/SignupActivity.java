@@ -179,6 +179,7 @@ public class SignupActivity extends AppCompatActivity {
                 user.setRewards(new EarnedRewards());
                 */
 
+                // Check that passwords match
                 if (!userPasswordString.equals(userConfirmPasswordString)) {
                     Log.d(TAG, "User password: " + userPasswordString);
                     Log.d(TAG, "User confirm password: " + userConfirmPasswordString);
@@ -187,6 +188,11 @@ public class SignupActivity extends AppCompatActivity {
                     // Make call to server
                     Call<User> caller = proxy.createUser(user);
                     ProxyBuilder.callProxy(SignupActivity.this, caller, returnedUser -> createUserResponse(returnedUser));
+
+                    // Launch Map Activity
+                    Intent mapIntent = MapActivity.launchIntentMap(SignupActivity.this);
+                    startActivity(mapIntent);
+                    finish();
                 }
             }
         });
