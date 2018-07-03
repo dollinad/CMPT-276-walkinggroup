@@ -39,6 +39,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -149,7 +150,26 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         // Create new geocoder
         Geocoder geocoder = new Geocoder(MapActivity.this);
-        // List<Address> list = new ArrayList<>
+
+        // Create new address arraylist
+        List<Address> list = new ArrayList<>();
+
+        // Try to populate arraylist
+        try {
+            list = geocoder.getFromLocationName(searchString, 1);
+        } catch (IOException e){
+            Log.e(TAG, "geoLocate: IOException: " + e.getMessage());
+        }
+
+        // Address find
+        if (list.size() > 0) {
+            Address address = list.get(0);
+            Log.d(TAG, "Found an address: " + address.toString());
+            // Toast.makeText(MapActivity.this, "The address returned is: " + address.toString() ,Toast.LENGTH_SHORT).show();
+        } else {
+            Log.d(TAG, "Unable to find an address!");
+        }
+
     }
 
     private void setupImageView() {
