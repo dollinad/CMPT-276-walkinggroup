@@ -3,6 +3,8 @@ package ca.sfu.djlin.walkinggroup.app;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -11,8 +13,12 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
@@ -32,6 +38,9 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.R;
 
@@ -59,6 +68,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             // Create custom button later on
             // mMap.getUiSettings().setMyLocationButtonEnabled(false);
             mMap.getUiSettings().setZoomControlsEnabled(true);
+
+            // Initialize search box listeners
+            init();
         }
     }
 
@@ -69,6 +81,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final float DEFAULT_ZOOM = 15f;
 
+    // Widgets
+    private EditText mSearchText;
 
     private Boolean mLocationPermissionsGranted = false;
     private GoogleMap mMap;
@@ -82,19 +96,68 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        mSearchText = (EditText) findViewById(R.id.search_input);
 
         getLocationPermission();
 
-        setupimgaeview();
+        setupImageView();
+    }
+
+    private void init() {
+        Log.d("TAG", "init: initializing");
+
+        mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                // Check to see if user presses keys to initiate a search
+                // ACTION_DOWN is the return key on the keyboard
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                    || actionId == EditorInfo.IME_ACTION_DONE
+                    || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                    || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+
+                    /*  Debugging code
+                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                        Toast.makeText(MapActivity.this, "actionId == EditorInfo.IMO_ACTION_SEARCH", Toast.LENGTH_SHORT).show();
+                    }
+                    if (actionId == EditorInfo.IME_ACTION_DONE) {
+                        Toast.makeText(MapActivity.this, "actionId == EditorInfo.IME_ACTION_DONE", Toast.LENGTH_SHORT).show();
+                    }
+                    if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                        Toast.makeText(MapActivity.this, "keyEvent.getAction() == KeyEvent.ACTION_DOWN", Toast.LENGTH_SHORT).show();
+                    }
+                    if (keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                        Toast.makeText(MapActivity.this, "keyEvent.getAction() == KeyEvent.KEYCODE_ENTER", Toast.LENGTH_SHORT).show();
+                    }
+
+                    Log.i(TAG, "The actionId is: " + actionId);
+                    Log.i(TAG, "The keyEvent is: " + keyEvent);
+                    */
+                    geoLocate();
+                }
+                return false;
+            }
+        });
 
     }
 
-    private void setupimgaeview() {
-        ImageView mPlaceMarker=findViewById(R.id.marker);
+    private void geoLocate() {
+        Log.d(TAG, "geoLocate: geolocating");
+
+        // Get search string from search text box
+        String searchString = mSearchText.getText().toString();
+
+        // Create new geocoder
+        Geocoder geocoder = new Geocoder(MapActivity.this);
+        // List<Address> list = new ArrayList<>
+    }
+
+    private void setupImageView() {
+        ImageView mPlaceMarker = findViewById(R.id.marker);
         mPlaceMarker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent=CreateGroup.makeintent(MapActivity.this);
+                Intent intent = CreateGroup.makeintent(MapActivity.this);
                 startActivity(intent);
             }
         });
