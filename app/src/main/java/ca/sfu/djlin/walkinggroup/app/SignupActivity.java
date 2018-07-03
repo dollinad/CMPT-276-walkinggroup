@@ -20,11 +20,8 @@ import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 import retrofit2.Call;
 
-
-
-
 public class SignupActivity extends AppCompatActivity {
-    //REMOVE!!!!
+    // TO BE REMOVED PRIOR TO SUBMISSION
     private static final String TAG = "ServerTest";
 
     private WGServerProxy proxy;
@@ -37,24 +34,22 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_user_activity);
 
-
-        //Build the server proxy
+        // Build server proxy
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), null);
 
-        //setting up Create Account button
+        // Setting up buttons
         setupCreateAccount();
     }
 
-    public static Intent LaunchIntent_signup(Context context) {
-        Intent intent_signup = new Intent(context, SignupActivity.class);
-        return intent_signup;
-
+    public static Intent launchIntentSignup(Context context) {
+        Intent intentSignup = new Intent(context, SignupActivity.class);
+        return intentSignup;
     }
 
     private void setupCreateAccount() {
-        //name
-        EditText user_name = findViewById(R.id.username_input);
-        user_name.addTextChangedListener(new TextWatcher() {
+        // Setup text watcher for user's name
+        EditText userName = findViewById(R.id.username_input);
+        userName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
@@ -68,9 +63,9 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        //email
-        EditText user_email = findViewById(R.id.useremail_input);
-        user_email.addTextChangedListener(new TextWatcher() {
+        // Setup text watcher for user's email
+        EditText userEmail = findViewById(R.id.useremail_input);
+        userEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
@@ -79,15 +74,15 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText user_email=findViewById(R.id.useremail_input);
-                user_email_string=user_email.getText().toString();
+                EditText user_email = findViewById(R.id.useremail_input);
+                user_email_string = user_email.getText().toString();
             }
         });
 
-        //password
-        EditText user_password = findViewById(R.id.userconfirm_pass_input);
+        // Setup text watcher for user's password
+        EditText userPassword = findViewById(R.id.userconfirm_pass_input);
         //EditText user_password_notCon = findViewById(R.id.userpassword_input);
-        user_password.addTextChangedListener(new TextWatcher() {
+        userPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
 
@@ -98,7 +93,7 @@ public class SignupActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 EditText user_password = findViewById(R.id.userconfirm_pass_input);
                 //String password_notcon_string = user_password_notCon.getText().toString();
-                password_confirmed_string=user_password.getText().toString();
+                password_confirmed_string = user_password.getText().toString();
                 //if(password_notcon_string.equals(password_confirmed_string)==false){
                     //Toast.makeText(getApplicationContext(), "Passwords do not match. PLease try again.", Toast.LENGTH_SHORT).show();
                     //user_password.setText("");
@@ -106,34 +101,38 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
+        Button createAccountBtn = findViewById(R.id.create_account);
 
-        Button CreateAccount=findViewById(R.id.create_account);
-
-        CreateAccount.setOnClickListener(new View.OnClickListener() {
+        createAccountBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Create User instance
+                User user = new User();
 
-                //Build User
-                User user=new User();
-                //user=User.getUser();
+                // Set User information
                 user.setName(user_name_string);
                 user.setEmail(user_email_string);
                 user.setPassword(password_confirmed_string);
 
-                //REMOVE LATER
+                /*
+                // Reward system to be implemented at another time
                 user.setCurrentPoints(100);
                 user.setTotalPointsEarned(2500);
                 user.setRewards(new EarnedRewards());
+                */
 
-                // Make call
+                // Make call to server
                 Call<User> caller = proxy.createUser(user);
-                ProxyBuilder.callProxy(SignupActivity.this, caller, returnedUser -> response(returnedUser));
+                ProxyBuilder.callProxy(SignupActivity.this, caller, returnedUser -> createUserResponse(returnedUser));
             }
         });
     }
-    private void response(User user) {
 
+    // Create user response from server
+    private void createUserResponse(User user) {
         notifyUserViaLogAndToast("Server replied with user: " + user.toString());
+
+        // Returned information
         Long userId = user.getId();
         String userEmail = user.getEmail();
     }
