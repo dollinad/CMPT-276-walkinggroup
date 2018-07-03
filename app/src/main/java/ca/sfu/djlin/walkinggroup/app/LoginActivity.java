@@ -23,11 +23,12 @@ import retrofit2.Call;
 
 public class LoginActivity extends AppCompatActivity {
 
-    //private User user;
+    //Private User user;
     private WGServerProxy proxy;
     private String useremail_string;
     private String userpassword_string;
     private String token_use;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
