@@ -87,6 +87,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     // Widgets
     private EditText mSearchText;
+    private ImageView mGps;
 
     private Boolean mLocationPermissionsGranted = false;
     private GoogleMap mMap;
@@ -101,6 +102,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         mSearchText = (EditText) findViewById(R.id.search_input);
+        mGps = (ImageView) findViewById(R.id.ic_gps);
 
         getLocationPermission();
 
@@ -140,6 +142,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                     geoLocate();
                 }
                 return false;
+            }
+        });
+
+        // Center back to user location
+        mGps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(TAG, "onClick: clicked gps icon");
+                getDeviceLocation();
             }
         });
 
@@ -282,10 +293,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
             }
         }
-    }
-
-    private void hideSoftKeyboard() {
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     public static void hideKeyboard(Activity activity) {

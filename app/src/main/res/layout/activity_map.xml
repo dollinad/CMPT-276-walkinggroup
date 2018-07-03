@@ -55,4 +55,14 @@
         app:layout_constraintTop_toBottomOf="@id/search_rel_layout"
         app:srcCompat="@android:drawable/ic_dialog_map" />
 
+    <ImageView
+        android:id="@+id/ic_gps"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintRight_toRightOf="@id/search_rel_layout"
+        app:layout_constraintTop_toBottomOf="@id/search_rel_layout"
+        android:src="@drawable/ic_gps" />
+
 </android.support.constraint.ConstraintLayout>
