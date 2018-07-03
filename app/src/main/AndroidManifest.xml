@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ca.sfu.djlin.walkinggroup">
-    <!--
-         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the 'MyLocation' functionality. 
-    -->
+
+    <!-- Setup permission requests to ask the user -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -18,38 +15,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
-             (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/.
-        -->
 
+        <!-- Meta data for Google Play Services -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
 
+        <!-- Google Maps API Key -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
-        <activity android:name=".app.WecomeActivity">
+        <!-- Welcome Activity - Default Activity on Launch of Application -->
+        <activity android:name=".app.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
+        <!-- Google Maps Activity -->
         <activity
             android:name="ca.sfu.djlin.walkinggroup.app.MapActivity"
             android:label="@string/title_activity_maps"/>
+
+        <!-- Signup Activity -->
         <activity android:name="ca.sfu.djlin.walkinggroup.app.SignupActivity"/>
+
+        <!-- Login Activity -->
         <activity android:name="ca.sfu.djlin.walkinggroup.app.LoginActivity"/>
+
+        <!-- TEMPORARY CHECK // TO BE REMOVED BEFORE SUBMISSION // -->
         <activity android:name="ca.sfu.djlin.walkinggroup.app.check"/>
-
-
 
     </application>
 

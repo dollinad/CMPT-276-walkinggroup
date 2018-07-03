@@ -28,45 +28,52 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome_activity);
 
-        //setting adduser icon
-        Button signup=findViewById(R.id.sign_up);
-        Drawable drawable_signup=getResources().getDrawable(R.drawable.adduser);
-        drawable_signup.setBounds(0,0, (int) (drawable_signup.getIntrinsicHeight()*0.07),
-                (int)(drawable_signup.getIntrinsicHeight()*0.07));
-        signup.setCompoundDrawables(drawable_signup, null, null, null);
-
-        //setting the login icon
-        Button login= findViewById(R.id.login);
-        Drawable drawable_login=getResources().getDrawable(R.drawable.login);
-        drawable_login.setBounds(0,0, (int) (drawable_login.getIntrinsicHeight()*0.05),
-                (int)(drawable_login.getIntrinsicHeight()*0.05));
-        login.setCompoundDrawables(drawable_login, null, null, null);
-
-        //SETUP SIGNUP BUTTON
+        // Setup buttons
         setupSignup();
-
-        //SETUP LOGIN BUTTON
         setupLogin();
 
-        //Check for Google Play Services
+        // Check for Google Play Services
         if (isServicesOK()) {
             init();
         }
     }
 
     private void setupSignup(){
-        Button signup=findViewById(R.id.sign_up);
-        signup.setOnClickListener(new View.OnClickListener() {
+        Button signupBtn = findViewById(R.id.sign_up);
+
+        // Draw button icons
+        Drawable drawableSignup = getResources().getDrawable(R.drawable.adduser);
+        drawableSignup.setBounds(0,0, (int) (drawableSignup.getIntrinsicHeight()*0.07),
+                (int)(drawableSignup.getIntrinsicHeight()*0.07));
+        signupBtn.setCompoundDrawables(drawableSignup, null, null, null);
+
+        // Onclick listener
+        signupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent signup_intent=SignupActivity.LaunchIntent_signup(WelcomeActivity.this);
-                startActivity(signup_intent);
+                Intent signupIntent = SignupActivity.LaunchIntent_signup(WelcomeActivity.this);
+                startActivity(signupIntent);
             }
         });
-
     }
 
     private void setupLogin() {
+        Button loginBtn = findViewById(R.id.login);
+
+        // Draw button icons
+        Drawable drawableLogin=getResources().getDrawable(R.drawable.login);
+        drawableLogin.setBounds(0,0, (int) (drawableLogin.getIntrinsicHeight()*0.05),
+                (int)(drawableLogin.getIntrinsicHeight()*0.05));
+        loginBtn.setCompoundDrawables(drawableLogin, null, null, null);
+
+        // Onclick listener
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent loginIntent = LoginActivity.LaunchIntent_login(WelcomeActivity.this);
+                startActivity(loginIntent);
+            }
+        });
     }
 
     private void init () {
@@ -78,7 +85,6 @@ public class WelcomeActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     // Check to see if Google Play Services is properly enabled and up-to-date
@@ -100,6 +106,5 @@ public class WelcomeActivity extends AppCompatActivity {
         }
 
         return false;
-
     }
 }
