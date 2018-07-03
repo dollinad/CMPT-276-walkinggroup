@@ -1,6 +1,7 @@
 package ca.sfu.djlin.walkinggroup.app;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -15,7 +16,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -140,6 +143,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
+        // Hides keyboard
+        hideKeyboard(MapActivity.this);
     }
 
     private void geoLocate() {
@@ -166,10 +171,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             Address address = list.get(0);
             Log.d(TAG, "Found an address: " + address.toString());
             // Toast.makeText(MapActivity.this, "The address returned is: " + address.toString() ,Toast.LENGTH_SHORT).show();
+
+            // Move camera to lat and lng
+            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, address.getAddressLine(0));
         } else {
             Log.d(TAG, "Unable to find an address!");
         }
-
     }
 
     private void setupImageView() {
@@ -197,7 +204,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             Location currentLocation = (Location) task.getResult();
                             System.out.println(currentLocation.getLatitude());
                             currentposition=new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM);
+                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM, "My Location");
 
                         } else {
                             Log.d(TAG, "Current location is null!");
@@ -212,13 +219,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-    private void moveCamera(LatLng latLng, float zoom) {
+    private void moveCamera(LatLng latLng, float zoom, String title) {
+        // Move camera to location
         Log.d(TAG, "moveCamera: Moving the camera to lat: " + latLng.latitude + ", lng: " + latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
-        MarkerOptions option=new MarkerOptions()
-                .position(latLng)
-                .title("my location");
-        mMap.addMarker(option);
+
+        // Omits self location and adds marker
+        if (title != "My Location") {
+            MarkerOptions options = new MarkerOptions()
+                    .position(latLng)
+                    .title(title);
+            mMap.addMarker(options);
+        }
+
+        // Hides keyboard
+        hideKeyboard(MapActivity.this);
     }
 
     private void getLocationPermission() {
@@ -267,6 +282,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
             }
         }
+    }
 
+    private void hideSoftKeyboard() {
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+    }
+
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
