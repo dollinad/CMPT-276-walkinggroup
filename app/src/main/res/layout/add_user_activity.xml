@@ -44,7 +44,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:hint="@string/name"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:imeOptions="actionDone"/>
 
         <TextView
             android:id="@+id/email_label"
@@ -61,7 +62,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:hint="@string/email"
-            android:inputType="textEmailAddress" />
+            android:inputType="textEmailAddress"
+            android:imeOptions="actionDone"/>
 
         <TextView
             android:id="@+id/password_label"
@@ -78,7 +80,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:hint="@string/password"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:imeOptions="actionDone"/>
 
         <TextView
             android:id="@+id/confirm_password_label"
@@ -95,7 +98,8 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
             android:hint="@string/confirm_password"
-            android:inputType="textPassword" />
+            android:inputType="textPassword"
+            android:imeOptions="actionDone"/>
     </LinearLayout>
 
     <Button
