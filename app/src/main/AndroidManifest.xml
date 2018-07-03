@@ -30,24 +30,26 @@
         <activity android:name=".app.WelcomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
         <!-- Google Maps Activity -->
         <activity
-            android:name="ca.sfu.djlin.walkinggroup.app.MapActivity"
-            android:label="@string/title_activity_maps"/>
+            android:name=".app.MapActivity"
+            android:label="@string/title_activity_maps" />
 
         <!-- Signup Activity -->
-        <activity android:name="ca.sfu.djlin.walkinggroup.app.SignupActivity"/>
+        <activity android:name=".app.SignupActivity" />
 
         <!-- Login Activity -->
-        <activity android:name="ca.sfu.djlin.walkinggroup.app.LoginActivity"/>
+        <activity android:name=".app.LoginActivity" />
 
         <!-- TEMPORARY CHECK // TO BE REMOVED BEFORE SUBMISSION // -->
-        <activity android:name="ca.sfu.djlin.walkinggroup.app.check"/>
-
+        <activity android:name=".app.check" />
+        <activity android:name=".app.CreateGroup" />
+        <activity android:name=".app.MainActivity"></activity>
     </application>
 
 </manifest>

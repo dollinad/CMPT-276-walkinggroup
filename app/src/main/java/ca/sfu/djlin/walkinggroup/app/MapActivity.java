@@ -1,6 +1,7 @@
 package ca.sfu.djlin.walkinggroup.app;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -10,21 +11,32 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.api.GoogleApiClient;
+
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import ca.sfu.djlin.walkinggroup.R;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -57,8 +69,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final float DEFAULT_ZOOM = 15f;
 
+
     private Boolean mLocationPermissionsGranted = false;
     private GoogleMap mMap;
+
+    private GoogleApiClient mGoogleApiClient;
+    private LatLng currentposition=new LatLng(0,0);
+
     private FusedLocationProviderClient mFusedLocationProviderClient;
 
     @Override
@@ -67,6 +84,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_map);
 
         getLocationPermission();
+
+        setupimgaeview();
+
+    }
+
+    private void setupimgaeview() {
+        ImageView mPlaceMarker=findViewById(R.id.marker);
+        mPlaceMarker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=CreateGroup.makeintent(MapActivity.this);
+                startActivity(intent);
+            }
+        });
     }
 
     private void getDeviceLocation() {
@@ -81,7 +112,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         if (task.isSuccessful()) {
                             Log.d(TAG, "Found Location!");
                             Location currentLocation = (Location) task.getResult();
-
+                            System.out.println(currentLocation.getLatitude());
+                            currentposition=new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM);
 
                         } else {
@@ -100,6 +132,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void moveCamera(LatLng latLng, float zoom) {
         Log.d(TAG, "moveCamera: Moving the camera to lat: " + latLng.latitude + ", lng: " + latLng.longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+        MarkerOptions option=new MarkerOptions()
+                .position(latLng)
+                .title("my location");
+        mMap.addMarker(option);
     }
 
     private void getLocationPermission() {
