@@ -40,7 +40,7 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.add_user_activity);
 
         // Build server proxy
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), null);
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey));
 
         // Setting up buttons
         setupCreateAccountInputs();
@@ -190,8 +190,8 @@ public class SignupActivity extends AppCompatActivity {
                     ProxyBuilder.callProxy(SignupActivity.this, caller, returnedUser -> createUserResponse(returnedUser));
 
                     // Launch Map Activity
-                    Intent mapIntent = MapActivity.launchIntentMap(SignupActivity.this);
-                    startActivity(mapIntent);
+                    //Intent mapIntent = MapActivity.launchIntentMap(SignupActivity.this);
+                    //startActivity(mapIntent);
                     finish();
                 }
             }
