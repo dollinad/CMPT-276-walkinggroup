@@ -37,7 +37,6 @@ public class LoginActivity extends AppCompatActivity {
 
         setContentView(R.layout.login_activity);
 
-
         //Build the server proxy
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey));
 
@@ -46,9 +45,10 @@ public class LoginActivity extends AppCompatActivity {
         if(data[0].isEmpty()==false) {
             String token=data[0];
             proxy=ProxyBuilder.getProxy(getString(R.string.apikey),token);
-            Intent intent=new Intent(LoginActivity.this, MapActivity.class);
+            Intent intent=new Intent(LoginActivity.this, check.class);
             intent.putExtra("token", data[0]);
             intent.putExtra("email", data[1]);
+            System.out.println("specialemail"+data[1]);
             startActivity(intent);
         }
 
@@ -133,8 +133,10 @@ public class LoginActivity extends AppCompatActivity {
                 Call<Void> caller_login=proxy.login(user);
                 ProxyBuilder.callProxy(LoginActivity.this, caller_login, returnedNothing -> response(returnedNothing));
 
-                Intent intent = new Intent(LoginActivity.this, MapActivity.class);
+                Intent intent = new Intent(LoginActivity.this, check.class);
                 intent.putExtra("token",token_use);
+                intent.putExtra("email",useremail_string);
+                System.out.println("useremail_string"+useremail_string);
                 startActivity(intent);
 
 

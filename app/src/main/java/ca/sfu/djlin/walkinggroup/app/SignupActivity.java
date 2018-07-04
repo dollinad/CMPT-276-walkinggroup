@@ -204,6 +204,9 @@ public class SignupActivity extends AppCompatActivity {
 
         // Returned information
         Long userId = user.getId();
+        System.out.println("             ");
+        System.out.println(userId);
+        System.out.println("              ");
         String userEmail = user.getEmail();
     }
 

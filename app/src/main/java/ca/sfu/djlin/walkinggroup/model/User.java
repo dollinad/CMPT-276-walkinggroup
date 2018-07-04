@@ -45,6 +45,18 @@ public class User extends IdItemBase {
     private List<Group> memberOfGroups = new ArrayList<>(); // <-- TO BE IMPLEMENTED
     private List<Group> leadsGroups = new ArrayList<>();    // <-- TO BE IMPLEMENTED
 
+
+
+    private static User instance;
+    public static User getInstance(){
+        if(instance==null){
+            instance=new User();
+        }
+        return instance;
+    }
+
+
+
     // Basic User Data
     // -------------------------------------------------------------------------------------------
     public String getName() {

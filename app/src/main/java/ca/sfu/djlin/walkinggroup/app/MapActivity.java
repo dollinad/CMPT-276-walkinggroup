@@ -35,10 +35,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.R;
+import ca.sfu.djlin.walkinggroup.dataobjects.Group;
+import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
+import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
+import retrofit2.Call;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final int REQUEST_CODE_GETDATA = 1024;
+    private WGServerProxy proxy;
     String token;
     String CurrentUserEmail;
     private LatLng latlng;
@@ -65,6 +70,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             // mMap.getUiSettings().setMyLocationButtonEnabled(false);
             mMap.getUiSettings().setZoomControlsEnabled(true);
         }
+
+        createGroup();
+        setGroupMarker();
     }
 
     private static final String TAG = "MapActivity";
@@ -88,10 +96,37 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         //geting Intent
         Intent intent=getIntent();
         token=intent.getStringExtra("token");
+        proxy= ProxyBuilder.getProxy(getString(R.string.apikey),token);
         CurrentUserEmail=intent.getStringExtra("email");
         //Toast.makeText(getApplicationContext(), token, Toast.LENGTH_SHORT).show();
-
+        setupimgaeview();
     }
+
+    public void setGroupMarker(){
+        Call<List<Group>> caller = proxy.getGroups();
+        ProxyBuilder.callProxy(MapActivity.this, caller, returnedGroups -> response(returnedGroups));
+    }
+
+
+    private void response(List<Group> returnedGroups) {
+        notifyUserViaLogAndToast("Got list of " + returnedGroups.size() + " groups! See logcat.");
+        Log.i("aa", "All groups:");
+        for (Group group : returnedGroups) {
+        Log.i("aa", "    Groups: " + group.getName());
+        }
+    }
+
+    private void notifyUserViaLogAndToast(String message) {
+        Log.i("aa", message);
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+
+
+
+
+
+
 
     //function for action bar
     @Override
@@ -124,6 +159,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 intent.putExtra("lag",latLng.latitude);
                 intent.putExtra("lng",latLng.longitude);
                 intent.putExtra("token",token);
+                intent.putExtra("email",CurrentUserEmail);
                 latlng=latLng;
 
                 startActivityForResult(intent,REQUEST_CODE_GETDATA);

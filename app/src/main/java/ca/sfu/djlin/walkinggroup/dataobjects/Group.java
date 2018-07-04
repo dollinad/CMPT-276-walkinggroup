@@ -18,22 +18,35 @@ import ca.sfu.djlin.walkinggroup.model.User;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Group extends IdItemBase{
+
+
+
+
+    private String groupDescription;
+    private Long leader;
+
+
+
+
+
     private List<User> users=new ArrayList();
-    private String name;
     private LatLng latLng;
-    private String title;
+
 
 
     public void addUser(User user){
         users.add(user);
     }
-    public void setName(String name){this.name=name;}
-    public String getName(){return name;}
+    public void setName(String name){this.groupDescription=name;}
+    public String getName(){return groupDescription;}
     public User getUser(int index){return users.get(index);}
     public void setMarker(LatLng latLng){
         this.latLng=latLng;
     }
-    public LatLng getLatLng(){return latLng;}
+    public void setLeader(Long leader ){
+        this.leader=leader;
+    }
+    public long getLeader(){return leader;}
 
 
 
