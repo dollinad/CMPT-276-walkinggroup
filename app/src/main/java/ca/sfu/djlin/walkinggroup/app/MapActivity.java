@@ -129,7 +129,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         } catch (SecurityException e) {
             Log.e(TAG, "getDeviceLocation: Security Exception: " + e.getMessage());
         }
-
     }
 
     private void moveCamera(LatLng latLng, float zoom) {
