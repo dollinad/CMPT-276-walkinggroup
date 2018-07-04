@@ -1,6 +1,7 @@
 package ca.sfu.djlin.walkinggroup.app;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Bundle;
@@ -10,6 +11,9 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -25,6 +29,9 @@ import com.google.android.gms.tasks.Task;
 import ca.sfu.djlin.walkinggroup.R;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+
+    String token;
+    String CurrentUserEmail;
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -67,6 +74,34 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_map);
 
         getLocationPermission();
+
+        //geting Intent
+        Intent intent=getIntent();
+        token=intent.getStringExtra("token");
+        CurrentUserEmail=intent.getStringExtra("email");
+        //Toast.makeText(getApplicationContext(), CurrentUserEmail, Toast.LENGTH_SHORT).show();
+
+    }
+
+    //function for action bar
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater new_menu=getMenuInflater();
+        new_menu.inflate(R.menu.map_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    //action bar preference button
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //checking id
+        if(item.getItemId()==R.id.settings){
+            Intent pass_intent=PreferencesActivity.launchIntentPreferences(MapActivity.this);
+            pass_intent.putExtra("token", token);
+            pass_intent.putExtra("email", CurrentUserEmail);
+            startActivity(pass_intent);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void getDeviceLocation() {

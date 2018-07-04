@@ -38,20 +38,9 @@ public class User extends IdItemBase {
     private Integer totalPointsEarned;
     private EarnedRewards rewards;
 
-    //MAKING USER SINGLETON--- TO BE REMOVED LATER (TESTING)
-    /*private static User user;
-    private User(){
-    }
 
-    public static User getUser(){
-        if(user==null){
-            user=new User();
-        }
-        return user;
-    }*/
-
-    private List<User> monitoredByUsers = new ArrayList<>();// <-- TO BE IMPLEMENTED
-    private List<User> monitorsUsers = new ArrayList<>();   // <-- TO BE IMPLEMENTED
+    private List<User> monitoredByUsers = new ArrayList<User>();// <-- TO BE IMPLEMENTED
+    private List<User> monitorsUsers = new ArrayList<User>();   // <-- TO BE IMPLEMENTED
 
     private List<Group> memberOfGroups = new ArrayList<>(); // <-- TO BE IMPLEMENTED
     private List<Group> leadsGroups = new ArrayList<>();    // <-- TO BE IMPLEMENTED
@@ -85,6 +74,7 @@ public class User extends IdItemBase {
     public List<User> getMonitoredByUsers() {
         return monitoredByUsers;
     }
+
     public void setMonitoredByUsers(List<User> monitoredByUsers) {
         this.monitoredByUsers = monitoredByUsers;
     }
@@ -92,7 +82,8 @@ public class User extends IdItemBase {
     public List<User> getMonitorsUsers() {
         return monitorsUsers;
     }
-    public void setMonitorsUsers(List<User> monitorsUsers) {
+
+    public void setMonitorsUsers(List<User> monitorsUsers ){
         this.monitorsUsers = monitorsUsers;
     }
 

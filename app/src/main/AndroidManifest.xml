@@ -48,6 +48,9 @@
         <!-- TEMPORARY CHECK // TO BE REMOVED BEFORE SUBMISSION // -->
         <activity android:name="ca.sfu.djlin.walkinggroup.app.check"/>
 
+        <!--Preferences Activity-->
+        <activity android:name="ca.sfu.djlin.walkinggroup.app.PreferencesActivity"/>
+
     </application>
 
 </manifest>

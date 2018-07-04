@@ -42,8 +42,10 @@ public class LoginActivity extends AppCompatActivity {
         //checking if user has already logged in before using shared Preferences
         String[] data= getData(getApplicationContext());
         if(data[0].isEmpty()==false) {
-            Intent intent=new Intent(LoginActivity.this, check.class);
-            intent.putExtra("name", data[1]);
+            Intent intent=new Intent(LoginActivity.this, MapActivity.class);
+            intent.putExtra("token", data[0]);
+            intent.putExtra("email", data[1]);
+            Log.i("QWERTY", data[1]);
             startActivity(intent);
         }
 
@@ -74,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences pref=getSharedPreferences("Token", MODE_PRIVATE);
         String[] return_data=new String[3];
         return_data[0]=pref.getString("token", "");
-        return_data[1]=pref.getString("user name", "");
+        return_data[1]=pref.getString("email", "");
         return return_data;
     }
 
@@ -128,7 +130,7 @@ public class LoginActivity extends AppCompatActivity {
                 Call<Void> caller_login=proxy.login(user);
                 ProxyBuilder.callProxy(LoginActivity.this, caller_login, returnedNothing -> response(returnedNothing));
 
-                Intent intent = new Intent(LoginActivity.this, check.class);
+                Intent intent = new Intent(LoginActivity.this, MapActivity.class);
                 startActivity(intent);
 
 
@@ -150,7 +152,7 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences pref=this.getSharedPreferences("Token", MODE_PRIVATE);
         SharedPreferences.Editor editor=pref.edit();
         editor.putString("token", token_use);
-        editor.putString("user name", useremail_string);
+        editor.putString("email", useremail_string);
         editor.putString("user password", userpassword_string);
         editor.apply();
     }
