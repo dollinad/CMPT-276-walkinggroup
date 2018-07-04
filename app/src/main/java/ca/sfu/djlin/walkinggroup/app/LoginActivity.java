@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.List;
+
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
@@ -37,13 +39,16 @@ public class LoginActivity extends AppCompatActivity {
 
 
         //Build the server proxy
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), null);
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey));
 
         //checking if user has already logged in before using shared Preferences
         String[] data= getData(getApplicationContext());
         if(data[0].isEmpty()==false) {
+            String token=data[0];
+            proxy=ProxyBuilder.getProxy(getString(R.string.apikey),token);
             Intent intent=new Intent(LoginActivity.this, check.class);
             intent.putExtra("name", data[1]);
+            intent.putExtra("token",token);
             startActivity(intent);
         }
 
@@ -75,6 +80,7 @@ public class LoginActivity extends AppCompatActivity {
         String[] return_data=new String[3];
         return_data[0]=pref.getString("token", "");
         return_data[1]=pref.getString("user name", "");
+
         return return_data;
     }
 
@@ -129,6 +135,7 @@ public class LoginActivity extends AppCompatActivity {
                 ProxyBuilder.callProxy(LoginActivity.this, caller_login, returnedNothing -> response(returnedNothing));
 
                 Intent intent = new Intent(LoginActivity.this, check.class);
+                intent.putExtra("token",token_use);
                 startActivity(intent);
 
 
@@ -140,7 +147,6 @@ public class LoginActivity extends AppCompatActivity {
     private void onReceiveToken(String token) {
         // Replace the current proxy with one that uses the token!
         token_use=token;
-
         //Save token using Shared Preferences
         saveToken(token_use);
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);

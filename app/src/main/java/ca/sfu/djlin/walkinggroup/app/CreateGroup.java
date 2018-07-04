@@ -1,5 +1,6 @@
 package ca.sfu.djlin.walkinggroup.app;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -11,17 +12,30 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
-import ca.sfu.djlin.walkinggroup.dataobjects.GroupCollection;
+import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
+import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
+import retrofit2.Call;
+
 
 public class CreateGroup extends AppCompatActivity {
+
+    private WGServerProxy proxy;
+    LatLng latLng;
+    private String token;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_group);
-        System.out.println("abcdefg");
+
+        Intent intent=getIntent();
+        token=intent.getStringExtra("token");
+
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey),token);
         setup_create();
         setupbtn_back();
 
@@ -57,12 +71,23 @@ public class CreateGroup extends AppCompatActivity {
                 btn_confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        Intent intent=getIntent();
+                        latLng=new LatLng(intent.getDoubleExtra("lag",0),intent.getDoubleExtra("lng",0));
                         Group group=new Group();
                         group.setName(name);
-                        GroupCollection.getInstance().addgroups(group);
+                        group.setMarker(latLng);
+                        Intent intent_2=new Intent();
+                        intent_2.putExtra("groupName",name);
+
+                        Call<Group> caller = proxy.createGroup(group);
+                        ProxyBuilder.callProxy(CreateGroup.this, caller, returnedUser -> createGroupResponse(returnedUser));
+
                         Toast.makeText(CreateGroup.this,"group created",Toast.LENGTH_SHORT).show();
-                        Intent intent=new Intent(CreateGroup.this,MainActivity.class);
+                        /*Intent intent=new Intent(CreateGroup.this,MainActivity.class);
                         startActivity(intent);
+                        */
+                        setResult(Activity.RESULT_OK, intent_2);
+                        finish();;
                     }
                 });
 
@@ -71,10 +96,21 @@ public class CreateGroup extends AppCompatActivity {
 
     }
 
+
+    private void createGroupResponse(Group group) {
+        //notifyUserViaLogAndToast("Server replied with user: " + user.toString());
+
+        // Returned information
+        Long groupId = group.getId();
+        String groupName = group.getName();
+    }
     public static Intent makeintent(Context context){
         Intent intent =new Intent(context, CreateGroup.class);
         return intent;
     }
+    public static String getresult(Intent intent){
+        return intent.getStringExtra("groupName");
 
+    }
 
 }
