@@ -3,6 +3,7 @@ package ca.sfu.djlin.walkinggroup.app;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -188,11 +189,6 @@ public class SignupActivity extends AppCompatActivity {
                     // Make call to server
                     Call<User> caller = proxy.createUser(user);
                     ProxyBuilder.callProxy(SignupActivity.this, caller, returnedUser -> createUserResponse(returnedUser));
-
-                    // Launch Map Activity
-                    //Intent mapIntent = MapActivity.launchIntentMap(SignupActivity.this);
-                    //startActivity(mapIntent);
-                    finish();
                 }
             }
         });
@@ -200,18 +196,62 @@ public class SignupActivity extends AppCompatActivity {
 
     // Create user response from server
     private void createUserResponse(User user) {
+        // User creation is successful
+
+        // Grab the current token session
         notifyUserViaLogAndToast("Server replied with user: " + user.toString());
 
-        // Returned information
-        Long userId = user.getId();
-        String userEmail = user.getEmail();
+        // Register callback for token
+        ProxyBuilder.setOnTokenReceiveCallback(token -> onReceiveToken(token));
+
+        // Create instance of user to use for login
+        User createdUser = new User();
+        createdUser.setEmail(userEmailString);
+        createdUser.setPassword(userPasswordString);
+
+        // Finish the login process
+        Call<Void> caller = proxy.login(createdUser);
+        ProxyBuilder.callProxy(SignupActivity.this, caller, returnedNothing -> response(returnedNothing));
+
+        // Save user information
+        saveUserInfo(user);
+
+        // Launch map activity
+        launchMapActivity();
+    }
+
+    // Save user information in Shared Preferences
+    private void saveUserInfo(User user) {
+        SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("Email", user.getEmail());
+        editor.putLong("User Id", user.getId());
+        editor.apply();
+    }
+
+    private void launchMapActivity() {
+        // Launch Map Activity
+        Intent mapIntent = MapActivity.launchIntentMap(SignupActivity.this);
+        startActivity(mapIntent);
+        finish();
     }
 
     // Handle the token by generating a new Proxy which is encoded with it.
-    private void onReceiveToken(String token) { ;
+    private void onReceiveToken(String token) {
         // Replace the current proxy with one that uses the token!
         Log.w(TAG, "   --> NOW HAVE TOKEN: " + token);
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+
+        // Save token in shared preferences
+        saveToken(token);
+    }
+
+    // Save token in shared preferences
+    private void saveToken(String token) {
+        SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("Token", token);
+        editor.apply();
     }
 
     // Login actually completes by calling this; nothing to do as it was all done

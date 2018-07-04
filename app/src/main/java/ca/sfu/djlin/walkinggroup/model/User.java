@@ -31,11 +31,13 @@ public class User extends IdItemBase {
     // NOTE: Make numbers Long/Integer, not long/int because only the former will
     //       deserialize if the value is null from the server.
     private String name;
+    private Long id;
     private String email;
     private String password;
 
     private Integer currentPoints;
     private Integer totalPointsEarned;
+
     private EarnedRewards rewards;
 
 
@@ -52,6 +54,13 @@ public class User extends IdItemBase {
     }
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Long getId() {
+        return id;
+    }
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getEmail() {
