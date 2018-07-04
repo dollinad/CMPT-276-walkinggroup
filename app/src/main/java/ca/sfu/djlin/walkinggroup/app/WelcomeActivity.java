@@ -1,6 +1,7 @@
 package ca.sfu.djlin.walkinggroup.app;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -106,5 +107,10 @@ public class WelcomeActivity extends AppCompatActivity {
         }
 
         return false;
+    }
+
+    public static Intent launchWelcomeIntent (Context context) {
+        Intent intent = new Intent(context, WelcomeActivity.class);
+        return intent;
     }
 }

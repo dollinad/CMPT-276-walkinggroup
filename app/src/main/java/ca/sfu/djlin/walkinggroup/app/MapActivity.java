@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -97,6 +98,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     // Widgets
     private EditText mSearchText;
     private ImageView mGps;
+    private ImageView mLogout;
 
     private Boolean mLocationPermissionsGranted = false;
     private GoogleMap mMap;
@@ -118,6 +120,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_map);
         mSearchText = (EditText) findViewById(R.id.search_input);
         mGps = (ImageView) findViewById(R.id.ic_gps);
+        mLogout = (ImageView) findViewById(R.id.ic_logout);
 
         getLocationPermission();
 
@@ -128,6 +131,26 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         token=intent.getStringExtra("token");
         CurrentUserEmail=intent.getStringExtra("email");
         //Toast.makeText(getApplicationContext(), token, Toast.LENGTH_SHORT).show();
+
+
+        // Logout listener
+        mLogout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                logout();
+            }
+        });
+    }
+
+    private void logout() {
+        Intent intent = WelcomeActivity.launchWelcomeIntent(MapActivity.this);
+        startActivity(intent);
+        SharedPreferences preferences = this.getSharedPreferences("User Session" , MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.remove("Token");
+        editor.remove("Email");
+        editor.remove("User Id");
+        finish();
     }
 
     private void init() {
