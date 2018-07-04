@@ -80,7 +80,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         token=intent.getStringExtra("token");
         CurrentUserEmail=intent.getStringExtra("email");
         //Toast.makeText(getApplicationContext(), token, Toast.LENGTH_SHORT).show();
-
     }
 
     //function for action bar
