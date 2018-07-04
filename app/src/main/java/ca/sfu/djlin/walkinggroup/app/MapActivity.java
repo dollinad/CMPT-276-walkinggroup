@@ -150,6 +150,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         editor.remove("Token");
         editor.remove("Email");
         editor.remove("User Id");
+        editor.apply();
         finish();
     }
 
