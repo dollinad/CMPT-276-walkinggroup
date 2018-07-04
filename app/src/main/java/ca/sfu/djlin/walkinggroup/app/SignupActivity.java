@@ -190,8 +190,8 @@ public class SignupActivity extends AppCompatActivity {
                     ProxyBuilder.callProxy(SignupActivity.this, caller, returnedUser -> createUserResponse(returnedUser));
 
                     // Launch Map Activity
-                    //Intent mapIntent = MapActivity.launchIntentMap(SignupActivity.this);
-                    //startActivity(mapIntent);
+                    Intent mapIntent = MapActivity.launchIntentMap(SignupActivity.this);
+                    startActivity(mapIntent);
                     finish();
                 }
             }

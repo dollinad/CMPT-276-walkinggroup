@@ -1,6 +1,7 @@
 package ca.sfu.djlin.walkinggroup.app;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -150,6 +151,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         } else {
             ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
         }
+    }
+
+    public static Intent launchIntentMap(Context context) {
+        Intent intent=new Intent(context,MapActivity.class);
+        return intent;
     }
 
     private void initMap() {
