@@ -103,22 +103,38 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void setGroupMarker(){
+        System.out.println("test           1");
         Call<List<Group>> caller = proxy.getGroups();
+        System.out.println("test           2");
         ProxyBuilder.callProxy(MapActivity.this, caller, returnedGroups -> response(returnedGroups));
+        System.out.println("test           3");
+
     }
 
 
     private void response(List<Group> returnedGroups) {
+        System.out.println("test           4");
+
         notifyUserViaLogAndToast("Got list of " + returnedGroups.size() + " groups! See logcat.");
+        System.out.println("test           5");
+
         Log.i("aa", "All groups:");
+        System.out.println("test           6");
+
         for (Group group : returnedGroups) {
-        Log.i("aa", "    Groups: " + group.getName());
+            System.out.println("test           hh");
+
+            Log.i("aa", "    Groups: " + group.getGroupDescription());
         }
     }
 
     private void notifyUserViaLogAndToast(String message) {
+        System.out.println("test           7");
+
         Log.i("aa", message);
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        System.out.println("test           8");
+
     }
 
 

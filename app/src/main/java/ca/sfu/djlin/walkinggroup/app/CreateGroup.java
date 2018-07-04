@@ -15,6 +15,9 @@ import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
 import ca.sfu.djlin.walkinggroup.model.User;
@@ -77,15 +80,20 @@ public class CreateGroup extends AppCompatActivity {
                         Intent intent=getIntent();
                         latLng=new LatLng(intent.getDoubleExtra("lag",0),intent.getDoubleExtra("lng",0));
                         Group group=new Group();
-                        group.setName(name);
-                        group.setMarker(latLng);
+                        group.setGroupDescription(name);
+                        List<Double> lat=new ArrayList();
+                        lat.add(latLng.latitude);
+                        List<Double> lng=new ArrayList();
+                        lng.add(latLng.longitude);
+                        group.setRouteLatArray(lat);
+                        group.setRouteLngArray(lng);
                         String email=intent.getStringExtra("email");
                         System.out.println(email);
                         System.out.println("start call");
                         Call<User> calleruser= proxy.getUserByEmail(email);
                         ProxyBuilder.callProxy(CreateGroup.this,calleruser,returnuser -> createResponse(returnuser));
                         System.out.println("end call");
-                        group.setLeader(id);
+                       // group.setLeader(id);
                         Intent intent_2=new Intent();
                         intent_2.putExtra("groupName",name);
 
@@ -114,13 +122,14 @@ public class CreateGroup extends AppCompatActivity {
        returnuser.toString();
         System.out.println("end response");
        id=returnuser.getId();
+       System.out.println("the id is "+id);
     }
     private void createGroupResponse(Group group) {
         //notifyUserViaLogAndToast("Server replied with user: " + user.toString());
 
         // Returned information
         Long groupId = group.getId();
-        String groupName = group.getName();
+        String groupName = group.getGroupDescription();
     }
     public static Intent makeintent(Context context){
         Intent intent =new Intent(context, CreateGroup.class);
