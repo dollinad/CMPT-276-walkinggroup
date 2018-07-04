@@ -1,6 +1,7 @@
 package ca.sfu.djlin.walkinggroup.app;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -14,6 +15,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -23,16 +26,23 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.R;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
+    private static final int REQUEST_CODE_GETDATA = 1024;
     String token;
     String CurrentUserEmail;
-
+    private LatLng latlng;
+    List<Marker> markers=new ArrayList();
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -102,6 +112,65 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             startActivity(pass_intent);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void createGroup(){
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                Intent intentTemp=getIntent();
+                token=intentTemp.getStringExtra("token");
+                Intent intent=new Intent(MapActivity.this, CreateGroup.class);
+                intent.putExtra("lag",latLng.latitude);
+                intent.putExtra("lng",latLng.longitude);
+                intent.putExtra("token",token);
+                latlng=latLng;
+
+                startActivityForResult(intent,REQUEST_CODE_GETDATA);
+
+            }
+        });
+
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CODE_GETDATA:
+                if(resultCode == Activity.RESULT_OK)
+                {
+                    String groupName = CreateGroup.getresult(data);
+                    Marker marker=mMap.addMarker(new MarkerOptions().position(latlng).title(groupName));
+                    markers.add(marker);
+                    System.out.println(markers.size());
+                    System.out.println(markers.get(0));
+
+                }
+                else
+                {
+                    Log.i("My app","Activity cancelled.");
+                }
+        }
+    }
+    /*
+        public void test2(){
+            mMap.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
+                @Override
+                public void onInfoWindowLongClick(Marker marker) {
+                    marker.remove();
+                }
+            });
+        }
+    */
+    private void setupimgaeview() {
+        ImageView mPlaceMarker=findViewById(R.id.marker);
+        mPlaceMarker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=CreateGroup.makeintent(MapActivity.this);
+                startActivity(intent);
+            }
+        });
     }
 
     private void getDeviceLocation() {
