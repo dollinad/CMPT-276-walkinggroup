@@ -6,4 +6,11 @@
     <!--- API KEY !-->
     <string name="apikey">BB23730A-C1B3-4B65-855E-C538EE7143FDC</string>
     <string name="settings">Settings</string>
+
+    <!-- Signup / Log in Activities-->
+    <string name="signup">Sign Up</string>
+    <string name="name">Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
 </resources>

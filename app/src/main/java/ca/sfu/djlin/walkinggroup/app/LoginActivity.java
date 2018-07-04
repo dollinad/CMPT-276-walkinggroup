@@ -15,6 +15,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.List;
+
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
@@ -37,15 +39,16 @@ public class LoginActivity extends AppCompatActivity {
 
 
         //Build the server proxy
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), null);
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey));
 
         //checking if user has already logged in before using shared Preferences
         String[] data= getData(getApplicationContext());
         if(data[0].isEmpty()==false) {
+            String token=data[0];
+            proxy=ProxyBuilder.getProxy(getString(R.string.apikey),token);
             Intent intent=new Intent(LoginActivity.this, MapActivity.class);
             intent.putExtra("token", data[0]);
             intent.putExtra("email", data[1]);
-            Log.i("QWERTY", data[1]);
             startActivity(intent);
         }
 
@@ -131,6 +134,7 @@ public class LoginActivity extends AppCompatActivity {
                 ProxyBuilder.callProxy(LoginActivity.this, caller_login, returnedNothing -> response(returnedNothing));
 
                 Intent intent = new Intent(LoginActivity.this, MapActivity.class);
+                intent.putExtra("token",token_use);
                 startActivity(intent);
 
 

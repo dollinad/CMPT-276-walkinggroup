@@ -1,5 +1,6 @@
 package ca.sfu.djlin.walkinggroup.app;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,13 +9,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import ca.sfu.djlin.walkinggroup.R;
-import ca.sfu.djlin.walkinggroup.dataobjects.EarnedRewards;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
@@ -25,9 +29,10 @@ public class SignupActivity extends AppCompatActivity {
     private static final String TAG = "ServerTest";
 
     private WGServerProxy proxy;
-    String user_name_string;
-    String user_email_string;
-    String password_confirmed_string;
+    String userNameString;
+    String userEmailString;
+    String userPasswordString;
+    String userConfirmPasswordString;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -35,10 +40,10 @@ public class SignupActivity extends AppCompatActivity {
         setContentView(R.layout.add_user_activity);
 
         // Build server proxy
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), null);
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey));
 
         // Setting up buttons
-        setupCreateAccount();
+        setupCreateAccountInputs();
     }
 
     public static Intent launchIntentSignup(Context context) {
@@ -46,9 +51,9 @@ public class SignupActivity extends AppCompatActivity {
         return intentSignup;
     }
 
-    private void setupCreateAccount() {
+    private void setupCreateAccountInputs() {
         // Setup text watcher for user's name
-        EditText userName = findViewById(R.id.username_input);
+        EditText userName = findViewById(R.id.name_input);
         userName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -58,13 +63,24 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText user_name = findViewById(R.id.username_input);
-                user_name_string = user_name.getText().toString();
+                EditText userName = findViewById(R.id.name_input);
+                userNameString = userName.getText().toString();
+            }
+        });
+
+        // Hide keyboard
+        userName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    hideKeyboard(SignupActivity.this);
+                }
+                return false;
             }
         });
 
         // Setup text watcher for user's email
-        EditText userEmail = findViewById(R.id.useremail_input);
+        EditText userEmail = findViewById(R.id.email_input);
         userEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -74,14 +90,24 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText user_email = findViewById(R.id.useremail_input);
-                user_email_string = user_email.getText().toString();
+                EditText userEmail = findViewById(R.id.email_input);
+                userEmailString = userEmail.getText().toString();
+            }
+        });
+
+        // Hide keyboard
+        userEmail.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    hideKeyboard(SignupActivity.this);
+                }
+                return false;
             }
         });
 
         // Setup text watcher for user's password
-        EditText userPassword = findViewById(R.id.userconfirm_pass_input);
-        //EditText user_password_notCon = findViewById(R.id.userpassword_input);
+        EditText userPassword = findViewById(R.id.password_input);
         userPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -91,18 +117,50 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText user_password = findViewById(R.id.userconfirm_pass_input);
-                //String password_notcon_string = user_password_notCon.getText().toString();
-                password_confirmed_string = user_password.getText().toString();
-                //if(password_notcon_string.equals(password_confirmed_string)==false){
-                    //Toast.makeText(getApplicationContext(), "Passwords do not match. PLease try again.", Toast.LENGTH_SHORT).show();
-                    //user_password.setText("");
-                //}
+                EditText userPassword = findViewById(R.id.password_input);
+                userPasswordString = userPassword.getText().toString();
+            }
+        });
+
+        // Hide keyboard
+        userPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    hideKeyboard(SignupActivity.this);
+                }
+                return false;
+            }
+        });
+
+        // Setup text watcher for user's password confirmation
+        EditText userConfirmPassword = findViewById(R.id.confirm_password_input);
+        userConfirmPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                EditText userConfirmPassword = findViewById(R.id.confirm_password_input);
+                userConfirmPasswordString = userConfirmPassword.getText().toString();
+            }
+        });
+
+        // Hide keyboard
+        userConfirmPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    hideKeyboard(SignupActivity.this);
+                }
+                return false;
             }
         });
 
         Button createAccountBtn = findViewById(R.id.create_account);
-
         createAccountBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -110,9 +168,9 @@ public class SignupActivity extends AppCompatActivity {
                 User user = new User();
 
                 // Set User information
-                user.setName(user_name_string);
-                user.setEmail(user_email_string);
-                user.setPassword(password_confirmed_string);
+                user.setName(userNameString);
+                user.setEmail(userEmailString);
+                user.setPassword(userPasswordString);
 
                 /*
                 // Reward system to be implemented at another time
@@ -121,9 +179,21 @@ public class SignupActivity extends AppCompatActivity {
                 user.setRewards(new EarnedRewards());
                 */
 
-                // Make call to server
-                Call<User> caller = proxy.createUser(user);
-                ProxyBuilder.callProxy(SignupActivity.this, caller, returnedUser -> createUserResponse(returnedUser));
+                // Check that passwords match
+                if (!userPasswordString.equals(userConfirmPasswordString)) {
+                    Log.d(TAG, "User password: " + userPasswordString);
+                    Log.d(TAG, "User confirm password: " + userConfirmPasswordString);
+                    Toast.makeText(SignupActivity.this, "Please check your passwords!", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Make call to server
+                    Call<User> caller = proxy.createUser(user);
+                    ProxyBuilder.callProxy(SignupActivity.this, caller, returnedUser -> createUserResponse(returnedUser));
+
+                    // Launch Map Activity
+                    //Intent mapIntent = MapActivity.launchIntentMap(SignupActivity.this);
+                    //startActivity(mapIntent);
+                    finish();
+                }
             }
         });
     }
@@ -155,6 +225,16 @@ public class SignupActivity extends AppCompatActivity {
     private void notifyUserViaLogAndToast(String message) {
         Log.w(TAG, message);
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
 
+    public static void hideKeyboard(Activity activity) {
+        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        //Find the currently focused view, so we can grab the correct window token from it.
+        View view = activity.getCurrentFocus();
+        //If no view currently has focus, create a new one, just so we can grab a window token from it
+        if (view == null) {
+            view = new View(activity);
+        }
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
