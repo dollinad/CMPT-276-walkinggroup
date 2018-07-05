@@ -92,6 +92,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             init();
         }
 
+        // Need to check ordering for this
+        SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
+        token = preferences.getString("Token", null);
+        CurrentUserEmail = preferences.getString("Email", null);
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey),token);
+        // End need to check order for this
+
         createGroup();
         setGroupMarker();
     }
@@ -136,6 +143,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         CurrentUserEmail = preferences.getString("Email", null);
         //Toast.makeText(getApplicationContext(), token, Toast.LENGTH_SHORT).show();
         setupimgaeview();
+
     }
 
     public void setGroupMarker(){
@@ -312,6 +320,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         //checking id
         if(item.getItemId()==R.id.settings){
             Intent pass_intent=PreferencesActivity.launchIntentPreferences(MapActivity.this);
+
+            SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
+            token = preferences.getString("Token", null);
+            CurrentUserEmail = preferences.getString("Email", null);
+
             pass_intent.putExtra("token", token);
             pass_intent.putExtra("email", CurrentUserEmail);
             startActivity(pass_intent);
