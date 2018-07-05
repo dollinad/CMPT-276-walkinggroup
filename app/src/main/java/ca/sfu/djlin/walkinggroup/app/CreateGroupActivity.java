@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,7 +25,7 @@ import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 import retrofit2.Call;
 
 
-public class CreateGroup extends AppCompatActivity {
+public class CreateGroupActivity extends AppCompatActivity {
 
     private WGServerProxy proxy;
     LatLng latLng;
@@ -91,7 +90,7 @@ public class CreateGroup extends AppCompatActivity {
                         System.out.println(email);
                         System.out.println("start call");
                         Call<User> calleruser= proxy.getUserByEmail(email);
-                        ProxyBuilder.callProxy(CreateGroup.this,calleruser,returnuser -> createResponse(returnuser));
+                        ProxyBuilder.callProxy(CreateGroupActivity.this,calleruser, returnuser -> createResponse(returnuser));
                         System.out.println("end call");
                        // group.setLeader(id);
                         Intent intent_2=new Intent();
@@ -99,9 +98,9 @@ public class CreateGroup extends AppCompatActivity {
 
                         Call<Group> caller = proxy.createGroup(group);
 
-                        ProxyBuilder.callProxy(CreateGroup.this, caller, returnedUser -> createGroupResponse(returnedUser));
+                        ProxyBuilder.callProxy(CreateGroupActivity.this, caller, returnedUser -> createGroupResponse(returnedUser));
 
-                        Toast.makeText(CreateGroup.this,"group created",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CreateGroupActivity.this,"group created",Toast.LENGTH_SHORT).show();
                         setResult(Activity.RESULT_OK, intent_2);
                         finish();;
                     }
@@ -114,7 +113,7 @@ public class CreateGroup extends AppCompatActivity {
 
     private void createResponse(User returnuser){
         System.out.println("start response");
-        Toast.makeText(CreateGroup.this,"Got users! See logcat.",Toast.LENGTH_LONG).show();
+        Toast.makeText(CreateGroupActivity.this,"Got users! See logcat.",Toast.LENGTH_LONG).show();
        returnuser.toString();
         System.out.println("end response");
        id=returnuser.getId();
@@ -128,7 +127,7 @@ public class CreateGroup extends AppCompatActivity {
         String groupName = group.getGroupDescription();
     }
     public static Intent makeintent(Context context){
-        Intent intent =new Intent(context, CreateGroup.class);
+        Intent intent =new Intent(context, CreateGroupActivity.class);
         return intent;
     }
     public static String getresult(Intent intent){

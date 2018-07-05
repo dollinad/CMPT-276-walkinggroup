@@ -45,7 +45,7 @@ public class PreferencesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.config_monitoring_activity);
+        setContentView(R.layout.activity_monitoring_config);
 
         //get intent
         Intent intent=getIntent();
@@ -226,7 +226,7 @@ public class PreferencesActivity extends AppCompatActivity {
 
     private class MyListAdapter extends ArrayAdapter<User> {
         public MyListAdapter(){
-            super(PreferencesActivity.this, R.layout.montoring_list_layout, CurrentUser.getMonitorsUsers());
+            super(PreferencesActivity.this, R.layout.layout_monitoring_list, CurrentUser.getMonitorsUsers());
         }
         View itemView;
         @NonNull
@@ -234,7 +234,7 @@ public class PreferencesActivity extends AppCompatActivity {
        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             itemView=convertView;
             if(itemView==null){
-                itemView=getLayoutInflater().inflate(R.layout.montoring_list_layout, parent, false);
+                itemView=getLayoutInflater().inflate(R.layout.layout_monitoring_list, parent, false);
             }
             User Current=CurrentUser.getMonitorsUsers().get(position);
             Toast.makeText(getApplicationContext(), Current.getId()+"", Toast.LENGTH_SHORT).show();
@@ -256,7 +256,7 @@ public class PreferencesActivity extends AppCompatActivity {
 
     private class MyListAdapterMonitored extends ArrayAdapter<User> {
         public MyListAdapterMonitored(){
-            super(PreferencesActivity.this, R.layout.montoring_list_layout, CurrentUser.getMonitoredByUsers());
+            super(PreferencesActivity.this, R.layout.layout_monitoring_list, CurrentUser.getMonitoredByUsers());
         }
         View itemView;
 
@@ -265,7 +265,7 @@ public class PreferencesActivity extends AppCompatActivity {
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             itemView=convertView;
             if(itemView==null){
-                itemView=getLayoutInflater().inflate(R.layout.montoring_list_layout, parent, false);
+                itemView=getLayoutInflater().inflate(R.layout.layout_monitoring_list, parent, false);
             }
             User MonitoredBy=CurrentUser.getMonitoredByUsers().get(position);
             TextView name=itemView.findViewById(R.id.LayoutName);

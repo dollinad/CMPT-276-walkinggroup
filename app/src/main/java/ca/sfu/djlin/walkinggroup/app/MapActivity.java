@@ -21,9 +21,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -52,7 +50,6 @@ import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
-import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 import retrofit2.Call;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -268,7 +265,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             public void onMapClick(LatLng latLng) {
                 // Intent intentTemp=getIntent();
                 // token=intentTemp.getStringExtra("token");
-                Intent intent=new Intent(MapActivity.this, CreateGroup.class);
+                Intent intent=new Intent(MapActivity.this, CreateGroupActivity.class);
                 intent.putExtra("lag",latLng.latitude);
                 intent.putExtra("lng",latLng.longitude);
                 intent.putExtra("token",token);
@@ -284,7 +281,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         switch (requestCode) {
             case REQUEST_CODE_GETDATA:
                 if (resultCode == Activity.RESULT_OK) {
-                    String groupName = CreateGroup.getresult(data);
+                    String groupName = CreateGroupActivity.getresult(data);
                     Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(groupName));
                     markers.add(marker);
                     System.out.println(markers.size());
@@ -300,7 +297,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mPlaceMarker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = CreateGroup.makeintent(MapActivity.this);
+                Intent intent = CreateGroupActivity.makeintent(MapActivity.this);
                 startActivity(intent);
             }
         });
