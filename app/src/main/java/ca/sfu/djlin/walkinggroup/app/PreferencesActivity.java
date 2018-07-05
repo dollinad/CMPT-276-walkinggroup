@@ -151,16 +151,15 @@ public class PreferencesActivity extends AppCompatActivity {
         proxy=ProxyBuilder.getProxy(getString(R.string.apikey), UserToken);;
         Call<List<User>> call=proxy.getMonitorsUsers(CurrentUser.getId());
         ProxyBuilder.callProxy(PreferencesActivity.this, call, returnedList -> response(returnedList));
-        adapter=new MyListAdapter();
-        ListView list=findViewById(R.id.monitoringList);
-        list.setAdapter(adapter);
     }
 
     private void response(List<User> list) {
         //notifyUserViaLogAndToast("Server replied with user: " + user.toString());
-
         monitorsUsers=list;
         CurrentUser.setMonitorsUsers(monitorsUsers);
+        adapter=new MyListAdapter();
+        ListView list2=findViewById(R.id.monitoringList);
+        list2.setAdapter(adapter);
     }
 
 

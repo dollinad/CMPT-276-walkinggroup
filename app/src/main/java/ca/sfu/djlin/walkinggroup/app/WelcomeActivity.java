@@ -1,7 +1,9 @@
 package ca.sfu.djlin.walkinggroup.app;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,10 +17,14 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
 import ca.sfu.djlin.walkinggroup.R;
+import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
+import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 
 public class WelcomeActivity extends AppCompatActivity {
 
     private static final String TAG = "WelcomeActivity";
+
+    private WGServerProxy proxy;
 
     // Used for checking correct version of Google Play Services
     private static final int ERROR_DIALOG_REQUEST = 9001;
@@ -28,9 +34,15 @@ public class WelcomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.welcome_activity);
 
+        // Build the server proxy
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey));
+
         // Setup buttons
         setupSignup();
         setupLogin();
+
+        // Check user session
+        isUserLoggedIn();
 
         // Check for Google Play Services
         if (isServicesOK()) {
@@ -87,6 +99,34 @@ public class WelcomeActivity extends AppCompatActivity {
         });
     }
 
+    private void isUserLoggedIn() {
+        // Check if user is currently logged in with Shared Preferences
+        String[] data = getData(getApplicationContext());
+
+        // If Shared Preferences is not empty
+        Log.d(TAG, "isUserLoggedIn: " + data[0]);
+
+        if(data[0] != null) {
+            String token = data[0];
+            proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+
+            Intent intent = MapActivity.launchIntentMap(WelcomeActivity.this);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    // Getting the data token and email using Shared Preferences
+    private String[] getData(Context context) {
+        SharedPreferences preferences = getSharedPreferences("User Session", MODE_PRIVATE);
+
+        // Store values and return it
+        String[] returnedData = new String[3];
+        returnedData[0] = preferences.getString("Token", null);
+        returnedData[1] = preferences.getString("Email", null);
+        return returnedData;
+    }
+
     // Check to see if Google Play Services is properly enabled and up-to-date
     public boolean isServicesOK() {
         Log.d(TAG, "isServicesOK: Checking:");
@@ -106,5 +146,10 @@ public class WelcomeActivity extends AppCompatActivity {
         }
 
         return false;
+    }
+
+    public static Intent launchWelcomeIntent (Context context) {
+        Intent intent = new Intent(context, WelcomeActivity.class);
+        return intent;
     }
 }
