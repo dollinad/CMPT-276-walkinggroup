@@ -36,7 +36,8 @@ public class check extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        useremail = intent.getStringExtra("name");
+        useremail = intent.getStringExtra("email");
+        System.out.println("abcooo"+useremail);
         token=intent.getStringExtra("token");
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
         Toast.makeText(getApplicationContext(), useremail, Toast.LENGTH_SHORT).show();
@@ -53,6 +54,7 @@ public class check extends AppCompatActivity {
 
                 Intent intent=new Intent(check.this,MapActivity.class);
                 intent.putExtra("token",token);
+                intent.putExtra("email",useremail);
                 startActivity(intent);
 
 
