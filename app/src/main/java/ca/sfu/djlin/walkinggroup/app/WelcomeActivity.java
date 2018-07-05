@@ -34,7 +34,7 @@ public class WelcomeActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.welcome_activity);
+        setContentView(R.layout.activity_welcome);
 
         // Build the server proxy
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey));
@@ -100,8 +100,6 @@ public class WelcomeActivity extends AppCompatActivity {
             proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
 
             Intent intent = MapActivity.launchIntentMap(WelcomeActivity.this);
-            intent.putExtra("token", token);
-            intent.putExtra("email", data[1]);
             startActivity(intent);
             finish();
         }

@@ -51,8 +51,7 @@
 
         <!--Preferences Activity-->
         <activity android:name="ca.sfu.djlin.walkinggroup.app.PreferencesActivity"/>
-        <activity android:name=".app.CreateGroup" />
-        <activity android:name=".app.MainActivity"></activity>
+        <activity android:name=".app.CreateGroupActivity" />
     </application>
 
 </manifest>

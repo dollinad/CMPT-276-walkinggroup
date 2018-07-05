@@ -3,7 +3,6 @@ package ca.sfu.djlin.walkinggroup.app;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -16,9 +15,6 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
@@ -40,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.login_activity);
+        setContentView(R.layout.activity_login);
 
         // Build the server proxy
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey));
@@ -48,41 +44,21 @@ public class LoginActivity extends AppCompatActivity {
         // Check to see if user is logged in
         isUserLoggedIn();
 
-        setUpIcons();
-
         // setup login
         setupLogin();
-    }
-
-    private void setUpIcons() {
-        // Setting user icon
-        EditText loginEmail = findViewById(R.id.email_input);
-        Drawable drawableLoginEmail = getResources().getDrawable(R.drawable.user_icon);
-        drawableLoginEmail.setBounds(0,0, (int) (drawableLoginEmail.getIntrinsicHeight() * 0.10),
-                (int)(drawableLoginEmail.getIntrinsicHeight()*0.101));
-        loginEmail.setCompoundDrawables(drawableLoginEmail, null, null, null);
-
-        // Setting password icon
-        EditText loginPassword = findViewById(R.id.password_input);
-        Drawable drawablePassword = getResources().getDrawable(R.drawable.password);
-        drawablePassword.setBounds(0,0, (int) (drawablePassword.getIntrinsicHeight() * 0.05),
-                (int)(drawablePassword.getIntrinsicHeight() * 0.05));
-        loginPassword.setCompoundDrawables(drawablePassword, null, null, null);
     }
 
     private void isUserLoggedIn() {
         // Check if user is currently logged in with Shared Preferences
         String[] data = getData(getApplicationContext());
 
-        // If Shared Preferences is not empty
-        if(data[0].isEmpty() == false) {
+        // If Shared Preferences is not null
+        if(data[0] != null) {
             String token = data[0];
             proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
 
             // Need to change method of starting activity
-            Intent intent = new Intent(LoginActivity.this, MapActivity.class);
-            intent.putExtra("token", data[0]);
-            intent.putExtra("email", data[1]);
+            Intent intent = MapActivity.launchIntentMap(LoginActivity.this);
             startActivity(intent);
         }
     }
@@ -93,10 +69,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // Store values and return it
         String[] returnedData = new String[2];
-        returnedData[0] = preferences.getString("Token", "");
-        System.out.println("zhuan"+returnedData[0]);
-        returnedData[1] = preferences.getString("Email", "");
-        System.out.println("zhuan"+returnedData[1]);
+        returnedData[0] = preferences.getString("Token", null);
+        returnedData[1] = preferences.getString("Email", null);
         return returnedData;
     }
 
@@ -203,8 +177,8 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "onReceiveToken: I just received the token " + newToken);
 
         // Save token using Shared Preferences
-        // token_use=newToken;
         saveUserInformation(newToken);
+
         // Rebuild the proxy with updated token
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), newToken);
     }

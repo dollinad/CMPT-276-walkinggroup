@@ -1,6 +1,5 @@
 package ca.sfu.djlin.walkinggroup.app;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,7 +12,6 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -39,7 +37,7 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_user_activity);
+        setContentView(R.layout.activity_sign_up);
 
         // Build server proxy
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey));
@@ -235,9 +233,8 @@ public class SignupActivity extends AppCompatActivity {
 
                 // Check that passwords match
                 if (!userPasswordString.equals(userConfirmPasswordString)) {
-                    Log.d(TAG, "User password: " + userPasswordString);
-                    Log.d(TAG, "User confirm password: " + userConfirmPasswordString);
-                    Toast.makeText(SignupActivity.this, "Please check your passwords!", Toast.LENGTH_SHORT).show();
+                    String checkPasswords = getResources().getString(R.string.check_passwords);
+                    Toast.makeText(SignupActivity.this, checkPasswords, Toast.LENGTH_SHORT).show();
                 } else {
                     // Make call to server
                     Call<User> caller = proxy.createUser(user);

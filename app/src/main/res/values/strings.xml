@@ -6,19 +6,23 @@
     <string name="apikey">BB23730A-C1B3-4B65-855E-C538EE7143FDC</string>
     <string name="settings">Settings</string>
 
+    <!-- Google Maps API Key-->
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAstZSvx1HnOVI8YW4fIHpMJXx888wTInc</string>
 
     <!-- Signup / Log in Activities-->
     <string name="signup">Sign Up</string>
+    <string name="signup_caps">SIGN UP</string>
     <string name="name">Name</string>
     <string name="name_hint">Jane Doe</string>
     <string name="email">Email</string>
     <string name="email_hint">jane@example.com</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
-    <string name="walking_group">WALKING GROUP</string>
+    <string name="walking_group">Walking Group</string>
+    <string name="walking_group_caps">WALKING GROUP</string>
     <string name="signup_label">New User?</string>
-    <string name="sign_up">SIGN UP</string>
     <string name="login_label">Existing User?</string>
-    <string name="login">LOGIN</string>
+    <string name="login">Login</string>
+    <string name="login_caps">LOGIN</string>
+    <string name="check_passwords">Please check your password inputs!</string>
 </resources>
