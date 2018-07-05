@@ -18,7 +18,7 @@
     <string name="email_hint">jane@example.com</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
-    <string name="walking_group">WALKING GROUP</string>
+    <string name="walking_group">Walking Group</string>
     <string name="walking_group_caps">WALKING GROUP</string>
     <string name="signup_label">New User?</string>
     <string name="login_label">Existing User?</string>

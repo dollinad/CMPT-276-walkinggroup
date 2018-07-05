@@ -11,7 +11,7 @@
         android:id="@+id/heading"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Login"
+        android:text="@string/login_caps"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textSize="40sp"
         android:textStyle="bold"
@@ -36,7 +36,7 @@
             android:id="@+id/email_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/name"
+            android:text="@string/email"
             android:paddingLeft="4dp"
             android:textSize="16dp"
             android:textColor="#000"/>
@@ -46,13 +46,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/email_hint"
-            android:inputType="textEmailAddress"/>
+            android:inputType="textEmailAddress"
+            android:layout_marginBottom="16dp"/>
 
         <TextView
             android:id="@+id/password_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/name"
+            android:text="@string/password"
             android:paddingLeft="4dp"
             android:textSize="16dp"
             android:textColor="#000"/>
@@ -62,14 +63,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/password"
-            android:inputType="textPersonName"/>
+            android:inputType="textPassword"/>
     </LinearLayout>
 
     <Button
         android:id="@+id/login_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="LOGIN"
+        android:text="@string/login_caps"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
