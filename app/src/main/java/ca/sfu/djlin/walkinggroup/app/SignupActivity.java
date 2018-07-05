@@ -261,13 +261,14 @@ public class SignupActivity extends AppCompatActivity {
 
         // Finish the login process
         Call<Void> caller = proxy.login(createdUser);
+        saveUserInfo(user);
         ProxyBuilder.callProxy(SignupActivity.this, caller, returnedNothing -> response(returnedNothing));
 
         // Save user information
-        saveUserInfo(user);
+
 
         // Launch map activity
-        launchMapActivity();
+
     }
 
     // Save user information in Shared Preferences
@@ -308,6 +309,7 @@ public class SignupActivity extends AppCompatActivity {
     // when we got the token.
     private void response(Void returnedNothing) {
         notifyUserViaLogAndToast("Server replied to login request (no content was expected).");
+        launchMapActivity();
     }
 
     // Put message up in toast and logcat
