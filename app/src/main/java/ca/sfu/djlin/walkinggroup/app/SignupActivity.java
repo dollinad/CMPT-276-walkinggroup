@@ -27,7 +27,7 @@ import retrofit2.Call;
 
 public class SignupActivity extends AppCompatActivity {
     // TO BE REMOVED PRIOR TO SUBMISSION
-    private static final String TAG = "ServerTest";
+    private static final String TAG = "SignupActivity";
 
     private WGServerProxy proxy;
     String userNameString;
@@ -190,10 +190,12 @@ public class SignupActivity extends AppCompatActivity {
                     Call<User> caller = proxy.createUser(user);
                     ProxyBuilder.callProxy(SignupActivity.this, caller, returnedUser -> createUserResponse(returnedUser));
 
+                    // START: TO-DO REMOVE THIS ... USED FOR TESTING WHILE SERVER IS DOWN
                     SharedPreferences preferences = SignupActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
                     SharedPreferences.Editor editor = preferences.edit();
                     editor.putString("Token", "JUST A TEMPORARY TOKEN");
                     editor.apply();
+                    // END: TO-DO REMOVE THIS ... USED FOR TESTING WHILE SERVER IS DOWN
 
                     launchMapActivity();
                 }
