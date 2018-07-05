@@ -10,14 +10,17 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.R;
+import ca.sfu.djlin.walkinggroup.Utilities;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
@@ -110,6 +113,17 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        // Hide keyboard
+        userEmail.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    Utilities.hideKeyboard(LoginActivity.this);
+                }
+                return false;
+            }
+        });
+
         EditText userPassword = findViewById(R.id.login_password);
         userPassword.addTextChangedListener(new TextWatcher() {
             @Override
@@ -122,6 +136,17 @@ public class LoginActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 EditText userPassword = findViewById(R.id.login_password);
                 userPasswordString = userPassword.getText().toString();
+            }
+        });
+
+        // Hide keyboard
+        userPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                    Utilities.hideKeyboard(LoginActivity.this);
+                }
+                return false;
             }
         });
 

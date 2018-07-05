@@ -47,9 +47,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.R;
+import ca.sfu.djlin.walkinggroup.Utilities;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
-
-import static ca.sfu.djlin.walkinggroup.app.SignupActivity.hideKeyboard;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -202,7 +201,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
 
         // Hides keyboard
-        hideKeyboard(MapActivity.this);
+        Utilities.hideKeyboard(MapActivity.this);
 
     }
 
@@ -356,7 +355,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
 
         // Hides keyboard
-        hideKeyboard(MapActivity.this);
+        Utilities.hideKeyboard(MapActivity.this);
     }
 
     private void getLocationPermission() {
@@ -411,16 +410,4 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         }
     }
-
-    public static void hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        //Find the currently focused view, so we can grab the correct window token from it.
-        View view = activity.getCurrentFocus();
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
-        if (view == null) {
-            view = new View(activity);
-        }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
-    }
-
 }

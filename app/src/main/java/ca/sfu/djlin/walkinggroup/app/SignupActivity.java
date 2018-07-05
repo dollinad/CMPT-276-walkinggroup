@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import ca.sfu.djlin.walkinggroup.R;
+import ca.sfu.djlin.walkinggroup.Utilities;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
@@ -69,14 +70,27 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        // Hide keyboard
+        // Hide keyboard when is done typing
         userName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                    hideKeyboard(SignupActivity.this);
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    Utilities.hideKeyboard(SignupActivity.this);
                 }
                 return false;
+            }
+        });
+
+        // Hide keyboard on focus change
+        userName.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    Utilities.hideKeyboardFocus(SignupActivity.this, view);
+                }
             }
         });
 
@@ -96,14 +110,27 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        // Hide keyboard
+        // Hide keyboard when is done typing
         userEmail.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                    hideKeyboard(SignupActivity.this);
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    Utilities.hideKeyboard(SignupActivity.this);
                 }
                 return false;
+            }
+        });
+
+        // Hide keyboard on focus change
+        userEmail.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    Utilities.hideKeyboardFocus(SignupActivity.this, view);
+                }
             }
         });
 
@@ -123,14 +150,27 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        // Hide keyboard
+        // Hide keyboard when is done typing
         userPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                    hideKeyboard(SignupActivity.this);
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    Utilities.hideKeyboard(SignupActivity.this);
                 }
                 return false;
+            }
+        });
+
+        // Hide keyboard on focus change
+        userPassword.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    Utilities.hideKeyboardFocus(SignupActivity.this, view);
+                }
             }
         });
 
@@ -150,14 +190,27 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        // Hide keyboard
+        // Hide keyboard when is done typing
         userConfirmPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
-                if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                    hideKeyboard(SignupActivity.this);
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    Utilities.hideKeyboard(SignupActivity.this);
                 }
                 return false;
+            }
+        });
+
+        // Hide keyboard on focus change
+        userConfirmPassword.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    Utilities.hideKeyboardFocus(SignupActivity.this, view);
+                }
             }
         });
 
@@ -274,16 +327,5 @@ public class SignupActivity extends AppCompatActivity {
     private void notifyUserViaLogAndToast(String message) {
         Log.w(TAG, message);
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-    }
-
-    public static void hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        //Find the currently focused view, so we can grab the correct window token from it.
-        View view = activity.getCurrentFocus();
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
-        if (view == null) {
-            view = new View(activity);
-        }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
