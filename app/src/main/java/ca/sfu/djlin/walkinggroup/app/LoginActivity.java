@@ -52,8 +52,8 @@ public class LoginActivity extends AppCompatActivity {
         // Check if user is currently logged in with Shared Preferences
         String[] data = getData(getApplicationContext());
 
-        // If Shared Preferences is not empty
-        if(data[0].isEmpty() == false) {
+        // If Shared Preferences is not null
+        if(data[0] != null) {
             String token = data[0];
             proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
 
