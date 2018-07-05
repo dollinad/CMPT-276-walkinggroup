@@ -18,22 +18,51 @@ import ca.sfu.djlin.walkinggroup.model.User;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Group extends IdItemBase{
-    private List<User> users=new ArrayList();
-    private String name;
-    private LatLng latLng;
-    private String title;
 
 
-    public void addUser(User user){
-        users.add(user);
+
+
+    private String groupDescription;
+
+    //private Long leaderId;
+
+    private List<Double> routeLatArray=new ArrayList();
+    private List<Double> routeLngArray=new ArrayList();
+
+
+
+    //private List<User> memberOfGroups=new ArrayList();
+
+
+
+
+    //public void addUser(User user){
+    //    users.add(user);
+    //}
+    public void setGroupDescription(String groupDescription){this.groupDescription=groupDescription;}
+    public String getGroupDescription(){return groupDescription;}
+    //public User getUser(int index){return users.get(index);}
+    public void setRouteLatArray(List<Double> latArray){
+
+        this.routeLatArray=latArray;
     }
-    public void setName(String name){this.name=name;}
-    public String getName(){return name;}
-    public User getUser(int index){return users.get(index);}
-    public void setMarker(LatLng latLng){
-        this.latLng=latLng;
+    public void setRouteLngArray(List<Double> lngArray){
+
+        this.routeLngArray=lngArray;
     }
-    public LatLng getLatLng(){return latLng;}
+    public List<Double> getRouteLatArray(){
+        return routeLatArray;
+    }
+    public List<Double> getRouteLngArray(){
+        return routeLngArray;
+    }
+
+
+
+    //public void setLeader(Long leader ){
+    //    this.leader=leader;
+   // }
+    //public long getLeader(){return leader;}
 
 
 

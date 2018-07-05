@@ -90,7 +90,9 @@ public class LoginActivity extends AppCompatActivity {
         // Store values and return it
         String[] returnedData = new String[2];
         returnedData[0] = preferences.getString("Token", "");
+        System.out.println("zhuan"+returnedData[0]);
         returnedData[1] = preferences.getString("Email", "");
+        System.out.println("zhuan"+returnedData[1]);
         return returnedData;
     }
 
@@ -160,8 +162,8 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "onReceiveToken: I just received the token " + newToken);
 
         // Save token using Shared Preferences
-        saveUserInformation(newToken);
-
+        token_use=newToken;
+        saveToken(newToken);
         // Rebuild the proxy with updated token
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), newToken);
     }

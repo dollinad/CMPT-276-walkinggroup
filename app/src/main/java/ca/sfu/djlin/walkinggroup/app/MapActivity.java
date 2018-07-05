@@ -50,12 +50,19 @@ import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 
 import static ca.sfu.djlin.walkinggroup.app.SignupActivity.hideKeyboard;
+import ca.sfu.djlin.walkinggroup.dataobjects.Group;
+import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
+import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
+import retrofit2.Call;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
+    private static final int REQUEST_CODE_GETDATA = 1024;
+    private WGServerProxy proxy;
     String token;
     String CurrentUserEmail;
-
+    private LatLng latlng;
+    List<Marker> markers=new ArrayList();
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -84,7 +91,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             // Initialize search box listeners
             init();
         }
-        // createGroup();
+
+        createGroup();
+        setGroupMarker();
     }
 
     private static final String TAG = "MapActivity";
@@ -92,8 +101,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
-    private static final float DEFAULT_ZOOM = 15f;
-    private static final int REQUEST_CODE_GETDATA=1024;
+    private static final float DEFAULT_ZOOM = 15f;;
 
     // Widgets
     private EditText mSearchText;
@@ -102,12 +110,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private Boolean mLocationPermissionsGranted = false;
     private GoogleMap mMap;
-
-    public List<Marker> markers= new ArrayList();
-    public LatLng latlng;
-
-    private WGServerProxy proxy;
-
     private GoogleApiClient mGoogleApiClient;
     private LatLng currentposition=new LatLng(0,0);
 
@@ -124,14 +126,18 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         getLocationPermission();
 
-        setupimgaeview();
-
         //geting Intent
         Intent intent=getIntent();
         token=intent.getStringExtra("token");
+        proxy= ProxyBuilder.getProxy(getString(R.string.apikey),token);
         CurrentUserEmail=intent.getStringExtra("email");
         //Toast.makeText(getApplicationContext(), token, Toast.LENGTH_SHORT).show();
+        setupimgaeview();
+    }
 
+    public void setGroupMarker(){
+        Call<List<Group>> caller = proxy.getGroups();
+        ProxyBuilder.callProxy(MapActivity.this, caller, returnedGroups -> response(returnedGroups));
 
         // Logout listener
         mLogout.setOnClickListener(new View.OnClickListener() {
@@ -142,9 +148,34 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
     }
 
+
+    private void response(List<Group> returnedGroups) {
+        notifyUserViaLogAndToast("Got list of " + returnedGroups.size() + " groups! See logcat.");
+        Log.i("aa", "All groups:");
+        int i=0;
+        for (Group group : returnedGroups) {
+            double lat=group.getRouteLatArray().get(i);
+            double lng=group.getRouteLngArray().get(i);
+            LatLng latLng=new LatLng(lat,lng);
+            markers.add(mMap.addMarker(new MarkerOptions().position(latLng).title(group.getGroupDescription())));
+        }
+    }
+
+    private void notifyUserViaLogAndToast(String message) {
+        System.out.println("test           7");
+
+        Log.i("aa", message);
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        System.out.println("test           8");
+
+    }
+
+
+
     private void logout() {
         Intent intent = WelcomeActivity.launchWelcomeIntent(MapActivity.this);
-        SharedPreferences preferences = this.getSharedPreferences("User Session" , MODE_PRIVATE);
+
+        SharedPreferences preferences = this.getSharedPreferences("Token" , MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove("Token");
         editor.remove("Email");
@@ -271,16 +302,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
         }
     }
-    /*
-        public void test2(){
-            mMap.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
-                @Override
-                public void onInfoWindowLongClick(Marker marker) {
-                    marker.remove();
-                }
-            });
-        }
-    */
+
     private void setupimgaeview() {
         ImageView mPlaceMarker = findViewById(R.id.marker);
         mPlaceMarker.setOnClickListener(new View.OnClickListener() {
@@ -291,6 +313,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
     }
+
+
+
 
     //function for action bar
     @Override
@@ -312,6 +337,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
         return super.onOptionsItemSelected(item);
     }
+
 
     private void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: getting device location");
@@ -340,6 +366,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         } catch (SecurityException e) {
             Log.e(TAG, "getDeviceLocation: Security Exception: " + e.getMessage());
         }
+
     }
 
     private void moveCamera(LatLng latLng, float zoom, String title) {
@@ -422,5 +449,4 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
         imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
-
 }
