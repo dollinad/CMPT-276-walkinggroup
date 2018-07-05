@@ -11,8 +11,7 @@
         android:layout_width="191dp"
         android:layout_height="102dp"
         android:layout_marginTop="39dp"
-        android:lineSpacingExtra="8sp"
-        android:text="WALKING GROUP"
+        android:text="@string/walking_group"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textSize="40sp"
@@ -22,14 +21,14 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.043" />
+        app:layout_constraintVertical_bias="0.112" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/sign_up_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="197dp"
-        android:text="New User?"
+        android:text="@string/signup_label"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -40,10 +39,10 @@
         app:layout_constraintVertical_bias="0.117" />
 
     <Button
-        android:id="@+id/sign_up"
-        android:layout_width="139dp"
+        android:id="@+id/sign_up_btn"
+        android:layout_width="150dp"
         android:layout_height="51dp"
-        android:text="SIGN UP"
+        android:text="@string/sign_up"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -52,39 +51,31 @@
         app:layout_constraintVertical_bias="0.519" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/login_label"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="173dp"
-        android:text="Existing User?"
+        android:text="@string/login_label"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
     <Button
-        android:id="@+id/login"
-        android:layout_width="139dp"
+        android:id="@+id/login_btn"
+        android:layout_width="150dp"
         android:layout_height="51dp"
         android:layout_marginBottom="115dp"
-        android:text="LOGIN"
+        android:text="@string/login"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
-
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="16dp" />
 
 </android.support.constraint.ConstraintLayout>

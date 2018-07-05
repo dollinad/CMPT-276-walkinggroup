@@ -51,12 +51,12 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void setupSignup(){
-        Button signupBtn = findViewById(R.id.sign_up);
+        Button signupBtn = findViewById(R.id.sign_up_btn);
 
         // Draw button icons
-        Drawable drawableSignup = getResources().getDrawable(R.drawable.adduser);
-        drawableSignup.setBounds(0,0, (int) (drawableSignup.getIntrinsicHeight()*0.07),
-                (int)(drawableSignup.getIntrinsicHeight()*0.07));
+        Drawable drawableSignup = getResources().getDrawable(R.drawable.ic_adduser);
+        drawableSignup.setBounds(0,0, (int) (drawableSignup.getIntrinsicHeight()),
+                (int)(drawableSignup.getIntrinsicHeight()));
         signupBtn.setCompoundDrawables(drawableSignup, null, null, null);
 
         // Onclick listener
@@ -70,12 +70,12 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void setupLogin() {
-        Button loginBtn = findViewById(R.id.login);
+        Button loginBtn = findViewById(R.id.login_btn);
 
         // Draw button icons
-        Drawable drawableLogin=getResources().getDrawable(R.drawable.login);
-        drawableLogin.setBounds(0,0, (int) (drawableLogin.getIntrinsicHeight()*0.05),
-                (int)(drawableLogin.getIntrinsicHeight()*0.05));
+        Drawable drawableLogin = getResources().getDrawable(R.drawable.ic_check);
+        drawableLogin.setBounds(0,0, (int) (drawableLogin.getIntrinsicHeight()),
+                (int)(drawableLogin.getIntrinsicHeight()));
         loginBtn.setCompoundDrawables(drawableLogin, null, null, null);
 
         // Onclick listener
