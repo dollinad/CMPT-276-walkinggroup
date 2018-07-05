@@ -100,8 +100,6 @@ public class WelcomeActivity extends AppCompatActivity {
             proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
 
             Intent intent = MapActivity.launchIntentMap(WelcomeActivity.this);
-            intent.putExtra("token", token);
-            intent.putExtra("email", data[1]);
             startActivity(intent);
             finish();
         }
