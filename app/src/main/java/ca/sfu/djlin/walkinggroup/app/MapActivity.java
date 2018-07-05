@@ -144,13 +144,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
         token = preferences.getString("Token", null);
+        currentUserEmail = preferences.getString("Email", null);
 
-        // token=intent.getStringExtra("token");
+        // Build new proxy
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
 
-        currentUserEmail = preferences.getString("Email", null);
-        //Toast.makeText(getApplicationContext(), token, Toast.LENGTH_SHORT).show();
-        setupimgaeview();
+        setupImageView();
 
     }
 
@@ -296,7 +295,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
     }
 
-    private void setupimgaeview() {
+    private void setupImageView() {
         ImageView mPlaceMarker = findViewById(R.id.marker);
         mPlaceMarker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -315,12 +314,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return super.onCreateOptionsMenu(menu);
     }
 
-    //action bar preference button
+    // Action bar preference button
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //checking id
-        if(item.getItemId()==R.id.settings){
-            Intent pass_intent=PreferencesActivity.launchIntentPreferences(MapActivity.this);
+        // Checking id
+        if(item.getItemId() == R.id.settings){
+            Intent pass_intent = PreferencesActivity.launchIntentPreferences(MapActivity.this);
 
             SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
             token = preferences.getString("Token", null);
