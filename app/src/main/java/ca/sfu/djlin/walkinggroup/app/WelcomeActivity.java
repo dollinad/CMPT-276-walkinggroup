@@ -28,6 +28,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
     // Used for checking correct version of Google Play Services
     private static final int ERROR_DIALOG_REQUEST = 9001;
+    public static final int REQUEST_CODE_LAUNCH_SIGNUP = 1111;
+    public static final int REQUEST_CODE_LAUNCH_LOGIN = 1112;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -37,16 +39,14 @@ public class WelcomeActivity extends AppCompatActivity {
         // Build the server proxy
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey));
 
-        // Setup buttons
-        setupSignup();
-        setupLogin();
-
-        // Check user session
-        isUserLoggedIn();
-
         // Check for Google Play Services
         if (isServicesOK()) {
-            init();
+            // Setup buttons
+            setupSignup();
+            setupLogin();
+
+            // Check user session
+            isUserLoggedIn();
         }
     }
 
@@ -64,7 +64,7 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent signupIntent = SignupActivity.launchIntentSignup(WelcomeActivity.this);
-                startActivity(signupIntent);
+                startActivityForResult(signupIntent, REQUEST_CODE_LAUNCH_SIGNUP);
             }
         });
     }
@@ -83,18 +83,7 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent loginIntent = LoginActivity.LaunchIntent_login(WelcomeActivity.this);
-                startActivity(loginIntent);
-            }
-        });
-    }
-
-    private void init () {
-        Button button = (Button) findViewById(R.id.button);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(WelcomeActivity.this, MapActivity.class);
-                startActivity(intent);
+                startActivityForResult(loginIntent, REQUEST_CODE_LAUNCH_LOGIN);
             }
         });
     }
@@ -144,12 +133,26 @@ public class WelcomeActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "You can't make map requests!", Toast.LENGTH_SHORT).show();
         }
-
         return false;
     }
 
     public static Intent launchWelcomeIntent (Context context) {
         Intent intent = new Intent(context, WelcomeActivity.class);
         return intent;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // If the user already has a token, exit the application
+        if(requestCode == REQUEST_CODE_LAUNCH_SIGNUP || requestCode == REQUEST_CODE_LAUNCH_LOGIN) {
+            SharedPreferences preferences = getSharedPreferences("User Session", MODE_PRIVATE);
+            String[] returnedData = new String[1];
+            returnedData[0] = preferences.getString("Token", null);
+            if (returnedData[0] != null) {
+                finish();
+            }
+        }
     }
 }
