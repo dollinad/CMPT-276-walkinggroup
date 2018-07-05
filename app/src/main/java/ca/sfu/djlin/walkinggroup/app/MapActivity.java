@@ -50,7 +50,6 @@ import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 
-import static ca.sfu.djlin.walkinggroup.app.SignupActivity.hideKeyboard;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
@@ -85,7 +84,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
             // Enable zoom controls
             mMap.getUiSettings().setZoomControlsEnabled(true);
-            // Disable Map Toolbar:
+            // Disable Map Toolbar
             mMap.getUiSettings().setMapToolbarEnabled(false);
 
 
@@ -127,11 +126,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         getLocationPermission();
 
-        //geting Intent
-        Intent intent=getIntent();
-        token=intent.getStringExtra("token");
-        proxy= ProxyBuilder.getProxy(getString(R.string.apikey),token);
-        CurrentUserEmail=intent.getStringExtra("email");
+
+        SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
+        token = preferences.getString("Token", null);
+
+        // token=intent.getStringExtra("token");
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey),token);
+
+        CurrentUserEmail = preferences.getString("Email", null);
         //Toast.makeText(getApplicationContext(), token, Toast.LENGTH_SHORT).show();
         setupimgaeview();
     }
@@ -171,12 +173,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-
-
     private void logout() {
+        Log.d(TAG, "logout: Attempting to logout...");
         Intent intent = WelcomeActivity.launchWelcomeIntent(MapActivity.this);
 
-        SharedPreferences preferences = this.getSharedPreferences("Token" , MODE_PRIVATE);
+        SharedPreferences preferences = this.getSharedPreferences("User Session" , MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove("Token");
         editor.remove("Email");
@@ -187,7 +188,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void init() {
-        Log.d("TAG", "init: initializing");
+        Log.d(TAG, "init: initializing");
 
         mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -257,8 +258,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                Intent intentTemp=getIntent();
-                token=intentTemp.getStringExtra("token");
+                // Intent intentTemp=getIntent();
+                // token=intentTemp.getStringExtra("token");
                 Intent intent=new Intent(MapActivity.this, CreateGroup.class);
                 intent.putExtra("lag",latLng.latitude);
                 intent.putExtra("lng",latLng.longitude);

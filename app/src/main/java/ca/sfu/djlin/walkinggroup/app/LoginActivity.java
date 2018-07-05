@@ -56,14 +56,14 @@ public class LoginActivity extends AppCompatActivity {
 
     private void setUpIcons() {
         // Setting user icon
-        EditText loginEmail = findViewById(R.id.login_email);
+        EditText loginEmail = findViewById(R.id.email_input);
         Drawable drawableLoginEmail = getResources().getDrawable(R.drawable.user_icon);
         drawableLoginEmail.setBounds(0,0, (int) (drawableLoginEmail.getIntrinsicHeight() * 0.10),
                 (int)(drawableLoginEmail.getIntrinsicHeight()*0.101));
         loginEmail.setCompoundDrawables(drawableLoginEmail, null, null, null);
 
         // Setting password icon
-        EditText loginPassword = findViewById(R.id.login_password);
+        EditText loginPassword = findViewById(R.id.password_input);
         Drawable drawablePassword = getResources().getDrawable(R.drawable.password);
         drawablePassword.setBounds(0,0, (int) (drawablePassword.getIntrinsicHeight() * 0.05),
                 (int)(drawablePassword.getIntrinsicHeight() * 0.05));
@@ -101,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setupLogin() {
-        EditText userEmail = findViewById(R.id.login_email);
+        EditText userEmail = findViewById(R.id.email_input);
         userEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -111,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText userEmail = findViewById(R.id.login_email);
+                EditText userEmail = findViewById(R.id.email_input);
                 userEmailString = userEmail.getText().toString();
             }
         });
@@ -140,7 +140,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        EditText userPassword = findViewById(R.id.login_password);
+        EditText userPassword = findViewById(R.id.password_input);
         userPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -150,7 +150,7 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText userPassword = findViewById(R.id.login_password);
+                EditText userPassword = findViewById(R.id.password_input);
                 userPasswordString = userPassword.getText().toString();
             }
         });
@@ -194,17 +194,6 @@ public class LoginActivity extends AppCompatActivity {
                 // Finish the login process
                 Call<Void> caller = proxy.login(user);
                 ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing));
-
-                // START: TO-DO REMOVE THIS ... USED FOR TESTING WHILE SERVER IS DOWN
-                SharedPreferences preferences = LoginActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("Token", "JUST A TEMPORARY TOKEN");
-                editor.apply();
-
-                Intent mapIntent = MapActivity.launchIntentMap(LoginActivity.this);
-                startActivity(mapIntent);
-                finish();
-                // END: TO-DO REMOVE THIS ... USED FOR TESTING WHILE SERVER IS DOWN
             }
         });
     }
@@ -214,8 +203,8 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "onReceiveToken: I just received the token " + newToken);
 
         // Save token using Shared Preferences
-        token_use=newToken;
-        saveToken(newToken);
+        // token_use=newToken;
+        saveUserInformation(newToken);
         // Rebuild the proxy with updated token
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), newToken);
     }

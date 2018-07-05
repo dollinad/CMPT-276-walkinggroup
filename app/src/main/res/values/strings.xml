@@ -9,7 +9,9 @@
     <!-- Signup / Log in Activities-->
     <string name="signup">Sign Up</string>
     <string name="name">Name</string>
+    <string name="name_hint">Jane Doe</string>
     <string name="email">Email</string>
+    <string name="email_hint">jane@example.com</string>
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="walking_group">WALKING GROUP</string>
