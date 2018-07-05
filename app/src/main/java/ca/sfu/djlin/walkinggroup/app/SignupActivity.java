@@ -235,9 +235,8 @@ public class SignupActivity extends AppCompatActivity {
 
                 // Check that passwords match
                 if (!userPasswordString.equals(userConfirmPasswordString)) {
-                    Log.d(TAG, "User password: " + userPasswordString);
-                    Log.d(TAG, "User confirm password: " + userConfirmPasswordString);
-                    Toast.makeText(SignupActivity.this, "Please check your passwords!", Toast.LENGTH_SHORT).show();
+                    String checkPasswords = getResources().getString(R.string.check_passwords);
+                    Toast.makeText(SignupActivity.this, checkPasswords, Toast.LENGTH_SHORT).show();
                 } else {
                     // Make call to server
                     Call<User> caller = proxy.createUser(user);
