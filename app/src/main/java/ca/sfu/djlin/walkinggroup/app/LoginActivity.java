@@ -150,6 +150,7 @@ public class LoginActivity extends AppCompatActivity {
     // Handle the token by generating a new Proxy which is encoded with it.
     private void onReceiveToken(String newToken) {
         // Save token using Shared Preferences
+        token_use=newToken;
         saveToken(newToken);
         // Rebuild the proxy with updated token
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), newToken);

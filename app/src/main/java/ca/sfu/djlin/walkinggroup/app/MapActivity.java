@@ -174,13 +174,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void logout() {
         Intent intent = WelcomeActivity.launchWelcomeIntent(MapActivity.this);
-        startActivity(intent);
-        SharedPreferences preferences = this.getSharedPreferences("User Session" , MODE_PRIVATE);
+
+        SharedPreferences preferences = this.getSharedPreferences("Token" , MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove("Token");
         editor.remove("Email");
         editor.remove("User Id");
         editor.apply();
+        startActivity(intent);
         finish();
     }
 

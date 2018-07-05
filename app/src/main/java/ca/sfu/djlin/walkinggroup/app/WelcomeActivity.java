@@ -111,6 +111,8 @@ public class WelcomeActivity extends AppCompatActivity {
             proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
 
             Intent intent = MapActivity.launchIntentMap(WelcomeActivity.this);
+            intent.putExtra("token",token);
+            intent.putExtra("email",data[1]);
             startActivity(intent);
             finish();
         }
@@ -118,7 +120,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     // Getting the data token and email using Shared Preferences
     private String[] getData(Context context) {
-        SharedPreferences preferences = getSharedPreferences("User Session", MODE_PRIVATE);
+        SharedPreferences preferences = getSharedPreferences("Token", MODE_PRIVATE);
 
         // Store values and return it
         String[] returnedData = new String[3];
