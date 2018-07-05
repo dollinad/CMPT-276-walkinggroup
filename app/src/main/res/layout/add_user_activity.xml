@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:clickable="true"
+    android:focusableInTouchMode="true">
 
     <TextView
         android:id="@+id/heading"
@@ -43,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:hint="@string/name"
+            android:hint="@string/name_hint"
             android:inputType="textPersonName"
             android:imeOptions="actionDone"/>
 
@@ -61,7 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="12dp"
-            android:hint="@string/email"
+            android:hint="@string/email_hint"
             android:inputType="textEmailAddress"
             android:imeOptions="actionDone"/>
 
@@ -104,8 +106,8 @@
 
     <Button
         android:id="@+id/create_account"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="51dp"
         android:text="@string/signup"
         app:layout_constraintTop_toBottomOf="@id/linear_layout_input"
         app:layout_constraintLeft_toLeftOf="parent"

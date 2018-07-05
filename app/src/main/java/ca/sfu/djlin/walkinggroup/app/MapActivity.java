@@ -47,9 +47,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.R;
+import ca.sfu.djlin.walkinggroup.Utilities;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 
-import static ca.sfu.djlin.walkinggroup.app.SignupActivity.hideKeyboard;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
@@ -84,13 +84,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             mMap.getUiSettings().setMyLocationButtonEnabled(false);
             // Enable zoom controls
             mMap.getUiSettings().setZoomControlsEnabled(true);
-            // Disable Map Toolbar:
+            // Disable Map Toolbar
             mMap.getUiSettings().setMapToolbarEnabled(false);
 
 
             // Initialize search box listeners
             init();
         }
+
+        // Need to check ordering for this
+        SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
+        token = preferences.getString("Token", null);
+        CurrentUserEmail = preferences.getString("Email", null);
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey),token);
+        // End need to check order for this
 
         createGroup();
         setGroupMarker();
@@ -126,13 +133,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         getLocationPermission();
 
-        //geting Intent
-        Intent intent=getIntent();
-        token=intent.getStringExtra("token");
-        proxy= ProxyBuilder.getProxy(getString(R.string.apikey),token);
-        CurrentUserEmail=intent.getStringExtra("email");
+
+        SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
+        token = preferences.getString("Token", null);
+
+        // token=intent.getStringExtra("token");
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey),token);
+
+        CurrentUserEmail = preferences.getString("Email", null);
         //Toast.makeText(getApplicationContext(), token, Toast.LENGTH_SHORT).show();
         setupimgaeview();
+
     }
 
     public void setGroupMarker(){
@@ -170,12 +181,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     }
 
-
-
     private void logout() {
+        Log.d(TAG, "logout: Attempting to logout...");
         Intent intent = WelcomeActivity.launchWelcomeIntent(MapActivity.this);
 
-        SharedPreferences preferences = this.getSharedPreferences("Token" , MODE_PRIVATE);
+        SharedPreferences preferences = this.getSharedPreferences("User Session" , MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove("Token");
         editor.remove("Email");
@@ -186,7 +196,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void init() {
-        Log.d("TAG", "init: initializing");
+        Log.d(TAG, "init: initializing");
 
         mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -197,24 +207,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         || actionId == EditorInfo.IME_ACTION_DONE
                         || keyEvent.getAction() == KeyEvent.ACTION_DOWN
                         || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
-
-                    /*  Debugging code
-                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                        Toast.makeText(MapActivity.this, "actionId == EditorInfo.IMO_ACTION_SEARCH", Toast.LENGTH_SHORT).show();
-                    }
-                    if (actionId == EditorInfo.IME_ACTION_DONE) {
-                        Toast.makeText(MapActivity.this, "actionId == EditorInfo.IME_ACTION_DONE", Toast.LENGTH_SHORT).show();
-                    }
-                    if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                        Toast.makeText(MapActivity.this, "keyEvent.getAction() == KeyEvent.ACTION_DOWN", Toast.LENGTH_SHORT).show();
-                    }
-                    if (keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
-                        Toast.makeText(MapActivity.this, "keyEvent.getAction() == KeyEvent.KEYCODE_ENTER", Toast.LENGTH_SHORT).show();
-                    }
-
-                    Log.i(TAG, "The actionId is: " + actionId);
-                    Log.i(TAG, "The keyEvent is: " + keyEvent);
-                    */
 
                     mSearchText.clearFocus();
                     geoLocate();
@@ -233,7 +225,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
 
         // Hides keyboard
-        hideKeyboard(MapActivity.this);
+        Utilities.hideKeyboard(MapActivity.this);
 
     }
 
@@ -274,8 +266,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                Intent intentTemp=getIntent();
-                token=intentTemp.getStringExtra("token");
+                // Intent intentTemp=getIntent();
+                // token=intentTemp.getStringExtra("token");
                 Intent intent=new Intent(MapActivity.this, CreateGroup.class);
                 intent.putExtra("lag",latLng.latitude);
                 intent.putExtra("lng",latLng.longitude);
@@ -314,9 +306,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
     }
 
-
-
-
     //function for action bar
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -331,13 +320,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         //checking id
         if(item.getItemId()==R.id.settings){
             Intent pass_intent=PreferencesActivity.launchIntentPreferences(MapActivity.this);
+
+            SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
+            token = preferences.getString("Token", null);
+            CurrentUserEmail = preferences.getString("Email", null);
+
             pass_intent.putExtra("token", token);
             pass_intent.putExtra("email", CurrentUserEmail);
             startActivity(pass_intent);
         }
         return super.onOptionsItemSelected(item);
     }
-
 
     private void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: getting device location");
@@ -366,7 +359,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         } catch (SecurityException e) {
             Log.e(TAG, "getDeviceLocation: Security Exception: " + e.getMessage());
         }
-
     }
 
     private void moveCamera(LatLng latLng, float zoom, String title) {
@@ -383,7 +375,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
 
         // Hides keyboard
-        hideKeyboard(MapActivity.this);
+        Utilities.hideKeyboard(MapActivity.this);
     }
 
     private void getLocationPermission() {
@@ -437,16 +429,5 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
             }
         }
-    }
-
-    public static void hideKeyboard(Activity activity) {
-        InputMethodManager imm = (InputMethodManager) activity.getSystemService(Activity.INPUT_METHOD_SERVICE);
-        //Find the currently focused view, so we can grab the correct window token from it.
-        View view = activity.getCurrentFocus();
-        //If no view currently has focus, create a new one, just so we can grab a window token from it
-        if (view == null) {
-            view = new View(activity);
-        }
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }

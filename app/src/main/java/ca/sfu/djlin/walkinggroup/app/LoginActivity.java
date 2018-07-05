@@ -10,14 +10,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.R;
+import ca.sfu.djlin.walkinggroup.Utilities;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
@@ -52,14 +56,14 @@ public class LoginActivity extends AppCompatActivity {
 
     private void setUpIcons() {
         // Setting user icon
-        EditText loginEmail = findViewById(R.id.login_email);
+        EditText loginEmail = findViewById(R.id.email_input);
         Drawable drawableLoginEmail = getResources().getDrawable(R.drawable.user_icon);
         drawableLoginEmail.setBounds(0,0, (int) (drawableLoginEmail.getIntrinsicHeight() * 0.10),
                 (int)(drawableLoginEmail.getIntrinsicHeight()*0.101));
         loginEmail.setCompoundDrawables(drawableLoginEmail, null, null, null);
 
         // Setting password icon
-        EditText loginPassword = findViewById(R.id.login_password);
+        EditText loginPassword = findViewById(R.id.password_input);
         Drawable drawablePassword = getResources().getDrawable(R.drawable.password);
         drawablePassword.setBounds(0,0, (int) (drawablePassword.getIntrinsicHeight() * 0.05),
                 (int)(drawablePassword.getIntrinsicHeight() * 0.05));
@@ -97,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void setupLogin() {
-        EditText userEmail = findViewById(R.id.login_email);
+        EditText userEmail = findViewById(R.id.email_input);
         userEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -107,12 +111,36 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText userEmail = findViewById(R.id.login_email);
+                EditText userEmail = findViewById(R.id.email_input);
                 userEmailString = userEmail.getText().toString();
             }
         });
 
-        EditText userPassword = findViewById(R.id.login_password);
+        // Hide keyboard when is done typing
+        userEmail.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    Utilities.hideKeyboard(LoginActivity.this);
+                }
+                return false;
+            }
+        });
+
+        // Hide keyboard on focus change
+        userEmail.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    Utilities.hideKeyboardFocus(LoginActivity.this, view);
+                }
+            }
+        });
+
+        EditText userPassword = findViewById(R.id.password_input);
         userPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -122,8 +150,32 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText userPassword = findViewById(R.id.login_password);
+                EditText userPassword = findViewById(R.id.password_input);
                 userPasswordString = userPassword.getText().toString();
+            }
+        });
+
+        // Hide keyboard when is done typing
+        userPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    Utilities.hideKeyboard(LoginActivity.this);
+                }
+                return false;
+            }
+        });
+
+        // Hide keyboard on focus change
+        userPassword.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    Utilities.hideKeyboardFocus(LoginActivity.this, view);
+                }
             }
         });
 
@@ -142,17 +194,6 @@ public class LoginActivity extends AppCompatActivity {
                 // Finish the login process
                 Call<Void> caller = proxy.login(user);
                 ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing));
-
-                // START: TO-DO REMOVE THIS ... USED FOR TESTING WHILE SERVER IS DOWN
-                SharedPreferences preferences = LoginActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putString("Token", "JUST A TEMPORARY TOKEN");
-                editor.apply();
-
-                Intent mapIntent = MapActivity.launchIntentMap(LoginActivity.this);
-                startActivity(mapIntent);
-                finish();
-                // END: TO-DO REMOVE THIS ... USED FOR TESTING WHILE SERVER IS DOWN
             }
         });
     }
@@ -162,8 +203,8 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "onReceiveToken: I just received the token " + newToken);
 
         // Save token using Shared Preferences
-        token_use=newToken;
-        saveToken(newToken);
+        // token_use=newToken;
+        saveUserInformation(newToken);
         // Rebuild the proxy with updated token
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), newToken);
     }
