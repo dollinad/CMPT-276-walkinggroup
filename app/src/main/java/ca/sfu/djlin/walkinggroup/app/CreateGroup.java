@@ -101,11 +101,7 @@ public class CreateGroup extends AppCompatActivity {
 
                         ProxyBuilder.callProxy(CreateGroup.this, caller, returnedUser -> createGroupResponse(returnedUser));
 
-
                         Toast.makeText(CreateGroup.this,"group created",Toast.LENGTH_SHORT).show();
-                        /*Intent intent=new Intent(CreateGroup.this,MainActivity.class);
-                        startActivity(intent);
-                        */
                         setResult(Activity.RESULT_OK, intent_2);
                         finish();;
                     }
