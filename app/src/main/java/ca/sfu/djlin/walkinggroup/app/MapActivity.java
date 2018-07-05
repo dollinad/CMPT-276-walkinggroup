@@ -166,24 +166,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         || keyEvent.getAction() == KeyEvent.ACTION_DOWN
                         || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
 
-                    /*  Debugging code
-                    if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                        Toast.makeText(MapActivity.this, "actionId == EditorInfo.IMO_ACTION_SEARCH", Toast.LENGTH_SHORT).show();
-                    }
-                    if (actionId == EditorInfo.IME_ACTION_DONE) {
-                        Toast.makeText(MapActivity.this, "actionId == EditorInfo.IME_ACTION_DONE", Toast.LENGTH_SHORT).show();
-                    }
-                    if (keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
-                        Toast.makeText(MapActivity.this, "keyEvent.getAction() == KeyEvent.ACTION_DOWN", Toast.LENGTH_SHORT).show();
-                    }
-                    if (keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
-                        Toast.makeText(MapActivity.this, "keyEvent.getAction() == KeyEvent.KEYCODE_ENTER", Toast.LENGTH_SHORT).show();
-                    }
-
-                    Log.i(TAG, "The actionId is: " + actionId);
-                    Log.i(TAG, "The keyEvent is: " + keyEvent);
-                    */
-
                     mSearchText.clearFocus();
                     geoLocate();
                 }
