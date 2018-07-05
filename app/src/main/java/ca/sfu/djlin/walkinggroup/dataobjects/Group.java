@@ -24,14 +24,14 @@ public class Group extends IdItemBase{
 
     private String groupDescription;
 
-    //private Long leader;
+    //private Long leaderId;
 
     private List<Double> routeLatArray=new ArrayList();
     private List<Double> routeLngArray=new ArrayList();
 
 
 
-    //private List<User> users=new ArrayList();
+    //private List<User> memberOfGroups=new ArrayList();
 
 
 

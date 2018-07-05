@@ -113,18 +113,14 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
     private void response(List<Group> returnedGroups) {
-        System.out.println("test           4");
-
         notifyUserViaLogAndToast("Got list of " + returnedGroups.size() + " groups! See logcat.");
-        System.out.println("test           5");
-
         Log.i("aa", "All groups:");
-        System.out.println("test           6");
-
+        int i=0;
         for (Group group : returnedGroups) {
-            System.out.println("test           hh");
-
-            Log.i("aa", "    Groups: " + group.getGroupDescription());
+            double lat=group.getRouteLatArray().get(i);
+            double lng=group.getRouteLngArray().get(i);
+            LatLng latLng=new LatLng(lat,lng);
+           markers.add(mMap.addMarker(new MarkerOptions().position(latLng).title(group.getGroupDescription())));
         }
     }
 
