@@ -325,8 +325,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             token = preferences.getString("Token", null);
             currentUserEmail = preferences.getString("Email", null);
 
-            pass_intent.putExtra("token", token);
-            pass_intent.putExtra("email", currentUserEmail);
+            pass_intent.putExtra("Token", token);
+            pass_intent.putExtra("Email", currentUserEmail);
             startActivity(pass_intent);
         }
         return super.onOptionsItemSelected(item);
