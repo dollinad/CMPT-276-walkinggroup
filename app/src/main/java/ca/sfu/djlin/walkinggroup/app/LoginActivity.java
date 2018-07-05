@@ -91,7 +91,9 @@ public class LoginActivity extends AppCompatActivity {
         // Store values and return it
         String[] returnedData = new String[3];
         returnedData[0] = preferences.getString("Token", "");
+        System.out.println("zhuan"+returnedData[0]);
         returnedData[1] = preferences.getString("Email", "");
+        System.out.println("zhuan"+returnedData[1]);
         return returnedData;
     }
 

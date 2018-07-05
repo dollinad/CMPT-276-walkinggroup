@@ -101,8 +101,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
     private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
-    private static final float DEFAULT_ZOOM = 15f;
-    private static final int REQUEST_CODE_GETDATA=1024;
+    private static final float DEFAULT_ZOOM = 15f;;
 
     // Widgets
     private EditText mSearchText;
@@ -111,12 +110,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private Boolean mLocationPermissionsGranted = false;
     private GoogleMap mMap;
-
-    public List<Marker> markers= new ArrayList();
-    public LatLng latlng;
-
-    private WGServerProxy proxy;
-
     private GoogleApiClient mGoogleApiClient;
     private LatLng currentposition=new LatLng(0,0);
 
@@ -143,12 +136,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     public void setGroupMarker(){
-        System.out.println("test           1");
         Call<List<Group>> caller = proxy.getGroups();
-        System.out.println("test           2");
         ProxyBuilder.callProxy(MapActivity.this, caller, returnedGroups -> response(returnedGroups));
-        System.out.println("test           3");
-
 
         // Logout listener
         mLogout.setOnClickListener(new View.OnClickListener() {
@@ -158,6 +147,30 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
     }
+
+
+    private void response(List<Group> returnedGroups) {
+        notifyUserViaLogAndToast("Got list of " + returnedGroups.size() + " groups! See logcat.");
+        Log.i("aa", "All groups:");
+        int i=0;
+        for (Group group : returnedGroups) {
+            double lat=group.getRouteLatArray().get(i);
+            double lng=group.getRouteLngArray().get(i);
+            LatLng latLng=new LatLng(lat,lng);
+            markers.add(mMap.addMarker(new MarkerOptions().position(latLng).title(group.getGroupDescription())));
+        }
+    }
+
+    private void notifyUserViaLogAndToast(String message) {
+        System.out.println("test           7");
+
+        Log.i("aa", message);
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        System.out.println("test           8");
+
+    }
+
+
 
     private void logout() {
         Intent intent = WelcomeActivity.launchWelcomeIntent(MapActivity.this);
@@ -288,16 +301,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
         }
     }
-    /*
-        public void test2(){
-            mMap.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
-                @Override
-                public void onInfoWindowLongClick(Marker marker) {
-                    marker.remove();
-                }
-            });
-        }
-    */
+
     private void setupimgaeview() {
         ImageView mPlaceMarker = findViewById(R.id.marker);
         mPlaceMarker.setOnClickListener(new View.OnClickListener() {
@@ -308,32 +312,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
     }
-
-
-    private void response(List<Group> returnedGroups) {
-        notifyUserViaLogAndToast("Got list of " + returnedGroups.size() + " groups! See logcat.");
-        Log.i("aa", "All groups:");
-        int i=0;
-        for (Group group : returnedGroups) {
-            double lat=group.getRouteLatArray().get(i);
-            double lng=group.getRouteLngArray().get(i);
-            LatLng latLng=new LatLng(lat,lng);
-           markers.add(mMap.addMarker(new MarkerOptions().position(latLng).title(group.getGroupDescription())));
-        }
-    }
-
-    private void notifyUserViaLogAndToast(String message) {
-        System.out.println("test           7");
-
-        Log.i("aa", message);
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-        System.out.println("test           8");
-
-    }
-
-
-
-
 
 
 
@@ -359,65 +337,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return super.onOptionsItemSelected(item);
     }
 
-    public void createGroup(){
-        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                Intent intentTemp=getIntent();
-                token=intentTemp.getStringExtra("token");
-                Intent intent=new Intent(MapActivity.this, CreateGroup.class);
-                intent.putExtra("lag",latLng.latitude);
-                intent.putExtra("lng",latLng.longitude);
-                intent.putExtra("token",token);
-                intent.putExtra("email",CurrentUserEmail);
-                latlng=latLng;
-
-                startActivityForResult(intent,REQUEST_CODE_GETDATA);
-
-            }
-        });
-
-    }
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_CODE_GETDATA:
-                if(resultCode == Activity.RESULT_OK)
-                {
-                    String groupName = CreateGroup.getresult(data);
-                    Marker marker=mMap.addMarker(new MarkerOptions().position(latlng).title(groupName));
-                    markers.add(marker);
-                    System.out.println(markers.size());
-                    System.out.println(markers.get(0));
-
-                }
-                else
-                {
-                    Log.i("My app","Activity cancelled.");
-                }
-        }
-    }
-    /*
-        public void test2(){
-            mMap.setOnInfoWindowLongClickListener(new GoogleMap.OnInfoWindowLongClickListener() {
-                @Override
-                public void onInfoWindowLongClick(Marker marker) {
-                    marker.remove();
-                }
-            });
-        }
-    */
-    private void setupimgaeview() {
-        ImageView mPlaceMarker=findViewById(R.id.marker);
-        mPlaceMarker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=CreateGroup.makeintent(MapActivity.this);
-                startActivity(intent);
-            }
-        });
-    }
 
     private void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: getting device location");
