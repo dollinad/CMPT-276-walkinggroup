@@ -3,6 +3,7 @@ package ca.sfu.djlin.walkinggroup.app;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -31,7 +32,7 @@ public class CreateGroupActivity extends AppCompatActivity {
     LatLng latLng;
     private String token;
     Long id;
-
+    Group group=new Group();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,9 +77,10 @@ public class CreateGroupActivity extends AppCompatActivity {
                 btn_confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        proxy = ProxyBuilder.getProxy(getString(R.string.apikey),token);
                         Intent intent=getIntent();
                         latLng=new LatLng(intent.getDoubleExtra("lag",0),intent.getDoubleExtra("lng",0));
-                        Group group=new Group();
+
                         group.setGroupDescription(name);
                         List<Double> lat=new ArrayList();
                         lat.add(latLng.latitude);
@@ -92,6 +94,7 @@ public class CreateGroupActivity extends AppCompatActivity {
                         Call<User> calleruser= proxy.getUserByEmail(email);
                         ProxyBuilder.callProxy(CreateGroupActivity.this,calleruser, returnuser -> createResponse(returnuser));
                         System.out.println("end call");
+
                        // group.setLeader(id);
                         Intent intent_2=new Intent();
                         intent_2.putExtra("groupName",name);
@@ -117,6 +120,12 @@ public class CreateGroupActivity extends AppCompatActivity {
        returnuser.toString();
         System.out.println("end response");
        id=returnuser.getId();
+        List<Long> users=new ArrayList();
+        //User user=new User();
+        //user.setId(id);
+        users.add(id);
+        group.setMemberOfGroups(users);
+        group.toString();
        System.out.println("the id is "+id);
     }
     private void createGroupResponse(Group group) {

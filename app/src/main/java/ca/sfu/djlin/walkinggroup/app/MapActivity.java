@@ -269,6 +269,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 intent.putExtra("lag",latLng.latitude);
                 intent.putExtra("lng",latLng.longitude);
                 intent.putExtra("token",token);
+                intent.putExtra("email",CurrentUserEmail);
                 latlng=latLng;
 
                 startActivityForResult(intent,REQUEST_CODE_GETDATA);
