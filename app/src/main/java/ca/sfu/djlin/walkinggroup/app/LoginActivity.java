@@ -193,6 +193,18 @@ public class LoginActivity extends AppCompatActivity {
 
     // Login actually completes by calling this; nothing to do as it was all done when we got the token.
     private void response(Void returnedNothing) {
+        // Retrieve user id
+        Call<User> call = proxy.getUserByEmail(userEmailString);
+        ProxyBuilder.callProxy(LoginActivity.this, call, returnedUser -> getUserIdResponse(returnedUser));
+    }
+
+    private void getUserIdResponse(User user) {
+        // Store returned user id in shared preferences
+        SharedPreferences preferences = LoginActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putLong("User Id", user.getId());
+        editor.apply();
+
         // Launch the Maps Activity
         Intent intent = MapActivity.launchIntentMap(LoginActivity.this);
         startActivity(intent);

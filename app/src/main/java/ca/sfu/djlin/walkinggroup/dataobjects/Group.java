@@ -19,10 +19,28 @@ import ca.sfu.djlin.walkinggroup.model.User;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Group extends IdItemBase{
 
+    // Start Daniel's Testing Playground
+    private Long id;
 
+    @Override
+    public Long getId() {
+        return id;
+    }
 
+    @Override
+    public void setId(Long id) {
+        this.id = id;
+    }
+    // End Daniel's Testing Playground
 
     private String groupDescription;
+
+    public void setGroupDescription(String groupDescription){
+        this.groupDescription=groupDescription;
+    }
+    public String getGroupDescription(){
+        return groupDescription;
+    }
 
     //private Long leaderId;
 
@@ -39,8 +57,8 @@ public class Group extends IdItemBase{
     //public void addUser(User user){
     //    users.add(user);
     //}
-    public void setGroupDescription(String groupDescription){this.groupDescription=groupDescription;}
-    public String getGroupDescription(){return groupDescription;}
+
+
     //public User getUser(int index){return users.get(index);}
     public void setRouteLatArray(List<Double> latArray){
 

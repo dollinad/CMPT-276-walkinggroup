@@ -47,11 +47,18 @@
         <activity android:name=".app.LoginActivity" />
 
         <!-- TEMPORARY CHECK // TO BE REMOVED BEFORE SUBMISSION // -->
-        <activity android:name="ca.sfu.djlin.walkinggroup.app.check"/>
+        <activity android:name=".app.check" />
 
-        <!--Preferences Activity-->
-        <activity android:name="ca.sfu.djlin.walkinggroup.app.PreferencesActivity"/>
-        <activity android:name=".app.CreateGroupActivity" />
+        <!-- Preferences Activity -->
+        <activity
+            android:name=".app.PreferencesActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".app.CreateGroupActivity"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".app.GroupInfoActivity"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>
