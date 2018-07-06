@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -47,7 +48,22 @@ public class GroupInfoActivity extends AppCompatActivity {
 
         // Send a request to retrieve group information
         Call<Group> call = proxy.getGroupById(groupId);
-        ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedGroupInfo -> testResponse(returnedGroupInfo));
+        ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedGroupInfo -> retrieveGroupInfo(returnedGroupInfo));
+
+        // Setup remove user button
+        Button removeUserBtn = (Button) findViewById(R.id.remove_user_btn);
+        removeUserBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Get input string
+                String removeUserEmail;
+                EditText removeUserEmailInput = (EditText) findViewById(R.id.remove_user_input);
+                removeUserEmail = removeUserEmailInput.getText().toString();
+
+                Call<Group> call = proxy.getGroupById(groupId);
+                ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedGroupInfo -> isLeaderResponse(returnedGroupInfo));
+            }
+        });
 
         // Setup join group button
         Button joinGroupBtn = (Button) findViewById(R.id.join_group_btn);
@@ -72,12 +88,24 @@ public class GroupInfoActivity extends AppCompatActivity {
         });
     }
 
-    private void testResponse(Group group) {
-        Log.d(TAG, "testResponse: ");
+    private void retrieveGroupInfo(Group group) {
+        Log.d(TAG, "retrieveGroupInfo: ");
         ArrayList<User> listOfMembers = group.getMemberUsers();
 
         for (int i = 0; i < listOfMembers.size(); i++) {
             Log.d(TAG, "User Id" + listOfMembers.get(i).getId());
+        }
+    }
+
+    private void isLeaderResponse(Group group) {
+        Log.d(TAG, "isLeaderResponse: the leader of this group is: " + group.getLeader().getId());
+
+        // Determine if removal of member is allowed
+        if (currentUserId.equals(group.getLeader().getId())) {
+            // Proceed to remove user
+            Log.d(TAG, "I AM THE LEADER MUHAHAHAHA");
+        } else {
+            Log.d(TAG, "Check your privileges!!");
         }
     }
 
