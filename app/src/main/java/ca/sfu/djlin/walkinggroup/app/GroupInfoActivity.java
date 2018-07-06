@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,8 +61,9 @@ public class GroupInfoActivity extends AppCompatActivity {
                 EditText removeUserEmailInput = (EditText) findViewById(R.id.remove_user_input);
                 removeUserEmail = removeUserEmailInput.getText().toString();
 
-                Call<Group> call = proxy.getGroupById(groupId);
-                ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedGroupInfo -> isLeaderResponse(returnedGroupInfo));
+                // First make a call to proxy to get the id of user to remove
+                Call<User> call = proxy.getUserByEmail(removeUserEmail);
+                ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedUserInfo -> retrieveUserByEmail(returnedUserInfo));
             }
         });
 
@@ -97,25 +99,37 @@ public class GroupInfoActivity extends AppCompatActivity {
         }
     }
 
-    private void isLeaderResponse(Group group) {
+    private void retrieveUserByEmail(User user) {
+        // Obtain id of user to delete
+        Long deleteUserId = user.getId();
+
+        // Check if the current user is the leader and delete user
+        Call<Group> call = proxy.getGroupById(groupId);
+        ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedGroupInfo -> isLeaderResponse(returnedGroupInfo, deleteUserId));
+
+    }
+
+    private void isLeaderResponse(Group group, Long deleteUserId) {
         Log.d(TAG, "isLeaderResponse: the leader of this group is: " + group.getLeader().getId());
 
         // Determine if removal of member is allowed
         if (currentUserId.equals(group.getLeader().getId())) {
             // Proceed to remove user
-            Log.d(TAG, "I AM THE LEADER MUHAHAHAHA");
+            Call<Void> call = proxy.removeGroupMember(groupId, deleteUserId);
+            ProxyBuilder.callProxy( GroupInfoActivity.this, call, returnedNothing -> deleteUserResponse(returnedNothing));
         } else {
-            Log.d(TAG, "Check your privileges!!");
+            // Let user know they are not the leader
+            Toast.makeText(GroupInfoActivity.this, GroupInfoActivity.this.getString(R.string.not_leader_toast), Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void retrieveCurrentUserId() {
-        SharedPreferences preferences = GroupInfoActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
-        currentUserId = preferences.getLong("User Id", 0);
+    private void deleteUserResponse (Void response) {
+        Toast.makeText(GroupInfoActivity.this, GroupInfoActivity.this.getString(R.string.user_deleted), Toast.LENGTH_SHORT).show();
     }
 
     private void userGroupAdd(User user) {
-        Log.d(TAG, "userGroupAdd: ");
+        Log.d(TAG, "userGroupAdd: The currentUserId is: " + currentUserId);
+
         // After getting current user info response, make a call to add the user number to the group
         Call<List<User>> call = proxy.addGroupMember(groupId, user);
         ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedListOfUsers -> addMemberResponse(returnedListOfUsers));
@@ -153,6 +167,11 @@ public class GroupInfoActivity extends AppCompatActivity {
 
         TextView title = (TextView) findViewById(R.id.group_description);
         title.setText(groupDescription);
+    }
+
+    private void retrieveCurrentUserId() {
+        SharedPreferences preferences = GroupInfoActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
+        currentUserId = preferences.getLong("User Id", 0);
     }
 
     private void retrieveIntentData() {

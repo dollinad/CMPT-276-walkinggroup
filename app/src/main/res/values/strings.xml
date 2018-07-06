@@ -37,4 +37,9 @@
     <string name="join_group">Join Group</string>
     <string name="leave_group">Leave Group</string>
     <string name="remove_user">Remove User</string>
+
+
+    <!-- Toast Messages -->
+    <string name="user_deleted">User Deleted</string>
+    <string name="not_leader_toast">You are not the leader!</string>
 </resources>
