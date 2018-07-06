@@ -50,9 +50,15 @@
         <activity android:name=".app.check" />
 
         <!-- Preferences Activity -->
-        <activity android:name=".app.PreferencesActivity" />
-        <activity android:name=".app.CreateGroupActivity" />
-        <activity android:name=".app.GroupInfoActivity"></activity>
+        <activity
+            android:name=".app.PreferencesActivity"
+            android:windowSoftInputMode="stateHidden" />
+        <activity
+            android:name=".app.CreateGroupActivity"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".app.GroupInfoActivity"
+            android:windowSoftInputMode="stateHidden"/>
     </application>
 
 </manifest>
