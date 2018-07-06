@@ -2,13 +2,14 @@
     <string name="app_name">Walking Group</string>
     <string name="title_activity_maps">Map</string>
 
-    <!--- API KEY !-->
+    <!--- API KEY -->
     <string name="apikey">BB23730A-C1B3-4B65-855E-C538EE7143FDC</string>
     <string name="settings">Settings</string>
 
+    <!-- Google Maps-->
     <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAstZSvx1HnOVI8YW4fIHpMJXx888wTInc</string>
 
-    <!-- Signup / Log in Activities-->
+    <!-- Signup / Log in Activities -->
     <string name="signup">Sign Up</string>
     <string name="signup_caps">SIGN UP</string>
     <string name="name">Name</string>
@@ -24,9 +25,16 @@
     <string name="login">Login</string>
     <string name="login_caps">LOGIN</string>
     <string name="check_passwords">Please check your password inputs!</string>
+
+    <!-- Preference Activity -->
     <string name="preferences">Preferences</string>
     <string name="monitor_add_user_label">Add User to Monitor</string>
     <string name="add_user">Add User</string>
     <string name="monitoring">Monitoring</string>
     <string name="monitored_by">Monitored By</string>
+
+    <!--Group Activities -->
+    <string name="join_group">Join Group</string>
+    <string name="leave_group">Leave Group</string>
+    <string name="remove_user">Remove User</string>
 </resources>
