@@ -45,4 +45,6 @@
     <string name="user_deleted_toast">User deleted!</string>
     <string name="not_leader_toast">You are not the leader!</string>
     <string name="group_members_label">Members of this group</string>
+    <string name="for_leaders_and_monitors">For Leaders and Monitors</string>
+    <string name="for_current_user">For current user</string>
 </resources>
