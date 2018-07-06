@@ -254,6 +254,9 @@ public class SignupActivity extends AppCompatActivity {
         // Register callback for token
         ProxyBuilder.setOnTokenReceiveCallback(token -> onReceiveToken(token));
 
+        // Save user information
+        saveUserInfo(user);
+
         // Create instance of user to use for login
         User createdUser = new User();
         createdUser.setEmail(userEmailString);
@@ -261,14 +264,7 @@ public class SignupActivity extends AppCompatActivity {
 
         // Finish the login process
         Call<Void> caller = proxy.login(createdUser);
-        saveUserInfo(user);
         ProxyBuilder.callProxy(SignupActivity.this, caller, returnedNothing -> response(returnedNothing));
-
-        // Save user information
-
-
-        // Launch map activity
-
     }
 
     // Save user information in Shared Preferences
@@ -305,10 +301,8 @@ public class SignupActivity extends AppCompatActivity {
         editor.apply();
     }
 
-    // Login actually completes by calling this; nothing to do as it was all done
-    // when we got the token.
+    // Login actually completes by calling this. Launch next activity after response
     private void response(Void returnedNothing) {
-        notifyUserViaLogAndToast("Server replied to login request (no content was expected).");
         launchMapActivity();
     }
 
