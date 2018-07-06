@@ -47,11 +47,12 @@
         <activity android:name=".app.LoginActivity" />
 
         <!-- TEMPORARY CHECK // TO BE REMOVED BEFORE SUBMISSION // -->
-        <activity android:name="ca.sfu.djlin.walkinggroup.app.check"/>
+        <activity android:name=".app.check" />
 
-        <!--Preferences Activity-->
-        <activity android:name="ca.sfu.djlin.walkinggroup.app.PreferencesActivity"/>
+        <!-- Preferences Activity -->
+        <activity android:name=".app.PreferencesActivity" />
         <activity android:name=".app.CreateGroupActivity" />
+        <activity android:name=".app.GroupInfoActivity"></activity>
     </application>
 
 </manifest>

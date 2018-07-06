@@ -42,6 +42,7 @@ import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.R;
@@ -77,6 +78,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private LatLng currentposition = new LatLng(0,0);
     private LatLng latlng;
     List<Marker> markers = new ArrayList();
+
+    // Create HashMap used for storing group ID
+    private HashMap<Marker, Long> mHashMap = new HashMap<Marker, Long>();
 
     // Proxy
     private WGServerProxy proxy;
@@ -122,6 +126,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         createGroup();
         setGroupMarker();
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener(){
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                // Obtain groupId
+                Long groupId = mHashMap.get(marker);
+                Log.d(TAG, "The groupId retrieved was: " + groupId);
+                
+                return true;
+            }
+        });
     }
 
     @Override
@@ -163,12 +178,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Log.d(TAG, "The current token is: " + token);
         notifyUserViaLogAndToast("Got list of " + returnedGroups.size() + " groups! See logcat.");
         Log.i("aa", "All groups:");
-        int i=0;
+        int i = 0;
         for (Group group : returnedGroups) {
             double lat=group.getRouteLatArray().get(i);
             double lng=group.getRouteLngArray().get(i);
             LatLng latLng=new LatLng(lat,lng);
-            markers.add(mMap.addMarker(new MarkerOptions().position(latLng).title(group.getGroupDescription())));
+
+            Log.d(TAG, "The type of groupID is: " + group.getId());
+            // Add marker to map
+            Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(group.getGroupDescription()));
+            // Add marker to list
+            markers.add(marker);
+            // Store marker in HashMap for onClick retrieval
+            mHashMap.put(marker, group.getId());
         }
     }
 
