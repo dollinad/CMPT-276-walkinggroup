@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.R;
@@ -46,7 +47,7 @@ public class GroupInfoActivity extends AppCompatActivity {
 
         // Send a request to retrieve group information
         Call<Group> call = proxy.getGroupById(groupId);
-        ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedGroupInfo -> groupInfoResponse(returnedGroupInfo));
+        ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedGroupInfo -> testResponse(returnedGroupInfo));
 
         // Setup join group button
         Button joinGroupBtn = (Button) findViewById(R.id.join_group_btn);
@@ -69,6 +70,15 @@ public class GroupInfoActivity extends AppCompatActivity {
                 ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedUser -> userGroupDelete(returnedUser));
             }
         });
+    }
+
+    private void testResponse(Group group) {
+        Log.d(TAG, "testResponse: ");
+        ArrayList<User> listOfMembers = group.getMemberUsers();
+
+        for (int i = 0; i < listOfMembers.size(); i++) {
+            Log.d(TAG, "User Id" + listOfMembers.get(i).getId());
+        }
     }
 
     private void retrieveCurrentUserId() {
