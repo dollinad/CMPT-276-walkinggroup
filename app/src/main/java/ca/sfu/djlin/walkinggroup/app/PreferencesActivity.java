@@ -11,8 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,6 +26,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.R;
+import ca.sfu.djlin.walkinggroup.Utilities;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
@@ -72,8 +75,47 @@ public class PreferencesActivity extends AppCompatActivity {
         deleteMonitoredBy();
     }
 
+    private void deleteMonitors() {
+        ListView list = findViewById(R.id.monitoring_list);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d(TAG, "CLICKED");
+            }
+        });
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+                User userToRemove = monitorsUsers.get(position);
+                new AlertDialog.Builder(PreferencesActivity.this)
+                        .setMessage("Are you sure you want to remove this User?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
+                                Call<Void> caller = proxy.removeFromMonitorsUsers(currentUser.getId(), userToRemove.getId());
+                                ProxyBuilder.callProxy(PreferencesActivity.this, caller, returnNothing-> response(returnNothing, position));
+                            }
+                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                        startActivity(getIntent());
+                    }
+                }).show();
+                return false;
+            }
+        });
+    }
+
     private void deleteMonitoredBy() {
         ListView list = findViewById(R.id.monitored_by_list);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                Log.d(TAG, "CLICKED2");
+            }
+        });
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -103,33 +145,6 @@ public class PreferencesActivity extends AppCompatActivity {
         currentUser.getMonitoredByUsers().remove(position);
         adapterMonitored.notifyDataSetChanged();
         monitoredBy();
-    }
-
-    private void deleteMonitors() {
-        ListView list = findViewById(R.id.monitoring_list);
-        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                User userToRemove = monitorsUsers.get(position);
-                new AlertDialog.Builder(PreferencesActivity.this)
-                        .setMessage("Are you sure you want to remove this User?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
-                                Call<Void> caller = proxy.removeFromMonitorsUsers(currentUser.getId(), userToRemove.getId());
-                                ProxyBuilder.callProxy(PreferencesActivity.this, caller, returnNothing-> response(returnNothing, position));
-                            }
-                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
-                        startActivity(getIntent());
-                    }
-                }).show();
-                return false;
-            }
-        });
     }
 
     private void response(Void returnedNothing, int position) {
@@ -177,6 +192,20 @@ public class PreferencesActivity extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
                 EditText userEmail = findViewById(R.id.addMonitoredUserInput);
                 userToAddEmail = userEmail.getText().toString();
+            }
+        });
+
+        // Hide keyboard when is done typing
+        userEmail.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    Utilities.hideKeyboard(PreferencesActivity.this);
+                }
+                return false;
             }
         });
 
