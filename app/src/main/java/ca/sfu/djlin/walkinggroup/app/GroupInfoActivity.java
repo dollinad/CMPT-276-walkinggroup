@@ -31,21 +31,25 @@ public class GroupInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_info);
 
-        // Retrieve information from intent
-        Intent intent = getIntent();
-        groupId = intent.getLongExtra("groupId", 0);
-        token = intent.getStringExtra("token");
+        retrieveIntentData();
 
         // Set up our proxy
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
 
         // Send a request to retrieve group information
         Call<Group> call = proxy.getGroupById(groupId);
-        ProxyBuilder.callProxy(GroupInfoActivity.this, call, returned -> groupInfoResponse(returned));
+        ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedGroupInfo -> groupInfoResponse(returnedGroupInfo));
     }
 
     private void groupInfoResponse (Group group) {
 
+    }
+
+    private void retrieveIntentData() {
+        // Retrieve information from intent
+        Intent intent = getIntent();
+        groupId = intent.getLongExtra("groupId", 0);
+        token = intent.getStringExtra("token");
     }
 
     public static Intent launchGroupInfoIntent (Context context) {

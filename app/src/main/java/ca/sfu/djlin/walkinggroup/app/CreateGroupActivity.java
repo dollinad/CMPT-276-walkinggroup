@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -27,6 +28,9 @@ import retrofit2.Call;
 
 public class CreateGroupActivity extends AppCompatActivity {
 
+    // Constants
+    public static final String TAG = "CreateGroup";
+
     private WGServerProxy proxy;
     LatLng latLng;
     private String token;
@@ -37,13 +41,16 @@ public class CreateGroupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_group);
 
-        Intent intent=getIntent();
-        token=intent.getStringExtra("token");
+        // Retrieve data from intent
+        Intent intent = getIntent();
+        token = intent.getStringExtra("token");
 
+        // Set up proxy
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey),token);
+
+        // Set up create group button
         setup_create();
         setupbtn_back();
-
     }
 
     private void setupbtn_back() {
@@ -90,41 +97,41 @@ public class CreateGroupActivity extends AppCompatActivity {
                         System.out.println(email);
                         System.out.println("start call");
                         Call<User> calleruser= proxy.getUserByEmail(email);
-                        ProxyBuilder.callProxy(CreateGroupActivity.this,calleruser, returnuser -> createResponse(returnuser));
+                        ProxyBuilder.callProxy(CreateGroupActivity.this,calleruser, returnedUser -> createResponse(returnedUser));
                         System.out.println("end call");
-                       // group.setLeader(id);
-                        Intent intent_2=new Intent();
-                        intent_2.putExtra("groupName",name);
+                        // group.setLeader(id);
 
                         Call<Group> caller = proxy.createGroup(group);
-
-                        ProxyBuilder.callProxy(CreateGroupActivity.this, caller, returnedUser -> createGroupResponse(returnedUser));
-
-                        Toast.makeText(CreateGroupActivity.this,"group created",Toast.LENGTH_SHORT).show();
-                        setResult(Activity.RESULT_OK, intent_2);
-                        finish();;
+                        ProxyBuilder.callProxy(CreateGroupActivity.this, caller, returnedGroup -> createGroupResponse(returnedGroup));
                     }
                 });
-
             }
         });
 
     }
 
-    private void createResponse(User returnuser){
+    private void createResponse(User returnedUser){
         System.out.println("start response");
         Toast.makeText(CreateGroupActivity.this,"Got users! See logcat.",Toast.LENGTH_LONG).show();
-       returnuser.toString();
+        returnedUser.toString();
         System.out.println("end response");
-       id=returnuser.getId();
-       System.out.println("the id is "+id);
+        id=returnedUser.getId();
+        System.out.println("the id is "+id);
     }
     private void createGroupResponse(Group group) {
-        //notifyUserViaLogAndToast("Server replied with user: " + user.toString());
+        Log.d(TAG, "createGroupResponse: ");
 
-        // Returned information
+        // Define variables to store
         Long groupId = group.getId();
-        String groupName = group.getGroupDescription();
+        String groupDescription = group.getGroupDescription();
+
+        // Store information in intent
+        Intent intent = new Intent();
+        intent.putExtra("groupId", groupId);
+        intent.putExtra("groupName", groupDescription);
+
+        setResult(Activity.RESULT_OK, intent);
+        finish();
     }
     public static Intent makeintent(Context context){
         Intent intent =new Intent(context, CreateGroupActivity.class);
@@ -132,7 +139,6 @@ public class CreateGroupActivity extends AppCompatActivity {
     }
     public static String getresult(Intent intent){
         return intent.getStringExtra("groupName");
-
     }
 
 }

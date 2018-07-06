@@ -35,6 +35,13 @@ public class Group extends IdItemBase{
 
     private String groupDescription;
 
+    public void setGroupDescription(String groupDescription){
+        this.groupDescription=groupDescription;
+    }
+    public String getGroupDescription(){
+        return groupDescription;
+    }
+
     //private Long leaderId;
 
     private List<Double> routeLatArray=new ArrayList();
@@ -50,8 +57,8 @@ public class Group extends IdItemBase{
     //public void addUser(User user){
     //    users.add(user);
     //}
-    public void setGroupDescription(String groupDescription){this.groupDescription=groupDescription;}
-    public String getGroupDescription(){return groupDescription;}
+
+
     //public User getUser(int index){return users.get(index);}
     public void setRouteLatArray(List<Double> latArray){
 

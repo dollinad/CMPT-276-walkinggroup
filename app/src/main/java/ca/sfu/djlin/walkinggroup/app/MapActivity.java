@@ -301,7 +301,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 intent.putExtra("token",token);
                 latlng=latLng;
 
-                startActivityForResult(intent,REQUEST_CODE_GETDATA);
+                startActivityForResult(intent, REQUEST_CODE_GETDATA);
             }
         });
     }
@@ -312,10 +312,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             case REQUEST_CODE_GETDATA:
                 if (resultCode == Activity.RESULT_OK) {
                     String groupName = CreateGroupActivity.getresult(data);
+                    Long groupId = data.getLongExtra("groupId", 0);
+
                     Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(groupName));
                     markers.add(marker);
-                    System.out.println(markers.size());
-                    System.out.println(markers.get(0));
+                    // System.out.println(markers.size());
+                    // System.out.println(markers.get(0));
+
+                    // Store marker in HashMap for onClick retrieval
+                    mHashMap.put(marker, groupId);
                 } else {
                     Log.i("My app", "Activity cancelled.");
                 }
