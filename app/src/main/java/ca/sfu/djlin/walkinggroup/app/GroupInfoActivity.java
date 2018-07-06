@@ -2,6 +2,7 @@ package ca.sfu.djlin.walkinggroup.app;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,9 +25,11 @@ public class GroupInfoActivity extends AppCompatActivity {
     public static final String TAG = "GroupInfoActivity";
 
     // Variables
+    private Long currentUserId;
     private Long groupId;
     private String token;
     private Group currentGroup;
+    private User user;
 
     private WGServerProxy proxy;
 
@@ -35,6 +38,7 @@ public class GroupInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_info);
 
+        retrieveCurrentUserId();
         retrieveIntentData();
 
         // Set up our proxy
@@ -49,7 +53,9 @@ public class GroupInfoActivity extends AppCompatActivity {
         joinGroupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                // Call proxy to retrieve current user
+                Call<User> call = proxy.getUserById(currentUserId);
+                ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedUser -> userGroupAdd(returnedUser));
             }
         });
 
@@ -58,9 +64,49 @@ public class GroupInfoActivity extends AppCompatActivity {
         leaveGroupBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                // Call proxy to retrieve current user
+                Call<User> call = proxy.getUserById(currentUserId);
+                ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedUser -> userGroupDelete(returnedUser));
             }
         });
+    }
+
+    private void retrieveCurrentUserId() {
+        SharedPreferences preferences = GroupInfoActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
+        currentUserId = preferences.getLong("User Id", 0);
+    }
+
+    private void userGroupAdd(User user) {
+        Log.d(TAG, "userGroupAdd: ");
+        // After getting current user info response, make a call to add the user number to the group
+        Call<List<User>> call = proxy.addGroupMember(groupId, user);
+        ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedListOfUsers -> addMemberResponse(returnedListOfUsers));
+    }
+
+    private void addMemberResponse(List<User> listOfUsers) {
+        // Log.d(TAG, "addMemberResponse: Displaying current members of the group: ");
+        // listOfUsers.toString(); - Doesn't work
+    }
+
+    private void userGroupDelete(User user) {
+        Log.d(TAG, "userGroupDelete: ");
+
+        // After getting current user info response, make a call to delete the user number from the group
+        Call<Void> call = proxy.removeGroupMember(groupId, user.getId());
+        ProxyBuilder.callProxy(GroupInfoActivity.this, call, response -> removeMemberResponse(response));
+    }
+
+    private void removeMemberResponse(Void response) {
+        Log.d(TAG, "removeMemberResponse: ");
+
+        // FOR TESTING PURPOSES, CHECK TO SEE WHO IS STILL IN THE GROUP
+        Call<List<User>> call = proxy.getGroupMembers(groupId);
+        ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedListOfUsers -> getGroupMembersResponse(returnedListOfUsers));
+    }
+
+    private void getGroupMembersResponse(List<User> listOfUsers) {
+        // Log.d(TAG, "getGroupMembersResponse: Displaying current members of the group: ");
+        // listOfUsers.toString(); - Doesn't work
     }
 
     private void groupInfoResponse (Group group) {
