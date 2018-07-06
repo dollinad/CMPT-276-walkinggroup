@@ -71,10 +71,6 @@ public class GroupInfoActivity extends AppCompatActivity {
         addUserBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Ok so first we need to find the id of the user that we are trying to remove
-                // Then we check that user is being monitored by us
-                // Once these conditions are met, add the user ot the group
-
                 // Get input string
                 String addUserEmail;
                 EditText addUserEmailInput = (EditText) findViewById(R.id.add_user_input);
@@ -98,7 +94,8 @@ public class GroupInfoActivity extends AppCompatActivity {
 
                 // First make a call to proxy to get the id of user to remove
                 Call<User> call = proxy.getUserByEmail(removeUserEmail);
-                ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedUserInfo -> retrieveUserByEmail(returnedUserInfo));
+                // ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedUserInfo -> retrieveUserByEmail(returnedUserInfo));
+                ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedUserInfo -> removeUserResponse(returnedUserInfo));
             }
         });
 
@@ -178,13 +175,30 @@ public class GroupInfoActivity extends AppCompatActivity {
         }
     }
 
+    private void removeUserResponse(User returnedUser) {
+        Long userId = returnedUser.getId();
+
+        // Check if are the leader of the group
+        if (currentGroup.getLeader() != null) {
+            if (currentUserId.equals(currentGroup.getLeader().getId())) {
+                // Proceed to remove user
+                Call<Void> call = proxy.removeGroupMember(groupId, userId);
+                ProxyBuilder.callProxy( GroupInfoActivity.this, call, returnedNothing -> deleteUserResponse(returnedNothing));
+            }
+        }
+
+        // Iterate through our list of who the current user monitors
+        for (User user : monitorsUsersList) {
+            // Remove the user if he is being monitored by current user
+            if (userId.equals(user.getId())) {
+                Call<Void> call = proxy.removeGroupMember(groupId, userId);
+                ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedNothing -> deleteUserResponse(returnedNothing));
+            }
+        }
+    }
+
     private void retrieveGroupInfo(Group group) {
         Log.d(TAG, "retrieveGroupInfo: ");
-        ArrayList<User> listOfMembers = group.getMemberUsers();
-
-        for (int i = 0; i < listOfMembers.size(); i++) {
-            Log.d(TAG, "User Id" + listOfMembers.get(i).getId());
-        }
 
         // Save group information into currentGroup
         currentGroup = group;

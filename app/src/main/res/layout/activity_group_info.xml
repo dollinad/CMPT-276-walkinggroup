@@ -42,8 +42,8 @@
         android:id="@+id/table_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@id/linear_layout_bottom">
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/member_list">
 
         <TableRow
             android:layout_width="match_parent"
@@ -97,8 +97,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_marginTop="16dp"
+        app:layout_constraintTop_toBottomOf="@id/table_layout">
 
         <Button
             android:id="@+id/join_group_btn"
