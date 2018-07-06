@@ -77,12 +77,6 @@ public class PreferencesActivity extends AppCompatActivity {
 
     private void deleteMonitors() {
         ListView list = findViewById(R.id.monitoring_list);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d(TAG, "CLICKED");
-            }
-        });
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -108,14 +102,17 @@ public class PreferencesActivity extends AppCompatActivity {
         });
     }
 
+    private void response(Void returnedNothing, int position) {
+        monitorsUsers.remove(position);
+        currentUser.setMonitoredByUsers(monitorsUsers);
+        adapter.notifyDataSetChanged();
+        refresh();
+        //finish();
+        //startActivity(getIntent());
+    }
+
     private void deleteMonitoredBy() {
         ListView list = findViewById(R.id.monitored_by_list);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Log.d(TAG, "CLICKED2");
-            }
-        });
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -147,14 +144,6 @@ public class PreferencesActivity extends AppCompatActivity {
         monitoredBy();
     }
 
-    private void response(Void returnedNothing, int position) {
-       monitorsUsers.remove(position);
-       currentUser.setMonitoredByUsers(monitorsUsers);
-       adapter.notifyDataSetChanged();
-       refresh();
-       finish();
-       startActivity(getIntent());
-    }
 
     private void responseCurrent(User user) {
         // Store retrieved user into currentUser
@@ -206,6 +195,16 @@ public class PreferencesActivity extends AppCompatActivity {
                     Utilities.hideKeyboard(PreferencesActivity.this);
                 }
                 return false;
+            }
+        });
+
+        // Hide keyboard on focus change
+        userEmail.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    Utilities.hideKeyboardFocus(PreferencesActivity.this, view);
+                }
             }
         });
 
