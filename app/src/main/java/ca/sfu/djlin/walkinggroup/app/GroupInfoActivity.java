@@ -37,7 +37,8 @@ public class GroupInfoActivity extends AppCompatActivity {
     private Long groupId;
     private String token;
     private Group currentGroup;
-    private User user;
+    private User currentUser;
+    private List<User> monitorsUsersList;
 
     ArrayAdapter<User> adapterMemberList;
 
@@ -48,12 +49,15 @@ public class GroupInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_info);
 
-        // Get information about current user
-        retrieveCurrentUserId();
+        // Get token to set up proxy
         retrieveIntentData();
 
         // Set up our proxy
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+
+        // Get information about current user
+        retrieveCurrentUserId();
+        retrieveCurrentUserInformation();
 
         // Update Group Description
         Call<Group> call = proxy.getGroupById(groupId);
@@ -61,6 +65,26 @@ public class GroupInfoActivity extends AppCompatActivity {
 
         // Refresh UI
         refreshUI();
+
+        // Setup add user button
+        Button addUserBtn = (Button) findViewById(R.id.add_user_btn);
+        addUserBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Ok so first we need to find the id of the user that we are trying to remove
+                // Then we check that user is being monitored by us
+                // Once these conditions are met, add the user ot the group
+
+                // Get input string
+                String addUserEmail;
+                EditText addUserEmailInput = (EditText) findViewById(R.id.add_user_input);
+                addUserEmail = addUserEmailInput.getText().toString();
+
+                // Make a call to proxy to obtain the user id
+                Call<User> call = proxy.getUserByEmail(addUserEmail);
+                ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedUserInfo -> addUserResponse(returnedUserInfo));
+            }
+        });
 
         // Setup remove user button
         Button removeUserBtn = (Button) findViewById(R.id.remove_user_btn);
@@ -138,6 +162,19 @@ public class GroupInfoActivity extends AppCompatActivity {
             // Update the item view with user information
             name.setText(returnUser.getName());
             email.setText(returnUser.getEmail());
+        }
+    }
+
+    private void addUserResponse(User returnedUser) {
+        Long userId = returnedUser.getId();
+
+        // Iterate through our list of who the current user monitors
+        for (User user : monitorsUsersList) {
+            // Add the user if he is being monitored by current user
+            if (userId.equals(user.getId())) {
+                Call<List<User>> call = proxy.addGroupMember(groupId, returnedUser);
+                ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedUserList -> addMemberResponse(returnedUserList));
+            }
         }
     }
 
@@ -230,6 +267,16 @@ public class GroupInfoActivity extends AppCompatActivity {
 
         TextView title = (TextView) findViewById(R.id.group_description);
         title.setText(groupDescription);
+    }
+
+    private void retrieveCurrentUserInformation() {
+        Call<User> call = proxy.getUserById(currentUserId);
+        ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedUser -> storeUserInfo(returnedUser));
+    }
+
+    private void storeUserInfo(User returnedUser) {
+        currentUser = returnedUser;
+        monitorsUsersList = returnedUser.getMonitorsUsers();
     }
 
     private void retrieveCurrentUserId() {
