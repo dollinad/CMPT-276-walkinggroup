@@ -30,7 +30,7 @@ import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 import retrofit2.Call;
 
 public class PreferencesActivity extends AppCompatActivity {
-
+    int counter = 0;
 
     public static final String TAG = "PreferencesActivity";
     private WGServerProxy proxy;
@@ -67,13 +67,13 @@ public class PreferencesActivity extends AppCompatActivity {
 
         //remove from monitors
         deleteMonitors();
-        
+
         //remove from monitored By
         deleteMonitoredBy();
     }
 
     private void deleteMonitoredBy() {
-        ListView list = findViewById(R.id.monitoredList);
+        ListView list = findViewById(R.id.monitored_by_list);
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -106,7 +106,7 @@ public class PreferencesActivity extends AppCompatActivity {
     }
 
     private void deleteMonitors() {
-        ListView list = findViewById(R.id.monitoringList);
+        ListView list = findViewById(R.id.monitoring_list);
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
@@ -160,7 +160,7 @@ public class PreferencesActivity extends AppCompatActivity {
 
         // Build new adapter
         adapter = new myListAdapterMonitors();
-        ListView monitoringList = findViewById(R.id.monitoringList);
+        ListView monitoringList = findViewById(R.id.monitoring_list);
         monitoringList.setAdapter(adapter);
     }
 
@@ -235,11 +235,11 @@ public class PreferencesActivity extends AppCompatActivity {
 
             // Make instance of user to retrieve information for
             User monitors = currentUser.getMonitorsUsers().get(position);
-            TextView name=itemView.findViewById(R.id.LayoutName);
-            TextView email=itemView.findViewById(R.id.LayoutEmail);
+            TextView name = itemView.findViewById(R.id.list_name);
+            TextView email = itemView.findViewById(R.id.list_email);
 
             // Make a call to collect the name and email of the user
-            Call<User> call=proxy.getUserById(monitors.getId());
+            Call<User> call = proxy.getUserById(monitors.getId());
             ProxyBuilder.callProxy(PreferencesActivity.this, call, returnUser -> respond(returnUser, name, email));
 
             return itemView;
@@ -268,12 +268,12 @@ public class PreferencesActivity extends AppCompatActivity {
 
             // Make instance of user to retrieve information for
             User monitoredBy = currentUser.getMonitoredByUsers().get(position);
-            TextView name = itemView.findViewById(R.id.LayoutName);
-            TextView email = itemView.findViewById(R.id.LayoutEmail);
+            TextView name = itemView.findViewById(R.id.list_name);
+            TextView email = itemView.findViewById(R.id.list_email);
 
             // Make a call to collect the name and email of the user
             Call<User> call = proxy.getUserById(monitoredBy.getId());
-            ProxyBuilder.callProxy(PreferencesActivity.this, call, returnUser ->respond(returnUser, name, email));
+            ProxyBuilder.callProxy(PreferencesActivity.this, call, returnUser -> respond(returnUser, name, email));
 
             return itemView;
         }
@@ -288,12 +288,13 @@ public class PreferencesActivity extends AppCompatActivity {
     private void monitoredBy() {
         // Make a call to server to retrieve monitored by users
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
+
         Call<List<User>> call = proxy.getMonitoredByUsers(currentUser.getId());
-        ProxyBuilder.callProxy(PreferencesActivity.this, call, returnedListMon-> responseMonitoredByUsers(returnedListMon));
+        ProxyBuilder.callProxy(PreferencesActivity.this, call, returnedListMon -> responseMonitoredByUsers(returnedListMon));
 
         // Build array adapter for monitored by list
         adapterMonitored = new myListAdapterMonitored();
-        ListView list = findViewById(R.id.monitoredList);
+        ListView list = findViewById(R.id.monitored_by_list);
         list.setAdapter(adapterMonitored);
     }
 
