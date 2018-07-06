@@ -133,7 +133,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 // Obtain groupId
                 Long groupId = mHashMap.get(marker);
                 Log.d(TAG, "The groupId retrieved was: " + groupId);
-                
+
+                // Launch Group Info Activity and pass groupId
+                Intent intent = GroupInfoActivity.launchGroupInfoIntent(MapActivity.this);
+                intent.putExtra("groupId", groupId);
+                intent.putExtra("token", token);
+                startActivity(intent);
                 return true;
             }
         });

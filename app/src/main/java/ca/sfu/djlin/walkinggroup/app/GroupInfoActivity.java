@@ -1,17 +1,55 @@
 package ca.sfu.djlin.walkinggroup.app;
 
+import android.content.Context;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+
+import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.R;
+import ca.sfu.djlin.walkinggroup.dataobjects.Group;
+import ca.sfu.djlin.walkinggroup.model.User;
+import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
+import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
+import retrofit2.Call;
 
 public class GroupInfoActivity extends AppCompatActivity {
+
+    // Constants
+    public static final String TAG = "GroupInfoActivity";
+
+    // Variables
+    private Long groupId;
+    private String token;
+
+    private WGServerProxy proxy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_info);
 
+        // Retrieve information from intent
+        Intent intent = getIntent();
+        groupId = intent.getLongExtra("groupId", 0);
+        token = intent.getStringExtra("token");
 
+        // Set up our proxy
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+
+        // Send a request to retrieve group information
+        Call<Group> call = proxy.getGroupById(groupId);
+        ProxyBuilder.callProxy(GroupInfoActivity.this, call, returned -> groupInfoResponse(returned));
+    }
+
+    private void groupInfoResponse (Group group) {
+
+    }
+
+    public static Intent launchGroupInfoIntent (Context context) {
+        Intent intent = new Intent(context, GroupInfoActivity.class);
+        return intent;
     }
 }
