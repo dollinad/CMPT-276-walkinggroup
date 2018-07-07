@@ -198,12 +198,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             Log.d(TAG, "The type of groupID is: " + group.getId());
             // Add marker to map
-            int btnWidth = 70;
-            int btnHeight = 100;
-            Bitmap originBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.marker);
-            Bitmap scaledBitmap = Bitmap.createScaledBitmap(originBitmap, btnWidth, btnHeight, false);
-            Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(group.getGroupDescription())
-                    .icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap)));
+
+            Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(group.getGroupDescription()));
             // Add marker to list
             markers.add(marker);
             // Store marker in HashMap for onClick retrieval
@@ -339,12 +335,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 if (resultCode == Activity.RESULT_OK) {
                     String groupName = CreateGroupActivity.getresult(data);
                     Long groupId = data.getLongExtra("groupId", 0);
-                    int btnWidth = 5;
-                    int btnHeight = 5;
-                    Bitmap originBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.marker);
-                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(originBitmap, btnWidth, btnHeight, false);
-                    Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(groupName)
-                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker2)));
+                    Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(groupName));
                     markers.add(marker);
                     // System.out.println(markers.size());
                     // System.out.println(markers.get(0));
