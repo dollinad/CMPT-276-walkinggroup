@@ -100,7 +100,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         Log.d(TAG, "onMapReady: map is ready");
-        Toast.makeText(MapActivity.this, "Map is ready", Toast.LENGTH_SHORT).show();
 
         if (mLocationPermissionsGranted) {
             getDeviceLocation();
@@ -442,7 +441,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM, "My Location");
                         } else {
                             Log.d(TAG, "Current location is null!");
-                            Toast.makeText(MapActivity.this, "Unable to get current location!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MapActivity.this, MapActivity.this.getString(R.string.unable_to_get_location), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

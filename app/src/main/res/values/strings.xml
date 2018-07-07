@@ -55,6 +55,12 @@
     <string name="add">Add</string>
     <string name="no_meeting_location">This group doesn\'t have a meeting location to display!</string>
     <string name="meeting_location">This is a meeting location!</string>
+    <string name="add_monitored_by_user">Add User to be Monitored By</string>
+    <string name="unable_to_get_location">Unable to get current location!</string>
+    <string name="password_check_toast">Unable to get current location!</string>
+    <string name="map_request_issue_toast">You can't make map requests!</string>
+
+
     <string name="readme">ReadMe</string>
     <string name="back">BACK</string>
     <string name="_1_once_you_have_logged_in_you_can_click_on_the_map_to_create_a_group_for_your_walking_activity">1. Once you have logged in, you can click on the map to create a group for your walking activity.</string>
