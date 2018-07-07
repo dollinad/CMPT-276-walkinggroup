@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -34,6 +36,8 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -194,7 +198,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
             Log.d(TAG, "The type of groupID is: " + group.getId());
             // Add marker to map
-            Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(group.getGroupDescription()));
+            int btnWidth = 70;
+            int btnHeight = 100;
+            Bitmap originBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.marker);
+            Bitmap scaledBitmap = Bitmap.createScaledBitmap(originBitmap, btnWidth, btnHeight, false);
+            Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(group.getGroupDescription())
+                    .icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap)));
             // Add marker to list
             markers.add(marker);
             // Store marker in HashMap for onClick retrieval
@@ -330,8 +339,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 if (resultCode == Activity.RESULT_OK) {
                     String groupName = CreateGroupActivity.getresult(data);
                     Long groupId = data.getLongExtra("groupId", 0);
-
-                    Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(groupName));
+                    int btnWidth = 5;
+                    int btnHeight = 5;
+                    Bitmap originBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.marker);
+                    Bitmap scaledBitmap = Bitmap.createScaledBitmap(originBitmap, btnWidth, btnHeight, false);
+                    Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(groupName)
+                            .icon(BitmapDescriptorFactory.fromResource(R.drawable.marker2)));
                     markers.add(marker);
                     // System.out.println(markers.size());
                     // System.out.println(markers.get(0));
