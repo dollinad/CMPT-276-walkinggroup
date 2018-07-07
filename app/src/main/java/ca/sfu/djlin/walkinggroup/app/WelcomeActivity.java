@@ -44,10 +44,21 @@ public class WelcomeActivity extends AppCompatActivity {
             // Setup buttons
             setupSignup();
             setupLogin();
-
+            setUpReadMe();
             // Check user session
             isUserLoggedIn();
         }
+    }
+
+    private void setUpReadMe() {
+        Button btn=findViewById(R.id.welcome_readme);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= ReadMe.launchReadMe(WelcomeActivity.this);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setupSignup(){

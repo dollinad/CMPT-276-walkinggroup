@@ -43,12 +43,12 @@
         <!-- Signup Activity -->
         <activity
             android:name=".app.SignupActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
+            android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <!-- Login Activity -->
         <activity
             android:name=".app.LoginActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
+            android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <!-- TEMPORARY CHECK // TO BE REMOVED BEFORE SUBMISSION // -->
         <activity android:name=".app.check" />
@@ -61,10 +61,11 @@
         <!-- Group Activities -->
         <activity
             android:name=".app.CreateGroupActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".app.GroupInfoActivity"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".app.ReadMe"></activity>
     </application>
 
 </manifest>
