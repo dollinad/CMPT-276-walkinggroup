@@ -78,6 +78,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private LatLng currentposition = new LatLng(0,0);
     private LatLng latlng;
     List<Marker> markers = new ArrayList();
+    private Marker meetingMarker;
 
     // Create HashMap used for storing group ID
     private HashMap<Marker, Long> mHashMap = new HashMap<Marker, Long>();
@@ -127,6 +128,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         setMapClickListeners();
         setGroupMarker();
 
+        // Listener for group marker clicks
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener(){
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -134,11 +136,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 Long groupId = mHashMap.get(marker);
                 Log.d(TAG, "The groupId retrieved was: " + groupId);
 
+                // Draw the meeting location marker
+                // Call<Group> getGroupById(@Path("id") Long groupId);
+                Call<Group> call = proxy.getGroupById(groupId);
+                ProxyBuilder.callProxy(MapActivity.this, call, returnedGroup -> drawMeetingMarker(returnedGroup));
+
                 // Launch Group Info Activity and pass groupId
-                Intent intent = GroupInfoActivity.launchGroupInfoIntent(MapActivity.this);
-                intent.putExtra("groupId", groupId);
-                intent.putExtra("token", token);
-                startActivity(intent);
+                // Intent intent = GroupInfoActivity.launchGroupInfoIntent(MapActivity.this);
+                // intent.putExtra("groupId", groupId);
+                // intent.putExtra("token", token);
+                // startActivity(intent);
                 return true;
             }
         });
@@ -183,8 +190,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Log.d(TAG, "The current token is: " + token);
         int i = 0;
         for (Group group : returnedGroups) {
-            double lat=group.getRouteLatArray().get(i);
-            double lng=group.getRouteLngArray().get(i);
+            double lat = group.getRouteLatArray().get(i);
+            double lng = group.getRouteLngArray().get(i);
             LatLng latLng=new LatLng(lat,lng);
 
             Log.d(TAG, "The type of groupID is: " + group.getId());
@@ -198,12 +205,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
     private void notifyUserViaLogAndToast(String message) {
-        System.out.println("test           7");
-
-        Log.i("aa", message);
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-        System.out.println("test           8");
-
     }
 
     private void logout() {
@@ -291,6 +293,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
+                // Remove meeting markers
+                meetingMarker.remove();
+
                 Boolean flag;
 
                 Intent meetingMarkerIntent = getIntent();
@@ -298,8 +303,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                 if (flag) {
                     Log.d(TAG, "This intent was started by create groups!");
-                    meetingMarkerIntent.putExtra("lat", latLng.latitude);
-                    meetingMarkerIntent.putExtra("lng", latLng.longitude);
+                    meetingMarkerIntent.putExtra("meetingLat", latLng.latitude);
+                    meetingMarkerIntent.putExtra("meetingLng", latLng.longitude);
 
                     setResult(Activity.RESULT_OK, meetingMarkerIntent);
 
@@ -374,6 +379,30 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             startActivity(pass_intent);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void drawMeetingMarker(Group group) {
+        Log.d(TAG, "drawMeetingMarker: ");
+        // Assuming stored meeting location is at index 1
+        double lat = group.getRouteLatArray().get(1);
+        double lng = group.getRouteLngArray().get(1);
+
+        Log.d(TAG, "retrieved lat: " + lat);
+        Log.d(TAG, "retrieved lng: " + lng);
+
+        LatLng latLng = new LatLng(lat, lng);
+
+        // Add marker to map
+        Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title("Meeting Location for: " + group.getGroupDescription()));
+        // Add marker to list
+        markers.add(marker);
+
+        // Remove meeting marker
+        if (meetingMarker != null) {
+            meetingMarker.remove();
+        }
+        // Set new meeting marker to draw next time
+        meetingMarker = marker;
     }
 
     private void getDeviceLocation() {

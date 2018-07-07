@@ -45,7 +45,6 @@ public class CreateGroupActivity extends AppCompatActivity {
     private Boolean retrieveMarkerLocationFlag = true;
 
     private Group group = new Group();
-    Long id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -166,8 +165,11 @@ public class CreateGroupActivity extends AppCompatActivity {
             case GET_MARKER_CODE:
                 if (resultCode == Activity.RESULT_OK) {
                     // Store the retrieved map marker locations
-                    Intent intent = getIntent();
-                    meetingMarkerLatLng =  new LatLng(intent.getDoubleExtra("lat",0),intent.getDoubleExtra("lng",0));
+                    // Intent intent = getIntent();
+                    meetingMarkerLatLng =  new LatLng(data.getDoubleExtra("meetingLat",0),data.getDoubleExtra("meetingLng",0));
+
+                    Log.d(TAG, "Data Latitude: " + data.getDoubleExtra("meetingLat",0));
+                    Log.d(TAG, "Data Longitude: " + data.getDoubleExtra("meetingLng",0));
 
                     Log.d(TAG, "Latitude: " + meetingMarkerLatLng.latitude);
                     Log.d(TAG, "Longitude: " + meetingMarkerLatLng.longitude);
