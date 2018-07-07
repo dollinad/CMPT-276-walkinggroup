@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -33,9 +32,11 @@ public class CreateGroupActivity extends AppCompatActivity {
     public static final String TAG = "CreateGroup";
 
     private WGServerProxy proxy;
-    LatLng latLng;
+    private LatLng intendedLatLng;
     private String token;
     private Long currentUserId;
+
+    private Group group = new Group();
     Long id;
 
     @Override
@@ -46,6 +47,9 @@ public class CreateGroupActivity extends AppCompatActivity {
         // Retrieve data from intent
         Intent intent = getIntent();
         token = intent.getStringExtra("token");
+
+        // Store current group information
+        intendedLatLng = new LatLng(intent.getDoubleExtra("lat",0),intent.getDoubleExtra("lng",0));
 
         // Get current user id
         SharedPreferences preferences = CreateGroupActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
@@ -60,7 +64,7 @@ public class CreateGroupActivity extends AppCompatActivity {
     }
 
     private void setupbtn_back() {
-        Button btn_back=findViewById(R.id.group_btn_back);
+        Button btn_back=findViewById(R.id.group_btn_cancel);
         btn_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -70,7 +74,7 @@ public class CreateGroupActivity extends AppCompatActivity {
     }
 
     private void setup_create() {
-        EditText editText=findViewById(R.id.group_name);
+        EditText editText=findViewById(R.id.group_description_input);
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -84,22 +88,18 @@ public class CreateGroupActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                String name=editText.getText().toString();
-                Button btn_confirm=findViewById(R.id.group_btn_yes);
+                String name = editText.getText().toString();
+                Button btn_confirm = findViewById(R.id.confirm_btn);
                 btn_confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        Intent intent=getIntent();
-                        latLng=new LatLng(intent.getDoubleExtra("lag",0),intent.getDoubleExtra("lng",0));
-                        Group group=new Group();
                         group.setGroupDescription(name);
-                        List<Double> lat=new ArrayList();
-                        lat.add(latLng.latitude);
-                        List<Double> lng=new ArrayList();
-                        lng.add(latLng.longitude);
+                        List<Double> lat = new ArrayList();
+                        lat.add(intendedLatLng.latitude);
+                        List<Double> lng = new ArrayList();
+                        lng.add(intendedLatLng.longitude);
                         group.setRouteLatArray(lat);
                         group.setRouteLngArray(lng);
-                        String email=intent.getStringExtra("email");
 
                         // Add leader user to newly created group
                         User leader = new User();

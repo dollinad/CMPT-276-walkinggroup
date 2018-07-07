@@ -181,8 +181,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     private void response(List<Group> returnedGroups) {
         Log.d(TAG, "The current token is: " + token);
-        notifyUserViaLogAndToast("Got list of " + returnedGroups.size() + " groups! See logcat.");
-        Log.i("aa", "All groups:");
         int i = 0;
         for (Group group : returnedGroups) {
             double lat=group.getRouteLatArray().get(i);
@@ -296,7 +294,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 // Intent intentTemp=getIntent();
                 // token=intentTemp.getStringExtra("token");
                 Intent intent=new Intent(MapActivity.this, CreateGroupActivity.class);
-                intent.putExtra("lag",latLng.latitude);
+                intent.putExtra("lat",latLng.latitude);
                 intent.putExtra("lng",latLng.longitude);
                 intent.putExtra("token",token);
                 latlng=latLng;
