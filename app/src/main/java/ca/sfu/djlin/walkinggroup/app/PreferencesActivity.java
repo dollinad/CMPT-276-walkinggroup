@@ -107,8 +107,6 @@ public class PreferencesActivity extends AppCompatActivity {
         currentUser.setMonitoredByUsers(monitorsUsers);
         adapter.notifyDataSetChanged();
         refresh();
-        //finish();
-        //startActivity(getIntent());
     }
 
     private void deleteMonitoredBy() {

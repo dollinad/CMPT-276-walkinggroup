@@ -143,7 +143,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 Log.d(TAG, "The groupId retrieved was: " + groupId);
 
                 // Draw the meeting location marker
-                // Call<Group> getGroupById(@Path("id") Long groupId);
                 Call<Group> call = proxy.getGroupById(groupId);
                 ProxyBuilder.callProxy(MapActivity.this, call, returnedGroup -> drawMeetingMarker(returnedGroup));
 
@@ -280,7 +279,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         if (list.size() > 0) {
             Address address = list.get(0);
             Log.d(TAG, "Found an address: " + address.toString());
-            // Toast.makeText(MapActivity.this, "The address returned is: " + address.toString() ,Toast.LENGTH_SHORT).show();
 
             // Move camera to lat and lng
             moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, address.getAddressLine(0));

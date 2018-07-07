@@ -272,7 +272,7 @@ public class GroupInfoActivity extends AppCompatActivity {
 
     private void getGroupMembersResponse(List<User> listOfUsers) {
         // Log.d(TAG, "getGroupMembersResponse: Displaying current members of the group: ");
-        // listOfUsers.toString(); - Doesn't work
+        //dont need to do anything here.
     }
 
     private void updateGroupDescription (Group group) {
