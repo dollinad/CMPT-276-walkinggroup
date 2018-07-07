@@ -37,9 +37,10 @@ public class CreateGroupActivity extends AppCompatActivity {
     private String token;
     private Long currentUserId;
     Long id;
+    Long groupId;
     Group group=new Group();
     User user=new User();
-    List<User> users=new ArrayList();
+    ArrayList<User> users=new ArrayList();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -102,9 +103,9 @@ public class CreateGroupActivity extends AppCompatActivity {
                         lng.add(latLng.longitude);
                         group.setRouteLatArray(lat);
                         group.setRouteLngArray(lng);
-                        group.setMemberUsers(users);
+                        //group.setMemberUsers(users);
                         group.setLeader(users.get(0));
-                        System.out.println("nnh"+group.getMemberUsers().get(0).toString());
+                        //System.out.println("nnh"+group.getMemberUsers().get(0).toString());
 
                         System.out.println("start call");
 
@@ -116,11 +117,16 @@ public class CreateGroupActivity extends AppCompatActivity {
 
                         Call<Group> caller = proxy.createGroup(group);
                         ProxyBuilder.callProxy(CreateGroupActivity.this, caller, returnedGroup -> createGroupResponse(returnedGroup));
+                        Call<List<User>> caller2= proxy.addGroupMember(groupId,users.get(0));
+                        ProxyBuilder.callProxy(CreateGroupActivity.this, caller2, returnedGroup2 -> response2(returnedGroup2));
                     }
                 });
             }
         });
 
+    }
+    public void response2(List<User> returnedGroup2){
+        System.out.println("hahanothing");
     }
     public void getUserInfo(){
         Intent intent=getIntent();
@@ -149,7 +155,7 @@ public class CreateGroupActivity extends AppCompatActivity {
         Log.d(TAG, "createGroupResponse: ");
 
         // Define variables to store
-        Long groupId = group.getId();
+        groupId = group.getId();
         String groupDescription = group.getGroupDescription();
 
         // Store information in intent
