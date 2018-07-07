@@ -3,6 +3,7 @@ package ca.sfu.djlin.walkinggroup.app;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -34,6 +35,7 @@ public class CreateGroupActivity extends AppCompatActivity {
     private WGServerProxy proxy;
     LatLng latLng;
     private String token;
+    private Long currentUserId;
     Long id;
     Group group=new Group();
     User user=new User();
@@ -47,8 +49,13 @@ public class CreateGroupActivity extends AppCompatActivity {
         Intent intent = getIntent();
         token = intent.getStringExtra("token");
 
+        // Get current user id
+        SharedPreferences preferences = CreateGroupActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
+        currentUserId = preferences.getLong("User Id", 0);
+
         // Set up proxy
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey),token);
+
         // Set up create group button
         getUserInfo();
         setup_create();
@@ -111,7 +118,6 @@ public class CreateGroupActivity extends AppCompatActivity {
                         ProxyBuilder.callProxy(CreateGroupActivity.this, caller, returnedGroup -> createGroupResponse(returnedGroup));
                     }
                 });
-
             }
         });
 

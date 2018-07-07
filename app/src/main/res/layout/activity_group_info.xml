@@ -11,31 +11,54 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="36dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:layout_marginTop="36dp"
         android:layout_marginBottom="12dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 
+    <TextView
+        android:id="@+id/member_list_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/group_members_label"
+        android:layout_marginTop="12dp"
+        android:paddingLeft="8dp"
+        android:textSize="18dp"
+        android:textAppearance="@style/TextAppearance.AppCompat.Title"
+        app:layout_constraintTop_toBottomOf="@id/group_description" />
+
     <ListView
         android:id="@+id/member_list"
         android:layout_width="match_parent"
         android:layout_height="250dp"
-        app:layout_constraintTop_toBottomOf="@id/group_description" />
+        android:layout_marginTop="12dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        app:layout_constraintTop_toBottomOf="@id/member_list_label" />
+
+    <TextView
+        android:id="@+id/leader_monitor_control_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:text="@string/for_leaders_and_monitors"
+        app:layout_constraintBottom_toTopOf="@id/table_layout" />
 
     <TableLayout
         android:id="@+id/table_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@id/linear_layout_bottom">
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/member_list">
 
         <TableRow
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
 
             <EditText
-                android:id="@+id/editText"
+                android:id="@+id/add_user_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
@@ -44,7 +67,7 @@
                 android:hint="@string/email_hint"/>
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/add_user_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -57,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent" >
             <EditText
-                android:id="@+id/editText2"
+                android:id="@+id/remove_user_input"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="4"
@@ -66,7 +89,7 @@
                 android:hint="@string/email_hint" />
 
             <Button
-                android:id="@+id/button4"
+                android:id="@+id/remove_user_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -77,13 +100,22 @@
 
     </TableLayout>
 
+    <TextView
+        android:id="@+id/current_user_control_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/for_current_user"
+        app:layout_constraintTop_toBottomOf="@id/table_layout" />
+
     <LinearLayout
         android:id="@+id/linear_layout_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toBottomOf="parent">
+        android:layout_marginTop="8dp"
+        app:layout_constraintTop_toBottomOf="@id/current_user_control_label">
 
         <Button
             android:id="@+id/join_group_btn"

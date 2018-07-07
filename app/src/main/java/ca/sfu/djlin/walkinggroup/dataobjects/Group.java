@@ -42,9 +42,16 @@ public class Group extends IdItemBase{
 
 
 
-    private List<User> memberUsers=new ArrayList();
+    private ArrayList<User> memberUsers = new ArrayList();
 
 
+    public ArrayList<User> getMemberUsers() {
+        return memberUsers;
+    }
+
+    public void setMemberUsers(ArrayList<User> memberUsers) {
+        this.memberUsers = memberUsers;
+    }
 
 
     //public void addUser(User user){
@@ -66,13 +73,6 @@ public class Group extends IdItemBase{
     }
     public List<Double> getRouteLngArray(){
         return routeLngArray;
-    }
-
-    public void setMemberUsers(List<User> memberUsers){
-        this.memberUsers=memberUsers;
-    }
-    public List<User> getMemberUsers(){
-        return memberUsers;
     }
 
     public void setLeader(User leader ){

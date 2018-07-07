@@ -41,10 +41,14 @@
             android:label="@string/title_activity_maps" />
 
         <!-- Signup Activity -->
-        <activity android:name=".app.SignupActivity" />
+        <activity
+            android:name=".app.SignupActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
 
         <!-- Login Activity -->
-        <activity android:name=".app.LoginActivity" />
+        <activity
+            android:name=".app.LoginActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
 
         <!-- TEMPORARY CHECK // TO BE REMOVED BEFORE SUBMISSION // -->
         <activity android:name=".app.check" />
@@ -52,13 +56,15 @@
         <!-- Preferences Activity -->
         <activity
             android:name=".app.PreferencesActivity"
-            android:windowSoftInputMode="stateHidden" />
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+
+        <!-- Group Activities -->
         <activity
             android:name=".app.CreateGroupActivity"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
             android:name=".app.GroupInfoActivity"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
     </application>
 
 </manifest>
