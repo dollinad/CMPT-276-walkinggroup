@@ -131,7 +131,7 @@ public class WelcomeActivity extends AppCompatActivity {
             Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(WelcomeActivity.this, available, ERROR_DIALOG_REQUEST);
             dialog.show();
         } else {
-            Toast.makeText(this, "You can't make map requests!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(WelcomeActivity.this, WelcomeActivity.this.getString(R.string.map_request_issue_toast), Toast.LENGTH_SHORT).show();
         }
         return false;
     }

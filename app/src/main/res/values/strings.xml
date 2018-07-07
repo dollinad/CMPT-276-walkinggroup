@@ -56,5 +56,10 @@
     <string name="no_meeting_location">This group doesn\'t have a meeting location to display!</string>
     <string name="meeting_location">This is a meeting location!</string>
     <string name="add_monitored_by_user">Add User to be Monitored By</string>
+    <string name="unable_to_get_location">Unable to get current location!</string>
+    <string name="password_check_toast">Unable to get current location!</string>
+    <string name="map_request_issue_toast">You can't make map requests!</string>
+
+
 
 </resources>
