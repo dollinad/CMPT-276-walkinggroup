@@ -137,6 +137,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 // Launch Group Info Activity and pass groupId
                 Intent intent = GroupInfoActivity.launchGroupInfoIntent(MapActivity.this);
                 intent.putExtra("groupId", groupId);
+                System.out.println("specialcase"+token);
                 intent.putExtra("token", token);
                 startActivity(intent);
                 return true;
@@ -299,7 +300,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 intent.putExtra("lag",latLng.latitude);
                 intent.putExtra("lng",latLng.longitude);
                 intent.putExtra("token",token);
-                intent.putExtra("email",CurrentUserEmail);
+                intent.putExtra("email",currentUserEmail);
                 latlng=latLng;
 
                 startActivityForResult(intent, REQUEST_CODE_GETDATA);

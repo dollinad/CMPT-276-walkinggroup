@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,6 +36,8 @@ public class CreateGroupActivity extends AppCompatActivity {
     private String token;
     Long id;
     Group group=new Group();
+    User user=new User();
+    List<User> users=new ArrayList();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,10 +49,11 @@ public class CreateGroupActivity extends AppCompatActivity {
 
         // Set up proxy
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey),token);
-
         // Set up create group button
+        getUserInfo();
         setup_create();
         setupbtn_back();
+
 
     }
 
@@ -84,9 +88,6 @@ public class CreateGroupActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         proxy = ProxyBuilder.getProxy(getString(R.string.apikey),token);
-                        Intent intent=getIntent();
-                        latLng=new LatLng(intent.getDoubleExtra("lag",0),intent.getDoubleExtra("lng",0));
-
                         group.setGroupDescription(name);
                         List<Double> lat=new ArrayList();
                         lat.add(latLng.latitude);
@@ -94,12 +95,14 @@ public class CreateGroupActivity extends AppCompatActivity {
                         lng.add(latLng.longitude);
                         group.setRouteLatArray(lat);
                         group.setRouteLngArray(lng);
-                        String email=intent.getStringExtra("email");
-                        System.out.println(email);
+                        group.setMemberUsers(users);
+                        group.setLeader(users.get(0));
+                        System.out.println("nnh"+group.getMemberUsers().get(0).toString());
+
                         System.out.println("start call");
-                        Call<User> calleruser= proxy.getUserByEmail(email);
-                        ProxyBuilder.callProxy(CreateGroupActivity.this,calleruser, returnedUser -> createResponse(returnedUser));
+
                         System.out.println("end call");
+
                        // group.setLeader(id);
                         Intent intent_2=new Intent();
                         intent_2.putExtra("groupName",name);
@@ -113,25 +116,30 @@ public class CreateGroupActivity extends AppCompatActivity {
         });
 
     }
+    public void getUserInfo(){
+        Intent intent=getIntent();
+        String email=intent.getStringExtra("email");
+        latLng=new LatLng(intent.getDoubleExtra("lag",0),intent.getDoubleExtra("lng",0));
+        Call<User> calleruser= proxy.getUserByEmail(email);
+        ProxyBuilder.callProxy(CreateGroupActivity.this,calleruser, returnedUser -> createResponse(returnedUser));
+    }
 
     private void createResponse(User returnedUser){
+        System.out.println("nixian?");
         System.out.println("start response");
         Toast.makeText(CreateGroupActivity.this,"Got users! See logcat.",Toast.LENGTH_LONG).show();
         returnedUser.toString();
         System.out.println("end response");
         id=returnedUser.getId();
         System.out.println("the id is "+id);
-       id=returnedUser.getId();
-        List<Long> users=new ArrayList();
-        /*User user=new User();
-        user.setId(id);
-        users.add(id);
-        */
-        group.setMemberOfGroups(users);
-        group.toString();
-       System.out.println("the id is "+id);
+        id=returnedUser.getId();
+
+        users.add(returnedUser);
+        System.out.println(users.get(0).toString());
+
     }
     private void createGroupResponse(Group group) {
+        System.out.println("woxian?");
         Log.d(TAG, "createGroupResponse: ");
 
         // Define variables to store

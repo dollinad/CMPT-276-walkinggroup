@@ -42,7 +42,7 @@ public class Group extends IdItemBase{
 
 
 
-    private List<Long> memberOfGroups=new ArrayList();
+    private List<User> memberUsers=new ArrayList();
 
 
 
@@ -68,19 +68,24 @@ public class Group extends IdItemBase{
         return routeLngArray;
     }
 
-    public void setMemberOfGroups(List<Long> userList){
-        this.memberOfGroups=userList;
+    public void setMemberUsers(List<User> memberUsers){
+        this.memberUsers=memberUsers;
+    }
+    public List<User> getMemberUsers(){
+        return memberUsers;
     }
 
     public void setLeader(User leader ){
         this.leader=leader;
     }
-
+    public User getLeader(){
+        return leader;
+    }
     public String toString(){
         return "Group{" +
                 "id=" + getId() +
                 ", name='" + groupDescription + '\'' +
-                ", memberOfGroups=" + memberOfGroups +
+                ", memberOfGroups=" + memberUsers +
                // ", leaderId=" + leader.getId() +
                 '}';
 

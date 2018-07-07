@@ -122,6 +122,7 @@ public class GroupInfoActivity extends AppCompatActivity {
         Intent intent = getIntent();
         groupId = intent.getLongExtra("groupId", 0);
         token = intent.getStringExtra("token");
+        System.out.println("speicalcase2"+token);
     }
 
     public static Intent launchGroupInfoIntent (Context context) {
