@@ -141,8 +141,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                 // Draw the meeting location marker
                 // Call<Group> getGroupById(@Path("id") Long groupId);
-                Call<Group> call = proxy.getGroupById(groupId);
-                ProxyBuilder.callProxy(MapActivity.this, call, returnedGroup -> drawMeetingMarker(returnedGroup));
+                if (!marker.equals(meetingMarker)) {
+                    Call<Group> call = proxy.getGroupById(groupId);
+                    ProxyBuilder.callProxy(MapActivity.this, call, returnedGroup -> drawMeetingMarker(returnedGroup));
+                } else if (marker.equals(meetingMarker)){
+                    Toast.makeText(MapActivity.this, MapActivity.this.getString(R.string.meeting_location), Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(MapActivity.this, MapActivity.this.getString(R.string.no_meeting_location), Toast.LENGTH_SHORT).show();
+                }
 
                 return true;
             }
