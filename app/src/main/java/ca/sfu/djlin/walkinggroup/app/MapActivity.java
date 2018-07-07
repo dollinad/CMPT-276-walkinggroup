@@ -57,7 +57,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private static final String TAG = "MapActivity";
 
     // Constants
-    private static final int REQUEST_CODE_GETDATA = 1024;
+    private static final int REQUEST_CODE_GET_DATA = 1024;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final float DEFAULT_ZOOM = 15f;;
 
@@ -124,7 +124,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
         // End need to check order for this
 
-        createGroup();
+        setMapClickListeners();
         setGroupMarker();
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener(){
@@ -287,19 +287,33 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     }
 
 
-    public void createGroup(){
+    public void setMapClickListeners(){
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                // Intent intentTemp=getIntent();
-                // token=intentTemp.getStringExtra("token");
-                Intent intent=new Intent(MapActivity.this, CreateGroupActivity.class);
-                intent.putExtra("lat",latLng.latitude);
-                intent.putExtra("lng",latLng.longitude);
-                intent.putExtra("token",token);
-                latlng=latLng;
+                Boolean flag;
 
-                startActivityForResult(intent, REQUEST_CODE_GETDATA);
+                Intent meetingMarkerIntent = getIntent();
+                flag = meetingMarkerIntent.getBooleanExtra("Retrieve Marker", false);
+
+                if (flag) {
+                    Log.d(TAG, "This intent was started by create groups!");
+                    meetingMarkerIntent.putExtra("lat", latLng.latitude);
+                    meetingMarkerIntent.putExtra("lng", latLng.longitude);
+
+                    setResult(Activity.RESULT_OK, meetingMarkerIntent);
+
+                    finish();
+                } else {
+                    Log.d(TAG, "This is going to start a new activity");
+                    Intent intent = new Intent(MapActivity.this, CreateGroupActivity.class);
+                    intent.putExtra("lat", latLng.latitude);
+                    intent.putExtra("lng", latLng.longitude);
+                    intent.putExtra("token", token);
+                    latlng = latLng;
+
+                    startActivityForResult(intent, REQUEST_CODE_GET_DATA);
+                }
             }
         });
     }
@@ -307,7 +321,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
-            case REQUEST_CODE_GETDATA:
+            case REQUEST_CODE_GET_DATA:
                 if (resultCode == Activity.RESULT_OK) {
                     String groupName = CreateGroupActivity.getresult(data);
                     Long groupId = data.getLongExtra("groupId", 0);
@@ -426,6 +440,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     public static Intent launchIntentMap(Context context) {
         Intent intent = new Intent(context, MapActivity.class);
+        return intent;
+    }
+
+    public static Intent launchIntentMapForMarker(Context context) {
+        Intent intent = new Intent(context, MapActivity. class);
         return intent;
     }
 
