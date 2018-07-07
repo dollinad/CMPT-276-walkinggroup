@@ -31,6 +31,17 @@ public class Group extends IdItemBase{
     public void setId(Long id) {
         this.id = id;
     }
+
+
+    private User leader;
+    public User getLeader() {
+        return leader;
+    }
+
+    public void setLeader(User leader) {
+        this.leader = leader;
+    }
+
     // End Daniel's Testing Playground
 
     private String groupDescription;
@@ -42,12 +53,30 @@ public class Group extends IdItemBase{
         return groupDescription;
     }
 
+    private ArrayList<User> memberUsers = new ArrayList();
+
+    public ArrayList<User> getMemberUsers() {
+        return memberUsers;
+    }
+
+    public void setMemberUsers(ArrayList<User> memberUsers) {
+        this.memberUsers = memberUsers;
+    }
+
     //private Long leaderId;
 
     private List<Double> routeLatArray=new ArrayList();
     private List<Double> routeLngArray=new ArrayList();
 
+    // private ArrayList<User> memberUsers = new ArrayList();
 
+//    public ArrayList<User> getMemberUsers() {
+//        return memberUsers;
+//    }
+
+//    public void setMemberUsers(ArrayList<User> memberUsers) {
+//        this.memberUsers = memberUsers;
+//    }
 
     //private List<User> memberOfGroups=new ArrayList();
 
@@ -74,8 +103,6 @@ public class Group extends IdItemBase{
     public List<Double> getRouteLngArray(){
         return routeLngArray;
     }
-
-
 
     //public void setLeader(Long leader ){
     //    this.leader=leader;

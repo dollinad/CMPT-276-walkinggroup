@@ -3,6 +3,7 @@ package ca.sfu.djlin.walkinggroup.app;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -34,6 +35,7 @@ public class CreateGroupActivity extends AppCompatActivity {
     private WGServerProxy proxy;
     LatLng latLng;
     private String token;
+    private Long currentUserId;
     Long id;
 
     @Override
@@ -44,6 +46,10 @@ public class CreateGroupActivity extends AppCompatActivity {
         // Retrieve data from intent
         Intent intent = getIntent();
         token = intent.getStringExtra("token");
+
+        // Get current user id
+        SharedPreferences preferences = CreateGroupActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
+        currentUserId = preferences.getLong("User Id", 0);
 
         // Set up proxy
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey),token);
@@ -94,11 +100,15 @@ public class CreateGroupActivity extends AppCompatActivity {
                         group.setRouteLatArray(lat);
                         group.setRouteLngArray(lng);
                         String email=intent.getStringExtra("email");
-                        System.out.println(email);
-                        System.out.println("start call");
-                        Call<User> calleruser= proxy.getUserByEmail(email);
-                        ProxyBuilder.callProxy(CreateGroupActivity.this,calleruser, returnedUser -> createResponse(returnedUser));
-                        System.out.println("end call");
+
+                        // Add leader user to newly created group
+                        User leader = new User();
+                        leader.setId(currentUserId);
+                        group.setLeader(leader);
+
+                        // Call<User> currentUser = proxy.getUserByEmail(email);
+                        // ProxyBuilder.callProxy(CreateGroupActivity.this,currentUser, returnedUser -> getCurrentUserResponse(returnedUser));
+                        // System.out.println("end call");
                         // group.setLeader(id);
 
                         Call<Group> caller = proxy.createGroup(group);
@@ -107,17 +117,18 @@ public class CreateGroupActivity extends AppCompatActivity {
                 });
             }
         });
-
     }
 
-    private void createResponse(User returnedUser){
+    /*
+    private void getCurrentUserResponse(User returnedUser){
         System.out.println("start response");
         Toast.makeText(CreateGroupActivity.this,"Got users! See logcat.",Toast.LENGTH_LONG).show();
         returnedUser.toString();
         System.out.println("end response");
         id=returnedUser.getId();
         System.out.println("the id is "+id);
-    }
+    } */
+
     private void createGroupResponse(Group group) {
         Log.d(TAG, "createGroupResponse: ");
 
