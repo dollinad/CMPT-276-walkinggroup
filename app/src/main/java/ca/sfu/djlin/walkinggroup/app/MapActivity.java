@@ -73,6 +73,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private ImageView mGps;
     private ImageView mLogout;
     private ImageView mGroupInfo;
+    private ImageView mMonitorSettings;
 
     // Google Map Related
     private Boolean mLocationPermissionsGranted = false;
@@ -144,8 +145,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                 // Draw the meeting location marker
                 // Call<Group> getGroupById(@Path("id") Long groupId);
-                Call<Group> call = proxy.getGroupById(groupId);
-                ProxyBuilder.callProxy(MapActivity.this, call, returnedGroup -> drawMeetingMarker(returnedGroup));
+                if (!marker.equals(meetingMarker)) {
+                    Call<Group> call = proxy.getGroupById(groupId);
+                    ProxyBuilder.callProxy(MapActivity.this, call, returnedGroup -> drawMeetingMarker(returnedGroup));
+                } else if (marker.equals(meetingMarker)){
+                    Toast.makeText(MapActivity.this, MapActivity.this.getString(R.string.meeting_location), Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(MapActivity.this, MapActivity.this.getString(R.string.no_meeting_location), Toast.LENGTH_SHORT).show();
+                }
 
                 return true;
             }
@@ -160,6 +168,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mGps = (ImageView) findViewById(R.id.ic_gps);
         mLogout = (ImageView) findViewById(R.id.ic_logout);
         mGroupInfo = (ImageView) findViewById(R.id.ic_group_info);
+        mMonitorSettings = (ImageView) findViewById(R.id.ic_settings);
 
         // Logout listener
         mLogout.setOnClickListener(new View.OnClickListener() {
@@ -178,7 +187,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         // Build new proxy
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
 
+        // Set up onclick listeners
         setupGroupInfoButton();
+        setupMonitorButton();
     }
 
     public void setGroupMarker(){
@@ -362,30 +373,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
     }
 
-    //function for action bar
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater new_menu=getMenuInflater();
-        new_menu.inflate(R.menu.map_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+    private void setupMonitorButton() {
+        mMonitorSettings.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent pass_intent = PreferencesActivity.launchIntentPreferences(MapActivity.this);
 
-    // Action bar preference button
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Checking id
-        if(item.getItemId() == R.id.settings){
-            Intent pass_intent = PreferencesActivity.launchIntentPreferences(MapActivity.this);
+                SharedPreferences preferences = MapActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
+                token = preferences.getString("Token", null);
+                currentUserEmail = preferences.getString("Email", null);
 
-            SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
-            token = preferences.getString("Token", null);
-            currentUserEmail = preferences.getString("Email", null);
-
-            pass_intent.putExtra("Token", token);
-            pass_intent.putExtra("Email", currentUserEmail);
-            startActivity(pass_intent);
-        }
-        return super.onOptionsItemSelected(item);
+                pass_intent.putExtra("Token", token);
+                pass_intent.putExtra("Email", currentUserEmail);
+                startActivity(pass_intent);
+            }
+        });
     }
 
     private void drawMeetingMarker(Group group) {
