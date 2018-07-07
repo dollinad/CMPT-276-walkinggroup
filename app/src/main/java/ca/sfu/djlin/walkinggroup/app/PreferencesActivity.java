@@ -11,8 +11,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -24,97 +26,68 @@ import android.widget.Toast;
 import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.R;
+import ca.sfu.djlin.walkinggroup.Utilities;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 import retrofit2.Call;
 
 public class PreferencesActivity extends AppCompatActivity {
+    int counter = 0;
 
+    public static final String TAG = "PreferencesActivity";
     private WGServerProxy proxy;
-    String UserToAddEmail;
-    String UserToken;
+    String userToAddEmail;
+    String currentUserToken;
+
     ArrayAdapter<User> adapter;
     ArrayAdapter<User> adapterMonitored;
-    User CurrentUser;
+
+    User currentUser;
     List<User> monitorsUsers;
-    User ToADD;
-    String nametobeadded;
-    String CurrentUserEmail;
+
+    String currentUserEmail;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitoring_config);
 
-        //get intent
-        Intent intent=getIntent();
-        UserToken=intent.getStringExtra("token");
-        CurrentUserEmail=intent.getStringExtra("email");
+        // Get intent
+        Intent intent = getIntent();
+        currentUserToken = intent.getStringExtra("Token");
+        currentUserEmail = intent.getStringExtra("Email");
 
-        //proxy
-        proxy=ProxyBuilder.getProxy(getString(R.string.apikey), UserToken);
-        Call<User> caller=proxy.getUserByEmail(CurrentUserEmail);
+        // Build proxy
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
+
+        // Get current user information
+        Call<User> caller = proxy.getUserByEmail(currentUserEmail);
         ProxyBuilder.callProxy(PreferencesActivity.this, caller, returnedUser -> responseCurrent(returnedUser));
 
-        //function to get user from server
-        getUser();
+        // Set up input and button to add monitored user
+        setupAddMonitoredUser();
 
         //remove from monitors
         deleteMonitors();
-        
+
         //remove from monitored By
         deleteMonitoredBy();
-
-
-    }
-
-    private void deleteMonitoredBy() {
-        ListView list=findViewById(R.id.monitoredList);
-        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                User toRemove=CurrentUser.getMonitoredByUsers().get(position);
-                new AlertDialog.Builder(PreferencesActivity.this)
-                        .setMessage("Are you sure you wnat to remove this user?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                proxy=ProxyBuilder.getProxy(getString(R.string.apikey), UserToken);
-                                Call<Void> caller=proxy.removeFromMonitoredByUsers(CurrentUser.getId(), toRemove.getId());
-                                ProxyBuilder.callProxy(PreferencesActivity.this, caller, returnNothing-> responseMonitoredNothing(returnNothing, position));
-                            }
-                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
-                        startActivity(getIntent());
-                    }
-                }).show();
-                return false;
-            }
-        });
-    }
-
-    private void responseMonitoredNothing(Void returnNothing, int position){
-        CurrentUser.getMonitoredByUsers().remove(position);
-        adapterMonitored.notifyDataSetChanged();
-        monitoredBy();
     }
 
     private void deleteMonitors() {
-        ListView list=findViewById(R.id.monitoringList);
+        ListView list = findViewById(R.id.monitoring_list);
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
-                User userToRemove=monitorsUsers.get(position);
+                User userToRemove = monitorsUsers.get(position);
                 new AlertDialog.Builder(PreferencesActivity.this)
                         .setMessage("Are you sure you want to remove this User?")
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                proxy=ProxyBuilder.getProxy(getString(R.string.apikey), UserToken);
-                                Call<Void> caller=proxy.removeFromMonitorsUsers(CurrentUser.getId(), userToRemove.getId());
+                                proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
+                                Call<Void> caller = proxy.removeFromMonitorsUsers(currentUser.getId(), userToRemove.getId());
                                 ProxyBuilder.callProxy(PreferencesActivity.this, caller, returnNothing-> response(returnNothing, position));
                             }
                         }).setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -130,41 +103,73 @@ public class PreferencesActivity extends AppCompatActivity {
     }
 
     private void response(Void returnedNothing, int position) {
-       monitorsUsers.remove(position);
-       CurrentUser.setMonitoredByUsers(monitorsUsers);
-       adapter.notifyDataSetChanged();
-       Refresh();
-       finish();
-       startActivity(getIntent());
+        monitorsUsers.remove(position);
+        currentUser.setMonitoredByUsers(monitorsUsers);
+        adapter.notifyDataSetChanged();
+        refresh();
+        //finish();
+        //startActivity(getIntent());
     }
+
+    private void deleteMonitoredBy() {
+        ListView list = findViewById(R.id.monitored_by_list);
+        list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+                User toRemove = currentUser.getMonitoredByUsers().get(position);
+                new AlertDialog.Builder(PreferencesActivity.this)
+                        .setMessage("Are you sure you wnat to remove this user?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
+                                Call<Void> caller = proxy.removeFromMonitoredByUsers(currentUser.getId(), toRemove.getId());
+                                ProxyBuilder.callProxy(PreferencesActivity.this, caller, returnNothing-> responseMonitoredNothing(returnNothing, position));
+                            }
+                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                        startActivity(getIntent());
+                    }
+                }).show();
+                return false;
+            }
+        });
+    }
+
+    private void responseMonitoredNothing(Void returnNothing, int position){
+        currentUser.getMonitoredByUsers().remove(position);
+        adapterMonitored.notifyDataSetChanged();
+        monitoredBy();
+    }
+
 
     private void responseCurrent(User user) {
-        CurrentUser=user;
+        // Store retrieved user into currentUser
+        currentUser = user;
         monitoredBy();
-        Toast.makeText(getApplicationContext(), "Current User"+user.getName(),Toast.LENGTH_SHORT).show();
-        Log.i("BEFORE", CurrentUser.getName());
-        Refresh();
+        refresh();
     }
 
-    private void Refresh() {
-        Log.i("REACHED", "nnn");
-        proxy=ProxyBuilder.getProxy(getString(R.string.apikey), UserToken);;
-        Call<List<User>> call=proxy.getMonitorsUsers(CurrentUser.getId());
+    private void refresh() {
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);;
+        Call<List<User>> call = proxy.getMonitorsUsers(currentUser.getId());
         ProxyBuilder.callProxy(PreferencesActivity.this, call, returnedList -> response(returnedList));
     }
 
     private void response(List<User> list) {
-        //notifyUserViaLogAndToast("Server replied with user: " + user.toString());
-        monitorsUsers=list;
-        CurrentUser.setMonitorsUsers(monitorsUsers);
-        adapter=new MyListAdapter();
-        ListView list2=findViewById(R.id.monitoringList);
-        list2.setAdapter(adapter);
+        monitorsUsers = list;
+        currentUser.setMonitorsUsers(monitorsUsers);
+
+        // Build new adapter
+        adapter = new myListAdapterMonitors();
+        ListView monitoringList = findViewById(R.id.monitoring_list);
+        monitoringList.setAdapter(adapter);
     }
 
-
-    private void getUser() {
-        EditText userEmail=findViewById(R.id.PreferecnesUserEmail);
+    private void setupAddMonitoredUser() {
+        EditText userEmail = findViewById(R.id.addMonitoredUserInput);
         userEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -174,18 +179,42 @@ public class PreferencesActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText userEmail=findViewById(R.id.PreferecnesUserEmail);
-                UserToAddEmail=userEmail.getText().toString();
+                EditText userEmail = findViewById(R.id.addMonitoredUserInput);
+                userToAddEmail = userEmail.getText().toString();
             }
         });
 
-        Button AddButton=findViewById(R.id.PreferencesAdd);
+        // Hide keyboard when is done typing
+        userEmail.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    Utilities.hideKeyboard(PreferencesActivity.this);
+                }
+                return false;
+            }
+        });
+
+        // Hide keyboard on focus change
+        userEmail.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    Utilities.hideKeyboardFocus(PreferencesActivity.this, view);
+                }
+            }
+        });
+
+        Button AddButton = findViewById(R.id.addMonitoredUserBtn);
         AddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //proxy
-                proxy=ProxyBuilder.getProxy(getString(R.string.apikey), UserToken);
-                Call<User> caller=proxy.getUserByEmail(UserToAddEmail);
+                // Build proxy
+                proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
+                Call<User> caller = proxy.getUserByEmail(userToAddEmail);
                 ProxyBuilder.callProxy(PreferencesActivity.this, caller, returnedUser -> response(returnedUser));
             }
         });
@@ -193,110 +222,112 @@ public class PreferencesActivity extends AppCompatActivity {
 
     private void response(User user) {
         notifyUserViaLogAndToast("Server replied with user: " + user.toString());
-        CurrentUser.setMonitorsUsers(CurrentUser.getMonitorsUsers());
-        Call<List<User>> call=proxy.addToMonitorsUsers(CurrentUser.getId(), user);
+
+        currentUser.setMonitorsUsers(currentUser.getMonitorsUsers());
+        Call<List<User>> call = proxy.addToMonitorsUsers(currentUser.getId(), user);
         ProxyBuilder.callProxy(PreferencesActivity.this, call, returnedList->response(returnedList));
 
-        Call<List<User>> caller=proxy.addToMonitoredByUsers(user.getId(),CurrentUser);
+        Call<List<User>> caller = proxy.addToMonitoredByUsers(user.getId(), currentUser);
         ProxyBuilder.callProxy(PreferencesActivity.this, caller, returnedList-> responseMonitored(returnedList));
         adapter.notifyDataSetChanged();
-        Refresh();
-        //UserToAddEmail = user.getEmail();
+
+        refresh();
     }
 
     private void responseMonitored(List<User> returnedList) {
 
     }
 
-
-    // Put message up in toast and logcat
-    // -----------------------------------------------------------------------------------------
     private void notifyUserViaLogAndToast(String message) {
-        Log.i("PPP", message);
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
-
-
-
 
     public static Intent launchIntentPreferences(Context context) {
         Intent intentPreferences = new Intent(context, PreferencesActivity.class);
         return intentPreferences;
     }
 
-    private class MyListAdapter extends ArrayAdapter<User> {
-        public MyListAdapter(){
-            super(PreferencesActivity.this, R.layout.layout_monitoring_list, CurrentUser.getMonitorsUsers());
-        }
-        View itemView;
-        @NonNull
-        @Override
-       public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            itemView=convertView;
-            if(itemView==null){
-                itemView=getLayoutInflater().inflate(R.layout.layout_monitoring_list, parent, false);
-            }
-            User Current=CurrentUser.getMonitorsUsers().get(position);
-            Toast.makeText(getApplicationContext(), Current.getId()+"", Toast.LENGTH_SHORT).show();
-            TextView name=itemView.findViewById(R.id.LayoutName);
-            TextView email=itemView.findViewById(R.id.LayoutEmail);
-            Call<User> call=proxy.getUserById(Current.getId());
-            ProxyBuilder.callProxy(PreferencesActivity.this, call, returnUser -> respond(returnUser, name, email));
-
-            return itemView;
-        }
-
-        private void respond(User returnUser, TextView name, TextView email) {
-             //name=itemView.findViewById(R.id.LayoutName);
-            name.setText(returnUser.getName());
-           //email=itemView.findViewById(R.id.LayoutEmail);
-            email.setText(returnUser.getEmail());
-        }
-    }
-
-    private class MyListAdapterMonitored extends ArrayAdapter<User> {
-        public MyListAdapterMonitored(){
-            super(PreferencesActivity.this, R.layout.layout_monitoring_list, CurrentUser.getMonitoredByUsers());
+    private class myListAdapterMonitors extends ArrayAdapter<User> {
+        public myListAdapterMonitors(){
+            super(PreferencesActivity.this, R.layout.layout_monitoring_list, currentUser.getMonitorsUsers());
         }
         View itemView;
 
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            itemView=convertView;
-            if(itemView==null){
-                itemView=getLayoutInflater().inflate(R.layout.layout_monitoring_list, parent, false);
+            itemView = convertView;
+            if(itemView == null){
+                itemView = getLayoutInflater().inflate(R.layout.layout_monitoring_list, parent, false);
             }
-            User MonitoredBy=CurrentUser.getMonitoredByUsers().get(position);
-            TextView name=itemView.findViewById(R.id.LayoutName);
-            TextView email=itemView.findViewById(R.id.LayoutEmail);
-            Call<User> call=proxy.getUserById(MonitoredBy.getId());
-            ProxyBuilder.callProxy(PreferencesActivity.this, call, returnUser ->respond(returnUser, name, email));
+
+            // Make instance of user to retrieve information for
+            User monitors = currentUser.getMonitorsUsers().get(position);
+            TextView name = itemView.findViewById(R.id.list_name);
+            TextView email = itemView.findViewById(R.id.list_email);
+
+            // Make a call to collect the name and email of the user
+            Call<User> call = proxy.getUserById(monitors.getId());
+            ProxyBuilder.callProxy(PreferencesActivity.this, call, returnUser -> respond(returnUser, name, email));
+
             return itemView;
         }
+
         private void respond(User returnUser, TextView name, TextView email) {
-            //name=itemView.findViewById(R.id.LayoutName);
+            // Update the item view with user information
             name.setText(returnUser.getName());
-            //email=itemView.findViewById(R.id.LayoutEmail);
+            email.setText(returnUser.getEmail());
+        }
+    }
+
+    private class myListAdapterMonitored extends ArrayAdapter<User> {
+        public myListAdapterMonitored(){
+            super(PreferencesActivity.this, R.layout.layout_monitoring_list, currentUser.getMonitoredByUsers());
+        }
+        View itemView;
+
+        @NonNull
+        @Override
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            itemView = convertView;
+            if(itemView == null){
+                itemView = getLayoutInflater().inflate(R.layout.layout_monitoring_list, parent, false);
+            }
+
+            // Make instance of user to retrieve information for
+            User monitoredBy = currentUser.getMonitoredByUsers().get(position);
+            TextView name = itemView.findViewById(R.id.list_name);
+            TextView email = itemView.findViewById(R.id.list_email);
+
+            // Make a call to collect the name and email of the user
+            Call<User> call = proxy.getUserById(monitoredBy.getId());
+            ProxyBuilder.callProxy(PreferencesActivity.this, call, returnUser -> respond(returnUser, name, email));
+
+            return itemView;
+        }
+
+        private void respond(User returnUser, TextView name, TextView email) {
+            // Update the item view with user information
+            name.setText(returnUser.getName());
             email.setText(returnUser.getEmail());
         }
     }
 
     private void monitoredBy() {
-        proxy=ProxyBuilder.getProxy(getString(R.string.apikey), UserToken);
-        //Toast.makeText(getApplicationContext(),CurrentUser.getId()+"", Toast.LENGTH_SHORT).show();
-        Call<List<User>> call=proxy.getMonitoredByUsers(CurrentUser.getId());
-        ProxyBuilder.callProxy(PreferencesActivity.this, call, returnedListMon-> responseMonitoredBy(returnedListMon));
-        adapterMonitored=new MyListAdapterMonitored();
-        ListView list=findViewById(R.id.monitoredList);
+        // Make a call to server to retrieve monitored by users
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
+
+        Call<List<User>> call = proxy.getMonitoredByUsers(currentUser.getId());
+        ProxyBuilder.callProxy(PreferencesActivity.this, call, returnedListMon -> responseMonitoredByUsers(returnedListMon));
+
+        // Build array adapter for monitored by list
+        adapterMonitored = new myListAdapterMonitored();
+        ListView list = findViewById(R.id.monitored_by_list);
         list.setAdapter(adapterMonitored);
     }
 
-    private void responseMonitoredBy(List<User> returnedList) {
-        CurrentUser.setMonitoredByUsers(returnedList);
-
+    private void responseMonitoredByUsers(List<User> returnedList) {
+        // Update the current user with the list of who they are monitored by
+        currentUser.setMonitoredByUsers(returnedList);
     }
-
-
-
 }

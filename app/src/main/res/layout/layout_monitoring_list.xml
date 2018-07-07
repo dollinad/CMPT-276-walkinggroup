@@ -3,22 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-
     <TextView
-        android:id="@+id/LayoutName"
+        android:id="@+id/list_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="0dp"
-        android:text="TextView" />
+        android:text="@string/name_hint"/>
 
     <TextView
-        android:id="@+id/LayoutEmail"
+        android:id="@+id/list_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/LayoutName"
-        android:layout_marginStart="29dp"
-        android:text="TextView" />
+        android:layout_below="@+id/list_name"
+        android:text="@string/email_hint"
+        android:textStyle="italic"/>
 </RelativeLayout>

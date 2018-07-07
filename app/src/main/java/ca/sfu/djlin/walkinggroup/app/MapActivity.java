@@ -42,6 +42,7 @@ import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.R;
@@ -53,13 +54,41 @@ import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import retrofit2.Call;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+    private static final String TAG = "MapActivity";
 
+    // Constants
     private static final int REQUEST_CODE_GETDATA = 1024;
-    private WGServerProxy proxy;
-    String token;
-    String CurrentUserEmail;
+    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
+    private static final float DEFAULT_ZOOM = 15f;;
+
+    // Map Permissions
+    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
+    private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
+
+    // Widgets
+    private EditText mSearchText;
+    private ImageView mGps;
+    private ImageView mLogout;
+
+    // Google Map Related
+    private Boolean mLocationPermissionsGranted = false;
+    private FusedLocationProviderClient mFusedLocationProviderClient;
+    private GoogleMap mMap;
+    private GoogleApiClient mGoogleApiClient;
+    private LatLng currentposition = new LatLng(0,0);
     private LatLng latlng;
-    List<Marker> markers=new ArrayList();
+    List<Marker> markers = new ArrayList();
+
+    // Create HashMap used for storing group ID
+    private HashMap<Marker, Long> mHashMap = new HashMap<Marker, Long>();
+
+    // Proxy
+    private WGServerProxy proxy;
+
+    // User Variables
+    String token;
+    String currentUserEmail;
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -68,7 +97,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         if (mLocationPermissionsGranted) {
             getDeviceLocation();
-
 
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) !=
                     PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this,
@@ -84,41 +112,37 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             // Disable Map Toolbar
             mMap.getUiSettings().setMapToolbarEnabled(false);
 
-
             // Initialize search box listeners
             init();
         }
 
         // Need to check ordering for this
-        SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
+        SharedPreferences preferences = MapActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
         token = preferences.getString("Token", null);
-        CurrentUserEmail = preferences.getString("Email", null);
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey),token);
+        currentUserEmail = preferences.getString("Email", null);
+        Log.d(TAG, "onMapReady: The current token is: " + token);
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
         // End need to check order for this
 
         createGroup();
         setGroupMarker();
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener(){
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                // Obtain groupId
+                Long groupId = mHashMap.get(marker);
+                Log.d(TAG, "The groupId retrieved was: " + groupId);
+
+                // Launch Group Info Activity and pass groupId
+                Intent intent = GroupInfoActivity.launchGroupInfoIntent(MapActivity.this);
+                intent.putExtra("groupId", groupId);
+                intent.putExtra("token", token);
+                startActivity(intent);
+                return true;
+            }
+        });
     }
-
-    private static final String TAG = "MapActivity";
-
-    private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
-    private static final String COARSE_LOCATION = Manifest.permission.ACCESS_COARSE_LOCATION;
-    private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
-    private static final float DEFAULT_ZOOM = 15f;;
-
-    // Widgets
-    private EditText mSearchText;
-    private ImageView mGps;
-    private ImageView mLogout;
-
-    private Boolean mLocationPermissionsGranted = false;
-    private GoogleMap mMap;
-    private GoogleApiClient mGoogleApiClient;
-    private LatLng currentposition=new LatLng(0,0);
-
-
-    private FusedLocationProviderClient mFusedLocationProviderClient;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -128,25 +152,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mGps = (ImageView) findViewById(R.id.ic_gps);
         mLogout = (ImageView) findViewById(R.id.ic_logout);
 
-        getLocationPermission();
-
-
-        SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
-        token = preferences.getString("Token", null);
-
-        // token=intent.getStringExtra("token");
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey),token);
-
-        CurrentUserEmail = preferences.getString("Email", null);
-        //Toast.makeText(getApplicationContext(), token, Toast.LENGTH_SHORT).show();
-        setupimgaeview();
-
-    }
-
-    public void setGroupMarker(){
-        Call<List<Group>> caller = proxy.getGroups();
-        ProxyBuilder.callProxy(MapActivity.this, caller, returnedGroups -> response(returnedGroups));
-
         // Logout listener
         mLogout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -154,18 +159,43 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 logout();
             }
         });
+
+        getLocationPermission();
+
+        SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
+        token = preferences.getString("Token", null);
+        currentUserEmail = preferences.getString("Email", null);
+
+        // Build new proxy
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+
+        setupImageView();
+
     }
 
+    public void setGroupMarker(){
+        Log.d(TAG, "setGroupMarker: The current token is " + token);
+        Call<List<Group>> caller = proxy.getGroups();
+        ProxyBuilder.callProxy(MapActivity.this, caller, returnedGroups -> response(returnedGroups));
+    }
 
     private void response(List<Group> returnedGroups) {
+        Log.d(TAG, "The current token is: " + token);
         notifyUserViaLogAndToast("Got list of " + returnedGroups.size() + " groups! See logcat.");
         Log.i("aa", "All groups:");
-        int i=0;
+        int i = 0;
         for (Group group : returnedGroups) {
             double lat=group.getRouteLatArray().get(i);
             double lng=group.getRouteLngArray().get(i);
             LatLng latLng=new LatLng(lat,lng);
-            markers.add(mMap.addMarker(new MarkerOptions().position(latLng).title(group.getGroupDescription())));
+
+            Log.d(TAG, "The type of groupID is: " + group.getId());
+            // Add marker to map
+            Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(group.getGroupDescription()));
+            // Add marker to list
+            markers.add(marker);
+            // Store marker in HashMap for onClick retrieval
+            mHashMap.put(marker, group.getId());
         }
     }
 
@@ -182,7 +212,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Log.d(TAG, "logout: Attempting to logout...");
         Intent intent = WelcomeActivity.launchWelcomeIntent(MapActivity.this);
 
-        SharedPreferences preferences = this.getSharedPreferences("User Session" , MODE_PRIVATE);
+        SharedPreferences preferences = MapActivity.this.getSharedPreferences("User Session" , MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove("Token");
         editor.remove("Email");
@@ -272,7 +302,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 intent.putExtra("email",CurrentUserEmail);
                 latlng=latLng;
 
-                startActivityForResult(intent,REQUEST_CODE_GETDATA);
+                startActivityForResult(intent, REQUEST_CODE_GETDATA);
             }
         });
     }
@@ -283,17 +313,22 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             case REQUEST_CODE_GETDATA:
                 if (resultCode == Activity.RESULT_OK) {
                     String groupName = CreateGroupActivity.getresult(data);
+                    Long groupId = data.getLongExtra("groupId", 0);
+
                     Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(groupName));
                     markers.add(marker);
-                    System.out.println(markers.size());
-                    System.out.println(markers.get(0));
+                    // System.out.println(markers.size());
+                    // System.out.println(markers.get(0));
+
+                    // Store marker in HashMap for onClick retrieval
+                    mHashMap.put(marker, groupId);
                 } else {
                     Log.i("My app", "Activity cancelled.");
                 }
         }
     }
 
-    private void setupimgaeview() {
+    private void setupImageView() {
         ImageView mPlaceMarker = findViewById(R.id.marker);
         mPlaceMarker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -312,19 +347,19 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return super.onCreateOptionsMenu(menu);
     }
 
-    //action bar preference button
+    // Action bar preference button
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //checking id
-        if(item.getItemId()==R.id.settings){
-            Intent pass_intent=PreferencesActivity.launchIntentPreferences(MapActivity.this);
+        // Checking id
+        if(item.getItemId() == R.id.settings){
+            Intent pass_intent = PreferencesActivity.launchIntentPreferences(MapActivity.this);
 
             SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
             token = preferences.getString("Token", null);
-            CurrentUserEmail = preferences.getString("Email", null);
+            currentUserEmail = preferences.getString("Email", null);
 
-            pass_intent.putExtra("token", token);
-            pass_intent.putExtra("email", CurrentUserEmail);
+            pass_intent.putExtra("Token", token);
+            pass_intent.putExtra("Email", currentUserEmail);
             startActivity(pass_intent);
         }
         return super.onOptionsItemSelected(item);
