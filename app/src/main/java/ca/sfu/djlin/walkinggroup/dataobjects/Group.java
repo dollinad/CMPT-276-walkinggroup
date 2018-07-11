@@ -7,6 +7,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.model.User;
@@ -18,22 +19,22 @@ import ca.sfu.djlin.walkinggroup.model.User;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Group extends IdItemBase{
+    private String groupDescription;
 
-    // Start Daniel's Testing Playground
+    private User leader;
+    private ArrayList<User> memberUsers = new ArrayList();
+    private String customJson;
+
     private Long id;
 
-    @Override
     public Long getId() {
         return id;
     }
 
-    @Override
     public void setId(Long id) {
         this.id = id;
     }
 
-
-    private User leader;
     public User getLeader() {
         return leader;
     }
@@ -42,18 +43,12 @@ public class Group extends IdItemBase{
         this.leader = leader;
     }
 
-    // End Daniel's Testing Playground
-
-    private String groupDescription;
-
     public void setGroupDescription(String groupDescription){
         this.groupDescription=groupDescription;
     }
     public String getGroupDescription(){
         return groupDescription;
     }
-
-    private ArrayList<User> memberUsers = new ArrayList();
 
     public ArrayList<User> getMemberUsers() {
         return memberUsers;
@@ -63,35 +58,13 @@ public class Group extends IdItemBase{
         this.memberUsers = memberUsers;
     }
 
-    //private Long leaderId;
 
-    private List<Double> routeLatArray=new ArrayList();
-    private List<Double> routeLngArray=new ArrayList();
-
-    // private ArrayList<User> memberUsers = new ArrayList();
-
-//    public ArrayList<User> getMemberUsers() {
-//        return memberUsers;
-//    }
-
-//    public void setMemberUsers(ArrayList<User> memberUsers) {
-//        this.memberUsers = memberUsers;
-//    }
-
-    //private List<User> memberOfGroups=new ArrayList();
-
-
-
-
-    //public void addUser(User user){
-    //    users.add(user);
-    //}
-
+    private List<Double> routeLatArray = new ArrayList();
+    private List<Double> routeLngArray = new ArrayList();
 
     //public User getUser(int index){return users.get(index);}
     public void setRouteLatArray(List<Double> latArray){
-
-        this.routeLatArray=latArray;
+        this.routeLatArray = latArray;
     }
     public void setRouteLngArray(List<Double> lngArray){
 
@@ -104,12 +77,26 @@ public class Group extends IdItemBase{
         return routeLngArray;
     }
 
-    //public void setLeader(Long leader ){
-    //    this.leader=leader;
-   // }
-    //public long getLeader(){return leader;}
+    public String getCustomJson() {
+        return customJson;
+    }
 
+    public void setCustomJson(String customJson) {
+        this.customJson = customJson;
+    }
 
-
-
+    @Override
+    public String toString() {
+        return "Group{" +
+                "groupDescription='" + groupDescription + '\'' +
+                ", routeLatArray=" + routeLatArray +
+                ", routeLngArray=" + routeLngArray +
+                ", leader=" + leader +
+                ", memberUsers=" + memberUsers +
+                ", customJson='" + customJson + '\'' +
+                ", id=" + id +
+                ", hasFullData=" + hasFullData +
+                ", href='" + href + '\'' +
+                '}';
+    }
 }
