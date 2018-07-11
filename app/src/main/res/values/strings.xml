@@ -81,8 +81,13 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
-    <string name="get_location">Get Location</string>
+
     <string name="title_activity_map_drawer">map_drawer</string>
     <string name="title_activity_map_drawer_test">Map_activityDrawerTest</string>
+    <string name="monitoring_prfrences">Monitoring Prfrences</string>
+    <string name="get_location">Get Location</string>
+    <string name="slideshow">Slideshow</string>
+    <string name="logout">Logout</string>
+    <string name="get_group_info">Get Group Info</string>
 
 </resources>
