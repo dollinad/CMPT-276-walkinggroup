@@ -65,7 +65,11 @@
         <activity
             android:name=".app.GroupInfoActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity android:name=".app.ReadMe"></activity>
+        <activity android:name=".app.ReadMe" />
+        <activity
+            android:name=".app.Map_activityDrawerTest"
+            android:label="@string/title_activity_map_drawer_test"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

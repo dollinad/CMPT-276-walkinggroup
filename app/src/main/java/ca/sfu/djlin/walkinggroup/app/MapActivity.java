@@ -19,9 +19,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -50,10 +47,9 @@ import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
-import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
-
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
+import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 import retrofit2.Call;
 
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
@@ -374,6 +370,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMonitorSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "PPP", Toast.LENGTH_SHORT).show();
                 Intent pass_intent = PreferencesActivity.launchIntentPreferences(MapActivity.this);
 
                 SharedPreferences preferences = MapActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
@@ -525,4 +522,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         }
     }
+
+
 }

@@ -206,7 +206,7 @@ public class LoginActivity extends AppCompatActivity {
         editor.apply();
 
         // Launch the Maps Activity
-        Intent intent = MapActivity.launchIntentMap(LoginActivity.this);
+        Intent intent = Map_activityDrawerTest.launchIntentMap(LoginActivity.this);
         startActivity(intent);
         finish();
     }
