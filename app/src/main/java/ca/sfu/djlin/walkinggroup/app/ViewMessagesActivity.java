@@ -45,8 +45,8 @@ public class ViewMessagesActivity extends AppCompatActivity {
         // Retrieve current user information
         getCurrentUserInformation();
 
-        // Set up proxy
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
+        // Set up proxy, include depth of 1 to get more information about the users
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken, 1);
 
         // Setup temporary button to send the test group some messages
         setupTestButtons();
@@ -108,18 +108,11 @@ public class ViewMessagesActivity extends AppCompatActivity {
             TextView messageSenderName = (TextView) itemView.findViewById(R.id.message_sender_name);
             TextView messageBodyText = (TextView) itemView.findViewById(R.id.message_body);
 
-            // Make a call to collect the name of the user. Not sure why names are null for returned users initially
-            Call<User> call = proxy.getUserById(message.getFromUser().getId());
-            ProxyBuilder.callProxy(ViewMessagesActivity.this, call, returnedUser -> getUserName(returnedUser, messageSenderName));
-
             // Update the body text
+            messageSenderName.setText(message.getFromUser().getName());
             messageBodyText.setText(message.getText());
 
             return itemView;
-        }
-
-        private void getUserName(User returnedUser, TextView senderName) {
-            senderName.setText(returnedUser.getName());
         }
     }
 
