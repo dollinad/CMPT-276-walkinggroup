@@ -106,7 +106,36 @@ public interface WGServerProxy {
     // -----------------------------
     // Messages
     // -----------------------------
-    // TODO: Implement
+    @POST("/messages/togroup/{groupId}")
+    Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> newMessageToGroup(@Path("groupId") Long groupId, @Body ca.cmpt276.walkinggroup.dataobjects.Message message);
+
+    @POST("/messages/toparentsof/{userId}")
+    Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> newMessageToParentsOf(@Path("userId") Long userId, @Body ca.cmpt276.walkinggroup.dataobjects.Message message);
+
+    @GET("/messages")
+    Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> getMessages();
+    @GET("/messages")
+    Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> getMessages(@Query("touser") Long toUserId);
+    @GET("/messages")
+    Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> getMessages(@Query("touser") Long toUserId, @Query("is-emergency") Boolean isEmergency);
+    @GET("/messages?status=unread")
+    Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> getUnreadMessages(
+            @Query("touser") Long toUserId,
+            @Query("is-emergency") Boolean isEmergency);    // null for not filtering
+    @GET("/messages?status=read")
+    Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> getReadMessages(
+            @Query("touser") Long toUserId,
+            @Query("is-emergency") Boolean isEmergency);    // null for not filtering
+
+    @GET("/messages/{id}")
+    Call<ca.cmpt276.walkinggroup.dataobjects.Message> getOneMessage(@Path("id") Long id);
+
+    // if markAsRead is false, then marks it as unread.
+    @POST("/messages/{id}/mark-read-or-unread")
+    Call<ca.cmpt276.walkinggroup.dataobjects.Message> markMessageAsRead(@Path("id") Long id, @Body Boolean markAsRead);
+
+    @DELETE("/messages/{id}")
+    Call<Void> deleteMessage(@Path("id") Long id);
 
     // -----------------------------
     // Permissions

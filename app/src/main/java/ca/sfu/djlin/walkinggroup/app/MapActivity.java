@@ -230,6 +230,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Log.d(TAG, "logout: Attempting to logout...");
         Intent intent = WelcomeActivity.launchWelcomeIntent(MapActivity.this);
 
+        // Note: Stops checking of new messages
+        Log.d(TAG, "Stops checking for new mail!");
+        Utilities.removeMessageChecking();
+
+        // Remove shared preferences information
         SharedPreferences preferences = MapActivity.this.getSharedPreferences("User Session" , MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove("Token");

@@ -58,7 +58,7 @@ public class ProxyBuilder {
         logging.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()
                 .addInterceptor(logging)
-                .addInterceptor(new AddHeaderInterceptor(apiKey, token))
+                .addInterceptor(new AddHeaderInterceptor(apiKey, token, null))
                 .build();
 
         // Build Retrofit proxy object for server
@@ -71,8 +71,33 @@ public class ProxyBuilder {
         return retrofit.create(WGServerProxy.class);
     }
 
+    /**
+     * Return the proxy that client code can use to call server.
+     * @param apiKey   Your group's API key to communicate with the server.
+     * @param token    The token you have been issued
+     * @param depth    The JSON-depth required
+     * @return proxy object to call the server.
+     */
+    public static WGServerProxy getProxy(String apiKey, String token, int depth) {
+        String jsonDepth = Integer.toString(depth);
 
+        // Enable Logging
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor();
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(logging)
+                .addInterceptor(new AddHeaderInterceptor(apiKey, token, jsonDepth))
+                .build();
 
+        // Build Retrofit proxy object for server
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(SERVER_URL)
+                .addConverterFactory(JacksonConverterFactory.create())
+                .client(client)
+                .build();
+
+        return retrofit.create(WGServerProxy.class);
+    }
 
     /**
      * Interface for simplifying the callbacks from the server.
@@ -151,21 +176,18 @@ public class ProxyBuilder {
     }
 
 
-
-
-
-
-
     // --------------------------------
     // PRIVATE
     // --------------------------------
     private static class AddHeaderInterceptor implements Interceptor {
         private String apiKey;
         private String token;
+        private String depth;
 
-        public AddHeaderInterceptor(String apiKey, String token) {
+        public AddHeaderInterceptor(String apiKey, String token, String depth) {
             this.apiKey = apiKey;
             this.token = token;
+            this.depth = depth;
         }
 
         @Override
@@ -181,6 +203,11 @@ public class ProxyBuilder {
             if (token != null) {
                 builder.header("Authorization", token);
             }
+            // Add json depth
+            if (depth != null) {
+                builder.header("JSON-DEPTH", depth);
+            }
+
             Request modifiedRequest = builder.build();
 
             return chain.proceed(modifiedRequest);

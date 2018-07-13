@@ -90,4 +90,12 @@
     <string name="logout">Logout</string>
     <string name="get_group_info">Get Group Info</string>
 
+
+    <!-- In-app messaging -->
+    <string name="messages">Messages</string>
+    <string name="text_message_placeholder">&#60;Text Message&#62;</string>
+    <string name="from_label">From:</string>
+    <string name="body_label">Body:</string>
+
+
 </resources>

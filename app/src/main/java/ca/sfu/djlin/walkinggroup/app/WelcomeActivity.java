@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -17,6 +18,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
 import ca.sfu.djlin.walkinggroup.R;
+import ca.sfu.djlin.walkinggroup.Utilities;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 
@@ -110,6 +112,10 @@ public class WelcomeActivity extends AppCompatActivity {
             String token = data[0];
             proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
 
+            // Start handler for new message checking
+            Utilities.startMessageChecking();
+
+            // End start background task
             Intent intent = Map_activityDrawerTest.launchIntentMap(WelcomeActivity.this);
             startActivity(intent);
             finish();

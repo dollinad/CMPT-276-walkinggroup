@@ -277,6 +277,8 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void launchMapActivity() {
+        Utilities.startMessageChecking();
+
         // Launch Map Activity
         Intent mapIntent = Map_activityDrawerTest.launchIntentMap(SignupActivity.this);
         startActivity(mapIntent);

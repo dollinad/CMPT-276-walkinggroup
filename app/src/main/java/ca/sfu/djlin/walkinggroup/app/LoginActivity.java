@@ -57,6 +57,9 @@ public class LoginActivity extends AppCompatActivity {
             String token = data[0];
             proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
 
+            // Start checking for new mail
+            Utilities.startMessageChecking();
+
             // Need to change method of starting activity
             Intent intent = Map_activityDrawerTest.launchIntentMap(LoginActivity.this);
             startActivity(intent);
@@ -204,6 +207,9 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putLong("User Id", user.getId());
         editor.apply();
+
+        // Start checking for new mail
+        Utilities.startMessageChecking();
 
         // Launch the Maps Activity
         Intent intent = Map_activityDrawerTest.launchIntentMap(LoginActivity.this);

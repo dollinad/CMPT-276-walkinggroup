@@ -70,6 +70,15 @@
             android:name=".app.Map_activityDrawerTest"
             android:label="@string/title_activity_map_drawer_test"
             android:theme="@style/AppTheme"/>
+
+        <!-- Messaging Activity -->
+        <activity android:name=".app.ViewMessagesActivity">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
     </application>
 
 </manifest>
