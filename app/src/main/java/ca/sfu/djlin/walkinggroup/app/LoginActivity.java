@@ -61,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
             Utilities.startMessageChecking();
 
             // Need to change method of starting activity
-            Intent intent = Map_activityDrawerTest.launchIntentMap(LoginActivity.this);
+            Intent intent = Map_activityDrawer.launchIntentMap(LoginActivity.this);
             startActivity(intent);
         }
     }
@@ -212,7 +212,7 @@ public class LoginActivity extends AppCompatActivity {
         Utilities.startMessageChecking();
 
         // Launch the Maps Activity
-        Intent intent = Map_activityDrawerTest.launchIntentMap(LoginActivity.this);
+        Intent intent = Map_activityDrawer.launchIntentMap(LoginActivity.this);
         startActivity(intent);
         finish();
     }

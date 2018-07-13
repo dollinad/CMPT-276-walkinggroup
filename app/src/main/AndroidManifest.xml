@@ -67,7 +67,7 @@
 
         <activity android:name=".app.ViewGrpupActivity"/>
         <activity
-            android:name=".app.Map_activityDrawerTest"
+            android:name=".app.Map_activityDrawer"
             android:label="@string/title_activity_map_drawer_test"
             android:theme="@style/AppTheme"/>
 

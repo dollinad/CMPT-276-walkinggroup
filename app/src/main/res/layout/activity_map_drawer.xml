@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".app.Map_activityDrawerTest">
+    tools:context=".app.Map_activityDrawer">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -24,10 +24,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/map"
-        tools:context=".app.Map_activityDrawerTest"
+        tools:context=".app.Map_activityDrawer"
         android:name="com.google.android.gms.maps.SupportMapFragment" />
 
-    <include layout="@layout/content_map_activity_drawer_test" />
+    <include layout="@layout/content_map_activity_drawer" />
 
 
 </android.support.constraint.ConstraintLayout>

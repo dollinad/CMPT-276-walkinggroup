@@ -53,7 +53,7 @@ import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 import retrofit2.Call;
 
-public class Map_activityDrawerTest extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
+public class Map_activityDrawer extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
     private static final String TAG = "MapActivity";
 
     // Constants
@@ -110,6 +110,7 @@ public class Map_activityDrawerTest extends AppCompatActivity implements Navigat
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
         View header=navigationView.getHeaderView(0);
 
 
@@ -153,7 +154,7 @@ public class Map_activityDrawerTest extends AppCompatActivity implements Navigat
         }
 
         // Need to check ordering for this
-        SharedPreferences preferences = Map_activityDrawerTest.this.getSharedPreferences("User Session", MODE_PRIVATE);
+        SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
         token = preferences.getString("Token", null);
         currentUserEmail = preferences.getString("Email", null);
         Log.d(TAG, "onMapReady: The current token is: " + token);
@@ -188,12 +189,12 @@ public class Map_activityDrawerTest extends AppCompatActivity implements Navigat
                 // Draw the meeting location marker
                 if (!marker.equals(meetingMarker)) {
                     Call<Group> call = proxy.getGroupById(groupId);
-                    ProxyBuilder.callProxy(Map_activityDrawerTest.this, call, returnedGroup -> drawMeetingMarker(returnedGroup));
+                    ProxyBuilder.callProxy(Map_activityDrawer.this, call, returnedGroup -> drawMeetingMarker(returnedGroup));
                 } else if (marker.equals(meetingMarker)){
-                    Toast.makeText(Map_activityDrawerTest.this, Map_activityDrawerTest.this.getString(R.string.meeting_location), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Map_activityDrawer.this, Map_activityDrawer.this.getString(R.string.meeting_location), Toast.LENGTH_SHORT).show();
 
                 } else {
-                    Toast.makeText(Map_activityDrawerTest.this, Map_activityDrawerTest.this.getString(R.string.no_meeting_location), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Map_activityDrawer.this, Map_activityDrawer.this.getString(R.string.no_meeting_location), Toast.LENGTH_SHORT).show();
                 }
 
                 return true;
@@ -204,7 +205,7 @@ public class Map_activityDrawerTest extends AppCompatActivity implements Navigat
     public void setGroupMarker(){
         Log.d(TAG, "setGroupMarker: The current token is " + token);
         Call<List<Group>> caller = proxy.getGroups();
-        ProxyBuilder.callProxy(Map_activityDrawerTest.this, caller, returnedGroups -> response(returnedGroups));
+        ProxyBuilder.callProxy(Map_activityDrawer.this, caller, returnedGroups -> response(returnedGroups));
     }
 
     private void response(List<Group> returnedGroups) {
@@ -231,9 +232,9 @@ public class Map_activityDrawerTest extends AppCompatActivity implements Navigat
 
     private void logout() {
         Log.d(TAG, "logout: Attempting to logout...");
-        Intent intent = WelcomeActivity.launchWelcomeIntent(Map_activityDrawerTest.this);
+        Intent intent = WelcomeActivity.launchWelcomeIntent(Map_activityDrawer.this);
 
-        SharedPreferences preferences = Map_activityDrawerTest.this.getSharedPreferences("User Session" , MODE_PRIVATE);
+        SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session" , MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove("Token");
         editor.remove("Email");
@@ -266,7 +267,7 @@ public class Map_activityDrawerTest extends AppCompatActivity implements Navigat
         });*/
 
         // Hides keyboard
-        Utilities.hideKeyboard(Map_activityDrawerTest.this);
+        Utilities.hideKeyboard(Map_activityDrawer.this);
 
     }
 
@@ -279,7 +280,7 @@ public class Map_activityDrawerTest extends AppCompatActivity implements Navigat
        // String searchString = mSearchText.getText().toString();
 
         // Create new geocoder
-        Geocoder geocoder = new Geocoder(Map_activityDrawerTest.this);
+        Geocoder geocoder = new Geocoder(Map_activityDrawer.this);
 
         // Create new address arraylist
         List<Address> list = new ArrayList<>();
@@ -322,7 +323,7 @@ public class Map_activityDrawerTest extends AppCompatActivity implements Navigat
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM, "My Location");
                         } else {
                             Log.d(TAG, "Current location is null!");
-                            Toast.makeText(Map_activityDrawerTest.this, Map_activityDrawerTest.this.getString(R.string.unable_to_get_location), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Map_activityDrawer.this, Map_activityDrawer.this.getString(R.string.unable_to_get_location), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -356,7 +357,7 @@ public class Map_activityDrawerTest extends AppCompatActivity implements Navigat
                     finish();
                 } else {
                     Log.d(TAG, "This is going to start a new activity");
-                    Intent intent = new Intent(Map_activityDrawerTest.this, CreateGroupActivity.class);
+                    Intent intent = new Intent(Map_activityDrawer.this, CreateGroupActivity.class);
                     intent.putExtra("lat", latLng.latitude);
                     intent.putExtra("lng", latLng.longitude);
                     intent.putExtra("token", token);
@@ -414,7 +415,7 @@ public class Map_activityDrawerTest extends AppCompatActivity implements Navigat
             // Set new meeting marker to draw next time
             meetingMarker = marker;
         } else {
-            Toast.makeText(Map_activityDrawerTest.this, Map_activityDrawerTest.this.getString(R.string.no_meeting_location), Toast.LENGTH_SHORT).show();
+            Toast.makeText(Map_activityDrawer.this, Map_activityDrawer.this.getString(R.string.no_meeting_location), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -433,7 +434,7 @@ public class Map_activityDrawerTest extends AppCompatActivity implements Navigat
         }
 
         // Hides keyboard
-        Utilities.hideKeyboard(Map_activityDrawerTest.this);
+        Utilities.hideKeyboard(Map_activityDrawer.this);
     }
 
     private void getLocationPermission() {
@@ -456,7 +457,7 @@ public class Map_activityDrawerTest extends AppCompatActivity implements Navigat
         Log.d(TAG, "initMap: initializing map");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
-        mapFragment.getMapAsync(Map_activityDrawerTest.this);
+        mapFragment.getMapAsync(Map_activityDrawer.this);
     }
 
     @Override
@@ -532,7 +533,7 @@ public class Map_activityDrawerTest extends AppCompatActivity implements Navigat
             Log.d(TAG, "Clicking on group info button");
 
             // Launch Group Info Activity and pass groupId
-            Intent intent = CreateGroupActivity.makeintent(Map_activityDrawerTest.this);
+            Intent intent = CreateGroupActivity.makeintent(Map_activityDrawer.this);
             intent.putExtra("groupId", selectedGroupId);
             intent.putExtra("token", token);
             startActivity(intent);
@@ -540,9 +541,9 @@ public class Map_activityDrawerTest extends AppCompatActivity implements Navigat
 
         } else if (id == R.id.MonitoringPrefrences) {
             Toast.makeText(getApplicationContext(), "PPP", Toast.LENGTH_SHORT).show();
-            Intent pass_intent = PreferencesActivity.launchIntentPreferences(Map_activityDrawerTest.this);
+            Intent pass_intent = PreferencesActivity.launchIntentPreferences(Map_activityDrawer.this);
 
-            SharedPreferences preferences = Map_activityDrawerTest.this.getSharedPreferences("User Session", MODE_PRIVATE);
+            SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
             token = preferences.getString("Token", null);
             currentUserEmail = preferences.getString("Email", null);
 
@@ -554,9 +555,9 @@ public class Map_activityDrawerTest extends AppCompatActivity implements Navigat
         }
         else if(id==R.id.viewGroups){
             Toast.makeText(getApplicationContext(), "PPP", Toast.LENGTH_SHORT).show();
-            Intent pass_intent = ViewGrpupActivity.launchIntentViewGroups(Map_activityDrawerTest.this);
+            Intent pass_intent = ViewGrpupActivity.launchIntentViewGroups(Map_activityDrawer.this);
 
-            SharedPreferences preferences = Map_activityDrawerTest.this.getSharedPreferences("User Session", MODE_PRIVATE);
+            SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
             token = preferences.getString("Token", null);
             currentUserEmail = preferences.getString("Email", null);
 
@@ -573,12 +574,12 @@ public class Map_activityDrawerTest extends AppCompatActivity implements Navigat
     }
 
     public static Intent launchIntentMap(Context context) {
-        Intent intent = new Intent(context, Map_activityDrawerTest.class);
+        Intent intent = new Intent(context, Map_activityDrawer.class);
         return intent;
     }
 
     public static Intent launchIntentMapForMarker(Context context) {
-        Intent intent = new Intent(context, Map_activityDrawerTest. class);
+        Intent intent = new Intent(context, Map_activityDrawer. class);
         return intent;
     }
 

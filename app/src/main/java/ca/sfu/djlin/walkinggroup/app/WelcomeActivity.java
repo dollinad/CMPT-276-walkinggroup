@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -116,7 +115,7 @@ public class WelcomeActivity extends AppCompatActivity {
             Utilities.startMessageChecking();
 
             // End start background task
-            Intent intent = Map_activityDrawerTest.launchIntentMap(WelcomeActivity.this);
+            Intent intent = Map_activityDrawer.launchIntentMap(WelcomeActivity.this);
             startActivity(intent);
             finish();
         }
