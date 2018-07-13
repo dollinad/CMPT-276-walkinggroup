@@ -50,6 +50,7 @@
             android:name=".app.LoginActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
+
         <!-- Preferences Activity -->
         <activity
             android:name=".app.PreferencesActivity"
@@ -62,7 +63,13 @@
         <activity
             android:name=".app.GroupInfoActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity android:name=".app.ReadMe"></activity>
+        <activity android:name=".app.ReadMe" />
+
+        <activity android:name=".app.ViewGrpupActivity"/>
+        <activity
+            android:name=".app.Map_activityDrawer"
+            android:label="@string/title_activity_map_drawer_test"
+            android:theme="@style/AppTheme"/>
 
         <!-- Messaging Activity -->
         <activity android:name=".app.ViewMessagesActivity">

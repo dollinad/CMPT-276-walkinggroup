@@ -17,7 +17,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.R;
@@ -205,7 +204,7 @@ public class GroupInfoActivity extends AppCompatActivity {
 
         // Set up array adapter
         adapterMemberList = new memberListAdapter();
-        ListView list = findViewById(R.id.member_list);
+        ListView list = findViewById(R.id.createGroupmember_list);
         list.setAdapter(adapterMemberList);
     }
 

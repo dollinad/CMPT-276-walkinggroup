@@ -270,6 +270,7 @@ public class SignupActivity extends AppCompatActivity {
     private void saveUserInfo(User user) {
         SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("Name", user.getName());
         editor.putString("Email", user.getEmail());
         editor.putLong("User Id", user.getId());
         editor.apply();
@@ -279,7 +280,7 @@ public class SignupActivity extends AppCompatActivity {
         Utilities.startMessageChecking();
 
         // Launch Map Activity
-        Intent mapIntent = MapActivity.launchIntentMap(SignupActivity.this);
+        Intent mapIntent = Map_activityDrawer.launchIntentMap(SignupActivity.this);
         startActivity(mapIntent);
         finish();
     }
