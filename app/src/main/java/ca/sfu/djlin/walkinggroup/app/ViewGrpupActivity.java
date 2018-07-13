@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -58,8 +57,8 @@ public class ViewGrpupActivity extends AppCompatActivity {
 
     }
 
+    //response for current user
     private void responseCurrent(User user) {
-        Log.i("LKLKLK", user.getName());
         // Store retrieved user into currentUser
         currentUser = user;
         if(user.getMemberOfGroups().size()==0 && user.getLeadsGroups().size()==0){
@@ -80,6 +79,7 @@ public class ViewGrpupActivity extends AppCompatActivity {
     }
 
 
+    //Adapetr for the list
     private class myListAdapter extends ArrayAdapter<Group> {
         public myListAdapter() {
             super(ViewGrpupActivity.this, R.layout.layout_viewgroups, currentGroups);
@@ -94,31 +94,34 @@ public class ViewGrpupActivity extends AppCompatActivity {
                 itemView = getLayoutInflater().inflate(R.layout.layout_viewgroups, parent, false);
             }
 
+            //list layout (des= description of the group and leader)
             TextView des = itemView.findViewById(R.id.idGrpDes);
             TextView leader = itemView.findViewById(R.id.idGrpLead);
 
             proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
 
+            //checking if the current user is currently in any groups
             if(currentUser.getMemberOfGroups().size()!=0) {
                 Call<Group> call = proxy.getGroupById(currentUser.getMemberOfGroups().get(position).getId());
                 ProxyBuilder.callProxy(ViewGrpupActivity.this, call, returnedGroup -> Groupreturned(returnedGroup, des, leader));
             }
 
+            //checking if the current group is leading any groups
            if(currentUser.getLeadsGroups().size()==0) {
-                Log.i("LLL", "KKK");
                 Call<Group> caller = proxy.getGroupById(currentUser.getLeadsGroups().get(position).getId());
                 ProxyBuilder.callProxy(ViewGrpupActivity.this, caller, returnedGroup -> GroupreturnedLead(returnedGroup, des, leader));
             }
             return itemView;
         }
 
+        //response function for if the user is a part of any group
         private void GroupreturnedLead(Group returnedGroup, TextView des, TextView leader) {
             des.setText(returnedGroup.getGroupDescription());
             leader.setText(returnedGroup.getLeader().getName());
         }
 
+        //response function for if the user is leading any groups
         private void Groupreturned(Group returnedGroup, TextView des, TextView leader) {
-            Log.i("IIIII", "jjj");
             des.setText(returnedGroup.getGroupDescription());
             leader.setText(returnedGroup.getLeader().getName());
 

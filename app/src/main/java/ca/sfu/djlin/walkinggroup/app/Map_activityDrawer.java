@@ -8,8 +8,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -109,23 +107,22 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         // Build new proxy
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
 
+        //Navigation Drawer Header layout
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         View header=navigationView.getHeaderView(0);
 
-
+        //customising navigation drawer Header
         TextView name=(TextView)header.findViewById(R.id.navUserName);
         name.setText(currentUserName);
         TextView email=(TextView)header.findViewById(R.id.navUserEmail);
         email.setText(currentUserEmail);
 
-
         getLocationPermission();
 
-
-        Log.i("OKJHG", "kk");
-
     }
+
+    //                                              MAP FUNCTIONS
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -153,13 +150,11 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
             init();
         }
 
-        // Need to check ordering for this
         SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
         token = preferences.getString("Token", null);
         currentUserEmail = preferences.getString("Email", null);
         Log.d(TAG, "onMapReady: The current token is: " + token);
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
-        // End need to check order for this
 
         Intent intent=getIntent();
         if(intent.getExtras()!=null) {
@@ -167,13 +162,9 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
             String groupName=intent.getStringExtra("groupName");
             Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(groupName));
             markers.add(marker);
-            // System.out.println(markers.size());
-            // System.out.println(markers.get(0));
-
-            // Store marker in HashMap for onClick retrieval
             mHashMap.put(marker, intent.getLongExtra("groupId", 0));
         }
-        // End need to check order for this;
+
         setMapClickListeners();
         setGroupMarker();
 
@@ -208,6 +199,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         ProxyBuilder.callProxy(Map_activityDrawer.this, caller, returnedGroups -> response(returnedGroups));
     }
 
+    //Response for GroupMarker function
     private void response(List<Group> returnedGroups) {
         Log.d(TAG, "The current token is: " + token);
         int i = 0;
@@ -226,83 +218,14 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         }
     }
 
-    private void notifyUserViaLogAndToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-    }
-
-    private void logout() {
-        Log.d(TAG, "logout: Attempting to logout...");
-        Intent intent = WelcomeActivity.launchWelcomeIntent(Map_activityDrawer.this);
-
-        SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session" , MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.remove("Token");
-        editor.remove("Email");
-        editor.remove("User Id");
-        editor.apply();
-        startActivity(intent);
-        finish();
-    }
-
     private void init() {
         Log.d(TAG, "init: initializing");
-
-        //TODOOOOO!!!!!!!!!!!
-
-        //mSearchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            /*@Override
-            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
-                // Check to see if user presses keys to initiate a search
-                // ACTION_DOWN is the return key on the keyboard
-                if (actionId == EditorInfo.IME_ACTION_SEARCH
-                        || actionId == EditorInfo.IME_ACTION_DONE
-                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
-                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
-
-                    mSearchText.clearFocus();
-                    geoLocate();
-                }
-                return false;
-            }
-        });*/
 
         // Hides keyboard
         Utilities.hideKeyboard(Map_activityDrawer.this);
 
     }
 
-    //TODOOOOO
-
-    private void geoLocate() {
-        Log.d(TAG, "geoLocate: geolocating");
-
-        // Get search string from search text box
-       // String searchString = mSearchText.getText().toString();
-
-        // Create new geocoder
-        Geocoder geocoder = new Geocoder(Map_activityDrawer.this);
-
-        // Create new address arraylist
-        List<Address> list = new ArrayList<>();
-
-        // Try to populate arraylist
-        //try {
-           // list = geocoder.getFromLocationName(searchString, 1);
-        //} catch (IOException e){
-         //   Log.e(TAG, "geoLocate: IOException: " + e.getMessage());
-       // }
-
-        // Address find
-        if (list.size() > 0) {
-            Address address = list.get(0);
-            Log.d(TAG, "Found an address: " + address.toString());
-
-            // Move camera to lat and lng
-            moveCamera(new LatLng(address.getLatitude(), address.getLongitude()), DEFAULT_ZOOM, address.getAddressLine(0));
-        } else {
-            Log.d(TAG, "Unable to find an address!");
-        }
-    }
 
     private void getDeviceLocation() {
         Log.d(TAG, "getDeviceLocation: getting device location");
@@ -369,20 +292,6 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         });
     }
 
-    private void updateHash(Intent intent) {
-        //super.onActivityResult(requestCode, resultCode, data);
-        Log.i("ASD", "LLL");
-        String groupName = CreateGroupActivity.getresult(intent);
-        Long groupId = intent.getLongExtra("groupId", 0);
-
-        Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(groupName));
-        markers.add(marker);
-        // System.out.println(markers.size());
-        // System.out.println(markers.get(0));
-
-        // Store marker in HashMap for onClick retrieval
-        mHashMap.put(marker, groupId);
-    }
 
     private void drawMeetingMarker(Group group) {
         Log.d(TAG, "drawMeetingMarker: ");
@@ -484,15 +393,9 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
             }
         }
     }
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
-    }
+
+
+    //                                                                              NAVIGATION DARWER RELATED
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -512,10 +415,11 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
+
+    //Items for the navigation drawer (Onclicks for each drawer)
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -524,12 +428,12 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
 
         if (id == R.id.logout) {
             logout();
-
-        } else if (id == R.id.getLocation) {
+        }
+        else if (id == R.id.getLocation) {
             Log.d(TAG, "onClick: clicked gps icon");
             getDeviceLocation();
-
-        } else if (id == R.id.createGroup) {
+        }
+        else if (id == R.id.createGroup) {
             Log.d(TAG, "Clicking on group info button");
 
             // Launch Group Info Activity and pass groupId
@@ -537,9 +441,8 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
             intent.putExtra("groupId", selectedGroupId);
             intent.putExtra("token", token);
             startActivity(intent);
-            finish();
-
-        } else if (id == R.id.MonitoringPrefrences) {
+        }
+        else if (id == R.id.MonitoringPrefrences) {
             Toast.makeText(getApplicationContext(), "PPP", Toast.LENGTH_SHORT).show();
             Intent pass_intent = PreferencesActivity.launchIntentPreferences(Map_activityDrawer.this);
 
@@ -550,8 +453,6 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
             pass_intent.putExtra("Token", token);
             pass_intent.putExtra("Email", currentUserEmail);
             startActivity(pass_intent);
-            finish();
-
         }
         else if(id==R.id.viewGroups){
             Toast.makeText(getApplicationContext(), "PPP", Toast.LENGTH_SHORT).show();
@@ -564,14 +465,42 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
             pass_intent.putExtra("Token", token);
             pass_intent.putExtra("Email", currentUserEmail);
             startActivity(pass_intent);
-            finish();
-
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
+
+    //Navigation drawer related function (Came with the class)
+    @Override
+    public void onPointerCaptureChanged(boolean hasCapture) { }
+
+    //                                                                  ANDROID BACK BUTTON AND LOGOUT
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.START)) {
+            drawer.closeDrawer(GravityCompat.START);
+        } else {
+            super.onBackPressed();
+        }
+    }
+    private void logout() {
+        Log.d(TAG, "logout: Attempting to logout...");
+        Intent intent = WelcomeActivity.launchWelcomeIntent(Map_activityDrawer.this);
+
+        SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session" , MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.remove("Token");
+        editor.remove("Email");
+        editor.remove("User Id");
+        editor.apply();
+        startActivity(intent);
+        finish();
+    }
+
+    //                                                                  INTENTS
 
     public static Intent launchIntentMap(Context context) {
         Intent intent = new Intent(context, Map_activityDrawer.class);
@@ -583,8 +512,4 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         return intent;
     }
 
-    @Override
-    public void onPointerCaptureChanged(boolean hasCapture) {
-
-    }
 }

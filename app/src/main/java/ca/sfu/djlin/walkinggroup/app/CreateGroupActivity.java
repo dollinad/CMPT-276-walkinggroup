@@ -78,17 +78,12 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
 
     private String token;
     private Long currentUserId;
-
     private Long groupId;
     private Group currentGroup;
-
     private User currentUser;
     private List<User> monitorsUsersList;
     ArrayAdapter<User> adapterMemberList;
-
     String groupDescription;
-
-    private Boolean retrieveMarkerLocationFlag = true;
 
     private Group group = new Group();
 
@@ -102,7 +97,6 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
     List<Marker> markers = new ArrayList();
     private Marker meetingMarker;
 
-    //---------------------------------------- ON CREATE ---------------------------------------------//
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,19 +110,15 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
         // Store current group information
         intendedLatLng = new LatLng(intent.getDoubleExtra("lat",0),intent.getDoubleExtra("lng",0));
 
-
         getLocationPermission();
 
         // Get current user id
         SharedPreferences preferences = CreateGroupActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
         currentUserId = preferences.getLong("User Id", 0);
+
         // Set up proxy
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey),token);
         retrieveCurrentUserInformation();
-
-
-
-
 
         // Buttons
         setupConfirmGroup();
@@ -137,7 +127,6 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
 
         setupConfrimButton();
 
-        // -------------------------------------------- ADD USER ------------------------------------------//
         // Setup add user button
         Button addUserBtn = (Button) findViewById(R.id.createGroupadd_user_btn);
         addUserBtn.setOnClickListener(new View.OnClickListener() {
@@ -154,7 +143,6 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
             }
         });
 
-        //-------------------------------------------- REMOVE USER -----------------------------------------//
         // Setup remove user button
         Button removeUserBtn = (Button) findViewById(R.id.createGroupremove_user_btn);
         removeUserBtn.setOnClickListener(new View.OnClickListener() {
@@ -173,6 +161,64 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
         });
     }
 
+    //Response for Add user
+    private void addUserResponse(User returnedUser) {
+        Long userId = returnedUser.getId();
+
+        // Iterate through our list of who the current user monitors
+        for (User user : monitorsUsersList) {
+            // Add the user if he is being monitored by current user
+            if (userId.equals(user.getId())) {
+
+                EditText addUser=findViewById(R.id.createGroupadd_user_input);
+                addUser.setText("");
+                Call<List<User>> call = proxy.addGroupMember(groupId, returnedUser);
+                ProxyBuilder.callProxy(CreateGroupActivity.this, call, returnedUserList -> addMemberResponse(returnedUserList));
+            }
+        }
+    }
+
+    //response for adding member
+    private void addMemberResponse(List<User> listOfUsers) {
+        Toast.makeText(CreateGroupActivity.this, CreateGroupActivity.this.getString(R.string.joined_group_toast), Toast.LENGTH_SHORT).show();
+        // Update the UI
+        refreshUI();
+    }
+
+    //response for remove User
+    private void removeUserResponse(User returnedUser) {
+        Long userId = returnedUser.getId();
+
+        // Check if are the leader of the group
+        if (currentGroup.getLeader() != null) {
+            if (currentUserId.equals(currentGroup.getLeader().getId())) {
+                // Proceed to remove user
+                EditText removeUser=findViewById(R.id.createGroupremove_user_input);
+                removeUser.setText("");
+                Call<Void> call = proxy.removeGroupMember(groupId, userId);
+                ProxyBuilder.callProxy( CreateGroupActivity.this, call, returnedNothing -> deleteUserResponse(returnedNothing));
+            }
+        }
+
+        // Iterate through our list of who the current user monitors
+        for (User user : monitorsUsersList) {
+            // Remove the user if he is being monitored by current user
+            if (userId.equals(user.getId())) {
+                Call<Void> call = proxy.removeGroupMember(groupId, userId);
+                ProxyBuilder.callProxy(CreateGroupActivity.this, call, returnedNothing -> deleteUserResponse(returnedNothing));
+            }
+        }
+    }
+
+    //response for deleting user
+    private void deleteUserResponse (Void response) {
+        Toast.makeText(CreateGroupActivity.this,CreateGroupActivity.this.getString(R.string.user_deleted_toast), Toast.LENGTH_SHORT).show();
+
+        // Update the UI
+        refreshUI();
+    }
+
+    //setup Confirm Group
     private void setupConfirmGroup() {
         Button confirmGroup=findViewById(R.id.confirm_btn);
         confirmGroup.setOnClickListener(new View.OnClickListener() {
@@ -191,8 +237,72 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
         });
     }
 
+    //Function to create group (getting the id of the group)
+    private void setupConfrimButton() {
+        EditText editText = findViewById(R.id.group_description_input);
+        editText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
-    //-------------------------------------------------- ON MAP READY----------------------------------------//
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                String name = editText.getText().toString();
+                Button confirmButton = findViewById(R.id.confirmGroup);
+                confirmButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        group.setGroupDescription(name);
+
+                        //Assigning the leader
+                        User leader = new User();
+                        leader.setId(currentUserId);
+                        group.setLeader(leader);
+
+                        Call<Group> caller = proxy.createGroup(group);
+                        ProxyBuilder.callProxy(CreateGroupActivity.this, caller, returnedGroup -> createGroupResponse(returnedGroup));
+                    }
+                });
+            }
+        });
+    }
+
+    //Response for creating the group
+    private void createGroupResponse(Group group) {
+        Log.d(TAG, "createGroupResponse: ");
+
+        // Define variables to store
+        groupId = group.getId();
+        groupDescription = group.getGroupDescription();
+        currentUser.getLeadsGroups().add(group);
+        Log.i("NMNMNM", currentUser.getLeadsGroups().get(0)+"");
+    }
+
+    private void setupBackButton() {
+        Button backButton = findViewById(R.id.group_btn_cancel);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+    }
+
+    //function for retrieving Current user info
+    private void retrieveCurrentUserInformation() {
+        // Set up proxy
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey),token);
+        Call<User> call = proxy.getUserById(currentUserId);
+        ProxyBuilder.callProxy(CreateGroupActivity.this, call, returnedUser -> storeUserInfo(returnedUser));
+    }
+
+
+
+    //                                                                                    Map functions
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -222,6 +332,69 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
         setMapClickListeners();
     }
 
+    private void getDeviceLocation() {
+        Log.d(TAG, "getDeviceLocation: getting device location");
+        mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
+        try {
+            if (mLocationPermissionsGranted){
+                Task location = mFusedLocationProviderClient.getLastLocation();
+                location.addOnCompleteListener(new OnCompleteListener() {
+                    @Override
+                    public void onComplete(@NonNull Task task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "Found Location!");
+                            Location currentLocation = (Location) task.getResult();
+
+                            System.out.println(currentLocation.getLatitude());
+                            currentposition=new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+
+                            moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM, "My Location");
+                        } else {
+                            Log.d(TAG, "Current location is null!");
+                            Toast.makeText(CreateGroupActivity.this, CreateGroupActivity.this.getString(R.string.unable_to_get_location), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+            }
+        } catch (SecurityException e) {
+            Log.e(TAG, "getDeviceLocation: Security Exception: " + e.getMessage());
+        }
+    }
+
+    private void moveCamera(LatLng latLng, float zoom, String title) {
+        // Move camera to location
+        Log.d(TAG, "moveCamera: Moving the camera to lat: " + latLng.latitude + ", lng: " + latLng.longitude);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+
+        // Omits self location and adds marker
+        if (title != "My Location") {
+            MarkerOptions options = new MarkerOptions()
+                    .position(latLng)
+                    .title(title);
+            mMap.addMarker(options);
+        }
+
+        // Hides keyboard
+        Utilities.hideKeyboard(CreateGroupActivity.this);
+    }
+
+    private void getLocationPermission() {
+        Log.d(TAG, "getLocationPermission: getting location permissions");
+        String[] permissions = {FINE_LOCATION, COARSE_LOCATION};
+
+        if(ContextCompat.checkSelfPermission(this.getApplicationContext(), FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ContextCompat.checkSelfPermission(this.getApplicationContext(), COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                mLocationPermissionsGranted = true;
+                initMap();
+            } else {
+                ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
+            }
+        } else {
+            ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
+        }
+    }
+
+
     private void init() {
         Log.d(TAG, "init: initializing");
         EditText searchText=findViewById(R.id.search_input);
@@ -243,280 +416,6 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
         });
         // Hides keyboard
         Utilities.hideKeyboard(CreateGroupActivity.this);
-    }
-
-
-
-    private void refreshUI() {
-        // Update the UI
-        Call<Group> call = proxy.getGroupById(groupId);
-        ProxyBuilder.callProxy(CreateGroupActivity.this, call, returnedGroupInfo -> retrieveGroupInfo(returnedGroupInfo));
-    }
-
-    // Set up group member list
-    private class memberListAdapter extends ArrayAdapter<User> {
-        public memberListAdapter(){
-            super(CreateGroupActivity.this, R.layout.layout_monitoring_list, currentGroup.getMemberUsers());
-        }
-        View itemView;
-
-        @NonNull
-        @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            itemView = convertView;
-            if(itemView == null){
-                itemView = getLayoutInflater().inflate(R.layout.layout_monitoring_list, parent, false);
-            }
-
-            // Make instance of user to retrieve information for
-            User user = currentGroup.getMemberUsers().get(position);
-            TextView name = itemView.findViewById(R.id.list_name);
-            TextView email = itemView.findViewById(R.id.list_email);
-
-            // Make a call to collect the name and email of the user
-            Call<User> call = proxy.getUserById(user.getId());
-            ProxyBuilder.callProxy(CreateGroupActivity.this, call, returnUser -> respond(returnUser, name, email));
-
-            return itemView;
-        }
-
-        private void respond(User returnUser, TextView name, TextView email) {
-            // Update the item view with user information
-            name.setText(returnUser.getName());
-            email.setText(returnUser.getEmail());
-        }
-    }
-
-    private void addUserResponse(User returnedUser) {
-        Long userId = returnedUser.getId();
-
-        // Iterate through our list of who the current user monitors
-        for (User user : monitorsUsersList) {
-            // Add the user if he is being monitored by current user
-            if (userId.equals(user.getId())) {
-
-                EditText addUser=findViewById(R.id.createGroupadd_user_input);
-                addUser.setText("");
-                Call<List<User>> call = proxy.addGroupMember(groupId, returnedUser);
-                ProxyBuilder.callProxy(CreateGroupActivity.this, call, returnedUserList -> addMemberResponse(returnedUserList));
-            }
-        }
-    }
-
-    private void removeUserResponse(User returnedUser) {
-        Long userId = returnedUser.getId();
-
-        // Check if are the leader of the group
-        if (currentGroup.getLeader() != null) {
-            if (currentUserId.equals(currentGroup.getLeader().getId())) {
-                // Proceed to remove user
-                EditText removeUser=findViewById(R.id.createGroupremove_user_input);
-                removeUser.setText("");
-                Call<Void> call = proxy.removeGroupMember(groupId, userId);
-                ProxyBuilder.callProxy( CreateGroupActivity.this, call, returnedNothing -> deleteUserResponse(returnedNothing));
-            }
-        }
-
-        // Iterate through our list of who the current user monitors
-        for (User user : monitorsUsersList) {
-            // Remove the user if he is being monitored by current user
-            if (userId.equals(user.getId())) {
-                Call<Void> call = proxy.removeGroupMember(groupId, userId);
-                ProxyBuilder.callProxy(CreateGroupActivity.this, call, returnedNothing -> deleteUserResponse(returnedNothing));
-            }
-        }
-    }
-
-    private void retrieveGroupInfo(Group group) {
-        Log.d(TAG, "retrieveGroupInfo: ");
-
-        // Save group information into currentGroup
-        currentGroup = group;
-
-        // Set up array adapter
-        adapterMemberList = new memberListAdapter();
-        ListView list = findViewById(R.id.createGroupmember_list);
-        list.setAdapter(adapterMemberList);
-    }
-
-
-
-    private void isLeaderResponse(Group group, Long deleteUserId) {
-        Log.d(TAG, "isLeaderResponse: the leader of this group is: " + group.getLeader().getId());
-
-        // Determine if removal of member is allowed
-        if (currentUserId.equals(group.getLeader().getId())) {
-            // Proceed to remove user
-            Call<Void> call = proxy.removeGroupMember(groupId, deleteUserId);
-            ProxyBuilder.callProxy( CreateGroupActivity.this, call, returnedNothing -> deleteUserResponse(returnedNothing));
-        } else {
-            // Let user know they are not the leader
-            Toast.makeText(CreateGroupActivity.this, CreateGroupActivity.this.getString(R.string.not_leader_toast), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    private void deleteUserResponse (Void response) {
-        Toast.makeText(CreateGroupActivity.this,CreateGroupActivity.this.getString(R.string.user_deleted_toast), Toast.LENGTH_SHORT).show();
-
-        // Update the UI
-        refreshUI();
-    }
-
-
-    private void addMemberResponse(List<User> listOfUsers) {
-        Toast.makeText(CreateGroupActivity.this, CreateGroupActivity.this.getString(R.string.joined_group_toast), Toast.LENGTH_SHORT).show();
-        // Update the UI
-        refreshUI();
-    }
-
-    private void retrieveCurrentUserInformation() {
-        // Set up proxy
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey),token);
-        Call<User> call = proxy.getUserById(currentUserId);
-        ProxyBuilder.callProxy(CreateGroupActivity.this, call, returnedUser -> storeUserInfo(returnedUser));
-    }
-
-    private void storeUserInfo(User returnedUser) {
-        currentUser = returnedUser;
-        monitorsUsersList = returnedUser.getMonitorsUsers();
-    }
-
-
-
-
-    private void getDeviceLocation() {
-            Log.d(TAG, "getDeviceLocation: getting device location");
-            mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-            try {
-                if (mLocationPermissionsGranted){
-                    Task location = mFusedLocationProviderClient.getLastLocation();
-                    location.addOnCompleteListener(new OnCompleteListener() {
-                        @Override
-                        public void onComplete(@NonNull Task task) {
-                            if (task.isSuccessful()) {
-                                Log.d(TAG, "Found Location!");
-                                Location currentLocation = (Location) task.getResult();
-
-                                System.out.println(currentLocation.getLatitude());
-                                currentposition=new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
-
-                                moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM, "My Location");
-                            } else {
-                                Log.d(TAG, "Current location is null!");
-                                Toast.makeText(CreateGroupActivity.this, CreateGroupActivity.this.getString(R.string.unable_to_get_location), Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                    });
-                }
-            } catch (SecurityException e) {
-                Log.e(TAG, "getDeviceLocation: Security Exception: " + e.getMessage());
-            }
-        }
-
-        private void moveCamera(LatLng latLng, float zoom, String title) {
-            // Move camera to location
-            Log.d(TAG, "moveCamera: Moving the camera to lat: " + latLng.latitude + ", lng: " + latLng.longitude);
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
-
-            // Omits self location and adds marker
-            if (title != "My Location") {
-                MarkerOptions options = new MarkerOptions()
-                        .position(latLng)
-                        .title(title);
-                mMap.addMarker(options);
-            }
-
-            // Hides keyboard
-            Utilities.hideKeyboard(CreateGroupActivity.this);
-        }
-
-        private void getLocationPermission() {
-            Log.d(TAG, "getLocationPermission: getting location permissions");
-            String[] permissions = {FINE_LOCATION, COARSE_LOCATION};
-
-            if(ContextCompat.checkSelfPermission(this.getApplicationContext(), FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                if (ContextCompat.checkSelfPermission(this.getApplicationContext(), COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                    mLocationPermissionsGranted = true;
-                    initMap();
-                } else {
-                    ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
-                }
-            } else {
-                ActivityCompat.requestPermissions(this, permissions, LOCATION_PERMISSION_REQUEST_CODE);
-            }
-        }
-
-
-    private void setupBackButton() {
-        Button backButton = findViewById(R.id.group_btn_cancel);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-    }
-
-    private void setupConfrimButton() {
-        EditText editText = findViewById(R.id.group_description_input);
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-                String name = editText.getText().toString();
-                Button confirmButton = findViewById(R.id.confirmGroup);
-                confirmButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        group.setGroupDescription(name);
-                        //Toast.makeText(getApplicationContext(), meetingMarkerLatLng.latitude+"", Toast.LENGTH_SHORT).show();
-                        // Add leader user to newly created group
-
-                        User leader = new User();
-                        leader.setId(currentUserId);
-                        group.setLeader(leader);
-
-
-                        Call<Group> caller = proxy.createGroup(group);
-                        ProxyBuilder.callProxy(CreateGroupActivity.this, caller, returnedGroup -> createGroupResponse(returnedGroup));
-                    }
-                });
-            }
-        });
-    }
-
-
-    private void createGroupResponse(Group group) {
-        Log.d(TAG, "createGroupResponse: ");
-
-        // Define variables to store
-        groupId = group.getId();
-       groupDescription = group.getGroupDescription();
-       currentUser.getLeadsGroups().add(group);
-       Log.i("NMNMNM", currentUser.getLeadsGroups().get(0)+"");
-    }
-
-    public static Intent makeintent(Context context){
-        Intent intent = new Intent(context, CreateGroupActivity.class);
-        return intent;
-    }
-    public static String getresult(Intent intent){
-        return intent.getStringExtra("groupName");
-    }
-
-
-    private void initMap() {
-        Log.d(TAG, "initMap: initializing map");
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-
-        mapFragment.getMapAsync(CreateGroupActivity.this);
     }
 
     public void setMapClickListeners(){
@@ -547,6 +446,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
                     group.setRouteLatArray(latList);
                     group.setRouteLngArray(lngList);
                 } else {
+
                     // Add the intended group location to lists
                     intendedLatLng=new LatLng(latLng.latitude, latLng.longitude);
                     latlng = latLng;
@@ -554,10 +454,6 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
                     lngList.add(intendedLatLng.longitude);
                     group.setRouteLatArray(latList);
                     group.setRouteLngArray(lngList);
-
-
-
-                    //startActivityForResult(intent, REQUEST_CODE_GET_DATA);
                 }
 
 
@@ -599,4 +495,81 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
         }
     }
 
+
+    //                                                                          GROUP FUNCTIONS
+
+
+    // Refresh UI for the adapter
+    private void refreshUI() {
+        // Update the UI
+        Call<Group> call = proxy.getGroupById(groupId);
+        ProxyBuilder.callProxy(CreateGroupActivity.this, call, returnedGroupInfo -> retrieveGroupInfo(returnedGroupInfo));
+    }
+
+    private void retrieveGroupInfo(Group group) {
+        Log.d(TAG, "retrieveGroupInfo: ");
+
+        // Save group information into currentGroup
+        currentGroup = group;
+
+        // Set up array adapter
+        adapterMemberList = new memberListAdapter();
+        ListView list = findViewById(R.id.createGroupmember_list);
+        list.setAdapter(adapterMemberList);
+    }
+
+    // Set up group member list (ADAPTER FOR THE LIST)
+    private class memberListAdapter extends ArrayAdapter<User> {
+        public memberListAdapter(){
+            super(CreateGroupActivity.this, R.layout.layout_monitoring_list, currentGroup.getMemberUsers());
+        }
+        View itemView;
+
+        @NonNull
+        @Override
+        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+            itemView = convertView;
+            if(itemView == null){
+                itemView = getLayoutInflater().inflate(R.layout.layout_monitoring_list, parent, false);
+            }
+
+            // Make instance of user to retrieve information for
+            User user = currentGroup.getMemberUsers().get(position);
+            TextView name = itemView.findViewById(R.id.list_name);
+            TextView email = itemView.findViewById(R.id.list_email);
+
+            // Make a call to collect the name and email of the user
+            Call<User> call = proxy.getUserById(user.getId());
+            ProxyBuilder.callProxy(CreateGroupActivity.this, call, returnUser -> respond(returnUser, name, email));
+
+            return itemView;
+        }
+
+        private void respond(User returnUser, TextView name, TextView email) {
+            // Update the item view with user information
+            name.setText(returnUser.getName());
+            email.setText(returnUser.getEmail());
+        }
+    }
+
+    private void storeUserInfo(User returnedUser) {
+        currentUser = returnedUser;
+        monitorsUsersList = returnedUser.getMonitorsUsers();
+    }
+
+    public static Intent makeintent(Context context){
+        Intent intent = new Intent(context, CreateGroupActivity.class);
+        return intent;
+    }
+
+    public static String getresult(Intent intent){
+        return intent.getStringExtra("groupName");
+    }
+
+    private void initMap() {
+        Log.d(TAG, "initMap: initializing map");
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
+
+        mapFragment.getMapAsync(CreateGroupActivity.this);
+    }
 }
