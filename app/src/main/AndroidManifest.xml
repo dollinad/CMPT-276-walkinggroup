@@ -50,9 +50,6 @@
             android:name=".app.LoginActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
-        <!-- TEMPORARY CHECK // TO BE REMOVED BEFORE SUBMISSION // -->
-        <activity android:name=".app.check" />
-
         <!-- Preferences Activity -->
         <activity
             android:name=".app.PreferencesActivity"
@@ -66,6 +63,15 @@
             android:name=".app.GroupInfoActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name=".app.ReadMe"></activity>
+
+        <!-- Messaging Activity -->
+        <activity android:name=".app.ViewMessagesActivity">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        </activity>
     </application>
 
 </manifest>

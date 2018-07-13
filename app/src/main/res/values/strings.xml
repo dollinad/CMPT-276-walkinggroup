@@ -73,4 +73,12 @@
     <string name="_7_you_can_always_go_back_to_your_location_by_clicking_the_target_icon">7. You can always go back to your location by clicking the target icon.</string>
     <string name="_8_you_can_log_out_by_clicking_the_exit_icon">8. You can log out by clicking the exit icon.</string>
 
+
+    <!-- In-app messaging -->
+    <string name="messages">Messages</string>
+    <string name="text_message_placeholder">&#60;Text Message&#62;</string>
+    <string name="from_label">From:</string>
+    <string name="body_label">Body:</string>
+
+
 </resources>
