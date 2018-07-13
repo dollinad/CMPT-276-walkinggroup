@@ -195,7 +195,7 @@ public class User extends IdItemBase {
                 ", monitorsUsers=" + monitorsUsers +
                 ", memberOfGroups=" + memberOfGroups +
                 ", leadsGroups=" + leadsGroups +
-                ", hasFullData=" + hasFullData()+
+                ", hasFullData=" + hasFullData +
                 ", href='" + getHref() + '\'' +
                 '}';
     }
