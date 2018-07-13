@@ -19,9 +19,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -221,6 +218,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void logout() {
         Log.d(TAG, "logout: Attempting to logout...");
         Intent intent = WelcomeActivity.launchWelcomeIntent(MapActivity.this);
+
+        // Note: Stops checking of new messages
+        Log.d(TAG, "Stop Checking for new mail!");
+        WelcomeActivity.mMailCheckHandler.removeCallbacks(WelcomeActivity.mMailStatusChecker);
 
         SharedPreferences preferences = MapActivity.this.getSharedPreferences("User Session" , MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -25,6 +26,8 @@ public class WelcomeActivity extends AppCompatActivity {
     private static final String TAG = "WelcomeActivity";
 
     private WGServerProxy proxy;
+    public static Handler mMailCheckHandler;
+    public static Runnable mMailStatusChecker;
 
     // Used for checking correct version of Google Play Services
     private static final int ERROR_DIALOG_REQUEST = 9001;
@@ -110,11 +113,30 @@ public class WelcomeActivity extends AppCompatActivity {
             String token = data[0];
             proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
 
+            Log.i("TEST", "User is logged in!");
+
+            // Start background task test
+            // Note: To be used for checking for new messages
+            mMailCheckHandler = new Handler();
+            mMailStatusChecker = new Runnable() {
+                @Override
+                public void run() {
+                    Log.i(TAG, "Check for new mail");
+                    mMailCheckHandler.postDelayed(mMailStatusChecker, 60000);
+                }
+            };
+            mMailCheckHandler.post(mMailStatusChecker);
+            // End background task
+
+            // End start background task
             Intent intent = MapActivity.launchIntentMap(WelcomeActivity.this);
             startActivity(intent);
             finish();
         }
+
     }
+
+
 
     // Getting the data token and email using Shared Preferences
     private String[] getData(Context context) {
