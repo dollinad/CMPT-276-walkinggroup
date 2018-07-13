@@ -18,6 +18,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
 import ca.sfu.djlin.walkinggroup.R;
+import ca.sfu.djlin.walkinggroup.Utilities;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 
@@ -26,8 +27,6 @@ public class WelcomeActivity extends AppCompatActivity {
     private static final String TAG = "WelcomeActivity";
 
     private WGServerProxy proxy;
-    public static Handler mMailCheckHandler;
-    public static Runnable mMailStatusChecker;
 
     // Used for checking correct version of Google Play Services
     private static final int ERROR_DIALOG_REQUEST = 9001;
@@ -113,20 +112,8 @@ public class WelcomeActivity extends AppCompatActivity {
             String token = data[0];
             proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
 
-            Log.i("TEST", "User is logged in!");
-
-            // Start background task test
-            // Note: To be used for checking for new messages
-            mMailCheckHandler = new Handler();
-            mMailStatusChecker = new Runnable() {
-                @Override
-                public void run() {
-                    Log.i(TAG, "Check for new mail");
-                    mMailCheckHandler.postDelayed(mMailStatusChecker, 60000);
-                }
-            };
-            mMailCheckHandler.post(mMailStatusChecker);
-            // End background task
+            // Start handler for new message checking
+            Utilities.startMessageChecking();
 
             // End start background task
             Intent intent = MapActivity.launchIntentMap(WelcomeActivity.this);
@@ -135,8 +122,6 @@ public class WelcomeActivity extends AppCompatActivity {
         }
 
     }
-
-
 
     // Getting the data token and email using Shared Preferences
     private String[] getData(Context context) {

@@ -220,9 +220,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         Intent intent = WelcomeActivity.launchWelcomeIntent(MapActivity.this);
 
         // Note: Stops checking of new messages
-        Log.d(TAG, "Stop Checking for new mail!");
-        WelcomeActivity.mMailCheckHandler.removeCallbacks(WelcomeActivity.mMailStatusChecker);
+        Log.d(TAG, "Stops checking for new mail!");
+        Utilities.removeMessageChecking();
 
+        // Remove shared preferences information
         SharedPreferences preferences = MapActivity.this.getSharedPreferences("User Session" , MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove("Token");
