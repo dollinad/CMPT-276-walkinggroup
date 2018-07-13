@@ -24,6 +24,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -66,7 +68,7 @@ public class Map_activityDrawerTest extends AppCompatActivity implements Navigat
     // Google Map Related
     private Boolean mLocationPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
-    private GoogleMap mMap;
+    public static GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
     private LatLng currentposition = new LatLng(0,0);
     private LatLng latlng;
@@ -82,6 +84,7 @@ public class Map_activityDrawerTest extends AppCompatActivity implements Navigat
     // User Variables
     String token;
     String currentUserEmail;
+    String currentUserName;
     Long selectedGroupId;
 
     @Override
@@ -98,17 +101,27 @@ public class Map_activityDrawerTest extends AppCompatActivity implements Navigat
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        getLocationPermission();
-
         SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
         token = preferences.getString("Token", null);
         currentUserEmail = preferences.getString("Email", null);
+        currentUserName=preferences.getString("Name", null);
 
         // Build new proxy
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        View header=navigationView.getHeaderView(0);
+
+
+        TextView name=(TextView)header.findViewById(R.id.navUserName);
+        name.setText(currentUserName);
+        TextView email=(TextView)header.findViewById(R.id.navUserEmail);
+        email.setText(currentUserEmail);
+
+
+        getLocationPermission();
+
+
         Log.i("OKJHG", "kk");
 
     }
@@ -147,6 +160,20 @@ public class Map_activityDrawerTest extends AppCompatActivity implements Navigat
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
         // End need to check order for this
 
+        Intent intent=getIntent();
+        if(intent.getExtras()!=null) {
+            latlng=new LatLng(intent.getDoubleExtra("lat",0), intent.getDoubleExtra("lng", 0));
+            String groupName=intent.getStringExtra("groupName");
+            Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(groupName));
+            markers.add(marker);
+            // System.out.println(markers.size());
+            // System.out.println(markers.get(0));
+
+            // Store marker in HashMap for onClick retrieval
+            mHashMap.put(marker, intent.getLongExtra("groupId", 0));
+        }
+        // End need to check order for this;
+        setMapClickListeners();
         setGroupMarker();
 
         // Listener for group marker clicks
@@ -341,25 +368,19 @@ public class Map_activityDrawerTest extends AppCompatActivity implements Navigat
         });
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    private void updateHash(Intent intent) {
         //super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_CODE_GET_DATA:
-                if (resultCode == Activity.RESULT_OK) {
-                    String groupName = CreateGroupActivity.getresult(data);
-                    Long groupId = data.getLongExtra("groupId", 0);
+        Log.i("ASD", "LLL");
+        String groupName = CreateGroupActivity.getresult(intent);
+        Long groupId = intent.getLongExtra("groupId", 0);
 
-                    Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(groupName));
-                    markers.add(marker);
-                    // System.out.println(markers.size());
-                    // System.out.println(markers.get(0));
+        Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(groupName));
+        markers.add(marker);
+        // System.out.println(markers.size());
+        // System.out.println(markers.get(0));
 
-                    // Store marker in HashMap for onClick retrieval
-                    mHashMap.put(marker, groupId);
-                } else {
-                    Log.i("My app", "Activity cancelled.");
-                }
-        }
+        // Store marker in HashMap for onClick retrieval
+        mHashMap.put(marker, groupId);
     }
 
     private void drawMeetingMarker(Group group) {
@@ -507,14 +528,15 @@ public class Map_activityDrawerTest extends AppCompatActivity implements Navigat
             Log.d(TAG, "onClick: clicked gps icon");
             getDeviceLocation();
 
-        } else if (id == R.id.getGroupInfo) {
+        } else if (id == R.id.createGroup) {
             Log.d(TAG, "Clicking on group info button");
 
             // Launch Group Info Activity and pass groupId
-            Intent intent = GroupInfoActivity.launchGroupInfoIntent(Map_activityDrawerTest.this);
+            Intent intent = CreateGroupActivity.makeintent(Map_activityDrawerTest.this);
             intent.putExtra("groupId", selectedGroupId);
             intent.putExtra("token", token);
             startActivity(intent);
+            finish();
 
         } else if (id == R.id.MonitoringPrefrences) {
             Toast.makeText(getApplicationContext(), "PPP", Toast.LENGTH_SHORT).show();
@@ -527,6 +549,21 @@ public class Map_activityDrawerTest extends AppCompatActivity implements Navigat
             pass_intent.putExtra("Token", token);
             pass_intent.putExtra("Email", currentUserEmail);
             startActivity(pass_intent);
+            finish();
+
+        }
+        else if(id==R.id.viewGroups){
+            Toast.makeText(getApplicationContext(), "PPP", Toast.LENGTH_SHORT).show();
+            Intent pass_intent = ViewGrpupActivity.launchIntentViewGroups(Map_activityDrawerTest.this);
+
+            SharedPreferences preferences = Map_activityDrawerTest.this.getSharedPreferences("User Session", MODE_PRIVATE);
+            token = preferences.getString("Token", null);
+            currentUserEmail = preferences.getString("Email", null);
+
+            pass_intent.putExtra("Token", token);
+            pass_intent.putExtra("Email", currentUserEmail);
+            startActivity(pass_intent);
+            finish();
 
         }
 
@@ -541,7 +578,7 @@ public class Map_activityDrawerTest extends AppCompatActivity implements Navigat
     }
 
     public static Intent launchIntentMapForMarker(Context context) {
-        Intent intent = new Intent(context, MapActivity. class);
+        Intent intent = new Intent(context, Map_activityDrawerTest. class);
         return intent;
     }
 

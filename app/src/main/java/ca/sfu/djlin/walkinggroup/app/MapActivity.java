@@ -124,8 +124,20 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         currentUserEmail = preferences.getString("Email", null);
         Log.d(TAG, "onMapReady: The current token is: " + token);
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
-        // End need to check order for this
 
+        Intent intent=getIntent();
+        if(intent!=null) {
+            latlng=new LatLng(intent.getDoubleExtra("lat",0), intent.getDoubleExtra("lng", 0));
+            String groupName=intent.getStringExtra("groupName");
+            Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(groupName));
+            markers.add(marker);
+            // System.out.println(markers.size());
+            // System.out.println(markers.get(0));
+
+            // Store marker in HashMap for onClick retrieval
+            mHashMap.put(marker, intent.getLongExtra("groupId", 0));
+        }
+        // End need to check order for this
         setMapClickListeners();
         setGroupMarker();
 
@@ -330,13 +342,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         });
     }
 
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    private void updateHash(Intent intent) {
         //super.onActivityResult(requestCode, resultCode, data);
-        switch (requestCode) {
-            case REQUEST_CODE_GET_DATA:
-                if (resultCode == Activity.RESULT_OK) {
-                    String groupName = CreateGroupActivity.getresult(data);
-                    Long groupId = data.getLongExtra("groupId", 0);
+        Log.i("ASD", "LLL");
+                    String groupName = CreateGroupActivity.getresult(intent);
+                    Long groupId = intent.getLongExtra("groupId", 0);
 
                     Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(groupName));
                     markers.add(marker);
@@ -345,10 +355,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                     // Store marker in HashMap for onClick retrieval
                     mHashMap.put(marker, groupId);
-                } else {
-                    Log.i("My app", "Activity cancelled.");
-                }
-        }
     }
 
     private void setupGroupInfoButton() {

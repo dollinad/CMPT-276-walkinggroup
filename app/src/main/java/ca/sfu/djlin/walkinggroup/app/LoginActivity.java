@@ -58,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
             proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
 
             // Need to change method of starting activity
-            Intent intent = MapActivity.launchIntentMap(LoginActivity.this);
+            Intent intent = Map_activityDrawerTest.launchIntentMap(LoginActivity.this);
             startActivity(intent);
         }
     }

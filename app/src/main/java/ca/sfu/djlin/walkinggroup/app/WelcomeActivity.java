@@ -110,7 +110,7 @@ public class WelcomeActivity extends AppCompatActivity {
             String token = data[0];
             proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
 
-            Intent intent = MapActivity.launchIntentMap(WelcomeActivity.this);
+            Intent intent = Map_activityDrawerTest.launchIntentMap(WelcomeActivity.this);
             startActivity(intent);
             finish();
         }
