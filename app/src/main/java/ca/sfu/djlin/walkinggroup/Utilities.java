@@ -37,7 +37,7 @@ public class Utilities {
             @Override
             public void run() {
                 Log.i(TAG, "Checking for new mail");
-                mMailCheckHandler.postDelayed(mMailStatusChecker, 1000);
+                mMailCheckHandler.postDelayed(mMailStatusChecker, 60000);
             }
         };
         mMailCheckHandler.post(mMailStatusChecker);

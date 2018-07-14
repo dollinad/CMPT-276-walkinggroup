@@ -1,7 +1,9 @@
 package ca.sfu.djlin.walkinggroup.app;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -9,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -60,6 +63,9 @@ public class ViewMessagesActivity extends AppCompatActivity {
         messageListAdapter = new myMessagesListAdapter(ViewMessagesActivity.this, currentMessageList);
         ListView list = findViewById(R.id.messages_list);
         list.setAdapter(messageListAdapter);
+
+        // Set up listener to read mail
+        readMailListener();
     }
 
     private void getCurrentUserInformation() {
@@ -112,8 +118,29 @@ public class ViewMessagesActivity extends AppCompatActivity {
             messageSenderName.setText(message.getFromUser().getName());
             messageBodyText.setText(message.getText());
 
+            // Bolds the message if unread
+            if (!message.isRead()) {
+                messageSenderName.setTextAppearance(ViewMessagesActivity.this, R.style.fontForUnreadMail);
+                messageBodyText.setTextAppearance(ViewMessagesActivity.this, R.style.fontForUnreadMail);
+            }
+
             return itemView;
         }
+    }
+
+    private void readMailListener() {
+        ListView listView = (ListView) findViewById(R.id.messages_list);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("TAG", "List number " + position + " clicked!");
+            }
+        });
+    }
+
+    public static Intent launchViewMessageIntent (Context context) {
+        Intent intent = new Intent(context, ViewMessagesActivity.class);
+        return intent;
     }
 
     // Used for testing
@@ -127,7 +154,7 @@ public class ViewMessagesActivity extends AppCompatActivity {
         sendMessageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Long groupNumber = new Long(16);
+                Long groupNumber = new Long(105);
                 Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> call = proxy.newMessageToGroup(groupNumber, testMessage);
                 ProxyBuilder.callProxy(ViewMessagesActivity.this, call, sentMessageList -> sentMessageResponse(sentMessageList));
             }
