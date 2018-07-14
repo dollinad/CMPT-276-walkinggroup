@@ -10,7 +10,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +37,7 @@ public class PreferencesActivity extends AppCompatActivity {
     public static final String TAG = "PreferencesActivity";
     private WGServerProxy proxy;
     String userToAddEmail;
+    String userToBeMonitoredBy;
     String currentUserToken;
 
     ArrayAdapter<User> adapter;
@@ -45,6 +45,7 @@ public class PreferencesActivity extends AppCompatActivity {
 
     User currentUser;
     List<User> monitorsUsers;
+    List<User> monitoredByUsers;
 
     String currentUserEmail;
 
@@ -66,6 +67,9 @@ public class PreferencesActivity extends AppCompatActivity {
         ProxyBuilder.callProxy(PreferencesActivity.this, caller, returnedUser -> responseCurrent(returnedUser));
 
         // Set up input and button to add monitored user
+        setupAddMonitoringUser();
+
+        // Set up input and button to add user to be monitored by
         setupAddMonitoredUser();
 
         //remove from monitors
@@ -107,8 +111,6 @@ public class PreferencesActivity extends AppCompatActivity {
         currentUser.setMonitoredByUsers(monitorsUsers);
         adapter.notifyDataSetChanged();
         refresh();
-        //finish();
-        //startActivity(getIntent());
     }
 
     private void deleteMonitoredBy() {
@@ -168,7 +170,7 @@ public class PreferencesActivity extends AppCompatActivity {
         monitoringList.setAdapter(adapter);
     }
 
-    private void setupAddMonitoredUser() {
+    private void setupAddMonitoringUser() {
         EditText userEmail = findViewById(R.id.addMonitoredUserInput);
         userEmail.addTextChangedListener(new TextWatcher() {
             @Override
@@ -220,8 +222,83 @@ public class PreferencesActivity extends AppCompatActivity {
         });
     }
 
+    private void setupAddMonitoredUser() {
+        EditText userEmail = findViewById(R.id.add_monitored_by_user_input);
+        userEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                EditText userEmail = findViewById(R.id.add_monitored_by_user_input);
+                userToBeMonitoredBy = userEmail.getText().toString();
+            }
+        });
+
+        // Hide keyboard when is done typing
+        userEmail.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    Utilities.hideKeyboard(PreferencesActivity.this);
+                }
+                return false;
+            }
+        });
+
+        // Hide keyboard on focus change
+        userEmail.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    Utilities.hideKeyboardFocus(PreferencesActivity.this, view);
+                }
+            }
+        });
+
+        Button AddButton = findViewById(R.id.add_monitored_by_user_btn);
+        AddButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Build proxy
+                proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
+                Call<User> caller = proxy.getUserByEmail(userToBeMonitoredBy);
+                ProxyBuilder.callProxy(PreferencesActivity.this, caller, returnedUser -> responseToBeMonitored(returnedUser));
+            }
+        });
+    }
+
+    private void responseToBeMonitored(User user) {
+        // notifyUserViaLogAndToast("Server replied with user: " + user.toString());
+
+        Call<List<User>> call = proxy.addToMonitoredByUsers(currentUser.getId(), user);
+        ProxyBuilder.callProxy(PreferencesActivity.this, call, returnedList-> responseToBeMonitored(returnedList));
+
+        Call<List<User>> called = proxy.addToMonitorsUsers(user.getId(), currentUser);
+        ProxyBuilder.callProxy(PreferencesActivity.this, called, returnedList-> responseMonitored(returnedList));
+        adapter.notifyDataSetChanged();
+
+        refresh();
+    }
+
+    private void responseToBeMonitored(List<User> list) {
+        monitoredByUsers = list;
+        currentUser.setMonitoredByUsers(monitoredByUsers);
+
+        // Build new adapter
+        adapterMonitored = new myListAdapterMonitored();
+        ListView monitoredByList = findViewById(R.id.monitored_by_list);
+        monitoredByList.setAdapter(adapterMonitored);
+    }
+
     private void response(User user) {
-        notifyUserViaLogAndToast("Server replied with user: " + user.toString());
+        // notifyUserViaLogAndToast("Server replied with user: " + user.toString());
 
         currentUser.setMonitorsUsers(currentUser.getMonitorsUsers());
         Call<List<User>> call = proxy.addToMonitorsUsers(currentUser.getId(), user);
@@ -232,6 +309,10 @@ public class PreferencesActivity extends AppCompatActivity {
         adapter.notifyDataSetChanged();
 
         refresh();
+    }
+
+    private void addMonitoredUser(List<User> returnedList) {
+
     }
 
     private void responseMonitored(List<User> returnedList) {

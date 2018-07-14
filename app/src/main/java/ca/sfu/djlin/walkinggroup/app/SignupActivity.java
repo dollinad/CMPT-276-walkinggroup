@@ -233,8 +233,7 @@ public class SignupActivity extends AppCompatActivity {
 
                 // Check that passwords match
                 if (!userPasswordString.equals(userConfirmPasswordString)) {
-                    String checkPasswords = getResources().getString(R.string.check_passwords);
-                    Toast.makeText(SignupActivity.this, checkPasswords, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(SignupActivity.this, SignupActivity.this.getString(R.string.password_check_toast), Toast.LENGTH_SHORT).show();
                 } else {
                     // Make call to server
                     Call<User> caller = proxy.createUser(user);
@@ -271,14 +270,17 @@ public class SignupActivity extends AppCompatActivity {
     private void saveUserInfo(User user) {
         SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("Name", user.getName());
         editor.putString("Email", user.getEmail());
         editor.putLong("User Id", user.getId());
         editor.apply();
     }
 
     private void launchMapActivity() {
+        Utilities.startMessageChecking();
+
         // Launch Map Activity
-        Intent mapIntent = MapActivity.launchIntentMap(SignupActivity.this);
+        Intent mapIntent = Map_activityDrawer.launchIntentMap(SignupActivity.this);
         startActivity(mapIntent);
         finish();
     }

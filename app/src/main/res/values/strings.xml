@@ -38,7 +38,6 @@
     <string name="leave_group">Leave Group</string>
     <string name="remove_user">Remove User</string>
 
-
     <!-- Toast Messages -->
     <string name="joined_group_toast">Joined group!</string>
     <string name="leave_group_toast">Left group!</string>
@@ -55,5 +54,48 @@
     <string name="add_meeting_location">Add a meeting location</string>
     <string name="add">Add</string>
     <string name="no_meeting_location">This group doesn\'t have a meeting location to display!</string>
+    <string name="meeting_location">This is a meeting location!</string>
+    <string name="add_monitored_by_user">Add User to be Monitored By</string>
+    <string name="unable_to_get_location">Unable to get current location!</string>
+    <string name="password_check_toast">Unable to get current location!</string>
+    <string name="map_request_issue_toast">You can\'t make map requests!</string>
+
+
+    <string name="readme">ReadMe</string>
+    <string name="back">BACK</string>
+    <string name="_1_once_you_have_logged_in_you_can_click_on_the_map_to_create_a_group_for_your_walking_activity">1. Once you have logged in, you can click on the map to create a group for your walking activity.</string>
+    <string name="instruction">Instruction:</string>
+    <string name="_2_click_one_of_the_existed_marker_on_the_map_to_select_the_group_meanwhile_you_should_be_able_to_see_where_is_the_meeting_location_blue_marker">2. Click one of the existed marker on the map to select the group, meanwhile, you should be able to see where is the meeting location (blue marker).</string>
+    <string name="_3_once_you_have_selected_a_group_marker_you_can_click_the_icon_of_people_to_see_the_information_of_this_group">3. Once you have selected a group(marker) you can click the icon of people to see the information of this group.</string>
+    <string name="_4_you_can_enter_the_monitoring_system_by_clicking_the_eye_icon">4. You can enter the monitoring system by clicking the eye icon.</string>
+    <string name="_5_you_can_add_remove_the_user_that_you_want_to_monitor_be_monitored_by_typing_user_s_email">5. You can add/remove the user that you want to monitor/be monitored by typing user\'s email.</string>
+    <string name="_6_you_can_add_remove_users_by_typing_user_s_eamil_address_in_the_group_information_system">6. You can add/remove users by typing user\'s eamil address in the group information system.</string>
+    <string name="_7_you_can_always_go_back_to_your_location_by_clicking_the_target_icon">7. You can always go back to your location by clicking the target icon.</string>
+    <string name="_8_you_can_log_out_by_clicking_the_exit_icon">8. You can log out by clicking the exit icon.</string>
+    <string name="ic_gps">ic_gps</string>
+    <string name="makegroup">makeGroup</string>
+    <string name="title_activity_maps_navigation">maps_navigation</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="title_activity_map_drawer">map_drawer</string>
+    <string name="title_activity_map_drawer_test">Map_activityDrawerTest</string>
+    <string name="monitoring_prfrences">Monitoring Prfrences</string>
+    <string name="get_location">Get Location</string>
+    <string name="slideshow">Slideshow</string>
+    <string name="logout">Logout</string>
+    <string name="get_group_info">Get Group Info</string>
+
+
+    <!-- In-app messaging -->
+    <string name="messages">Messages</string>
+    <string name="text_message_placeholder">&#60;Text Message&#62;</string>
+    <string name="from_label">From:</string>
+    <string name="body_label">Body:</string>
+
 
 </resources>

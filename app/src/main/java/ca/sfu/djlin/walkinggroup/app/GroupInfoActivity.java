@@ -17,7 +17,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.R;
@@ -205,7 +204,7 @@ public class GroupInfoActivity extends AppCompatActivity {
 
         // Set up array adapter
         adapterMemberList = new memberListAdapter();
-        ListView list = findViewById(R.id.member_list);
+        ListView list = findViewById(R.id.createGroupmember_list);
         list.setAdapter(adapterMemberList);
     }
 
@@ -272,7 +271,7 @@ public class GroupInfoActivity extends AppCompatActivity {
 
     private void getGroupMembersResponse(List<User> listOfUsers) {
         // Log.d(TAG, "getGroupMembersResponse: Displaying current members of the group: ");
-        // listOfUsers.toString(); - Doesn't work
+        //dont need to do anything here.
     }
 
     private void updateGroupDescription (Group group) {

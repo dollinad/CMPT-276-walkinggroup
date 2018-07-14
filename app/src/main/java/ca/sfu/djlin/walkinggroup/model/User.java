@@ -35,6 +35,7 @@ public class User extends IdItemBase {
     private String email;
     private String password;
 
+
     private Integer currentPoints;
     private Integer totalPointsEarned;
 
@@ -124,7 +125,6 @@ public class User extends IdItemBase {
         this.leadsGroups = leadsGroups;
     }
 
-
     // Rewards (custom JSON data)
     // -------------------------------------------------------------------------------------------
     public Integer getCurrentPoints() {
@@ -195,7 +195,7 @@ public class User extends IdItemBase {
                 ", monitorsUsers=" + monitorsUsers +
                 ", memberOfGroups=" + memberOfGroups +
                 ", leadsGroups=" + leadsGroups +
-                ", hasFullData=" + hasFullData()+
+                ", hasFullData=" + hasFullData +
                 ", href='" + getHref() + '\'' +
                 '}';
     }

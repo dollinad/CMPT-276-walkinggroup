@@ -48,15 +48,6 @@
     </android.support.constraint.ConstraintLayout>
 
     <ImageView
-        android:id="@+id/marker"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="@id/search_rel_layout"
-        app:layout_constraintTop_toBottomOf="@id/search_rel_layout"
-        app:srcCompat="@android:drawable/ic_dialog_map" />
-
-    <ImageView
         android:id="@+id/ic_gps"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -81,12 +72,20 @@
         android:id="@+id/ic_group_info"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginLeft="16dp"
+        android:layout_marginTop="24dp"
         android:scaleType="centerCrop"
         android:src="@drawable/ic_group_info"
-        app:layout_constraintTop_toBottomOf="@id/ic_gps"
-        app:layout_constraintRight_toRightOf="@id/search_rel_layout"/>
+        app:layout_constraintRight_toRightOf="@id/search_rel_layout"
+        app:layout_constraintTop_toBottomOf="@id/ic_gps" />
+
+    <ImageView
+        android:id="@+id/ic_settings"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="12dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_settings"
+        app:layout_constraintRight_toRightOf="@id/search_rel_layout"
+        app:layout_constraintTop_toBottomOf="@id/ic_group_info" />
 
 </android.support.constraint.ConstraintLayout>

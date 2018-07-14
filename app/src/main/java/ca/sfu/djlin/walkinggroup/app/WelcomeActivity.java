@@ -17,6 +17,7 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 
 import ca.sfu.djlin.walkinggroup.R;
+import ca.sfu.djlin.walkinggroup.Utilities;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 
@@ -44,10 +45,21 @@ public class WelcomeActivity extends AppCompatActivity {
             // Setup buttons
             setupSignup();
             setupLogin();
-
+            setUpReadMe();
             // Check user session
             isUserLoggedIn();
         }
+    }
+
+    private void setUpReadMe() {
+        Button btn=findViewById(R.id.welcome_readme);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent= ReadMe.launchReadMe(WelcomeActivity.this);
+                startActivity(intent);
+            }
+        });
     }
 
     private void setupSignup(){
@@ -99,7 +111,11 @@ public class WelcomeActivity extends AppCompatActivity {
             String token = data[0];
             proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
 
-            Intent intent = MapActivity.launchIntentMap(WelcomeActivity.this);
+            // Start handler for new message checking
+            Utilities.startMessageChecking();
+
+            // End start background task
+            Intent intent = Map_activityDrawer.launchIntentMap(WelcomeActivity.this);
             startActivity(intent);
             finish();
         }
@@ -131,7 +147,7 @@ public class WelcomeActivity extends AppCompatActivity {
             Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(WelcomeActivity.this, available, ERROR_DIALOG_REQUEST);
             dialog.show();
         } else {
-            Toast.makeText(this, "You can't make map requests!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(WelcomeActivity.this, WelcomeActivity.this.getString(R.string.map_request_issue_toast), Toast.LENGTH_SHORT).show();
         }
         return false;
     }
