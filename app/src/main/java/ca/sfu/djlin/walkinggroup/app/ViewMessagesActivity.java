@@ -1,6 +1,7 @@
 package ca.sfu.djlin.walkinggroup.app;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -114,6 +115,11 @@ public class ViewMessagesActivity extends AppCompatActivity {
 
             return itemView;
         }
+    }
+
+    public static Intent launchViewMessageIntent (Context context) {
+        Intent intent = new Intent(context, ViewMessagesActivity.class);
+        return intent;
     }
 
     // Used for testing
