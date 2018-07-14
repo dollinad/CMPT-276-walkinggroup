@@ -1,16 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
+<menu
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/MonitoringPrefrences"
-            android:icon="@drawable/monitoring_icon"
-            android:title="@string/monitoring_prfrences" />
+            android:id="@+id/messages"
+            android:icon="@drawable/ic_menu_message"
+            android:title="@string/messages" />
         <item
-            android:id="@+id/getLocation"
-            android:icon="@drawable/ic_gps"
+            android:id="@+id/monitoring_preferences"
+            android:icon="@drawable/ic_menu_monitoring"
+            android:title="@string/monitoring_preferences" />
+        <item
+            android:id="@+id/get_location"
+            android:icon="@drawable/ic_menu_gps"
             android:title="@string/get_location" />
 
         <item
@@ -19,20 +24,19 @@
             android:title="@string/settings" />
 
         <item
-            android:id="@+id/createGroup"
-            android:icon="@drawable/creategroup"
-            android:title="Create Group" />
+            android:id="@+id/create_group"
+            android:icon="@drawable/ic_menu_create_group"
+            android:title="@string/create_group" />
 
         <item
-            android:id="@+id/viewGroups"
-            android:icon="@drawable/ic_group_info"
-            android:title="View Current Groups" />
+            android:id="@+id/view_groups"
+            android:icon="@drawable/ic_menu_group_info"
+            android:title="@string/view_current_groups" />
     </group>
-
-        <group>
-            <item
-                android:id="@+id/logout"
-                android:icon="@drawable/ic_logout"
-                android:title="@string/logout" />
-        </group>
+    <group>
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_menu_logout"
+            android:title="@string/logout" />
+    </group>
 </menu>
