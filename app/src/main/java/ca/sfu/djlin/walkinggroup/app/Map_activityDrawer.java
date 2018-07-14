@@ -204,17 +204,23 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         Log.d(TAG, "The current token is: " + token);
         int i = 0;
         for (Group group : returnedGroups) {
-            double lat = group.getRouteLatArray().get(i);
-            double lng = group.getRouteLngArray().get(i);
-            LatLng latLng=new LatLng(lat,lng);
 
-            Log.d(TAG, "The type of groupID is: " + group.getId());
-            // Add marker to map
-            Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(group.getGroupDescription()));
-            // Add marker to list
-            markers.add(marker);
-            // Store marker in HashMap for onClick retrieval
-            mHashMap.put(marker, group.getId());
+            if(group.getRouteLatArray().isEmpty()==true) {
+                break;
+            }
+            else {
+                double lat = group.getRouteLatArray().get(i);
+                double lng = group.getRouteLngArray().get(i);
+                LatLng latLng = new LatLng(lat, lng);
+
+                Log.d(TAG, "The type of groupID is: " + group.getId());
+                // Add marker to map
+                Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(group.getGroupDescription()));
+                // Add marker to list
+                markers.add(marker);
+                // Store marker in HashMap for onClick retrieval
+                mHashMap.put(marker, group.getId());
+            }
         }
     }
 
