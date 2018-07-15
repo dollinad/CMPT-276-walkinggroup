@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -28,6 +29,8 @@ public class ViewGrpupActivity extends AppCompatActivity {
     String currentUserToken;
     String currentUserEmail;
     User currentUser;
+    Long groupId;
+    User groupLeader;
 
     ArrayAdapter<Group> adapter;
 
@@ -54,6 +57,7 @@ public class ViewGrpupActivity extends AppCompatActivity {
         // Get current user information
         Call<User> caller = proxy.getUserByEmail(currentUserEmail);
         ProxyBuilder.callProxy(ViewGrpupActivity.this, caller, returnedUser -> responseCurrent(returnedUser));
+        registerClickCallback();
 
     }
 
@@ -101,13 +105,14 @@ public class ViewGrpupActivity extends AppCompatActivity {
             proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
 
             //checking if the current user is currently in any groups
+            /*
             if(currentUser.getMemberOfGroups().size()!=0) {
                 Call<Group> call = proxy.getGroupById(currentUser.getMemberOfGroups().get(position).getId());
                 ProxyBuilder.callProxy(ViewGrpupActivity.this, call, returnedGroup -> Groupreturned(returnedGroup, des, leader));
             }
-
+*/
             //checking if the current group is leading any groups
-           if(currentUser.getLeadsGroups().size()==0) {
+           if(currentUser.getLeadsGroups().size()!=0) {
                 Call<Group> caller = proxy.getGroupById(currentUser.getLeadsGroups().get(position).getId());
                 ProxyBuilder.callProxy(ViewGrpupActivity.this, caller, returnedGroup -> GroupreturnedLead(returnedGroup, des, leader));
             }
@@ -117,15 +122,45 @@ public class ViewGrpupActivity extends AppCompatActivity {
         //response function for if the user is a part of any group
         private void GroupreturnedLead(Group returnedGroup, TextView des, TextView leader) {
             des.setText(returnedGroup.getGroupDescription());
+            //getUserById(returnedGroup.getLeader().getId());
             leader.setText(returnedGroup.getLeader().getName());
+
+            groupId=returnedGroup.getId();
         }
 
         //response function for if the user is leading any groups
         private void Groupreturned(Group returnedGroup, TextView des, TextView leader) {
             des.setText(returnedGroup.getGroupDescription());
             leader.setText(returnedGroup.getLeader().getName());
+            //getUserById(returnedGroup.getLeader().getId());
+            leader.setText(returnedGroup.getLeader().getName());
+            groupId=returnedGroup.getId();
 
         }
+    }
+    
+    private void getUserById(Long Id){
+        Call<User> caller = proxy.getUserById(Id);
+        ProxyBuilder.callProxy(ViewGrpupActivity.this,caller,returnedUser -> userResponse(returnedUser));
+    }
+
+    private void userResponse(User returnedUser) {
+        groupLeader=returnedUser;
+    }
+
+    private void registerClickCallback() {
+        ListView listView = findViewById(R.id.id_currentGrps);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View viewClicked, int position, long id) {
+
+                Intent intent = GroupInfoActivity.launchGroupInfoIntent(ViewGrpupActivity.this);
+                intent.putExtra("token",currentUserToken);
+                intent.putExtra("email",currentUserEmail);
+                intent.putExtra("groupId",groupId);
+                startActivity(intent);
+            }
+        });
     }
 
     public static Intent launchIntentViewGroups(Context context) {

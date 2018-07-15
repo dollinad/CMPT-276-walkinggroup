@@ -18,6 +18,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
@@ -38,6 +40,7 @@ public class GroupInfoActivity extends AppCompatActivity {
     private Group currentGroup;
     private User currentUser;
     private List<User> monitorsUsersList;
+    int time;
 
     ArrayAdapter<User> adapterMemberList;
 
@@ -119,6 +122,7 @@ public class GroupInfoActivity extends AppCompatActivity {
                 ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedUser -> userGroupDelete(returnedUser));
             }
         });
+
     }
 
     private void refreshUI() {
@@ -302,11 +306,27 @@ public class GroupInfoActivity extends AppCompatActivity {
         Intent intent = getIntent();
         groupId = intent.getLongExtra("groupId", 0);
         token = intent.getStringExtra("token");
-        System.out.println("speicalcase2"+token);
+
+        //System.out.println("speicalcase2"+token);
     }
 
     public static Intent launchGroupInfoIntent (Context context) {
         Intent intent = new Intent(context, GroupInfoActivity.class);
         return intent;
+    }
+
+
+    public void test(){
+        Timer timer=new Timer();
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if(time==5)
+                    timer.cancel();
+                System.out.println("honghonghuohuo1");
+                time++;
+            }
+        },
+        0,5000);
     }
 }
