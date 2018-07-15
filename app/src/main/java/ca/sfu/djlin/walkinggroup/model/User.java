@@ -35,6 +35,19 @@ public class User extends IdItemBase {
     private String email;
     private String password;
 
+   /* private String BirthYear;
+    private  String BirthMonth;
+    private String Address;
+    private String HomePhone;
+    private String CellPhone;
+    private String CurrentGrade;
+    private String TeachersName;
+    private String EmergencyName;
+    private String EmergencyRelationship;
+    private String EmergencyEmail;
+    private String EmergencyPhone;*/
+
+
 
     private Integer currentPoints;
     private Integer totalPointsEarned;
@@ -90,6 +103,94 @@ public class User extends IdItemBase {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    /*public String getBirthYear() {
+        return BirthYear;
+    }
+
+    public void setBirthYear(String birthYear) {
+        BirthYear = birthYear;
+    }
+
+    public String getBirthMonth() {
+        return BirthMonth;
+    }
+
+    public void setBirthMonth(String birthMonth) {
+        BirthMonth = birthMonth;
+    }
+
+    public String getAddress() {
+        return Address;
+    }
+
+    public void setAddress(String address) {
+        Address = address;
+    }
+
+    public String getHomePhone() {
+        return HomePhone;
+    }
+
+    public void setHomePhone(String homePhone) {
+        HomePhone = homePhone;
+    }
+
+    public String getCellPhone() {
+        return CellPhone;
+    }
+
+    public void setCellPhone(String cellPhone) {
+        CellPhone = cellPhone;
+    }
+
+    public String getCurrentGrade() {
+        return CurrentGrade;
+    }
+
+    public void setCurrentGrade(String currentGrade) {
+        CurrentGrade = currentGrade;
+    }
+
+    public String getTeachersName() {
+        return TeachersName;
+    }
+
+    public void setTeachersName(String teachersName) {
+        TeachersName = teachersName;
+    }
+
+    public String getEmergencyName() {
+        return EmergencyName;
+    }
+
+    public void setEmergencyName(String emergencyName) {
+        EmergencyName = emergencyName;
+    }
+
+    public String getEmergencyRelationship() {
+        return EmergencyRelationship;
+    }
+
+    public void setEmergencyRelationship(String emergencyRelationship) {
+        EmergencyRelationship = emergencyRelationship;
+    }
+
+    public String getEmergencyEmail() {
+        return EmergencyEmail;
+    }
+
+    public void setEmergencyEmail(String emergencyEmail) {
+        EmergencyEmail = emergencyEmail;
+    }
+
+    public String getEmergencyPhone() {
+        return EmergencyPhone;
+    }
+
+    public void setEmergencyPhone(String emergencyPhone) {
+        EmergencyPhone = emergencyPhone;
+    }*/
 
     // Monitoring
     // -------------------------------------------------------------------------------------------

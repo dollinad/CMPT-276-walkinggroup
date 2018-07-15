@@ -66,6 +66,8 @@
         <activity android:name=".app.ReadMe" />
 
         <activity android:name=".app.ViewGrpupActivity"/>
+        <activity android:name=".app.SettingsActivity"/>
+        <activity android:name=".app.NameUpdate"/>
         <activity
             android:name=".app.Map_activityDrawer"
             android:label="@string/title_activity_map_drawer_test"

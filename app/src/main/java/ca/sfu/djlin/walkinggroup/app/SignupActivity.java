@@ -33,6 +33,7 @@ public class SignupActivity extends AppCompatActivity {
     String userEmailString;
     String userPasswordString;
     String userConfirmPasswordString;
+    Long UserId;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -273,6 +274,7 @@ public class SignupActivity extends AppCompatActivity {
         editor.putString("Name", user.getName());
         editor.putString("Email", user.getEmail());
         editor.putLong("User Id", user.getId());
+        UserId=user.getId();
         editor.apply();
     }
 
@@ -280,7 +282,9 @@ public class SignupActivity extends AppCompatActivity {
         Utilities.startMessageChecking();
 
         // Launch Map Activity
+
         Intent mapIntent = Map_activityDrawer.launchIntentMap(SignupActivity.this);
+        mapIntent.putExtra("UserId", UserId);
         startActivity(mapIntent);
         finish();
     }

@@ -163,6 +163,9 @@ public interface WGServerProxy {
             @Body PermissionRequest request
     );
 
+    //--Edit--
+    @POST("/User/{id}")
+    Call<User> editUser(@Path("id") Long userId, @Body User user);
 
     // -----------------------------
     // Small data classes required by permissions

@@ -47,6 +47,7 @@ import java.util.List;
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
+import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 import retrofit2.Call;
@@ -84,6 +85,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
     String currentUserEmail;
     String currentUserName;
     Long selectedGroupId;
+    Long UserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,12 +103,24 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
 
         SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
         token = preferences.getString("Token", null);
-        currentUserEmail = preferences.getString("Email", null);
-        currentUserName=preferences.getString("Name", null);
+        //currentUserEmail = preferences.getString("Email", null);
+        //currentUserName=preferences.getString("Name", null);
+        UserId=preferences.getLong("User Id", 0);
+
+
 
         // Build new proxy
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
 
+        Call<User> call=proxy.getUserById(UserId);
+        ProxyBuilder.callProxy(Map_activityDrawer.this, call, returnedNothing -> responseCurrent(returnedNothing));
+
+
+        getLocationPermission();
+
+    }
+
+    private void responseCurrent(User returnedNothing) {
         //Navigation Drawer Header layout
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -114,11 +128,9 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
 
         //customising navigation drawer Header
         TextView name=(TextView)header.findViewById(R.id.navUserName);
-        name.setText(currentUserName);
+        name.setText(returnedNothing.getName());
         TextView email=(TextView)header.findViewById(R.id.navUserEmail);
-        email.setText(currentUserEmail);
-
-        getLocationPermission();
+        email.setText(returnedNothing.getEmail());
 
     }
 
@@ -464,6 +476,18 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
 
             pass_intent.putExtra("Token", token);
             pass_intent.putExtra("Email", currentUserEmail);
+            startActivity(pass_intent);
+        }
+        else if(id==R.id.Drawersettings){
+            Intent pass_intent=SettingsActivity.launchIntentSettings(Map_activityDrawer.this);
+            SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
+            token = preferences.getString("Token", null);
+            currentUserEmail = preferences.getString("Email", null);
+
+            pass_intent.putExtra("Token", token);
+            pass_intent.putExtra("Email", currentUserEmail);
+            pass_intent.putExtra("User Id", UserId);
+
             startActivity(pass_intent);
         }
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
