@@ -74,22 +74,6 @@ public class SettingsActivity extends AppCompatActivity{
 
     }
 
-    private void setupEmergencyContactEdit() {
-        ImageView btn=findViewById(R.id.EmergencyClick);
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), CurrentUser.getId()+"", Toast.LENGTH_SHORT).show();
-                proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
-                Call<User> call=proxy.editUser(CurrentUser.getId(), CurrentUser);
-                ProxyBuilder.callProxy(SettingsActivity.this, call, returnedUser -> responseEdit(returnedUser));
-
-            }
-        });
-
-    }
-
-
     private void setupNameEdit() {
        ImageView btn=findViewById(R.id.nameClick);
        btn.setOnClickListener(new View.OnClickListener() {
@@ -188,12 +172,10 @@ public class SettingsActivity extends AppCompatActivity{
         editor.remove("Email");
         // Register for token received
         ProxyBuilder.setOnTokenReceiveCallback(token -> onReceiveToken(token, returnedUser));
-
     }
 
     // Handle the token by generating a new Proxy which is encoded with it.
     private void onReceiveToken(String newToken, User returnedUser) {
-
         // Save token using Shared Preferences
         saveUserInformation(newToken, returnedUser);
 
@@ -204,13 +186,6 @@ public class SettingsActivity extends AppCompatActivity{
         ProxyBuilder.callProxy(SettingsActivity.this, caller, returnedNothing -> response(returnedNothing));
     }
 
-    // Login actually completes by calling this; nothing to do as it was all done when we got the token.
-    private void response(Void returnedNothing) {
-        // Retrieve user id
-        //Call<User> call = proxy.getUserByEmail(userEmailString);
-       // ProxyBuilder.callProxy(LoginActivity.this, call, returnedUser -> getUserIdResponse(returnedUser));
-    }
-
     private void saveUserInformation(String newToken, User user) {
         SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -218,6 +193,25 @@ public class SettingsActivity extends AppCompatActivity{
         editor.putString("Email", user.getEmail());
         editor.apply();
     }
+
+    // Login actually completes by calling this; nothing to do as it was all done when we got the token.
+    private void response(Void returnedNothing) {
+    }
+
+    private void setupEmergencyContactEdit() {
+        ImageView btn=findViewById(R.id.EmergencyClick);
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), CurrentUser.getId()+"", Toast.LENGTH_SHORT).show();
+                proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+                Call<User> call=proxy.editUser(CurrentUser.getId(), CurrentUser);
+                ProxyBuilder.callProxy(SettingsActivity.this, call, returnedUser -> responseEdit(returnedUser));
+
+            }
+        });
+    }
+
     private void setupEmailEdit() {
         ImageView btn=findViewById(R.id.EmailClick);
         btn.setOnClickListener(new View.OnClickListener() {
@@ -508,12 +502,7 @@ public class SettingsActivity extends AppCompatActivity{
         });
     }
 
-
-
-
-
     private void responseEdit(User returnedUser) {
-
         CurrentUser=returnedUser;
     }
 

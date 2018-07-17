@@ -28,10 +28,6 @@
             android:icon="@drawable/ic_group_info"
             android:title="View Current Groups" />
 
-        <item
-        android:id="@+id/viewMonitoring"
-        android:icon="@drawable/ic_group_info"
-        android:title="View Users You are monitoring" />
     </group>
 
         <group>

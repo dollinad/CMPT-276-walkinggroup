@@ -78,7 +78,7 @@ public class PreferencesActivity extends AppCompatActivity {
         //remove from monitored By
         deleteMonitoredBy();
 
-        //ClickCallBack();
+        EditEmergencyInfoFormonitoringUser();
     }
 
 
@@ -365,7 +365,8 @@ public class PreferencesActivity extends AppCompatActivity {
             email.setText(returnUser.getEmail());
     }
 
-    /*private void ClickCallBack() {
+    //Call back function for item click (edit emergency contact info function)
+    private void EditEmergencyInfoFormonitoringUser() {
         ListView monitoring = findViewById(R.id.monitoring_list);
         monitoring.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -377,7 +378,7 @@ public class PreferencesActivity extends AppCompatActivity {
 
             }
         });
-    }*/
+    }
 
 
     private class myListAdapterMonitored extends ArrayAdapter<User> {
