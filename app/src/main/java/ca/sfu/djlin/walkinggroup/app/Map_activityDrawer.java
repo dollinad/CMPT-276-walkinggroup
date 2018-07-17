@@ -220,13 +220,13 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(currentUser.getMonitorsUsers().isEmpty()==false) {
+                //(currentUser.getMonitorsUsers().isEmpty()==false) {
                     Intent intent = Parent_Map.launchIntentMap(Map_activityDrawer.this);
                     startActivity(intent);
-                }
-                else{
-                    System.out.println("You have no user that you are monitoring now");
-                }
+               // }
+                //else{
+                 //   System.out.println("You have no user that you are monitoring now");
+                //}
             }
         });
     }

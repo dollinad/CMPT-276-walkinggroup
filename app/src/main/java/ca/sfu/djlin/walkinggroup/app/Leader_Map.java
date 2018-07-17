@@ -88,7 +88,6 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
     List<Marker> markers = new ArrayList();
     List<Marker> marker_user=new ArrayList();
 
-
     private Marker meetingMarker;
     String temp_name;
     int groupSize=0;
@@ -104,7 +103,7 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
     String token;
     String currentUserEmail;
     User currentUser=new User();
-    int temp=0;
+    int i=0;
 
     GpsLocation gpsLocation=new GpsLocation();
 
@@ -196,6 +195,8 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
                 System.out.println("timer cancel");
                 timer.cancel();
                 timer_get.cancel();
+                timer=new Timer();
+                timer_get=new Timer();
             }
         });
 
@@ -206,7 +207,6 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // removerMarker();
                 System.out.println("timer start");
                 updateGpsLoaction();
             }
@@ -232,13 +232,8 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
                 timer_get.scheduleAtFixedRate(new TimerTask() {
                     @Override
                     public void run() {
-
-                        //if(counts==10)
-                            //timer_get.cancel();
-                       // else {
                             uploadGpsLocation();
                             counts++;
-                        //}
                     }
                 },0,5000);
             }
@@ -475,48 +470,32 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
         },0,3000);
     }
 
+    public void getGroupSize(){
+    List<Group> groups=currentUser.getLeadsGroups();
+    for(int i=0;i<groups.size();i++){
+        Call<Group> caller=proxy.getGroupById(groups.get(i).getId());
+        ProxyBuilder.callProxy(Leader_Map.this,caller, returnGroup->groupResponseForSize(returnGroup));
+    }
+    }
 
+    private void groupResponseForSize(Group returnGroup) {
+        ArrayList<User> users=returnGroup.getMemberUsers();
+        groupSize=groupSize+returnGroup.getMemberUsers().size();
+        System.out.println("the size is "+ groupSize);
+    }
 
     //get the group that current user is leadering
     public void uploadGpsLocation(){
-       // removerMarker();
+
         List<Group> groups=currentUser.getLeadsGroups();
-        //for(int i=0;i<groups.size();i++){
-            Call<Group> caller=proxy.getGroupById(groups.get(0).getId());
+        for(int i=0;i<groups.size();i++){
+            Call<Group> caller=proxy.getGroupById(groups.get(i).getId());
             ProxyBuilder.callProxy(Leader_Map.this,caller, returnGroup->groupResponse(returnGroup));
-
-
-
-
-        //}
-//        Call<GpsLocation> caller=proxy.getLastGpsLocation(currentUser.getId());
-//        ProxyBuilder.callProxy(this,caller,returnGps->gpsResponse2(returnGps));
-
-    }
-    public void removerMarker(){
-        /*
-        if(marker_user.isEmpty()==true)
-
-        {
-            System.out.println("nothing");
         }
-        else{
-            System.out.println(marker_user.size());
-            for(int i=0;i<marker_user.size();i++){
-            System.out.println("marker is "+ marker_user.get(i));
-                marker_user.get(0).remove();
-                mMap.clear();
-               // marker_user.remove(i);
-            }
-        }
-        */
     }
 //response to get the memebers of the group
     private void groupResponse(Group returnGroup) {
         ArrayList<User> users=returnGroup.getMemberUsers();
-        groupSize=returnGroup.getMemberUsers().size();
-
-        System.out.println("the size is "+ groupSize);
         for(int i=0;i<users.size();i++){
               Call<User> caller=proxy.getUserById(users.get(i).getId());
               ProxyBuilder.callProxy(Leader_Map.this,caller,returnUser->userResponse(returnUser));
@@ -541,11 +520,29 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(originBitmap, btnWidth, btnHeight, false);
 
         System.out.println("jicia");
-        Marker marker=mMap.addMarker(new MarkerOptions().position(returnGps.toLatlng(returnGps)).title(temp_name).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap)));
-        marker_user.add(marker);
+        if(marker_user.isEmpty()==true) {
+            marker_user.add(mMap.addMarker(new MarkerOptions().position(returnGps.toLatlng(returnGps))
+                    .title(temp_name).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap))));
+        }
+        else if(marker_user.isEmpty()==false) {
+            if(i<marker_user.size()) {
+                if (marker_user.get(i) != null) {
+                    marker_user.get(i).remove();
+                }
+                    marker_user.set(i, mMap.addMarker(new MarkerOptions().position(returnGps.toLatlng(returnGps))
+                            .title(temp_name).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap))));
+            }
+            else{
+                marker_user.add(mMap.addMarker(new MarkerOptions().position(returnGps.toLatlng(returnGps))
+                        .title(temp_name).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap))));
+            }
+        }
+        System.out.println("important "+groupSize);
+        i++;
+        i=i%groupSize;
+        //marker_user.add(marker);
         System.out.println(returnGps.toLatlng(returnGps));
     }
-
 
     //do thing for get gps response by proxy
     private void gpsResponse(GpsLocation returnGps) {
@@ -562,5 +559,7 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
 
     private void UserResponse(User returnedUser) {
         currentUser=returnedUser;
+        getGroupSize();
+
     }
 }

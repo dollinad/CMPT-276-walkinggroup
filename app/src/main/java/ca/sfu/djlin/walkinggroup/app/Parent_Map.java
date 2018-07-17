@@ -77,6 +77,7 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
     private ImageView mGroupInfo;
     private ImageView mMonitorSettings;
     private Timer timer=new Timer();
+    private Timer timer_get=new Timer();
     // Google Map Related
     private Boolean mLocationPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -86,21 +87,23 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
     private LatLng latlng;
     List<Marker> markers = new ArrayList();
     List<Marker> marker_user=new ArrayList();
+
     private Marker meetingMarker;
     String temp_name;
-    int times=0;
-
+    int groupSize=0;
     private String time="1991-1-1,11:11:11-";
     // Create HashMap used for storing group ID
     private HashMap<Marker, Long> mHashMap = new HashMap<Marker, Long>();
 
     // Proxy
     private WGServerProxy proxy;
-
+    int times=0;
+    int counts=0;
     // User Variables
     String token;
     String currentUserEmail;
     User currentUser=new User();
+    int i=0;
 
     GpsLocation gpsLocation=new GpsLocation();
 
@@ -191,6 +194,9 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
             public void onClick(View v) {
                 System.out.println("timer cancel");
                 timer.cancel();
+                timer_get.cancel();
+                timer=new Timer();
+                timer_get=new Timer();
             }
         });
 
@@ -211,7 +217,7 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_parent__map);
+        setContentView(R.layout.activity_leader__map);
         mSearchText = (EditText) findViewById(R.id.search_input);
         mGps = (ImageView) findViewById(R.id.ic_gps);
         mLogout = (ImageView) findViewById(R.id.ic_logout);
@@ -222,8 +228,14 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
         mLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                uploadGpsLocation();
 
+                timer_get.scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
+                        uploadGpsLocation();
+                        counts++;
+                    }
+                },0,5000);
             }
         });
 
@@ -441,8 +453,10 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if(times==10)
+                if(times==10) {
+                    times = 0;
                     timer.cancel();
+                }
                 else {
                     getDeviceLocation();
                     time = time + 1;
@@ -456,35 +470,20 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
         },0,3000);
     }
 
-
-
-    //get the group that current user is leadering
-    public void uploadGpsLocation(){
-        List<User> m_Users=currentUser.getMonitorsUsers();
-        for(int i=0;i<m_Users.size();i++){
-        Call<User> caller=proxy.getUserById(m_Users.get(0).getId());
-        ProxyBuilder.callProxy(Parent_Map.this,caller, returnUser->userResponse(returnUser));
-
-
-
-
-        }
-//        Call<GpsLocation> caller=proxy.getLastGpsLocation(currentUser.getId());
-//        ProxyBuilder.callProxy(this,caller,returnGps->gpsResponse2(returnGps));
+    public void getUserSize(){
+        groupSize=currentUser.getMonitorsUsers().size();
 
     }
 
-    /*
-    //response to get the memebers of the group
-    private void groupResponse(Group returnGroup) {
-        ArrayList<User> users=returnGroup.getMemberUsers();
+    //get the members that you are monitoring
+    public void uploadGpsLocation(){
+
+        List<User> users=currentUser.getMonitorsUsers();
         for(int i=0;i<users.size();i++){
             Call<User> caller=proxy.getUserById(users.get(i).getId());
-            ProxyBuilder.callProxy(Parent_Map.this,caller,returnUser->userResponse(returnUser));
+            ProxyBuilder.callProxy(Parent_Map.this,caller, returnUsers->userResponse(returnUsers));
         }
     }
-*/
-
     //get users gps location information
     private void userResponse(User returnUser) {
         System.out.println("dijici");
@@ -496,19 +495,35 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
     //each user return a gps location to show in the map
     private void gpsResponse2(GpsLocation returnGps) {
         System.out.println("gps is " +returnGps.toString());
-
-
         int btnWidth = 70;
         int btnHeight = 100;
         Bitmap originBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user);
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(originBitmap, btnWidth, btnHeight, false);
 
         System.out.println("jicia");
-        Marker marker=mMap.addMarker(new MarkerOptions().position(returnGps.toLatlng(returnGps)).title(temp_name).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap)));
-        marker_user.add(marker);
+        if(marker_user.isEmpty()==true) {
+            marker_user.add(mMap.addMarker(new MarkerOptions().position(returnGps.toLatlng(returnGps))
+                    .title(temp_name).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap))));
+        }
+        else if(marker_user.isEmpty()==false) {
+            if(i<marker_user.size()) {
+                if (marker_user.get(i) != null) {
+                    marker_user.get(i).remove();
+                }
+                marker_user.set(i, mMap.addMarker(new MarkerOptions().position(returnGps.toLatlng(returnGps))
+                        .title(temp_name).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap))));
+            }
+            else{
+                marker_user.add(mMap.addMarker(new MarkerOptions().position(returnGps.toLatlng(returnGps))
+                        .title(temp_name).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap))));
+            }
+        }
+        System.out.println("important "+groupSize);
+        i++;
+        i=i%groupSize;
+        //marker_user.add(marker);
         System.out.println(returnGps.toLatlng(returnGps));
     }
-
 
     //do thing for get gps response by proxy
     private void gpsResponse(GpsLocation returnGps) {
@@ -525,5 +540,7 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
 
     private void UserResponse(User returnedUser) {
         currentUser=returnedUser;
+        getUserSize();
+
     }
 }
