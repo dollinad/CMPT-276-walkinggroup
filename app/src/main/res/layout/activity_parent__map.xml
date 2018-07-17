@@ -90,8 +90,8 @@
 
     <Button
         android:id="@+id/button_start"
-        android:layout_width="39dp"
-        android:layout_height="32dp"
+        android:layout_width="71dp"
+        android:layout_height="56dp"
         android:layout_marginBottom="268dp"
         android:layout_marginEnd="16dp"
         android:text="START"
@@ -100,8 +100,8 @@
 
     <Button
         android:id="@+id/button_stop"
-        android:layout_width="35dp"
-        android:layout_height="31dp"
+        android:layout_width="67dp"
+        android:layout_height="45dp"
         android:layout_marginBottom="168dp"
         android:layout_marginEnd="16dp"
         android:text="STOP"
