@@ -77,6 +77,7 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
     private ImageView mGroupInfo;
     private ImageView mMonitorSettings;
     private Timer timer=new Timer();
+    private Timer timer_get=new Timer();
     // Google Map Related
     private Boolean mLocationPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
@@ -96,6 +97,7 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
     // Proxy
     private WGServerProxy proxy;
     int times=0;
+    int counts=0;
     // User Variables
     String token;
     String currentUserEmail;
@@ -221,8 +223,17 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
         mLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                uploadGpsLocation();
-
+                timer_get.scheduleAtFixedRate(new TimerTask() {
+                    @Override
+                    public void run() {
+                        if(counts==10)
+                            timer_get.cancel();
+                        else {
+                            uploadGpsLocation();
+                            counts++;
+                        }
+                    }
+                },0,3000);
             }
         });
 

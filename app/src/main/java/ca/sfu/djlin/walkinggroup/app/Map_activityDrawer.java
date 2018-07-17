@@ -154,6 +154,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
             // Initialize search box listeners
             init();
             setUpTest();
+            setUpTest2();
             getUserId();
         }
 
@@ -201,22 +202,22 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
     }
 
     private void setUpTest() {
-        Button button=findViewById(R.id.button_test);
+        Button button = findViewById(R.id.button_test);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(currentUser.getLeadsGroups().isEmpty()==false) {
+                if (currentUser.getLeadsGroups().isEmpty() == false) {
                     Intent intent = Leader_Map.launchIntentMap(Map_activityDrawer.this);
                     startActivity(intent);
-                }
-                else{
+                } else {
                     System.out.println("You have no group to lead right now");
                 }
             }
         });
-
+    }
+    private void setUpTest2() {
         Button button2=findViewById(R.id.button_test2);
-        button.setOnClickListener(new View.OnClickListener() {
+        button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(currentUser.getMonitorsUsers().isEmpty()==false) {
