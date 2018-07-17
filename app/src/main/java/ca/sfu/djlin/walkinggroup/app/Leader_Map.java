@@ -82,13 +82,11 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
     private Boolean mLocationPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private GoogleMap mMap;
-    private GoogleApiClient mGoogleApiClient;
     private LatLng currentposition = new LatLng(0,0);
     private LatLng latlng;
     List<Marker> markers = new ArrayList();
     List<Marker> marker_user=new ArrayList();
 
-    private Marker meetingMarker;
     String temp_name;
     int groupSize=0;
     private String time="1991-1-1,11:11:11-";
@@ -97,15 +95,17 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
 
     // Proxy
     private WGServerProxy proxy;
+
+    //count times for uploading data or retreiving data from server
     int times=0;
     int counts=0;
+    int index=0;
+
     // User Variables
     String token;
     String currentUserEmail;
     User currentUser=new User();
-    int i=0;
 
-    GpsLocation gpsLocation=new GpsLocation();
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -156,37 +156,10 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
             // Store marker in HashMap for onClick retrieval
             mHashMap.put(marker, intent.getLongExtra("groupId", 0));
         }
-        // End need to check order for this
-        //setGroupMarker();
-
-        // Listener for group marker clicks
-       /* mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener(){
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                // Obtain groupId
-                Long groupId = mHashMap.get(marker);
-                selectedGroupId = groupId;
-                Log.d(TAG, "The groupId retrieved was: " + groupId);
-
-                // Draw the meeting location marker
-                if (!marker.equals(meetingMarker)) {
-                    Call<Group> call = proxy.getGroupById(groupId);
-                    ProxyBuilder.callProxy(Leader_Map.this, call, returnedGroup -> drawMeetingMarker(returnedGroup));
-                } else if (marker.equals(meetingMarker)){
-                    Toast.makeText(Leader_Map.this, Leader_Map.this.getString(R.string.meeting_location), Toast.LENGTH_SHORT).show();
-
-                } else {
-                    Toast.makeText(Leader_Map.this, Leader_Map.this.getString(R.string.no_meeting_location), Toast.LENGTH_SHORT).show();
-                }
-
-                return true;
-            }
-        });
-        */
     }
 
 
-
+//stop uploading gps location
     private void setUpStop() {
         Button button=findViewById(R.id.button_stop);
         button.setOnClickListener(new View.OnClickListener() {
@@ -201,7 +174,7 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
         });
 
     }
-
+//start uploading gps location
     private void setUpStart() {
         Button button=findViewById(R.id.button_start);
         button.setOnClickListener(new View.OnClickListener() {
@@ -232,8 +205,7 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
                 timer_get.scheduleAtFixedRate(new TimerTask() {
                     @Override
                     public void run() {
-                            uploadGpsLocation();
-                            counts++;
+                        startDowanloadGpsLocation();
                     }
                 },0,5000);
             }
@@ -274,9 +246,6 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
         }
     }
 
-    private void notifyUserViaLogAndToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-    }
 
 
     private void init() {
@@ -463,7 +432,7 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
                     GpsLocation gpsLocation = new GpsLocation();
                     gpsLocation.setGpsLocation(currentposition, time);
                     Call<GpsLocation> caller = proxy.setLastGpsLocation(currentUser.getId(), gpsLocation);
-                    ProxyBuilder.callProxy(Leader_Map.this, caller, returnGps -> gpsResponse(returnGps));
+                    ProxyBuilder.callProxy(Leader_Map.this, caller, returnGps -> updateGpsResponse(returnGps));
                     times++;
                 }
             }
@@ -485,7 +454,7 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
     }
 
     //get the group that current user is leadering
-    public void uploadGpsLocation(){
+    public void startDowanloadGpsLocation(){
 
         List<Group> groups=currentUser.getLeadsGroups();
         for(int i=0;i<groups.size();i++){
@@ -498,21 +467,21 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
         ArrayList<User> users=returnGroup.getMemberUsers();
         for(int i=0;i<users.size();i++){
               Call<User> caller=proxy.getUserById(users.get(i).getId());
-              ProxyBuilder.callProxy(Leader_Map.this,caller,returnUser->userResponse(returnUser));
+              ProxyBuilder.callProxy(Leader_Map.this,caller,returnUser->singleUserResponse(returnUser));
         }
     }
 
 
     //get users gps location information
-    private void userResponse(User returnUser) {
+    private void singleUserResponse(User returnUser) {
         System.out.println("dijici");
         Call<GpsLocation> caller=proxy.getLastGpsLocation(returnUser.getId());
         temp_name=returnUser.getName();
-        ProxyBuilder.callProxy(this,caller,returnGps->gpsResponse2(returnGps));
+        ProxyBuilder.callProxy(this,caller,returnGps->gpsResponseForEachUser(returnGps));
 
     }
 //each user return a gps location to show in the map
-    private void gpsResponse2(GpsLocation returnGps) {
+    private void gpsResponseForEachUser(GpsLocation returnGps) {
         System.out.println("gps is " +returnGps.toString());
         int btnWidth = 70;
         int btnHeight = 100;
@@ -525,11 +494,11 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
                     .title(temp_name).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap))));
         }
         else if(marker_user.isEmpty()==false) {
-            if(i<marker_user.size()) {
-                if (marker_user.get(i) != null) {
-                    marker_user.get(i).remove();
+            if(index<marker_user.size()) {
+                if (marker_user.get(index) != null) {
+                    marker_user.get(index).remove();
                 }
-                    marker_user.set(i, mMap.addMarker(new MarkerOptions().position(returnGps.toLatlng(returnGps))
+                    marker_user.set(index, mMap.addMarker(new MarkerOptions().position(returnGps.toLatlng(returnGps))
                             .title(temp_name).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap))));
             }
             else{
@@ -538,14 +507,13 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
             }
         }
         System.out.println("important "+groupSize);
-        i++;
-        i=i%groupSize;
-        //marker_user.add(marker);
+        index++;
+        index=index%groupSize;
         System.out.println(returnGps.toLatlng(returnGps));
     }
 
-    //do thing for get gps response by proxy
-    private void gpsResponse(GpsLocation returnGps) {
+    //do nothing for getting gps response by proxy
+    private void updateGpsResponse(GpsLocation returnGps) {
         System.out.println("gpslocation done");
     }
 
@@ -554,10 +522,10 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
 //get current user id
     public void getUserId(){
         Call<User> caller=proxy.getUserByEmail(currentUserEmail);
-        ProxyBuilder.callProxy(this,caller,returnedUser->UserResponse(returnedUser));
+        ProxyBuilder.callProxy(this,caller,returnedUser->userResponse(returnedUser));
     }
 
-    private void UserResponse(User returnedUser) {
+    private void userResponse(User returnedUser) {
         currentUser=returnedUser;
         getGroupSize();
 

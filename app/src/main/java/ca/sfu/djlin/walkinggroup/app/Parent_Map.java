@@ -1,7 +1,6 @@
 package ca.sfu.djlin.walkinggroup.app;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,7 +26,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -42,7 +40,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
-import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -82,13 +79,11 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
     private Boolean mLocationPermissionsGranted = false;
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private GoogleMap mMap;
-    private GoogleApiClient mGoogleApiClient;
     private LatLng currentposition = new LatLng(0,0);
     private LatLng latlng;
     List<Marker> markers = new ArrayList();
     List<Marker> marker_user=new ArrayList();
 
-    private Marker meetingMarker;
     String temp_name;
     int groupSize=0;
     private String time="1991-1-1,11:11:11-";
@@ -97,13 +92,16 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
 
     // Proxy
     private WGServerProxy proxy;
+
+    //count the times of uploading data or dowanloading data from server
     int times=0;
     int counts=0;
+    int index =0;
     // User Variables
     String token;
     String currentUserEmail;
     User currentUser=new User();
-    int i=0;
+
 
     GpsLocation gpsLocation=new GpsLocation();
 
@@ -232,7 +230,7 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
                 timer_get.scheduleAtFixedRate(new TimerTask() {
                     @Override
                     public void run() {
-                        uploadGpsLocation();
+                        startDowanloadGpsLocation();
                         counts++;
                     }
                 },0,5000);
@@ -274,9 +272,6 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
         }
     }
 
-    private void notifyUserViaLogAndToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
-    }
 
 
     private void init() {
@@ -470,30 +465,31 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
         },0,3000);
     }
 
+    //get the size of user list of monitoring
     public void getUserSize(){
         groupSize=currentUser.getMonitorsUsers().size();
 
     }
 
     //get the members that you are monitoring
-    public void uploadGpsLocation(){
+    public void startDowanloadGpsLocation(){
 
         List<User> users=currentUser.getMonitorsUsers();
         for(int i=0;i<users.size();i++){
             Call<User> caller=proxy.getUserById(users.get(i).getId());
-            ProxyBuilder.callProxy(Parent_Map.this,caller, returnUsers->userResponse(returnUsers));
+            ProxyBuilder.callProxy(Parent_Map.this,caller, returnUsers->singleUserResponse(returnUsers));
         }
     }
     //get users gps location information
-    private void userResponse(User returnUser) {
+    private void singleUserResponse(User returnUser) {
         System.out.println("dijici");
         Call<GpsLocation> caller=proxy.getLastGpsLocation(returnUser.getId());
         temp_name=returnUser.getName();
-        ProxyBuilder.callProxy(this,caller,returnGps->gpsResponse2(returnGps));
+        ProxyBuilder.callProxy(this,caller,returnGps->gpsResponseForEachUser(returnGps));
 
     }
     //each user return a gps location to show in the map
-    private void gpsResponse2(GpsLocation returnGps) {
+    private void gpsResponseForEachUser(GpsLocation returnGps) {
         System.out.println("gps is " +returnGps.toString());
         int btnWidth = 70;
         int btnHeight = 100;
@@ -506,11 +502,11 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
                     .title(temp_name).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap))));
         }
         else if(marker_user.isEmpty()==false) {
-            if(i<marker_user.size()) {
-                if (marker_user.get(i) != null) {
-                    marker_user.get(i).remove();
+            if(index <marker_user.size()) {
+                if (marker_user.get(index) != null) {
+                    marker_user.get(index).remove();
                 }
-                marker_user.set(i, mMap.addMarker(new MarkerOptions().position(returnGps.toLatlng(returnGps))
+                marker_user.set(index, mMap.addMarker(new MarkerOptions().position(returnGps.toLatlng(returnGps))
                         .title(temp_name).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap))));
             }
             else{
@@ -519,8 +515,8 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
             }
         }
         System.out.println("important "+groupSize);
-        i++;
-        i=i%groupSize;
+        index++;
+        index = index %groupSize;
         //marker_user.add(marker);
         System.out.println(returnGps.toLatlng(returnGps));
     }
@@ -535,10 +531,10 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
     //get current user id
     public void getUserId(){
         Call<User> caller=proxy.getUserByEmail(currentUserEmail);
-        ProxyBuilder.callProxy(this,caller,returnedUser->UserResponse(returnedUser));
+        ProxyBuilder.callProxy(this,caller,returnedUser->userResponse(returnedUser));
     }
 
-    private void UserResponse(User returnedUser) {
+    private void userResponse(User returnedUser) {
         currentUser=returnedUser;
         getUserSize();
 
