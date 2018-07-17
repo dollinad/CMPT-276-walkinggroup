@@ -215,18 +215,22 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
     private void response(List<Group> returnedGroups) {
         Log.d(TAG, "The current token is: " + token);
         int i = 0;
-        for (Group group : returnedGroups) {
-            double lat = group.getRouteLatArray().get(i);
-            double lng = group.getRouteLngArray().get(i);
-            LatLng latLng=new LatLng(lat,lng);
+        if (returnedGroups.size() > 0) {
+            for (Group group : returnedGroups) {
+                if (group.getRouteLngArray().size() > 0 && group.getRouteLatArray().size() > 0) {
+                    double lat = group.getRouteLatArray().get(i);
+                    double lng = group.getRouteLngArray().get(i);
+                    LatLng latLng = new LatLng(lat, lng);
 
-            Log.d(TAG, "The type of groupID is: " + group.getId());
-            // Add marker to map
-            Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(group.getGroupDescription()));
-            // Add marker to list
-            markers.add(marker);
-            // Store marker in HashMap for onClick retrieval
-            mHashMap.put(marker, group.getId());
+                    Log.d(TAG, "The type of groupID is: " + group.getId());
+                    // Add marker to map
+                    Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(group.getGroupDescription()));
+                    // Add marker to list
+                    markers.add(marker);
+                    // Store marker in HashMap for onClick retrieval
+                    mHashMap.put(marker, group.getId());
+                }
+            }
         }
     }
 
@@ -441,11 +445,16 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         if (id == R.id.logout) {
             logout();
         }
-        else if (id == R.id.getLocation) {
+        else if (id == R.id.get_location) {
             Log.d(TAG, "onClick: clicked gps icon");
             getDeviceLocation();
         }
-        else if (id == R.id.createGroup) {
+        else if(id == R.id.messages) {
+            // Launch view messages activity
+            Intent intent = ViewMessagesActivity.launchViewMessageIntent(Map_activityDrawer.this);
+            startActivity(intent);
+        }
+        else if (id == R.id.create_group) {
             Log.d(TAG, "Clicking on group info button");
 
             // Launch Group Info Activity and pass groupId
@@ -454,7 +463,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
             intent.putExtra("token", token);
             startActivity(intent);
         }
-        else if (id == R.id.MonitoringPrefrences) {
+        else if (id == R.id.monitoring_preferences) {
             Toast.makeText(getApplicationContext(), "PPP", Toast.LENGTH_SHORT).show();
             Intent pass_intent = PreferencesActivity.launchIntentPreferences(Map_activityDrawer.this);
 
@@ -466,7 +475,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
             pass_intent.putExtra("Email", currentUserEmail);
             startActivity(pass_intent);
         }
-        else if(id==R.id.viewGroups){
+        else if(id==R.id.view_groups){
             Toast.makeText(getApplicationContext(), "PPP", Toast.LENGTH_SHORT).show();
             Intent pass_intent = ViewGrpupActivity.launchIntentViewGroups(Map_activityDrawer.this);
 
@@ -532,7 +541,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
     }
 
     public static Intent launchIntentMapForMarker(Context context) {
-        Intent intent = new Intent(context, Map_activityDrawer. class);
+        Intent intent = new Intent(context, Map_activityDrawer.class);
         return intent;
     }
 
