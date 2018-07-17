@@ -259,9 +259,9 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
                         group.setGroupDescription(name);
 
                         //Assigning the leader
-                        User leader = new User();
-                        leader.setId(currentUserId);
-                        group.setLeader(leader);
+                        //User leader = new User();
+                        //leader.setId(currentUserId);
+                        group.setLeader(currentUser);
 
                         Call<Group> caller = proxy.createGroup(group);
                         ProxyBuilder.callProxy(CreateGroupActivity.this, caller, returnedGroup -> createGroupResponse(returnedGroup));

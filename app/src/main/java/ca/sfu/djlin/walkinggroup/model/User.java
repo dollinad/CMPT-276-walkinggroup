@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.dataobjects.EarnedRewards;
+import ca.sfu.djlin.walkinggroup.dataobjects.GpsLocation;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
 import ca.sfu.djlin.walkinggroup.dataobjects.IdItemBase;
 
@@ -40,6 +41,7 @@ public class User extends IdItemBase {
     private String cellPhone;
     private String homePhone;
     private String grade;
+    private GpsLocation lastGpsLocation;
 
     public Integer getBirthYear() {
         return birthYear;
@@ -111,6 +113,7 @@ public class User extends IdItemBase {
 
 
 
+
     private Integer currentPoints;
     private Integer totalPointsEarned;
 
@@ -166,6 +169,13 @@ public class User extends IdItemBase {
         this.password = password;
     }
 
+    public GpsLocation getLastGpsLocation() {
+        return lastGpsLocation;
+    }
+
+    public void setLastGpsLocation(GpsLocation lastGpsLocation) {
+        this.lastGpsLocation = lastGpsLocation;
+    }
 
     // Monitoring
     // -------------------------------------------------------------------------------------------
@@ -275,4 +285,6 @@ public class User extends IdItemBase {
                 ", href='" + getHref() + '\'' +
                 '}';
     }
+
+
 }

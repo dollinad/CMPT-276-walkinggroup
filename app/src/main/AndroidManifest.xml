@@ -81,6 +81,12 @@
                 <!--<category android:name="android.intent.category.LAUNCHER" />-->
             <!--</intent-filter>-->
         </activity>
+        <activity
+            android:name=".app.Leader_Map"
+            android:label="@string/title_activity_leader__map" />
+        <activity
+            android:name=".app.Parent_Map"
+            android:label="@string/title_activity_parent__map"></activity>
     </application>
 
 </manifest>

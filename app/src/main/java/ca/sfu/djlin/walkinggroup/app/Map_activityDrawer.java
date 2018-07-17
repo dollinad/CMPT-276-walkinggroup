@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,6 +44,8 @@ import com.google.android.gms.tasks.Task;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
@@ -73,7 +76,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
     private LatLng latlng;
     List<Marker> markers = new ArrayList();
     private Marker meetingMarker;
-
+    private Timer timer;
     // Create HashMap used for storing group ID
     private HashMap<Marker, Long> mHashMap = new HashMap<Marker, Long>();
 
@@ -81,6 +84,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
     private WGServerProxy proxy;
 
     // User Variables
+    private User currentUser=new User();
     String token;
     String currentUserEmail;
     String currentUserName;
@@ -160,6 +164,9 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
 
             // Initialize search box listeners
             init();
+            setUpTest();
+            setUpTest2();
+            getUserId();
         }
 
         SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
@@ -201,6 +208,36 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
                 }
 
                 return true;
+            }
+        });
+    }
+
+    private void setUpTest() {
+        Button button = findViewById(R.id.button_test);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //if (currentUser.getLeadsGroups().isEmpty() == false) {
+                    Intent intent = Leader_Map.launchIntentMap(Map_activityDrawer.this);
+                    startActivity(intent);
+                //} else {
+                //    System.out.println("You have no group to lead right now");
+                //}
+            }
+        });
+    }
+    private void setUpTest2() {
+        Button button2=findViewById(R.id.button_test2);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //(currentUser.getMonitorsUsers().isEmpty()==false) {
+                    Intent intent = Parent_Map.launchIntentMap(Map_activityDrawer.this);
+                    startActivity(intent);
+               // }
+                //else{
+                 //   System.out.println("You have no user that you are monitoring now");
+                //}
             }
         });
     }
@@ -533,6 +570,25 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         finish();
     }
 
+    //Update Gps Location
+    public void updateGpsLoaction(){
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                System.out.println();
+                getDeviceLocation();
+            }
+        },0,5000);
+    }
+
+    public void getUserId(){
+        Call<User> caller=proxy.getUserByEmail(currentUserEmail);
+        ProxyBuilder.callProxy(this,caller,returnedUser->UserResponse(returnedUser));
+    }
+
+    private void UserResponse(User returnedUser) {
+        currentUser=returnedUser;
+    }
     //                                                                  INTENTS
 
     public static Intent launchIntentMap(Context context) {
