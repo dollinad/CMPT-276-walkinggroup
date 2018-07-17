@@ -1,0 +1,444 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/SettingsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Your Account"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textSize="24sp"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="16dp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
+
+            <TableRow
+                android:layout_width="374dp"
+                android:layout_height="30dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.119">
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/id_name"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:text="Name"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                <Space
+                    android:layout_width="27dp"
+                    android:layout_height="match_parent" />
+
+                <EditText
+                    android:id="@+id/nameDisplay"
+                    android:layout_width="129dp"
+                    android:layout_height="match_parent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:background="@android:color/transparent"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/nameClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/arrow_png" />
+
+            </TableRow>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
+
+            <TableRow
+                android:layout_width="374dp"
+                android:layout_height="30dp"
+                tools:layout_editor_absoluteX="15dp"
+                tools:layout_editor_absoluteY="104dp">
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/id_birthYear"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:text="Birth Year"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                <Space
+                    android:layout_width="27dp"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/birthYearDisplay"
+                    android:layout_width="129dp"
+                    android:layout_height="match_parent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:background="@android:color/transparent"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/BirthYearClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/arrow_png" />
+            </TableRow>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
+
+            <TableRow
+                android:layout_width="374dp"
+                android:layout_height="30dp"
+                tools:layout_editor_absoluteX="15dp"
+                tools:layout_editor_absoluteY="142dp">
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/id_birthMonth"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Birth Month"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                <Space
+                    android:layout_width="27dp"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/birthMonthDisplay"
+                    android:layout_width="129dp"
+                    android:layout_height="match_parent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:background="@android:color/transparent"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/BirthMonthClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/arrow_png" />
+
+            </TableRow>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
+
+            <TableRow
+                android:layout_width="374dp"
+                android:layout_height="30dp"
+                tools:layout_editor_absoluteX="15dp"
+                tools:layout_editor_absoluteY="181dp">
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/id_address"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Address"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                <Space
+                    android:layout_width="27dp"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/adressDisplay"
+                    android:layout_width="129dp"
+                    android:layout_height="match_parent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:background="@android:color/transparent"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/AddressClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/arrow_png" />
+
+            </TableRow>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
+
+            <TableRow
+                android:layout_width="374dp"
+                android:layout_height="30dp"
+                tools:layout_editor_absoluteX="15dp"
+                tools:layout_editor_absoluteY="220dp">
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/id_homePhone"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Home phone"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                <Space
+                    android:layout_width="27dp"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/homePhoneDisplay"
+                    android:layout_width="129dp"
+                    android:layout_height="match_parent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:background="@android:color/transparent"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/HomePhoneClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/arrow_png" />
+
+            </TableRow>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
+
+            <TableRow
+                android:layout_width="374dp"
+                android:layout_height="30dp"
+                tools:layout_editor_absoluteX="15dp"
+                tools:layout_editor_absoluteY="259dp">
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/id_cellPhone"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Cell Phone"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                <Space
+                    android:layout_width="27dp"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/cellPhoneDisplay"
+                    android:layout_width="129dp"
+                    android:layout_height="match_parent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:background="@android:color/transparent"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/CellPhoneClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/arrow_png" />
+            </TableRow>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
+
+            <TableRow
+                android:layout_width="374dp"
+                android:layout_height="30dp"
+                tools:layout_editor_absoluteX="15dp"
+                tools:layout_editor_absoluteY="302dp">
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/id_email"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Email"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                <Space
+                    android:layout_width="27dp"
+                    android:layout_height="wrap_content" />
+
+                <EditText
+                    android:id="@+id/EmailDisplay"
+                    android:layout_width="129dp"
+                    android:layout_height="match_parent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:background="@android:color/transparent"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/EmailClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/arrow_png" />
+            </TableRow>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
+
+            <TableRow
+                android:layout_width="374dp"
+                android:layout_height="32dp"
+                tools:layout_editor_absoluteX="5dp"
+                tools:layout_editor_absoluteY="332dp">
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/id_currentGrade"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Current Grade"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                <Space
+                    android:layout_width="27dp"
+                    android:layout_height="match_parent" />
+
+                <EditText
+                    android:id="@+id/currentgradeDisplay"
+                    android:layout_width="129dp"
+                    android:layout_height="match_parent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:background="@android:color/transparent"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/CurrentGradeClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/arrow_png" />
+            </TableRow>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
+
+            <TableRow
+                android:layout_width="374dp"
+                android:layout_height="32dp"
+                tools:layout_editor_absoluteX="5dp"
+                tools:layout_editor_absoluteY="364dp">
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" />
+
+                <TextView
+                    android:id="@+id/id_teachersName"
+                    android:layout_width="150dp"
+                    android:layout_height="wrap_content"
+                    android:text="Teacher's Name"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+
+                <Space
+                    android:layout_width="27dp"
+                    android:layout_height="match_parent" />
+
+                <EditText
+                    android:id="@+id/teacgersNameDisplay"
+                    android:layout_width="129dp"
+                    android:layout_height="match_parent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:background="@android:color/transparent"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/TeachersNameClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/arrow_png" />
+            </TableRow>
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="16dp" />
+
+            <TextView
+                android:id="@+id/textView29"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Emergency Contact"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textSize="24sp"
+                tools:layout_editor_absoluteX="5dp"
+                tools:layout_editor_absoluteY="396dp" />
+
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="8dp" />
+
+            <TableRow
+                android:layout_width="374dp"
+                android:layout_height="32dp"
+                tools:layout_editor_absoluteX="5dp"
+                tools:layout_editor_absoluteY="423dp">
+
+                <Space
+                    android:layout_width="20dp"
+                    android:layout_height="wrap_content" />
+
+                <Space
+                    android:layout_width="27dp"
+                    android:layout_height="match_parent" />
+
+                <EditText
+                    android:id="@+id/emergencyNameDisplay"
+                    android:layout_width="129dp"
+                    android:layout_height="match_parent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:background="@android:color/transparent"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/EmergencyClick"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:srcCompat="@drawable/arrow_png" />
+            </TableRow>
+
+        </LinearLayout>
+    </ScrollView>
+
+</android.support.constraint.ConstraintLayout>

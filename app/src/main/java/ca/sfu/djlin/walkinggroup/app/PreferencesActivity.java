@@ -77,7 +77,11 @@ public class PreferencesActivity extends AppCompatActivity {
 
         //remove from monitored By
         deleteMonitoredBy();
+
+        EditEmergencyInfoFormonitoringUser();
     }
+
+
 
     private void deleteMonitors() {
         ListView list = findViewById(R.id.monitoring_list);
@@ -353,13 +357,29 @@ public class PreferencesActivity extends AppCompatActivity {
 
             return itemView;
         }
+    }
 
-        private void respond(User returnUser, TextView name, TextView email) {
+    private void respond(User returnUser, TextView name, TextView email) {
             // Update the item view with user information
             name.setText(returnUser.getName());
             email.setText(returnUser.getEmail());
-        }
     }
+
+    //Call back function for item click (edit emergency contact info function)
+    private void EditEmergencyInfoFormonitoringUser() {
+        ListView monitoring = findViewById(R.id.monitoring_list);
+        monitoring.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent passIntent = ViewEmergencyContactActivity.launchIntentViewEmergency(PreferencesActivity.this);
+                passIntent.putExtra("User Id", monitorsUsers.get(position).getId());
+                passIntent.putExtra("Token", currentUserToken);
+                startActivity(passIntent);
+
+            }
+        });
+    }
+
 
     private class myListAdapterMonitored extends ArrayAdapter<User> {
         public myListAdapterMonitored(){

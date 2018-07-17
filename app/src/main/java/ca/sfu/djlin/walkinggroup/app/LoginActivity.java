@@ -56,12 +56,14 @@ public class LoginActivity extends AppCompatActivity {
         if(data[0] != null) {
             String token = data[0];
             proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
-
+            Long UserId=Long.valueOf(data[2]);
+            Log.i("YUYU", UserId+"");
             // Start checking for new mail
             Utilities.startMessageChecking();
 
             // Need to change method of starting activity
             Intent intent = Map_activityDrawer.launchIntentMap(LoginActivity.this);
+            intent.putExtra("UserId", UserId);
             startActivity(intent);
         }
     }
@@ -71,9 +73,11 @@ public class LoginActivity extends AppCompatActivity {
         SharedPreferences preferences = getSharedPreferences("User Session", MODE_PRIVATE);
 
         // Store values and return it
-        String[] returnedData = new String[2];
+        String[] returnedData = new String[3];
         returnedData[0] = preferences.getString("Token", null);
         returnedData[1] = preferences.getString("Email", null);
+        returnedData[2]= String.valueOf(preferences.getLong("UserId", 0));
+        Log.i("LOLO", returnedData[2]+"");
         return returnedData;
     }
 

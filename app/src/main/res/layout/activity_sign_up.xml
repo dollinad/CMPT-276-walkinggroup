@@ -7,110 +7,344 @@
     android:clickable="true"
     android:focusableInTouchMode="true">
 
-    <TextView
-        android:id="@+id/heading"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:text="@string/signup_caps"
-        android:gravity="center"
-        android:textAppearance="@style/TextAppearance.AppCompat.Title"
-        android:textSize="40sp"
-        android:textStyle="bold"
-        android:layout_marginTop="48dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/linear_layout_input"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginTop="36dp"
-        app:layout_constraintTop_toBottomOf="@+id/heading"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-
-        <TextView
-            android:id="@+id/name_label"
+        <LinearLayout
+            android:id="@+id/linear_layout_input"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/name"
-            android:paddingLeft="4dp"
-            android:textSize="16dp"
-            android:textColor="#000"/>
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/heading">
 
-        <EditText
-            android:id="@+id/name_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:hint="@string/name_hint"
-            android:inputType="textPersonName"
-            android:imeOptions="actionDone"/>
+            <TextView
+                android:id="@+id/heading"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:gravity="center"
+                android:text="@string/signup_caps"
+                android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                android:textSize="40sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/email_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/email"
-            android:paddingLeft="4dp"
-            android:textSize="16dp"
-            android:textColor="#000"/>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
 
-        <EditText
-            android:id="@+id/email_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:hint="@string/email_hint"
-            android:inputType="textEmailAddress"
-            android:imeOptions="actionDone"/>
+                <TextView
+                    android:id="@+id/name_label"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="4dp"
+                    android:text="@string/name"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/password_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/password"
-            android:paddingLeft="4dp"
-            android:textSize="16dp"
-            android:textColor="#000"/>
+                <EditText
+                    android:id="@+id/name_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="12dp"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/name_hint"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPersonName" />
+            </TableRow>
 
-        <EditText
-            android:id="@+id/password_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:hint="@string/password"
-            android:inputType="textPassword"
-            android:imeOptions="actionDone"/>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
 
-        <TextView
-            android:id="@+id/confirm_password_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/confirm_password"
-            android:paddingLeft="4dp"
-            android:textSize="16dp"
-            android:textColor="#000"/>
+                <TextView
+                    android:id="@+id/email_label"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="4dp"
+                    android:text="@string/email"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
 
-        <EditText
-            android:id="@+id/confirm_password_input"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:hint="@string/confirm_password"
-            android:inputType="textPassword"
-            android:imeOptions="actionDone"/>
-    </LinearLayout>
+                <EditText
+                    android:id="@+id/email_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="12dp"
+                    android:background="@android:color/transparent"
+                    android:hint="@string/email_hint"
+                    android:imeOptions="actionDone"
+                    android:inputType="textEmailAddress" />
+            </TableRow>
 
-    <Button
-        android:id="@+id/create_account"
-        android:layout_width="150dp"
-        android:layout_height="51dp"
-        android:text="@string/signup"
-        app:layout_constraintTop_toBottomOf="@id/linear_layout_input"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+
+
+                <TextView
+                    android:id="@+id/password_label"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="4dp"
+                    android:text="@string/password"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/password_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:hint="@string/password"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword"
+                    android:background="@android:color/transparent"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+
+                <TextView
+                    android:id="@+id/confirm_password_label"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="4dp"
+                    android:text="@string/confirm_password"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/confirm_password_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:hint="@string/confirm_password"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPassword"
+                    android:background="@android:color/transparent"/>
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+
+                <TextView
+                    android:id="@+id/BirthYear_label"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="4dp"
+                    android:text="Birth Year:"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/birthYear_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:hint="1998"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:background="@android:color/transparent"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+
+                <TextView
+                    android:id="@+id/BirthMonth_label"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="4dp"
+                    android:text="Birth Month:"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/birthMonth_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:hint="2"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:background="@android:color/transparent"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+
+                <TextView
+                    android:id="@+id/CellPhone_label"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="4dp"
+                    android:text="Cell Phone:"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/CellPhone_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:hint="123 123 1234"
+                    android:imeOptions="actionDone"
+                    android:inputType="phone"
+                    android:background="@android:color/transparent"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+
+                <TextView
+                    android:id="@+id/HomePhone_label"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="4dp"
+                    android:text="Home Phone:"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/HomePhone_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:hint="123 123 1234"
+                    android:imeOptions="actionDone"
+                    android:inputType="phone"
+                    android:background="@android:color/transparent"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+
+                <TextView
+                    android:id="@+id/Addres_label"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="4dp"
+                    android:text="Address:"
+                    android:textColor="#000"
+                    android:textSize="16dp" />
+
+                <EditText
+                    android:id="@+id/Address_input"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:hint="123 Way"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPostalAddress"
+                    android:background="@android:color/transparent"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+
+                <TextView
+                    android:id="@+id/CurrentGrade_label"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="4dp"
+                    android:text="Current Grade:"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/CurrentGrade_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:hint="3"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:background="@android:color/transparent"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+
+                <TextView
+                    android:id="@+id/TeachersName_label"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="4dp"
+                    android:text="Teacher's Name:"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/TeacherName_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:hint="Mr. Smith"
+                    android:imeOptions="actionDone"
+                    android:inputType="textPersonName"
+                    android:background="@android:color/transparent"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+
+                <TextView
+                    android:id="@+id/EmergencyInfo_label"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="4dp"
+                    android:text="Emergency Contact Info:"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/EmergencyContact_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:hint="Call my mom!"
+                    android:imeOptions="actionDone"
+                    android:inputType="textShortMessage"
+                    android:background="@android:color/transparent"/>
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="65dp">
+
+                <Button
+                    android:id="@+id/create_account"
+                    android:layout_width="150dp"
+                    android:layout_height="51dp"
+                    android:text="@string/signup"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/linear_layout_input" />
+
+            </TableRow>
+
+
+
+        </LinearLayout>
+
+        </ScrollView>
+
+
 
 </android.support.constraint.ConstraintLayout>

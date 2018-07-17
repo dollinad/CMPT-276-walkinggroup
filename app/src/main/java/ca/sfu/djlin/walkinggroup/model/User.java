@@ -35,7 +35,84 @@ public class User extends IdItemBase {
     private Long id;
     private String email;
     private String password;
+    private Integer birthYear;
+    private Integer birthMonth;
+    private String address;
+    private String cellPhone;
+    private String homePhone;
+    private String grade;
     private GpsLocation lastGpsLocation;
+
+    public Integer getBirthYear() {
+        return birthYear;
+    }
+
+    public void setBirthYear(Integer birthYear) {
+        this.birthYear = birthYear;
+    }
+
+    public Integer getBirthMonth() {
+        return birthMonth;
+    }
+
+    public void setBirthMonth(Integer birthMonth) {
+        this.birthMonth = birthMonth;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCellPhone() {
+        return cellPhone;
+    }
+
+    public void setCellPhone(String cellPhone) {
+        this.cellPhone = cellPhone;
+    }
+
+    public String getHomePhone() {
+        return homePhone;
+    }
+
+    public void setHomePhone(String homePhone) {
+        this.homePhone = homePhone;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
+
+    public String getEmergencyContactInfo() {
+        return emergencyContactInfo;
+    }
+
+    public void setEmergencyContactInfo(String emergencyContactInfo) {
+        this.emergencyContactInfo = emergencyContactInfo;
+    }
+
+    private String teacherName;
+    private String emergencyContactInfo;
+
+
+
+
 
     private Integer currentPoints;
     private Integer totalPointsEarned;

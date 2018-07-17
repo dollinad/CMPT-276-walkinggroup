@@ -110,12 +110,15 @@ public class WelcomeActivity extends AppCompatActivity {
         if(data[0] != null) {
             String token = data[0];
             proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+           Long UserId= Long.valueOf(data[2]);
+           Log.i("YUYUU", UserId+"");
 
             // Start handler for new message checking
             Utilities.startMessageChecking();
 
             // End start background task
             Intent intent = Map_activityDrawer.launchIntentMap(WelcomeActivity.this);
+            intent.putExtra("User Id", UserId);
             startActivity(intent);
             finish();
         }
@@ -129,6 +132,8 @@ public class WelcomeActivity extends AppCompatActivity {
         String[] returnedData = new String[3];
         returnedData[0] = preferences.getString("Token", null);
         returnedData[1] = preferences.getString("Email", null);
+        returnedData[2]= String.valueOf(preferences.getLong("User Id", 0));
+
         return returnedData;
     }
 
