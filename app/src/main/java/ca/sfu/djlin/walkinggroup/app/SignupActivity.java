@@ -33,6 +33,17 @@ public class SignupActivity extends AppCompatActivity {
     String userEmailString;
     String userPasswordString;
     String userConfirmPasswordString;
+    String userBirthYearString;
+    Integer userBirthYearint;
+    String userBirthMonthString;
+    Integer userBirthMonthint;
+    String userCellPhoneString;
+    String userHomePhoneString;
+    String userAddressString;
+    String userCurrentGradeString;
+    String userTeacherNameString;
+    String EmergencyContactInfo;
+
     Long UserId;
 
     @Override
@@ -45,7 +56,11 @@ public class SignupActivity extends AppCompatActivity {
 
         // Setting up buttons
         setupCreateAccountInputs();
+
+        setupCreateAccount();
     }
+
+
 
     public static Intent launchIntentSignup(Context context) {
         Intent intentSignup = new Intent(context, SignupActivity.class);
@@ -213,6 +228,335 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
+        // Setup text watcher for user's birthYear
+        EditText userBirthYear = findViewById(R.id.birthYear_input);
+        userBirthYear.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                EditText userBirthYear = findViewById(R.id.birthYear_input);
+                userBirthYearString= userBirthYear.getText().toString();
+                if(!userBirthYearString.isEmpty()){
+                    userBirthYearint=Integer.parseInt(userBirthYearString);
+                }
+            }
+        });
+
+        // Hide keyboard when is done typing
+        userBirthYear.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    Utilities.hideKeyboard(SignupActivity.this);
+                }
+                return false;
+            }
+        });
+
+        // Hide keyboard on focus change
+        userBirthYear.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    Utilities.hideKeyboardFocus(SignupActivity.this, view);
+                }
+            }
+        });
+
+
+        // Setup text watcher for user's Birth Month
+        EditText userBirthMonth = findViewById(R.id.birthMonth_input);
+        userBirthMonth.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                EditText userBirthMonth = findViewById(R.id.birthMonth_input);
+                userBirthMonthString= userBirthMonth.getText().toString();
+                if(!userBirthYearString.isEmpty()){
+                    userBirthMonthint=Integer.parseInt(userBirthMonthString);
+                }
+            }
+        });
+
+        // Hide keyboard when is done typing
+        userBirthMonth.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    Utilities.hideKeyboard(SignupActivity.this);
+                }
+                return false;
+            }
+        });
+
+        // Hide keyboard on focus change
+        userBirthMonth.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    Utilities.hideKeyboardFocus(SignupActivity.this, view);
+                }
+            }
+        });
+
+        // Setup text watcher for user's Celll Phone
+        EditText userCellPhone = findViewById(R.id.CellPhone_input);
+        userCellPhone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                EditText userCellPhone = findViewById(R.id.CellPhone_input);
+                userCellPhoneString = userCellPhone.getText().toString();
+            }
+        });
+
+        // Hide keyboard when is done typing
+        userCellPhone.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    Utilities.hideKeyboard(SignupActivity.this);
+                }
+                return false;
+            }
+        });
+
+        // Hide keyboard on focus change
+        userCellPhone.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    Utilities.hideKeyboardFocus(SignupActivity.this, view);
+                }
+            }
+        });
+
+        // Setup text watcher for user's Home Phone
+        EditText userHomePhone = findViewById(R.id.HomePhone_input);
+        userHomePhone.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                EditText userHomePhone = findViewById(R.id.HomePhone_input);
+                userHomePhoneString = userHomePhone.getText().toString();
+            }
+        });
+
+        // Hide keyboard when is done typing
+        userHomePhone.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    Utilities.hideKeyboard(SignupActivity.this);
+                }
+                return false;
+            }
+        });
+
+        // Hide keyboard on focus change
+        userHomePhone.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    Utilities.hideKeyboardFocus(SignupActivity.this, view);
+                }
+            }
+        });
+
+        // Setup text watcher for user's address
+        EditText userAddress = findViewById(R.id.Address_input);
+        userAddress.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                EditText userAddress = findViewById(R.id.Address_input);
+                userAddressString = userAddress.getText().toString();
+            }
+        });
+
+        // Hide keyboard when is done typing
+        userAddress.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    Utilities.hideKeyboard(SignupActivity.this);
+                }
+                return false;
+            }
+        });
+
+        // Hide keyboard on focus change
+        userAddress.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    Utilities.hideKeyboardFocus(SignupActivity.this, view);
+                }
+            }
+        });
+
+        // Setup text watcher for user's Current Grade
+        EditText userGrade = findViewById(R.id.CurrentGrade_input);
+        userGrade.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                EditText userGrade = findViewById(R.id.CurrentGrade_input);
+                userCurrentGradeString = userGrade.getText().toString();
+            }
+        });
+
+        // Hide keyboard when is done typing
+        userGrade.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    Utilities.hideKeyboard(SignupActivity.this);
+                }
+                return false;
+            }
+        });
+
+        // Hide keyboard on focus change
+        userGrade.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    Utilities.hideKeyboardFocus(SignupActivity.this, view);
+                }
+            }
+        });
+
+        // Setup text watcher for user's teachers name
+        EditText userTeacherName = findViewById(R.id.TeacherName_input);
+        userTeacherName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                EditText userTeacherName = findViewById(R.id.TeacherName_input);
+                userTeacherNameString = userTeacherName.getText().toString();
+            }
+        });
+
+        // Hide keyboard when is done typing
+        userTeacherName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    Utilities.hideKeyboard(SignupActivity.this);
+                }
+                return false;
+            }
+        });
+
+        // Hide keyboard on focus change
+        userTeacherName.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    Utilities.hideKeyboardFocus(SignupActivity.this, view);
+                }
+            }
+        });
+
+        // Setup text watcher for user's emergency info
+        EditText EmergencyName = findViewById(R.id.EmergencyContact_input);
+        EmergencyName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                EditText EmergencyName = findViewById(R.id.EmergencyContact_input);
+                EmergencyContactInfo = EmergencyName.getText().toString();
+            }
+        });
+
+        // Hide keyboard when is done typing
+        EmergencyName.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH
+                        || actionId == EditorInfo.IME_ACTION_DONE
+                        || keyEvent.getAction() == KeyEvent.ACTION_DOWN
+                        || keyEvent.getAction() == KeyEvent.KEYCODE_ENTER) {
+                    Utilities.hideKeyboard(SignupActivity.this);
+                }
+                return false;
+            }
+        });
+
+        // Hide keyboard on focus change
+        EmergencyName.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+            @Override
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    Utilities.hideKeyboardFocus(SignupActivity.this, view);
+                }
+            }
+        });
+    }
+
+    private void setupCreateAccount() {
         Button createAccountBtn = findViewById(R.id.create_account);
         createAccountBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -224,6 +568,14 @@ public class SignupActivity extends AppCompatActivity {
                 user.setName(userNameString);
                 user.setEmail(userEmailString);
                 user.setPassword(userPasswordString);
+                user.setBirthYear(userBirthYearint);
+                user.setBirthMonth(userBirthMonthint);
+                user.setAddress(userAddressString);
+                user.setCellPhone(userCellPhoneString);
+                user.setHomePhone(userHomePhoneString);
+                user.setGrade(userCurrentGradeString);
+                user.setTeacherName(userTeacherNameString);
+                user.setEmergencyContactInfo(EmergencyContactInfo);
 
                 /*
                 // Reward system to be implemented at another time
@@ -261,6 +613,14 @@ public class SignupActivity extends AppCompatActivity {
         User createdUser = new User();
         createdUser.setEmail(userEmailString);
         createdUser.setPassword(userPasswordString);
+        createdUser.setBirthMonth(userBirthMonthint);
+        createdUser.setBirthYear(userBirthYearint);
+        createdUser.setCellPhone(userCellPhoneString);
+        createdUser.setHomePhone(userHomePhoneString);
+        createdUser.setAddress(userAddressString);
+        createdUser.setGrade(userCurrentGradeString);
+        createdUser.setTeacherName(userTeacherNameString);
+        createdUser.setEmergencyContactInfo(EmergencyContactInfo);
 
         // Finish the login process
         Call<Void> caller = proxy.login(createdUser);

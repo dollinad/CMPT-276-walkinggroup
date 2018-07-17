@@ -252,7 +252,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
                             Log.d(TAG, "Found Location!");
                             Location currentLocation = (Location) task.getResult();
 
-                            System.out.println(currentLocation.getLatitude());
+                            //System.out.println(currentLocation.getLatitude());
                             currentposition=new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM, "My Location");

@@ -164,7 +164,7 @@ public interface WGServerProxy {
     );
 
     //--Edit--
-    @POST("/User/{id}")
+    @POST("/users/{id}")
     Call<User> editUser(@Path("id") Long userId, @Body User user);
 
     // -----------------------------

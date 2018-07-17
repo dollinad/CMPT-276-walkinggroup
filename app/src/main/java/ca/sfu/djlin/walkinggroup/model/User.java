@@ -34,18 +34,80 @@ public class User extends IdItemBase {
     private Long id;
     private String email;
     private String password;
+    private Integer birthYear;
+    private Integer birthMonth;
+    private String address;
+    private String cellPhone;
+    private String homePhone;
+    private String grade;
 
-   /* private String BirthYear;
-    private  String BirthMonth;
-    private String Address;
-    private String HomePhone;
-    private String CellPhone;
-    private String CurrentGrade;
-    private String TeachersName;
-    private String EmergencyName;
-    private String EmergencyRelationship;
-    private String EmergencyEmail;
-    private String EmergencyPhone;*/
+    public Integer getBirthYear() {
+        return birthYear;
+    }
+
+    public void setBirthYear(Integer birthYear) {
+        this.birthYear = birthYear;
+    }
+
+    public Integer getBirthMonth() {
+        return birthMonth;
+    }
+
+    public void setBirthMonth(Integer birthMonth) {
+        this.birthMonth = birthMonth;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getCellPhone() {
+        return cellPhone;
+    }
+
+    public void setCellPhone(String cellPhone) {
+        this.cellPhone = cellPhone;
+    }
+
+    public String getHomePhone() {
+        return homePhone;
+    }
+
+    public void setHomePhone(String homePhone) {
+        this.homePhone = homePhone;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public String getTeacherName() {
+        return teacherName;
+    }
+
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
+    }
+
+    public String getEmergencyContactInfo() {
+        return emergencyContactInfo;
+    }
+
+    public void setEmergencyContactInfo(String emergencyContactInfo) {
+        this.emergencyContactInfo = emergencyContactInfo;
+    }
+
+    private String teacherName;
+    private String emergencyContactInfo;
+
 
 
 
@@ -104,93 +166,6 @@ public class User extends IdItemBase {
         this.password = password;
     }
 
-    /*public String getBirthYear() {
-        return BirthYear;
-    }
-
-    public void setBirthYear(String birthYear) {
-        BirthYear = birthYear;
-    }
-
-    public String getBirthMonth() {
-        return BirthMonth;
-    }
-
-    public void setBirthMonth(String birthMonth) {
-        BirthMonth = birthMonth;
-    }
-
-    public String getAddress() {
-        return Address;
-    }
-
-    public void setAddress(String address) {
-        Address = address;
-    }
-
-    public String getHomePhone() {
-        return HomePhone;
-    }
-
-    public void setHomePhone(String homePhone) {
-        HomePhone = homePhone;
-    }
-
-    public String getCellPhone() {
-        return CellPhone;
-    }
-
-    public void setCellPhone(String cellPhone) {
-        CellPhone = cellPhone;
-    }
-
-    public String getCurrentGrade() {
-        return CurrentGrade;
-    }
-
-    public void setCurrentGrade(String currentGrade) {
-        CurrentGrade = currentGrade;
-    }
-
-    public String getTeachersName() {
-        return TeachersName;
-    }
-
-    public void setTeachersName(String teachersName) {
-        TeachersName = teachersName;
-    }
-
-    public String getEmergencyName() {
-        return EmergencyName;
-    }
-
-    public void setEmergencyName(String emergencyName) {
-        EmergencyName = emergencyName;
-    }
-
-    public String getEmergencyRelationship() {
-        return EmergencyRelationship;
-    }
-
-    public void setEmergencyRelationship(String emergencyRelationship) {
-        EmergencyRelationship = emergencyRelationship;
-    }
-
-    public String getEmergencyEmail() {
-        return EmergencyEmail;
-    }
-
-    public void setEmergencyEmail(String emergencyEmail) {
-        EmergencyEmail = emergencyEmail;
-    }
-
-    public String getEmergencyPhone() {
-        return EmergencyPhone;
-    }
-
-    public void setEmergencyPhone(String emergencyPhone) {
-        EmergencyPhone = emergencyPhone;
-    }*/
 
     // Monitoring
     // -------------------------------------------------------------------------------------------

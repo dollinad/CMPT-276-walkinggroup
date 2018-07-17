@@ -95,12 +95,17 @@
 
                 <EditText
                     android:id="@+id/birthYearDisplay"
+                    android:layout_width="129dp"
+                    android:layout_height="match_parent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:background="@android:color/transparent"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/BirthYearClick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Birth Year Display"
-                    android:background="@android:color/transparent"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
+                    app:srcCompat="@drawable/arrow_png" />
             </TableRow>
 
             <Space
@@ -130,11 +135,17 @@
 
                 <EditText
                     android:id="@+id/birthMonthDisplay"
+                    android:layout_width="129dp"
+                    android:layout_height="match_parent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:background="@android:color/transparent"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/BirthMonthClick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Birth month display"
-                    android:background="@android:color/transparent"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                    app:srcCompat="@drawable/arrow_png" />
 
             </TableRow>
 
@@ -165,11 +176,17 @@
 
                 <EditText
                     android:id="@+id/adressDisplay"
+                    android:layout_width="129dp"
+                    android:layout_height="match_parent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:background="@android:color/transparent"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/AddressClick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Address Display"
-                    android:background="@android:color/transparent"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                    app:srcCompat="@drawable/arrow_png" />
 
             </TableRow>
 
@@ -178,7 +195,6 @@
                 android:layout_height="8dp" />
 
             <TableRow
-                android:id="@+id/homePhoneDisplay"
                 android:layout_width="374dp"
                 android:layout_height="30dp"
                 tools:layout_editor_absoluteX="15dp"
@@ -201,11 +217,17 @@
 
                 <EditText
                     android:id="@+id/homePhoneDisplay"
+                    android:layout_width="129dp"
+                    android:layout_height="match_parent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:background="@android:color/transparent"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/HomePhoneClick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="HomePhoenDisplay"
-                    android:background="@android:color/transparent"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                    app:srcCompat="@drawable/arrow_png" />
 
             </TableRow>
 
@@ -236,11 +258,17 @@
 
                 <EditText
                     android:id="@+id/cellPhoneDisplay"
+                    android:layout_width="129dp"
+                    android:layout_height="match_parent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:background="@android:color/transparent"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/CellPhoneClick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="CellPhoneDisplay"
-                    android:background="@android:color/transparent"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                    app:srcCompat="@drawable/arrow_png" />
             </TableRow>
 
             <Space
@@ -270,11 +298,17 @@
 
                 <EditText
                     android:id="@+id/EmailDisplay"
+                    android:layout_width="129dp"
+                    android:layout_height="match_parent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:background="@android:color/transparent"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/EmailClick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="EmailDisplay"
-                    android:background="@android:color/transparent"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                    app:srcCompat="@drawable/arrow_png" />
             </TableRow>
 
             <Space
@@ -304,11 +338,17 @@
 
                 <EditText
                     android:id="@+id/currentgradeDisplay"
+                    android:layout_width="129dp"
+                    android:layout_height="match_parent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:background="@android:color/transparent"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/CurrentGradeClick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="CurrentGradeDisplay"
-                    android:background="@android:color/transparent"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                    app:srcCompat="@drawable/arrow_png" />
             </TableRow>
 
             <Space
@@ -338,11 +378,17 @@
 
                 <EditText
                     android:id="@+id/teacgersNameDisplay"
+                    android:layout_width="129dp"
+                    android:layout_height="match_parent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:background="@android:color/transparent"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/TeachersNameClick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="TeachersNameDisplay"
-                    android:background="@android:color/transparent"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                    app:srcCompat="@drawable/arrow_png" />
             </TableRow>
 
             <Space
@@ -373,126 +419,23 @@
                     android:layout_width="20dp"
                     android:layout_height="wrap_content" />
 
-                <TextView
-                    android:id="@+id/emergencyName"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:text="Name"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
                 <Space
                     android:layout_width="27dp"
                     android:layout_height="match_parent" />
 
                 <EditText
                     android:id="@+id/emergencyNameDisplay"
+                    android:layout_width="129dp"
+                    android:layout_height="match_parent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:background="@android:color/transparent"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/EmergencyClick"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="NameDisplay"
-                    android:background="@android:color/transparent"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-            </TableRow>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="8dp" />
-
-            <TableRow
-                android:layout_width="374dp"
-                android:layout_height="32dp"
-                tools:layout_editor_absoluteX="5dp"
-                tools:layout_editor_absoluteY="455dp">
-
-                <Space
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/id_relationship"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:text="Relationship"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-                <Space
-                    android:layout_width="27dp"
-                    android:layout_height="match_parent" />
-
-                <EditText
-                    android:id="@+id/relationshipDisplay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="RelationshipDisplay"
-                    android:background="@android:color/transparent"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-            </TableRow>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="8dp" />
-
-            <TableRow
-                android:layout_width="374dp"
-                android:layout_height="32dp"
-                tools:layout_editor_absoluteX="5dp"
-                tools:layout_editor_absoluteY="487dp">
-
-                <Space
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/RelationshipUserEmail"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:text="Email"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-                <Space
-                    android:layout_width="27dp"
-                    android:layout_height="match_parent" />
-
-                <EditText
-                    android:id="@+id/RelationshipEmailDisplay"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="EmailDisplay"
-                    android:background="@android:color/transparent"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-            </TableRow>
-
-            <Space
-                android:layout_width="match_parent"
-                android:layout_height="8dp" />
-
-            <TableRow
-                android:layout_width="374dp"
-                android:layout_height="32dp"
-                tools:layout_editor_absoluteX="5dp"
-                tools:layout_editor_absoluteY="519dp">
-
-                <Space
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content" />
-
-                <TextView
-                    android:id="@+id/RelationshipPhoneNumber"
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:text="Phone Number"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-                <Space
-                    android:layout_width="27dp"
-                    android:layout_height="match_parent" />
-
-                <EditText
-                    android:id="@+id/RelationshipUserphone"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="PhoneNumber"
-                    android:background="@android:color/transparent"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                    app:srcCompat="@drawable/arrow_png" />
             </TableRow>
 
         </LinearLayout>
