@@ -1,6 +1,7 @@
 package ca.sfu.djlin.walkinggroup.dataobjects;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.google.android.gms.maps.model.LatLng;
 
 /**
  * Store information about a GPS location of a user.
@@ -35,6 +36,16 @@ public class GpsLocation {
         this.timestamp = timestamp;
     }
 
+    public void setGpsLocation(LatLng latlng, String timestamp){
+        this.lat=latlng.latitude;
+        this.lng=latlng.longitude;
+        this.timestamp=timestamp;
+    }
+
+    public LatLng toLatlng(GpsLocation gpsLocation){
+        LatLng latLng=new LatLng(gpsLocation.getLat(),gpsLocation.getLng());
+        return latLng;
+    }
     @Override
     public String toString() {
         return "GpsLocation{" +
