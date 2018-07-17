@@ -50,7 +50,6 @@
             android:name=".app.LoginActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
-
         <!-- Preferences Activity -->
         <activity
             android:name=".app.PreferencesActivity"
@@ -64,21 +63,28 @@
             android:name=".app.GroupInfoActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name=".app.ReadMe" />
-
-        <activity android:name=".app.ViewGrpupActivity"/>
+        <activity android:name=".app.ViewGrpupActivity" />
         <activity
             android:name=".app.Map_activityDrawer"
             android:label="@string/title_activity_map_drawer_test"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme" />
 
         <!-- Messaging Activity -->
         <activity android:name=".app.ViewMessagesActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
         </activity>
+        <activity
+            android:name=".app.Leader_Map"
+            android:label="@string/title_activity_leader__map" />
+        <activity
+            android:name=".app.Parent_Map"
+            android:label="@string/title_activity_parent__map"></activity>
     </application>
 
 </manifest>
