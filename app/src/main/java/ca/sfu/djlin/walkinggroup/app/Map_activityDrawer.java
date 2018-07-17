@@ -206,12 +206,12 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (currentUser.getLeadsGroups().isEmpty() == false) {
+                //if (currentUser.getLeadsGroups().isEmpty() == false) {
                     Intent intent = Leader_Map.launchIntentMap(Map_activityDrawer.this);
                     startActivity(intent);
-                } else {
-                    System.out.println("You have no group to lead right now");
-                }
+                //} else {
+                //    System.out.println("You have no group to lead right now");
+                //}
             }
         });
     }
