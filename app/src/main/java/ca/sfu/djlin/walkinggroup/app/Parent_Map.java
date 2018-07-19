@@ -131,7 +131,7 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
             init();
             setUpStart();
             setUpStop();
-            //setGroupMarker();
+
         }
 
         // Need to check ordering for this
@@ -529,6 +529,7 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
 
     private void userResponse(User returnedUser) {
         currentUser=returnedUser;
+        //setGroupMarker();
         getUserSize();
 
     }
