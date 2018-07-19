@@ -16,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -46,6 +48,8 @@ public class LeaderMessagingActivity extends AppCompatActivity {
 
     Session session;
     User currentUser;
+
+    private boolean isEmergencyText = false;
 
     // Used for testing
     ca.cmpt276.walkinggroup.dataobjects.Message testMessage = new ca.cmpt276.walkinggroup.dataobjects.Message();
@@ -124,6 +128,7 @@ public class LeaderMessagingActivity extends AppCompatActivity {
     private void sendMailListener() {
         ListView listView = (ListView) findViewById(R.id.leads_group_list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 // Get the groupId that user clicked on
@@ -132,8 +137,6 @@ public class LeaderMessagingActivity extends AppCompatActivity {
 
                 // Build a dialog box
                 AlertDialog.Builder builder = new AlertDialog.Builder(LeaderMessagingActivity.this);
-                builder.setTitle("Send message");
-
                 View viewInflated = LayoutInflater.from(LeaderMessagingActivity.this).inflate(R.layout.dialog_send_message, findViewById(R.id.leads_group_list), false);
 
                 // Set up the input
@@ -144,16 +147,18 @@ public class LeaderMessagingActivity extends AppCompatActivity {
                 builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        // Remove dialog and grab information
                         dialog.dismiss();
                         mSendMessageText = input.getText().toString();
 
+                        // Generate a new message
                         ca.cmpt276.walkinggroup.dataobjects.Message newMessage = new Message();
                         newMessage.setText(mSendMessageText);
-                        newMessage.setEmergency(true);
+                        newMessage.setEmergency(isEmergencyText);
 
+                        // Make a new call to send the message
                         Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> call = proxy.newMessageToGroup(groupId, newMessage);
                         ProxyBuilder.callProxy(LeaderMessagingActivity.this, call, returnedList -> sendMessageResponse(returnedList));
-                        Log.d("TAG", "Now make a call to send this message");
                     }
                 });
                 builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -163,7 +168,18 @@ public class LeaderMessagingActivity extends AppCompatActivity {
                     }
                 });
 
+                // Display the dialog
                 builder.show();
+
+                // Onclick listener for checkbox
+                CheckBox isEmergencyCheckbox = (CheckBox) viewInflated.findViewById(R.id.emergency_checkbox);
+                isEmergencyCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        // Update the status of the checkbox
+                        isEmergencyText = isChecked;
+                    }
+                });
             }
         });
     }
