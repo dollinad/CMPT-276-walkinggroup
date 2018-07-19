@@ -133,6 +133,8 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
 
 
         getLocationPermission();
+        setUpTest();
+        setUpTest2();
         setUpStart();
         setUpStop();
 
@@ -180,8 +182,6 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
 
             // Initialize search box listeners
             init();
-            setUpTest();
-            setUpTest2();
             getUserId();
 
         }
@@ -237,12 +237,13 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //if (currentUser.getLeadsGroups().isEmpty() == false) {
+                if (currentUser.getLeadsGroups().isEmpty() == false) {
                     Intent intent = Leader_Map.launchIntentMap(Map_activityDrawer.this);
                     startActivity(intent);
-                //} else {
-                //    System.out.println("You have no group to lead right now");
-                //}
+                } else {
+                    System.out.println("You have no group to lead right now");
+                    Toast.makeText(Map_activityDrawer.this,"You have no group to lead right now",Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -251,13 +252,14 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //(currentUser.getMonitorsUsers().isEmpty()==false) {
+                if(currentUser.getMonitorsUsers().isEmpty()==false) {
                     Intent intent = Parent_Map.launchIntentMap(Map_activityDrawer.this);
                     startActivity(intent);
-               // }
-                //else{
-                 //   System.out.println("You have no user that you are monitoring now");
-                //}
+                }
+                else{
+                    System.out.println("You have no user that you are monitoring now");
+                    Toast.makeText(Map_activityDrawer.this,"You are not monitoring any user now",Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -608,6 +610,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
             @Override
             public void onClick(View v) {
                 System.out.println("start Uploading gps location");
+                Toast.makeText(Map_activityDrawer.this,"start Uploading gps location",Toast.LENGTH_SHORT).show();
                 updateGpsLoaction();
             }
         });
@@ -620,6 +623,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
             @Override
             public void onClick(View v) {
                 System.out.println("timer cancel");
+                Toast.makeText(Map_activityDrawer.this,"Stop Uploading",Toast.LENGTH_SHORT).show();
                 timer.cancel();
                 timer=new Timer();
             }
