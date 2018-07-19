@@ -124,6 +124,8 @@ public interface WGServerProxy {
     @GET("/messages")
     Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> getMessages(@Query("touser") Long toUserId);
     @GET("/messages")
+    Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> getMessages(@Query("touser") Long toUserId,  @Header("JSON-DEPTH") Long depth);
+    @GET("/messages")
     Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> getMessages(@Query("touser") Long toUserId, @Query("is-emergency") Boolean isEmergency);
     @GET("/messages?status=unread")
     Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> getUnreadMessages(

@@ -64,7 +64,8 @@ public class ViewMessagesActivity extends AppCompatActivity {
         Log.d("TAG", "The retrieved user is: " + currentUser.toString());
 
         // Send a request to get all the messages that the current user has
-        Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> call = proxy.getMessages(currentUserId);
+        Long depth = new Long(1);
+        Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> call = proxy.getMessages(currentUserId, depth);
         ProxyBuilder.callProxy(ViewMessagesActivity.this, call, messageList -> getMessageListResponse(messageList));
 
         // Build array adapter for monitored by list
@@ -156,6 +157,8 @@ public class ViewMessagesActivity extends AppCompatActivity {
             TextView messageBodyText = (TextView) itemView.findViewById(R.id.message_body);
 
             // Update the body text
+            Log.d("TAG", "message: " + message.toString());
+            Log.d("TAG", "receivedMessage: " + message.getFromUser());
             messageSenderName.setText(message.getFromUser().getName());
             messageBodyText.setText(message.getText());
 
