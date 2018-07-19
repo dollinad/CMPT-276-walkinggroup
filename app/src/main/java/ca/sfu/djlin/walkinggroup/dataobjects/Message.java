@@ -13,10 +13,18 @@ public class Message extends IdItemBase {
     private boolean isEmergency;
     private Date timestamp;
     private String text;
+    private Long id;
 
     private User fromUser;
     private User toUser;
 
+    public void setId(Long number) {
+        id = number;
+    }
+
+    public Long getId() {
+        return id;
+    }
 
     public boolean isEmergency() {
         return isEmergency;

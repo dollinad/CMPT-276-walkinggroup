@@ -26,12 +26,7 @@
         android:text="@string/group_members_label"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textSize="18dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.082"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.029" />
+        app:layout_constraintTop_toBottomOf="@id/group_description"/>
 
     <ListView
         android:id="@+id/createGroupmember_list"
@@ -48,23 +43,13 @@
         android:layout_height="wrap_content"
         android:paddingLeft="8dp"
         android:text="@string/for_leaders_and_monitors"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.037"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.434" />
+        app:layout_constraintTop_toBottomOf="@id/createGroupmember_list"/>
 
     <TableLayout
         android:id="@+id/table_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.571">
+        app:layout_constraintTop_toBottomOf="@id/leader_monitor_control_label">
 
         <TableRow
             android:layout_width="match_parent"

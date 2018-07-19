@@ -11,6 +11,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -38,6 +39,9 @@ public interface WGServerProxy {
 
     @GET("/users/{id}")
     Call<User> getUserById(@Path("id") Long userId);
+
+    @GET("/users/{id}")
+    Call<User> getUserById(@Path("id") Long userId, @Header("JSON-DEPTH") Long depth);
 
     @GET("/users/byEmail")
     Call<User> getUserByEmail(@Query("email") String email);
@@ -119,6 +123,8 @@ public interface WGServerProxy {
     Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> getMessages();
     @GET("/messages")
     Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> getMessages(@Query("touser") Long toUserId);
+    @GET("/messages")
+    Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> getMessages(@Query("touser") Long toUserId,  @Header("JSON-DEPTH") Long depth);
     @GET("/messages")
     Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> getMessages(@Query("touser") Long toUserId, @Query("is-emergency") Boolean isEmergency);
     @GET("/messages?status=unread")
