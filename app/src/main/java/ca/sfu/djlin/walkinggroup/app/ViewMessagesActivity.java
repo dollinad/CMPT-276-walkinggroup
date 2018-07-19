@@ -1,12 +1,15 @@
 package ca.sfu.djlin.walkinggroup.app;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.TextViewCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -17,6 +20,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +34,7 @@ public class ViewMessagesActivity extends AppCompatActivity {
     private WGServerProxy proxy;
 
     ArrayAdapter<ca.cmpt276.walkinggroup.dataobjects.Message> messageListAdapter;
-    List<ca.cmpt276.walkinggroup.dataobjects.Message> currentMessageList = new ArrayList();;
+    List<ca.cmpt276.walkinggroup.dataobjects.Message> currentMessageList = new ArrayList();
 
     private String currentUserToken;
     private String currentUserEmail;
@@ -51,10 +55,6 @@ public class ViewMessagesActivity extends AppCompatActivity {
         // Set up proxy, include depth of 1 to get more information about the users
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken, 1);
 
-        // Setup temporary button to send the test group some messages
-        setupTestButtons();
-        // End temporary button to send the test group some messages
-
         // Send a request to get all the messages that the current user has
         Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> call = proxy.getMessages(currentUserId);
         ProxyBuilder.callProxy(ViewMessagesActivity.this, call, messageList -> getMessageListResponse(messageList));
@@ -66,6 +66,10 @@ public class ViewMessagesActivity extends AppCompatActivity {
 
         // Set up listener to read mail
         readMailListener();
+
+        // Setup temporary button to send the test group some messages
+        setupTestButtons();
+        // End temporary button to send the test group some messages
     }
 
     private void getCurrentUserInformation() {
@@ -78,6 +82,7 @@ public class ViewMessagesActivity extends AppCompatActivity {
 
     private void getMessageListResponse(List<ca.cmpt276.walkinggroup.dataobjects.Message> messageList) {
         // Update current message list
+        Log.d("TAG", "getMessageListResponse: attempting updating message list: ");
         currentMessageList = messageList;
 
         // Refresh the list
@@ -85,9 +90,37 @@ public class ViewMessagesActivity extends AppCompatActivity {
     }
 
     private void refreshMessageList() {
+        Log.d("TAG", "refreshMessageList: refreshing the message list: ");
         messageListAdapter.clear();
         messageListAdapter.addAll(currentMessageList);
         messageListAdapter.notifyDataSetChanged();
+    }
+
+    private void setMailAsRead(ca.cmpt276.walkinggroup.dataobjects.Message returnedMessage) {
+
+        // Make a call to set mail as read
+        Long messageId = returnedMessage.getId();
+        Call<ca.cmpt276.walkinggroup.dataobjects.Message> call = proxy.markMessageAsRead(messageId, true);
+        ProxyBuilder.callProxy(ViewMessagesActivity.this, call, message -> setMailAsReadResponse(message));
+    }
+
+    private void setMailAsReadResponse(ca.cmpt276.walkinggroup.dataobjects.Message returnedMessage) {
+        Long id = returnedMessage.getId();
+
+        // Updates local current message list
+        for (int i = 0; i < currentMessageList.size(); i++) {
+            if (id.equals(currentMessageList.get(i).getId())) {
+                currentMessageList.get(i).setIsRead(true);
+            }
+        }
+
+        // Needs to do this in order to refresh listview
+        messageListAdapter.clear();
+        messageListAdapter.notifyDataSetChanged();
+
+        // Send a request to get all the messages that the current user has -- Need this to refresh list view
+        Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> call = proxy.getMessages(currentUserId);
+        ProxyBuilder.callProxy(ViewMessagesActivity.this, call, messageList -> getMessageListResponse(messageList));
     }
 
     private class myMessagesListAdapter extends ArrayAdapter<ca.cmpt276.walkinggroup.dataobjects.Message> {
@@ -122,6 +155,9 @@ public class ViewMessagesActivity extends AppCompatActivity {
             if (!message.isRead()) {
                 messageSenderName.setTextAppearance(ViewMessagesActivity.this, R.style.fontForUnreadMail);
                 messageBodyText.setTextAppearance(ViewMessagesActivity.this, R.style.fontForUnreadMail);
+            } else {
+                messageSenderName.setTextAppearance(ViewMessagesActivity.this, R.style.fontForReadMail);
+                messageBodyText.setTextAppearance(ViewMessagesActivity.this, R.style.fontForReadMail);
             }
 
             return itemView;
@@ -133,7 +169,24 @@ public class ViewMessagesActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.i("TAG", "List number " + position + " clicked!");
+
+                // Display message in dialog
+                ca.cmpt276.walkinggroup.dataobjects.Message messageToRead = currentMessageList.get(position);
+                new AlertDialog.Builder(ViewMessagesActivity.this)
+                        .setMessage(messageToRead.getText())
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                            }
+                        }).show();
+
+                // Set message to be read
+                if (!currentMessageList.get(position).isRead()) {
+                    // Set the mail to be read
+                    Long messageId = currentMessageList.get(position).getId();
+                    Call<ca.cmpt276.walkinggroup.dataobjects.Message> call = proxy.getOneMessage(messageId);
+                    ProxyBuilder.callProxy(ViewMessagesActivity.this, call, returnedMessage -> setMailAsRead(returnedMessage));
+                }
             }
         });
     }
@@ -159,6 +212,28 @@ public class ViewMessagesActivity extends AppCompatActivity {
                 ProxyBuilder.callProxy(ViewMessagesActivity.this, call, sentMessageList -> sentMessageResponse(sentMessageList));
             }
         });
+
+        // Button to join test group
+        Button joinGroupButton = (Button) findViewById(R.id.self_join_group_btn);
+        joinGroupButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Call<User> call = proxy.getUserById(currentUserId);
+                ProxyBuilder.callProxy(ViewMessagesActivity.this, call, returnedUser -> getCurrentUserResponse(returnedUser));
+
+            }
+        });
+    }
+
+    private void getCurrentUserResponse(User user) {
+        Long groupNumber = new Long(105);
+        // Call<List<User>> addGroupMember(@Path("id") Long groupId, @Body User user);
+        Call<List<User>> call = proxy.addGroupMember(groupNumber, user);
+        ProxyBuilder.callProxy(ViewMessagesActivity.this, call, listOfMembers -> addGroupMemberResponse(listOfMembers));
+    }
+
+    private void addGroupMemberResponse(List<User> listOfUsers) {
+
     }
 
     private void sentMessageResponse(List<ca.cmpt276.walkinggroup.dataobjects.Message> messageList) {

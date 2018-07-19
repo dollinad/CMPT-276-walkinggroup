@@ -63,12 +63,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Send Message to Group"
-        app:layout_constraintBottom_toTopOf="@id/test_btn"
+        app:layout_constraintBottom_toTopOf="@id/self_join_group_btn"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
 
     <Button
-        android:id="@+id/test_btn"
+        android:id="@+id/self_join_group_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add Self to Group"
