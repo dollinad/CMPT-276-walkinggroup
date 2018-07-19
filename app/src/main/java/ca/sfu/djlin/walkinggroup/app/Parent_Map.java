@@ -131,7 +131,7 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
 
             // Initialize search box listeners
             init();
-            setUpStart();
+            //setUpStart();
             setUpStop();
 
         }
@@ -195,9 +195,9 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
             @Override
             public void onClick(View v) {
                 System.out.println("timer cancel");
-                timer.cancel();
+                //timer.cancel();
                 timer_get.cancel();
-                timer=new Timer();
+                //timer=new Timer();
                 timer_get=new Timer();
             }
         });
@@ -235,7 +235,6 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
                     @Override
                     public void run() {
                         startDowanloadGpsLocation();
-                        counts++;
                     }
                 },0,5000);
             }
@@ -456,9 +455,10 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if(times==10) {
-                    times = 0;
+                if(counts==20) {
+                    counts = 0;
                     timer.cancel();
+                    timer=new Timer();
                 }
                 else {
                     getDeviceLocation();
@@ -467,10 +467,10 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
                     gpsLocation.setGpsLocation(currentposition, time);
                     Call<GpsLocation> caller = proxy.setLastGpsLocation(currentUser.getId(), gpsLocation);
                     ProxyBuilder.callProxy(Parent_Map.this, caller, returnGps -> gpsResponse(returnGps));
-                    times++;
+                    counts++;
                 }
             }
-        },0,3000);
+        },0,30000);
     }
 
     //get the size of user list of monitoring

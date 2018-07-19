@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -32,6 +34,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -46,6 +49,7 @@ import java.util.TimerTask;
 
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
+import ca.sfu.djlin.walkinggroup.dataobjects.GpsLocation;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
 import ca.sfu.djlin.walkinggroup.model.Session;
 import ca.sfu.djlin.walkinggroup.model.User;
@@ -74,7 +78,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
     private LatLng latlng;
     List<Marker> markers = new ArrayList();
     private Marker meetingMarker;
-    private Timer timer;
+    private Timer timer=new Timer();
     // Create HashMap used for storing group ID
     private HashMap<Marker, Long> mHashMap = new HashMap<Marker, Long>();
 
@@ -82,8 +86,10 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
     private WGServerProxy proxy;
 
     // User Variables
-    //private User currentUser=new User();
-    User currentUser;
+    private User currentUser=new User();
+    int counts=0;
+    private String time="1991-1-1,11:11:11-";
+
     String token;
     String currentUserEmail;
     String currentUserName;
@@ -127,6 +133,8 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
 
 
         getLocationPermission();
+        setUpStart();
+        setUpStop();
 
     }
 
@@ -175,6 +183,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
             setUpTest();
             setUpTest2();
             getUserId();
+
         }
 
         SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
@@ -585,20 +594,61 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         finish();
     }
 
-    //Update Gps Location
+    public void getUserId(){
+        Call<User> caller=proxy.getUserByEmail(currentUserEmail);
+        ProxyBuilder.callProxy(this,caller,returnedUser->UserResponse(returnedUser));
+    }
+
+
+//uploading gps location
+
+    private void setUpStart() {
+        Button button=findViewById(R.id.button_start);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("timer start");
+                updateGpsLoaction();
+            }
+        });
+
+    }
+
+    private void setUpStop() {
+        Button button=findViewById(R.id.button_stop);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("timer cancel");
+                timer.cancel();
+                timer=new Timer();
+            }
+        });
+
+    }
     public void updateGpsLoaction(){
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                System.out.println();
-                getDeviceLocation();
+                if(counts==10) {
+                    counts = 0;
+                    timer.cancel();
+                    timer=new Timer();
+                }
+                else {
+                    getDeviceLocation();
+                    time = time + 1;
+                    GpsLocation gpsLocation = new GpsLocation();
+                    gpsLocation.setGpsLocation(currentposition, time);
+                    Call<GpsLocation> caller = proxy.setLastGpsLocation(UserId, gpsLocation);
+                    ProxyBuilder.callProxy(Map_activityDrawer.this, caller, returnGps -> updateGpsResponse(returnGps));
+                    counts++;
+                }
             }
-        },0,5000);
+        },0,30000);
     }
-
-    public void getUserId(){
-        Call<User> caller=proxy.getUserByEmail(currentUserEmail);
-        ProxyBuilder.callProxy(this,caller,returnedUser->UserResponse(returnedUser));
+    private void updateGpsResponse(GpsLocation returnGps) {
+        //do nothing
     }
 
     private void UserResponse(User returnedUser) {
