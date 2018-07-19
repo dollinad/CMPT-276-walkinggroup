@@ -7,7 +7,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.TextViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -19,11 +18,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.R;
+import ca.sfu.djlin.walkinggroup.app.messaging.LeaderMessagingActivity;
 import ca.sfu.djlin.walkinggroup.model.Session;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
@@ -60,6 +59,9 @@ public class ViewMessagesActivity extends AppCompatActivity {
         currentUser=session.getUser();
         currentUserEmail=currentUser.getEmail();
         currentUserId=currentUser.getId();
+        proxy = session.getProxy();
+
+        Log.d("TAG", "The retrieved user is: " + currentUser.toString());
 
         // Send a request to get all the messages that the current user has
         Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> call = proxy.getMessages(currentUserId);
@@ -220,12 +222,12 @@ public class ViewMessagesActivity extends AppCompatActivity {
         });
 
         // Button to join test group
-        Button joinGroupButton = (Button) findViewById(R.id.self_join_group_btn);
-        joinGroupButton.setOnClickListener(new View.OnClickListener() {
+        Button leaderSendMessageBtn = (Button) findViewById(R.id.launch_leader_send_btn);
+        leaderSendMessageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Call<User> call = proxy.getUserById(currentUserId);
-                ProxyBuilder.callProxy(ViewMessagesActivity.this, call, returnedUser -> getCurrentUserResponse(returnedUser));
+                Intent intent = LeaderMessagingActivity.launchSendLeaderMessageIntent(ViewMessagesActivity.this);
+                startActivity(intent);
 
             }
         });

@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -32,6 +34,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -47,7 +50,6 @@ import java.util.TimerTask;
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
-import ca.sfu.djlin.walkinggroup.model.Session;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
@@ -82,14 +84,12 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
     private WGServerProxy proxy;
 
     // User Variables
-    //private User currentUser=new User();
-    User currentUser;
+    private User currentUser=new User();
     String token;
     String currentUserEmail;
     String currentUserName;
     Long selectedGroupId;
     Long UserId;
-    Session data;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,21 +106,15 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         toggle.syncState();
 
         SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
-        //token = preferences.getString("Token", null);
+        token = preferences.getString("Token", null);
         //currentUserEmail = preferences.getString("Email", null);
         //currentUserName=preferences.getString("Name", null);
-        //UserId=preferences.getLong("User Id", 0);
+        UserId=preferences.getLong("User Id", 0);
 
 
 
         // Build new proxy
-       // proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
-        data=Session.getSession(getApplicationContext());
-        proxy=data.getProxy();
-        currentUser=data.getUser();
-
-        UserId=currentUser.getId();
-        Log.i("JKJK", UserId+"");
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
 
         Call<User> call=proxy.getUserById(UserId);
         ProxyBuilder.callProxy(Map_activityDrawer.this, call, returnedNothing -> responseCurrent(returnedNothing));
@@ -131,7 +125,6 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
     }
 
     private void responseCurrent(User returnedNothing) {
-
         //Navigation Drawer Header layout
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -142,7 +135,6 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         name.setText(returnedNothing.getName());
         TextView email=(TextView)header.findViewById(R.id.navUserEmail);
         email.setText(returnedNothing.getEmail());
-        currentUserEmail=returnedNothing.getEmail();
 
     }
 
@@ -178,13 +170,11 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         }
 
         SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
-        //token = preferences.getString("Token", null);
-        //currentUserEmail = preferences.getString("Email", null);
-        //Log.d(TAG, "onMapReady: The current token is: " + token);
-        //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
-        proxy=data.getProxy();
-        currentUser=data.getUser();
-        currentUserEmail=currentUser.getEmail();
+        token = preferences.getString("Token", null);
+        currentUserEmail = preferences.getString("Email", null);
+        Log.d(TAG, "onMapReady: The current token is: " + token);
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+
         Intent intent=getIntent();
         if(intent.getExtras()!=null) {
             latlng=new LatLng(intent.getDoubleExtra("lat",0), intent.getDoubleExtra("lng", 0));
@@ -220,7 +210,6 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
                 return true;
             }
         });
-
     }
 
     private void setUpTest() {
@@ -358,7 +347,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
 
 
     private void drawMeetingMarker(Group group) {
-        /*Log.d(TAG, "drawMeetingMarker: ");
+        Log.d(TAG, "drawMeetingMarker: ");
 
         // Assuming stored meeting location is at index 1
         if (group.getRouteLatArray().size() > 1 && group.getRouteLngArray().size() > 1) {
@@ -389,11 +378,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
             meetingMarker = marker;
         } else {
             Toast.makeText(Map_activityDrawer.this, Map_activityDrawer.this.getString(R.string.no_meeting_location), Toast.LENGTH_SHORT).show();
-        }*/
-        Intent intent=GroupInfoActivity.launchGroupInfoIntent(Map_activityDrawer.this);
-        intent.putExtra("groupId", group.getId());
-        intent.putExtra("token", token);
-        startActivity(intent);
+        }
     }
 
 
@@ -519,11 +504,11 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
             Toast.makeText(getApplicationContext(), "PPP", Toast.LENGTH_SHORT).show();
             Intent pass_intent = PreferencesActivity.launchIntentPreferences(Map_activityDrawer.this);
 
-            //SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
-            //token = preferences.getString("Token", null);
-            //currentUserEmail = preferences.getString("Email", null);
+            SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
+            token = preferences.getString("Token", null);
+            currentUserEmail = preferences.getString("Email", null);
 
-            //pass_intent.putExtra("Token", token);
+            pass_intent.putExtra("Token", token);
             pass_intent.putExtra("Email", currentUserEmail);
             startActivity(pass_intent);
         }
@@ -531,21 +516,21 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
             Toast.makeText(getApplicationContext(), "PPP", Toast.LENGTH_SHORT).show();
             Intent pass_intent = ViewGrpupActivity.launchIntentViewGroups(Map_activityDrawer.this);
 
-            //SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
-            //token = preferences.getString("Token", null);
-            //currentUserEmail = preferences.getString("Email", null);
+            SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
+            token = preferences.getString("Token", null);
+            currentUserEmail = preferences.getString("Email", null);
 
-            //pass_intent.putExtra("Token", token);
+            pass_intent.putExtra("Token", token);
             pass_intent.putExtra("Email", currentUserEmail);
             startActivity(pass_intent);
         }
         else if(id==R.id.Drawersettings){
             Intent pass_intent=SettingsActivity.launchIntentSettings(Map_activityDrawer.this);
-            //SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
-            //token = preferences.getString("Token", null);
-            //currentUserEmail = preferences.getString("Email", null);
+            SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
+            token = preferences.getString("Token", null);
+            currentUserEmail = preferences.getString("Email", null);
 
-            //pass_intent.putExtra("Token", token);
+            pass_intent.putExtra("Token", token);
             pass_intent.putExtra("Email", currentUserEmail);
             pass_intent.putExtra("User Id", UserId);
 

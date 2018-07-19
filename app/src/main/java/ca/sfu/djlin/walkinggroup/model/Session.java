@@ -28,8 +28,6 @@ public class Session {
         return session;
     }
 
-
-
     public void setUser(User user) {
         this.user = user;
     }

@@ -29,9 +29,9 @@
         <!-- Welcome Activity - Default Activity on Launch of Application -->
         <activity android:name=".app.WelcomeActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
+            <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
@@ -68,20 +68,16 @@
         <activity android:name=".app.ViewGrpupActivity"/>
         <activity android:name=".app.SettingsActivity"/>
         <activity android:name=".app.ViewEmergencyContactActivity"/>
-        <activity android:name=".app.ViewBeingMonitoredByUsers"/>
         <activity
             android:name=".app.Map_activityDrawer"
             android:label="@string/title_activity_map_drawer_test"
             android:theme="@style/AppTheme"/>
 
         <!-- Messaging Activity -->
-        <activity android:name=".app.ViewMessagesActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
+        <activity android:name=".app.ViewMessagesActivity"/>
 
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
+        <!-- Leader Messaging Activity-->
+        <activity android:name=".app.messaging.LeaderMessagingActivity"/>
         <activity
             android:name=".app.Leader_Map"
             android:label="@string/title_activity_leader__map" />
