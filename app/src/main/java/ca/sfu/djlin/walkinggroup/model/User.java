@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import ca.cmpt276.walkinggroup.dataobjects.Message;
 import ca.sfu.djlin.walkinggroup.dataobjects.EarnedRewards;
 import ca.sfu.djlin.walkinggroup.dataobjects.GpsLocation;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
@@ -42,6 +43,15 @@ public class User extends IdItemBase {
     private String homePhone;
     private String grade;
     private GpsLocation lastGpsLocation;
+    private List<ca.cmpt276.walkinggroup.dataobjects.Message> messages = new ArrayList<>();
+
+    public List<ca.cmpt276.walkinggroup.dataobjects.Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<ca.cmpt276.walkinggroup.dataobjects.Message> messages) {
+        this.messages = messages;
+    }
 
     public Integer getBirthYear() {
         return birthYear;

@@ -117,15 +117,13 @@ public class WelcomeActivity extends AppCompatActivity {
             String token = data[0];
             Log.i("TYUYUY", data[2]);
             proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+            session.setProxy(proxy);
 
             //session.setProxy(proxy);
             Long UserId = Long.valueOf(data[2]);
             Log.i("YUYU", UserId + "8888");
             Call<User> call = proxy.getUserById(UserId);
             ProxyBuilder.callProxy(WelcomeActivity.this, call, returnedNothing -> responseSingleton(returnedNothing));
-            // Start checking for new mail
-            Utilities.startMessageChecking();
-
 
         }
     }
@@ -135,7 +133,10 @@ public class WelcomeActivity extends AppCompatActivity {
         // Call<User> call = proxy.getUserByEmail(userEmailString);
         //ProxyBuilder.callProxy(LoginActivity.this, call, returnedUser -> getUserIdResponse(returnedUser));
         Log.i("PPPPPPPP", returnedNothing.getName());
-        //session.setUser(returnedNothing);
+        session.setUser(returnedNothing);
+
+        // Start checking for new mail
+        Utilities.startMessageChecking(WelcomeActivity.this, proxy, session.getUser());
 
         Intent intent = Map_activityDrawer.launchIntentMap(WelcomeActivity.this);
         //intent.putExtra("UserId", UserId);
