@@ -24,7 +24,7 @@
                 android:layout_marginTop="36dp"
                 android:text="@string/create_group"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textSize="36dp"
+                android:textSize="36sp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -37,7 +37,7 @@
                 android:paddingLeft="8dp"
                 android:text="@string/group_description"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 app:layout_constraintTop_toBottomOf="@id/create_group" />
 
             <EditText
@@ -57,7 +57,7 @@
                 android:paddingLeft="8dp"
                 android:text="@string/add_meeting_location"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 app:layout_constraintTop_toBottomOf="@id/group_description_input" />
 
             <android.support.constraint.ConstraintLayout

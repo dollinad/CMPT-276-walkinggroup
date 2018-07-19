@@ -60,7 +60,7 @@ public class ViewMessagesActivity extends AppCompatActivity {
         currentUser=session.getUser();
         currentUserEmail=currentUser.getEmail();
         currentUserId=currentUser.getId();
-        proxy = session.getProxy();
+        proxy=session.getProxy();
 
         Log.d("TAG", "The retrieved user is: " + currentUser.toString());
 
@@ -197,7 +197,7 @@ public class ViewMessagesActivity extends AppCompatActivity {
 
                 // Build and show the dialog box
                 AlertDialog.Builder builder = new AlertDialog.Builder(ViewMessagesActivity.this);
-                builder.setView(viewInflated);
+                //builder.setView(viewInflated);
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
