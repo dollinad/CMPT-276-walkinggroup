@@ -128,14 +128,6 @@ public class User extends IdItemBase {
 
 
 
-    private static User instance;
-    public static User getInstance(){
-        if(instance==null){
-            instance=new User();
-        }
-        return instance;
-    }
-
 
 
     // Basic User Data
@@ -147,7 +139,7 @@ public class User extends IdItemBase {
         this.name = name;
     }
 
-    public Long getId() {
+    public  Long getId() {
         return id;
     }
     public void setId(Long id) {

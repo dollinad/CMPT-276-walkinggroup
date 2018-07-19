@@ -3,7 +3,6 @@ package ca.sfu.djlin.walkinggroup.app;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.R;
+import ca.sfu.djlin.walkinggroup.model.Session;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
@@ -35,6 +35,8 @@ public class ViewMessagesActivity extends AppCompatActivity {
     private String currentUserToken;
     private String currentUserEmail;
     private Long currentUserId;
+    Session session;
+    User currentUser;
 
     // Used for testing
     ca.cmpt276.walkinggroup.dataobjects.Message testMessage = new ca.cmpt276.walkinggroup.dataobjects.Message();
@@ -46,10 +48,14 @@ public class ViewMessagesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_messages);
 
         // Retrieve current user information
-        getCurrentUserInformation();
+       // getCurrentUserInformation();
 
         // Set up proxy, include depth of 1 to get more information about the users
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken, 1);
+        //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken, 1);
+        session=Session.getSession(getApplicationContext());
+        currentUser=session.getUser();
+        currentUserEmail=currentUser.getEmail();
+        currentUserId=currentUser.getId();
 
         // Setup temporary button to send the test group some messages
         setupTestButtons();

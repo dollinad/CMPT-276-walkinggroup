@@ -48,6 +48,8 @@ import java.util.List;
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
+import ca.sfu.djlin.walkinggroup.model.Session;
+import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 import retrofit2.Call;
@@ -91,6 +93,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     String token;
     String currentUserEmail;
     Long selectedGroupId;
+    User currentUser;
+
+    Session session;
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
@@ -119,11 +124,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         }
 
         // Need to check ordering for this
-        SharedPreferences preferences = MapActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
-        token = preferences.getString("Token", null);
-        currentUserEmail = preferences.getString("Email", null);
-        Log.d(TAG, "onMapReady: The current token is: " + token);
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+        //SharedPreferences preferences = MapActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
+        //token = preferences.getString("Token", null);
+        //currentUserEmail = preferences.getString("Email", null);
+        //Log.d(TAG, "onMapReady: The current token is: " + token);
+        //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+
+        session=Session.getSession(getApplicationContext());
+        proxy=session.getProxy();
+        currentUser=session.getUser();
+        currentUserEmail=currentUser.getEmail();
 
         Intent intent=getIntent();
         if(intent!=null) {
@@ -186,12 +196,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         getLocationPermission();
 
-        SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
-        token = preferences.getString("Token", null);
-        currentUserEmail = preferences.getString("Email", null);
+        //SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
+        //token = preferences.getString("Token", null);
+        //currentUserEmail = preferences.getString("Email", null);
 
         // Build new proxy
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+        //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+
+        session=Session.getSession(getApplicationContext());
+        proxy=session.getProxy();
+        currentUser=session.getUser();
+        currentUserEmail=currentUser.getEmail();
 
         // Set up onclick listeners
         setupGroupInfoButton();
@@ -384,9 +399,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 Toast.makeText(getApplicationContext(), "PPP", Toast.LENGTH_SHORT).show();
                 Intent pass_intent = PreferencesActivity.launchIntentPreferences(MapActivity.this);
 
-                SharedPreferences preferences = MapActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
-                token = preferences.getString("Token", null);
-                currentUserEmail = preferences.getString("Email", null);
+               // SharedPreferences preferences = MapActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
+                //token = preferences.getString("Token", null);
+               // currentUserEmail = preferences.getString("Email", null);
 
                 pass_intent.putExtra("Token", token);
                 pass_intent.putExtra("Email", currentUserEmail);

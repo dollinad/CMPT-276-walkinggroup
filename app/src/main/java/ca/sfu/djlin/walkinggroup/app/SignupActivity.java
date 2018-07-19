@@ -19,16 +19,19 @@ import android.widget.Toast;
 
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
+import ca.sfu.djlin.walkinggroup.model.Session;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 import retrofit2.Call;
 
 public class SignupActivity extends AppCompatActivity {
+
+    private Session createUser;
     // TO BE REMOVED PRIOR TO SUBMISSION
     private static final String TAG = "SignupActivity";
 
-    private WGServerProxy proxy;
+    WGServerProxy proxy;
     String userNameString;
     String userEmailString;
     String userPasswordString;
@@ -43,6 +46,7 @@ public class SignupActivity extends AppCompatActivity {
     String userCurrentGradeString;
     String userTeacherNameString;
     String EmergencyContactInfo;
+    static  User usertosend;
 
     Long UserId;
 
@@ -51,6 +55,7 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        createUser=Session.getSession(getApplicationContext());
         // Build server proxy
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey));
 
@@ -564,6 +569,7 @@ public class SignupActivity extends AppCompatActivity {
                 // Create User instance
                 User user = new User();
 
+
                 // Set User information
                 user.setName(userNameString);
                 user.setEmail(userEmailString);
@@ -576,6 +582,7 @@ public class SignupActivity extends AppCompatActivity {
                 user.setGrade(userCurrentGradeString);
                 user.setTeacherName(userTeacherNameString);
                 user.setEmergencyContactInfo(EmergencyContactInfo);
+                //createUser.setUser(user);
 
                 /*
                 // Reward system to be implemented at another time
@@ -598,6 +605,7 @@ public class SignupActivity extends AppCompatActivity {
 
     // Create user response from server
     private void createUserResponse(User user) {
+        usertosend=user;
         // User creation is successful
 
         // Grab the current token session
@@ -621,6 +629,7 @@ public class SignupActivity extends AppCompatActivity {
         createdUser.setGrade(userCurrentGradeString);
         createdUser.setTeacherName(userTeacherNameString);
         createdUser.setEmergencyContactInfo(EmergencyContactInfo);
+        createUser.setUser(createdUser);
 
         // Finish the login process
         Call<Void> caller = proxy.login(createdUser);
@@ -629,6 +638,7 @@ public class SignupActivity extends AppCompatActivity {
 
     // Save user information in Shared Preferences
     private void saveUserInfo(User user) {
+        Log.i("REACHED", "LLLLLLLLL");
         SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("Name", user.getName());
@@ -644,7 +654,7 @@ public class SignupActivity extends AppCompatActivity {
         // Launch Map Activity
 
         Intent mapIntent = Map_activityDrawer.launchIntentMap(SignupActivity.this);
-        mapIntent.putExtra("UserId", UserId);
+        //mapIntent.putExtra("UserId", UserId);
         startActivity(mapIntent);
         finish();
     }
@@ -654,8 +664,8 @@ public class SignupActivity extends AppCompatActivity {
         // Replace the current proxy with one that uses the token!
         Log.w(TAG, "   --> NOW HAVE TOKEN: " + token);
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
-
-        // Save token in shared preferences
+        createUser.setProxy(proxy);
+         //Save token in shared preferences
         saveToken(token);
     }
 
@@ -677,5 +687,24 @@ public class SignupActivity extends AppCompatActivity {
     private void notifyUserViaLogAndToast(String message) {
         Log.w(TAG, message);
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+    public static Session sendUser(Context context, Session session){
+        SharedPreferences preferences = context.getSharedPreferences("User Session", MODE_PRIVATE);
+        //Session createUser;
+
+        String token=preferences.getString("Token", "");
+        Long Id=preferences.getLong("User Id", 0);
+        WGServerProxy proxy;
+        proxy = ProxyBuilder.getProxy(context.getString(R.string.apikey), token);
+        Call<User> call=proxy.getUserById(Id);
+        ProxyBuilder.callProxy(context, call, returnedNothing -> session.setUser(returnedNothing));
+        //User b=usertosend;
+        session.setProxy(proxy);
+        //session.setUser(b);
+        return session;
+    }
+
+    private static void responseSingleton(User returnedNothing) {
+        usertosend=returnedNothing;
     }
 }

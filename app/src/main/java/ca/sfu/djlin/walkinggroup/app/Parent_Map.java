@@ -3,7 +3,6 @@ package ca.sfu.djlin.walkinggroup.app;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -50,6 +49,7 @@ import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
 import ca.sfu.djlin.walkinggroup.dataobjects.GpsLocation;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
+import ca.sfu.djlin.walkinggroup.model.Session;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
@@ -100,7 +100,9 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
     // User Variables
     String token;
     String currentUserEmail;
-    User currentUser=new User();
+    //User currentUser=new User();
+    User currentUser;
+    Session session;
 
 
     GpsLocation gpsLocation=new GpsLocation();
@@ -135,12 +137,16 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
         }
 
         // Need to check ordering for this
-        SharedPreferences preferences = Parent_Map.this.getSharedPreferences("User Session", MODE_PRIVATE);
-        token = preferences.getString("Token", null);
-        currentUserEmail = preferences.getString("Email", null);
-        getUserId();
-        Log.d(TAG, "onMapReady: The current token is: " + token);
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+        //SharedPreferences preferences = Parent_Map.this.getSharedPreferences("User Session", MODE_PRIVATE);
+        //token = preferences.getString("Token", null);
+        //currentUserEmail = preferences.getString("Email", null);
+        //getUserId();
+        //Log.d(TAG, "onMapReady: The current token is: " + token);
+        //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+        session=Session.getSession(getApplicationContext());
+        proxy=session.getProxy();
+        currentUser=session.getUser();
+        currentUserEmail=currentUser.getEmail();
 
         Intent intent=getIntent();
         if(intent!=null) {
@@ -237,12 +243,16 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
 
         getLocationPermission();
 
-        SharedPreferences preferences = Parent_Map.this.getSharedPreferences("User Session", MODE_PRIVATE);
-        token = preferences.getString("Token", null);
-        currentUserEmail = preferences.getString("Email", null);
+        //SharedPreferences preferences = Parent_Map.this.getSharedPreferences("User Session", MODE_PRIVATE);
+        //token = preferences.getString("Token", null);
+        //currentUserEmail = preferences.getString("Email", null);
         // Build new proxy
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+        //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
 
+        session=Session.getSession(getApplicationContext());
+        proxy=session.getProxy();
+        currentUser=session.getUser();
+        currentUserEmail=currentUser.getEmail();
         // Set up onclick listeners
     }
 
