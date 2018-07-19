@@ -1,8 +1,10 @@
 package ca.sfu.djlin.walkinggroup.app;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -25,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,6 +42,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
+import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -132,9 +136,10 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
             setUpStart();
             setUpStop();
             setGroupMarker();
+            getUserId();
         }
 
-        // Need to check ordering for this
+        /// Need to check ordering for this
         //SharedPreferences preferences = Leader_Map.this.getSharedPreferences("User Session", MODE_PRIVATE);
         //token = preferences.getString("Token", null);
         //currentUserEmail = preferences.getString("Email", null);
@@ -145,9 +150,6 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
         proxy=data.getProxy();
         currentUser=data.getUser();
         currentUserEmail=currentUser.getEmail();
-
-
-
         Intent intent=getIntent();
         if(intent!=null) {
             latlng=new LatLng(intent.getDoubleExtra("lat",0), intent.getDoubleExtra("lng", 0));
@@ -230,29 +232,37 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
         // Set up onclick listeners
     }
 
-    public void setGroupMarker(){
+    public void setGroupMarker() {
+        /*
         Log.d(TAG, "setGroupMarker: The current token is " + token);
         Call<List<Group>> caller = proxy.getGroups();
         ProxyBuilder.callProxy(Leader_Map.this, caller, returnedGroups -> response(returnedGroups));
-    }
+        */
+        List<Group> groups = currentUser.getLeadsGroups();
+        for (int i = 0; i < groups.size(); i++) {
+            Call<Group> caller = proxy.getGroupById(groups.get(i).getId());
+            ProxyBuilder.callProxy(Leader_Map.this, caller, returnedGroup -> response(returnedGroup));
 
-    private void response(List<Group> returnedGroups) {
-        Log.d(TAG, "The current token is: " + token);
-        int i = 0;
-        for (Group group : returnedGroups) {
-            double lat = group.getRouteLatArray().get(i);
-            double lng = group.getRouteLngArray().get(i);
-            LatLng latLng=new LatLng(lat,lng);
-
-            Log.d(TAG, "The type of groupID is: " + group.getId());
-            // Add marker to map
-            Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(group.getGroupDescription()));
-            // Add marker to list
-            markers.add(marker);
-            // Store marker in HashMap for onClick retrieval
-            mHashMap.put(marker, group.getId());
         }
     }
+
+    private void response(Group returnedGroup) {
+        Log.d(TAG, "The current token is: " + token);
+        int i = 0;
+
+                double lat = returnedGroup.getRouteLatArray().get(i);
+                double lng = returnedGroup.getRouteLngArray().get(i);
+                LatLng latLng = new LatLng(lat, lng);
+
+                Log.d(TAG, "The type of groupID is: " + returnedGroup.getId());
+                // Add marker to map
+                Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(returnedGroup.getGroupDescription()));
+                // Add marker to list
+                markers.add(marker);
+                // Store marker in HashMap for onClick retrieval
+                mHashMap.put(marker, returnedGroup.getId());
+    }
+
 
 
 
@@ -334,7 +344,7 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
                             Log.d(TAG, "Found Location!");
                             Location currentLocation = (Location) task.getResult();
 
-                            System.out.println(currentLocation.getLatitude());
+                            //System.out.println(currentLocation.getLatitude());
                             currentposition=new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM, "My Location");
@@ -535,6 +545,7 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
 
     private void userResponse(User returnedUser) {
         currentUser=returnedUser;
+        setGroupMarker();
         getGroupSize();
 
     }
