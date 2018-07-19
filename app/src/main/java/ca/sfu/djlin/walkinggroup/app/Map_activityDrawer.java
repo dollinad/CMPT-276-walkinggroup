@@ -623,8 +623,6 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
                     time = time + 1;
                     GpsLocation gpsLocation = new GpsLocation();
                     gpsLocation.setGpsLocation(currentposition, time);
-                    System.out.println("xian zai shi shui "+ currentUser.getId()+ "  ming zi shi "+ currentUser.getName() + "ma de ling yi ge! "+ UserId);
-                    System.out.println("qu NA le ? "+ currentposition);
                     Call<GpsLocation> caller = proxy.setLastGpsLocation(UserId, gpsLocation);
                     ProxyBuilder.callProxy(Map_activityDrawer.this, caller, returnGps -> updateGpsResponse(returnGps));
                     counts++;
