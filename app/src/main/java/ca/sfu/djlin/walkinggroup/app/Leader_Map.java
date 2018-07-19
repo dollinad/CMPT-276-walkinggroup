@@ -1,10 +1,8 @@
 package ca.sfu.djlin.walkinggroup.app;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -27,7 +25,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -42,7 +39,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
-import java.lang.reflect.Proxy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -53,6 +49,7 @@ import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
 import ca.sfu.djlin.walkinggroup.dataobjects.GpsLocation;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
+import ca.sfu.djlin.walkinggroup.model.Session;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
@@ -105,6 +102,7 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
     String token;
     String currentUserEmail;
     User currentUser=new User();
+    Session data;
 
 
     @Override
@@ -137,12 +135,18 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
         }
 
         // Need to check ordering for this
-        SharedPreferences preferences = Leader_Map.this.getSharedPreferences("User Session", MODE_PRIVATE);
-        token = preferences.getString("Token", null);
-        currentUserEmail = preferences.getString("Email", null);
-        getUserId();
-        Log.d(TAG, "onMapReady: The current token is: " + token);
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+        //SharedPreferences preferences = Leader_Map.this.getSharedPreferences("User Session", MODE_PRIVATE);
+        //token = preferences.getString("Token", null);
+        //currentUserEmail = preferences.getString("Email", null);
+        //getUserId();
+        //Log.d(TAG, "onMapReady: The current token is: " + token);
+        //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+        data=Session.getSession(getApplicationContext());
+        proxy=data.getProxy();
+        currentUser=data.getUser();
+        currentUserEmail=currentUser.getEmail();
+
+
 
         Intent intent=getIntent();
         if(intent!=null) {
@@ -213,11 +217,15 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
 
         getLocationPermission();
 
-        SharedPreferences preferences = Leader_Map.this.getSharedPreferences("User Session", MODE_PRIVATE);
-        token = preferences.getString("Token", null);
-        currentUserEmail = preferences.getString("Email", null);
+        //SharedPreferences preferences = Leader_Map.this.getSharedPreferences("User Session", MODE_PRIVATE);
+        //token = preferences.getString("Token", null);
+        //currentUserEmail = preferences.getString("Email", null);
         // Build new proxy
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+        //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+        data=Session.getSession(getApplicationContext());
+        proxy=data.getProxy();
+        currentUser=data.getUser();
+        currentUserEmail=currentUser.getEmail();
 
         // Set up onclick listeners
     }

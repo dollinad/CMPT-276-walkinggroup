@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
+import ca.sfu.djlin.walkinggroup.model.Session;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
@@ -31,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
     private WGServerProxy proxy;
     private String userEmailString;
     private String userPasswordString;
+    Session session;
+    static User usertosend;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -49,15 +52,19 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void isUserLoggedIn() {
+
         // Check if user is currently logged in with Shared Preferences
         String[] data = getData(getApplicationContext());
-
-        // If Shared Preferences is not null
+        session=Session.getSession(getApplicationContext());
+        //If Shared Preferences is not null
         if(data[0] != null) {
             String token = data[0];
             proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+            //session.setProxy(proxy);
             Long UserId=Long.valueOf(data[2]);
-            Log.i("YUYU", UserId+"");
+            Log.i("YUYU", UserId+"88888");
+            Call<User> call=proxy.getUserById(UserId);
+            ProxyBuilder.callProxy(LoginActivity.this, call, returnedNothing -> responseSingleton(returnedNothing));
             // Start checking for new mail
             Utilities.startMessageChecking();
 
@@ -68,6 +75,13 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    private void responseSingleton(User returnedNothing) {
+        // Retrieve user id
+       // Call<User> call = proxy.getUserByEmail(userEmailString);
+        //ProxyBuilder.callProxy(LoginActivity.this, call, returnedUser -> getUserIdResponse(returnedUser));
+        //session.setUser(returnedNothing);
+    }
+
     // Getting the data token and email using Shared Preferences
     private String[] getData(Context context) {
         SharedPreferences preferences = getSharedPreferences("User Session", MODE_PRIVATE);
@@ -76,12 +90,13 @@ public class LoginActivity extends AppCompatActivity {
         String[] returnedData = new String[3];
         returnedData[0] = preferences.getString("Token", null);
         returnedData[1] = preferences.getString("Email", null);
-        returnedData[2]= String.valueOf(preferences.getLong("UserId", 0));
-        Log.i("LOLO", returnedData[2]+"");
+        returnedData[2]= String.valueOf(preferences.getLong("User Id", 0));
+        Log.i("LOLO", returnedData[2]+"BHJBBN");
         return returnedData;
     }
 
     private void setupLogin() {
+        //session=Session.getSession(getApplicationContext());
         EditText userEmail = findViewById(R.id.email_input);
         userEmail.addTextChangedListener(new TextWatcher() {
             @Override
@@ -188,6 +203,7 @@ public class LoginActivity extends AppCompatActivity {
 
         // Rebuild the proxy with updated token
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), newToken);
+        session.setProxy(proxy);
     }
 
     private void saveUserInformation(String newToken) {
@@ -206,6 +222,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void getUserIdResponse(User user) {
+        session.setUser(user);
         // Store returned user id in shared preferences
         SharedPreferences preferences = LoginActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -224,5 +241,23 @@ public class LoginActivity extends AppCompatActivity {
     public static Intent launchIntentLogin (Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
         return intent;
+    }
+    public static Session sendUser(Context context, Session session){
+        SharedPreferences preferences = context.getSharedPreferences("User Session", MODE_PRIVATE);
+        //Session createUser;
+
+        String token=preferences.getString("Token", "");
+        Long Id=preferences.getLong("User Id", 0);
+        WGServerProxy proxy;
+        proxy = ProxyBuilder.getProxy(context.getString(R.string.apikey), token);
+        Call<User> call=proxy.getUserById(Id);
+        ProxyBuilder.callProxy(context, call, b -> session.setUser(b));
+
+        session.setProxy(proxy);
+        //session.setUser(b);
+        return session;
+    }
+    private static void responseSingletonUser(User returnedNothing) {
+        usertosend=returnedNothing;
     }
 }

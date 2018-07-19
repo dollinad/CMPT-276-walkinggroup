@@ -3,7 +3,6 @@ package ca.sfu.djlin.walkinggroup.app;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
@@ -48,6 +47,7 @@ import java.util.List;
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
+import ca.sfu.djlin.walkinggroup.model.Session;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
@@ -85,7 +85,10 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
     ArrayAdapter<User> adapterMemberList;
     String groupDescription;
 
+    Session data;
+
     private Group group = new Group();
+
 
     // Google Map Related
     private Boolean mLocationPermissionsGranted = false;
@@ -96,7 +99,8 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
     private LatLng latlng;
     List<Marker> markers = new ArrayList();
     private Marker meetingMarker;
-
+    Boolean markerexists=false;
+    Marker marker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,13 +117,17 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
         getLocationPermission();
 
         // Get current user id
-        SharedPreferences preferences = CreateGroupActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
-        currentUserId = preferences.getLong("User Id", 0);
+        //SharedPreferences preferences = CreateGroupActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
+       // currentUserId = preferences.getLong("User Id", 0);
 
         // Set up proxy
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey),token);
-        retrieveCurrentUserInformation();
+       // proxy = ProxyBuilder.getProxy(getString(R.string.apikey),token);
+        //retrieveCurrentUserInformation();
 
+        data=Session.getSession(getApplicationContext());
+        proxy=data.getProxy();
+        currentUser=data.getUser();
+        currentUserId=currentUser.getId();
         // Buttons
         setupConfirmGroup();
 
@@ -230,7 +238,6 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
                 intent.putExtra("groupName", groupDescription);
                 intent.putExtra("lat", intendedLatLng.latitude);
                 intent.putExtra("lng", intendedLatLng.longitude);
-
                 startActivity(intent);
                 finish();
             }
@@ -257,12 +264,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
                     @Override
                     public void onClick(View view) {
                         group.setGroupDescription(name);
-
-                        //Assigning the leader
-                        //User leader = new User();
-                        //leader.setId(currentUserId);
                         group.setLeader(currentUser);
-
                         Call<Group> caller = proxy.createGroup(group);
                         ProxyBuilder.callProxy(CreateGroupActivity.this, caller, returnedGroup -> createGroupResponse(returnedGroup));
                     }
@@ -429,6 +431,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
 
                 Boolean flag;
 
+
                 Intent meetingMarkerIntent = getIntent();
                 flag = meetingMarkerIntent.getBooleanExtra("Retrieve Marker", false);
 
@@ -447,6 +450,9 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
                     group.setRouteLngArray(lngList);
                 } else {
 
+                    if(markerexists==true){
+                        mMap.clear();
+                    }
                     // Add the intended group location to lists
                     intendedLatLng=new LatLng(latLng.latitude, latLng.longitude);
                     latlng = latLng;
@@ -454,11 +460,9 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
                     lngList.add(intendedLatLng.longitude);
                     group.setRouteLatArray(latList);
                     group.setRouteLngArray(lngList);
+                    marker=mMap.addMarker(new MarkerOptions().position(latlng).title(groupDescription));
+                    markerexists=true;
                 }
-
-
-
-
             }
         });
     }
@@ -569,7 +573,6 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
     private void initMap() {
         Log.d(TAG, "initMap: initializing map");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-
         mapFragment.getMapAsync(CreateGroupActivity.this);
     }
 }
