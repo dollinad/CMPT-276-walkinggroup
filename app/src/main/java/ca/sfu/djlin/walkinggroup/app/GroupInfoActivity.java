@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +24,7 @@ import java.util.TimerTask;
 
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
+import ca.sfu.djlin.walkinggroup.model.Session;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
@@ -41,6 +43,7 @@ public class GroupInfoActivity extends AppCompatActivity {
     private User currentUser;
     private List<User> monitorsUsersList;
     int time;
+    Session data;
 
     ArrayAdapter<User> adapterMemberList;
 
@@ -51,15 +54,26 @@ public class GroupInfoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_info);
 
+        data=Session.getSession(getApplicationContext());
+        proxy=data.getProxy();
+        currentUser=data.getUser();
+        monitorsUsersList = currentUser.getMonitorsUsers();
+
+        currentUserId=currentUser.getId();
         // Get token to set up proxy
         retrieveIntentData();
 
         // Set up our proxy
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+        //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
 
         // Get information about current user
-        retrieveCurrentUserId();
-        retrieveCurrentUserInformation();
+        //retrieveCurrentUserId();
+        //retrieveCurrentUserInformation();
+
+        //get Intent
+        Intent intent=getIntent();
+        groupId=intent.getLongExtra("groupId", 0);
+
 
         // Update Group Description
         Call<Group> call = proxy.getGroupById(groupId);
@@ -67,6 +81,8 @@ public class GroupInfoActivity extends AppCompatActivity {
 
         // Refresh UI
         refreshUI();
+
+        registerClickCallback();
 
         // Setup add user button
         Button addUserBtn = (Button) findViewById(R.id.add_user_btn);
@@ -81,6 +97,7 @@ public class GroupInfoActivity extends AppCompatActivity {
                 // Make a call to proxy to obtain the user id
                 Call<User> call = proxy.getUserByEmail(addUserEmail);
                 ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedUserInfo -> addUserResponse(returnedUserInfo));
+                addUserEmailInput.setText("");
             }
         });
 
@@ -122,7 +139,6 @@ public class GroupInfoActivity extends AppCompatActivity {
                 ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedUser -> userGroupDelete(returnedUser));
             }
         });
-
     }
 
     private void refreshUI() {
@@ -154,7 +170,6 @@ public class GroupInfoActivity extends AppCompatActivity {
             // Make a call to collect the name and email of the user
             Call<User> call = proxy.getUserById(user.getId());
             ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnUser -> respond(returnUser, name, email));
-
             return itemView;
         }
 
@@ -165,9 +180,28 @@ public class GroupInfoActivity extends AppCompatActivity {
         }
     }
 
+    private void registerClickCallback() {
+        ListView listView = findViewById(R.id.createGroupmember_list);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Build Proxy
+                //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+
+                proxy=data.getProxy();
+                Call<User> caller = proxy.getUserById(monitorsUsersList.get(position).getId());
+                ProxyBuilder.callProxy(GroupInfoActivity.this, caller, returnedUser -> UserReturned(returnedUser));
+            }
+        });
+    }
+    private void UserReturned(User returnedUser) {
+        Intent intent = ViewBeingMonitoredByUsers.launchIntentBeingMonitored(GroupInfoActivity.this);
+        //intent.putExtra("token", token);
+        intent.putExtra("UserId",returnedUser.getId());
+        startActivity(intent);
+    }
     private void addUserResponse(User returnedUser) {
         Long userId = returnedUser.getId();
-
         // Iterate through our list of who the current user monitors
         for (User user : monitorsUsersList) {
             // Add the user if he is being monitored by current user
@@ -279,6 +313,8 @@ public class GroupInfoActivity extends AppCompatActivity {
     }
 
     private void updateGroupDescription (Group group) {
+
+        Toast.makeText(getApplicationContext(), group.getGroupDescription()+"", Toast.LENGTH_SHORT).show();
         // Save information used to populate activity
         String groupDescription = group.getGroupDescription();
 

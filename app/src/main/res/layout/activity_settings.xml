@@ -14,6 +14,10 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+            <Space
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+
             <TextView
                 android:id="@+id/SettingsTitle"
                 android:layout_width="wrap_content"
@@ -56,8 +60,8 @@
                     android:id="@+id/nameDisplay"
                     android:layout_width="129dp"
                     android:layout_height="match_parent"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:background="@android:color/transparent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:textSize="18sp" />
 
                 <ImageView
@@ -97,8 +101,8 @@
                     android:id="@+id/birthYearDisplay"
                     android:layout_width="129dp"
                     android:layout_height="match_parent"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:background="@android:color/transparent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:textSize="18sp" />
 
                 <ImageView
@@ -137,8 +141,8 @@
                     android:id="@+id/birthMonthDisplay"
                     android:layout_width="129dp"
                     android:layout_height="match_parent"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:background="@android:color/transparent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:textSize="18sp" />
 
                 <ImageView
@@ -178,8 +182,8 @@
                     android:id="@+id/adressDisplay"
                     android:layout_width="129dp"
                     android:layout_height="match_parent"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:background="@android:color/transparent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:textSize="18sp" />
 
                 <ImageView
@@ -219,8 +223,8 @@
                     android:id="@+id/homePhoneDisplay"
                     android:layout_width="129dp"
                     android:layout_height="match_parent"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:background="@android:color/transparent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:textSize="18sp" />
 
                 <ImageView
@@ -260,8 +264,8 @@
                     android:id="@+id/cellPhoneDisplay"
                     android:layout_width="129dp"
                     android:layout_height="match_parent"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:background="@android:color/transparent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:textSize="18sp" />
 
                 <ImageView
@@ -300,8 +304,8 @@
                     android:id="@+id/EmailDisplay"
                     android:layout_width="129dp"
                     android:layout_height="match_parent"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:background="@android:color/transparent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:textSize="18sp" />
 
                 <ImageView
@@ -340,8 +344,8 @@
                     android:id="@+id/currentgradeDisplay"
                     android:layout_width="129dp"
                     android:layout_height="match_parent"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:background="@android:color/transparent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:textSize="18sp" />
 
                 <ImageView
@@ -380,8 +384,8 @@
                     android:id="@+id/teacgersNameDisplay"
                     android:layout_width="129dp"
                     android:layout_height="match_parent"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:background="@android:color/transparent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:textSize="18sp" />
 
                 <ImageView
@@ -427,8 +431,8 @@
                     android:id="@+id/emergencyNameDisplay"
                     android:layout_width="129dp"
                     android:layout_height="match_parent"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:background="@android:color/transparent"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
                     android:textSize="18sp" />
 
                 <ImageView
@@ -440,5 +444,17 @@
 
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/deleteAccount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete Account"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.945"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.949" />
 
 </android.support.constraint.ConstraintLayout>

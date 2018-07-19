@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
+import ca.sfu.djlin.walkinggroup.model.Session;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
@@ -26,16 +27,20 @@ public class ViewEmergencyContactActivity extends AppCompatActivity {
     Long CurrentUserId;
     String currentUserToken;
     String EmergencyContactInfoEntered;
+    Session session;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_viewcontact_info);
-        Intent intent=getIntent();
-        CurrentUserId=intent.getLongExtra("User Id", 0);
-        currentUserToken=intent.getStringExtra("Token");
+        //Intent intent=getIntent();
+        //CurrentUserId=intent.getLongExtra("User Id", 0);
+        //currentUserToken=intent.getStringExtra("Token");
 
-        proxy= ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
-
+        //proxy= ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
+        session=Session.getSession(getApplicationContext());
+        proxy=session.getProxy();
+        CurrentUser=session.getUser();
+        CurrentUserId=CurrentUser.getId();
         // Get current user information
         Call<User> caller = proxy.getUserById(CurrentUserId);
         ProxyBuilder.callProxy(ViewEmergencyContactActivity.this, caller, returnedUser -> responseCurrent(returnedUser));

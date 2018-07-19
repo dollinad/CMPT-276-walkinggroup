@@ -18,14 +18,19 @@ import com.google.android.gms.common.GoogleApiAvailability;
 
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
+import ca.sfu.djlin.walkinggroup.model.Session;
+import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
+import retrofit2.Call;
 
 public class WelcomeActivity extends AppCompatActivity {
 
     private static final String TAG = "WelcomeActivity";
 
+    Session session;
     private WGServerProxy proxy;
+    static User usertosend;
 
     // Used for checking correct version of Google Play Services
     private static final int ERROR_DIALOG_REQUEST = 9001;
@@ -101,27 +106,41 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void isUserLoggedIn() {
+
         // Check if user is currently logged in with Shared Preferences
         String[] data = getData(getApplicationContext());
-
+        session=Session.getSession(getApplicationContext());
         // If Shared Preferences is not empty
         Log.d(TAG, "isUserLoggedIn: " + data[0]);
 
         if(data[0] != null) {
             String token = data[0];
+            Log.i("TYUYUY", data[2]);
             proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
-           Long UserId= Long.valueOf(data[2]);
-           Log.i("YUYUU", UserId+"");
 
-            // Start handler for new message checking
+            //session.setProxy(proxy);
+            Long UserId = Long.valueOf(data[2]);
+            Log.i("YUYU", UserId + "8888");
+            Call<User> call = proxy.getUserById(UserId);
+            ProxyBuilder.callProxy(WelcomeActivity.this, call, returnedNothing -> responseSingleton(returnedNothing));
+            // Start checking for new mail
             Utilities.startMessageChecking();
 
-            // End start background task
-            Intent intent = Map_activityDrawer.launchIntentMap(WelcomeActivity.this);
-            intent.putExtra("User Id", UserId);
-            startActivity(intent);
-            finish();
+
         }
+    }
+
+    private void responseSingleton(User returnedNothing) {
+        // Retrieve user id
+        // Call<User> call = proxy.getUserByEmail(userEmailString);
+        //ProxyBuilder.callProxy(LoginActivity.this, call, returnedUser -> getUserIdResponse(returnedUser));
+        Log.i("PPPPPPPP", returnedNothing.getName());
+        //session.setUser(returnedNothing);
+
+        Intent intent = Map_activityDrawer.launchIntentMap(WelcomeActivity.this);
+        //intent.putExtra("UserId", UserId);
+        startActivity(intent);
+        finish();
     }
 
     // Getting the data token and email using Shared Preferences
@@ -175,5 +194,20 @@ public class WelcomeActivity extends AppCompatActivity {
                 finish();
             }
         }
+    }
+    public static Session sendUser(Context context, Session session){
+        SharedPreferences preferences = context.getSharedPreferences("User Session", MODE_PRIVATE);
+        String token=preferences.getString("Token", "");
+        Long Id=preferences.getLong("User Id", 0);
+        WGServerProxy proxy;
+        proxy = ProxyBuilder.getProxy(context.getString(R.string.apikey), token);
+        Call<User> call=proxy.getUserById(Id);
+        ProxyBuilder.callProxy(context, call, returnedNothing -> session.setUser(returnedNothing));
+
+        session.setProxy(proxy);
+        return session;
+    }
+    private static void responseSingletonUser(User returnedNothing) {
+        usertosend=returnedNothing;
     }
 }

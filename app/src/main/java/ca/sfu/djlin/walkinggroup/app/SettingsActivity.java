@@ -1,20 +1,24 @@
 package ca.sfu.djlin.walkinggroup.app;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
+import ca.sfu.djlin.walkinggroup.model.Session;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
@@ -38,6 +42,7 @@ public class SettingsActivity extends AppCompatActivity{
     String teacherNameEnteredString;
     String EmergencyContactInfoEntered;
     Long UserId;
+    Session session;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,13 +51,15 @@ public class SettingsActivity extends AppCompatActivity{
         Utilities.hideKeyboard(SettingsActivity.this);
         //Get intent
         Intent intent = getIntent();
-        token = intent.getStringExtra("Token");
+        //token = intent.getStringExtra("Token");
         UserId=intent.getLongExtra("User Id", 0);
         UserEmail = intent.getStringExtra("Email");
 
         //Build Proxy
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
-
+        //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+        session=Session.getSession(getApplicationContext());
+        proxy=session.getProxy();
+        CurrentUser=session.getUser();
 
         // Get current user information
         Call<User> caller = proxy.getUserByEmail(UserEmail);
@@ -69,9 +76,49 @@ public class SettingsActivity extends AppCompatActivity{
         setupGradeEdit();
         setupTeacherEdit();
         setupEmergencyContactEdit();
+        setupDeleteAccount();
 
 
 
+    }
+
+    private void setupDeleteAccount() {
+        Button removeUser=findViewById(R.id.deleteAccount);
+        removeUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AlertDialog.Builder(SettingsActivity.this)
+                        .setMessage("Are you sure you want to delete your account?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+                                proxy=session.getProxy();
+                                Call<Void> caller = proxy.deleteUser(UserId);
+                                ProxyBuilder.callProxy(SettingsActivity.this, caller, returnNothing-> responseDelete(returnNothing));
+                            }
+                        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                        startActivity(getIntent());
+                    }
+                }).show();
+            }
+        });
+    }
+
+    private void responseDelete(Void returnNothing) {
+        Intent intent = WelcomeActivity.launchWelcomeIntent(SettingsActivity.this);
+
+        SharedPreferences preferences = SettingsActivity.this.getSharedPreferences("User Session" , MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.remove("Token");
+        editor.remove("Email");
+        editor.remove("User Id");
+        editor.apply();
+        startActivity(intent);
+        finish();
     }
 
     private void setupNameEdit() {
@@ -80,7 +127,8 @@ public class SettingsActivity extends AppCompatActivity{
            @Override
            public void onClick(View v) {
                Toast.makeText(getApplicationContext(), CurrentUser.getId()+"", Toast.LENGTH_SHORT).show();
-               proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+               //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+               proxy=session.getProxy();
                Call<User> call=proxy.editUser(CurrentUser.getId(), CurrentUser);
                ProxyBuilder.callProxy(SettingsActivity.this, call, returnedUser -> responseEdit(returnedUser));
 
@@ -95,7 +143,8 @@ public class SettingsActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), CurrentUser.getId()+"", Toast.LENGTH_SHORT).show();
-                proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+                //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+                proxy=session.getProxy();
                 Call<User> call=proxy.editUser(CurrentUser.getId(), CurrentUser);
                 ProxyBuilder.callProxy(SettingsActivity.this, call, returnedUser -> responseEdit(returnedUser));
 
