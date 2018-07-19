@@ -131,7 +131,7 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
 
             // Initialize search box listeners
             init();
-            setUpStart();
+            //setUpStart();
             setUpStop();
 
         }
@@ -140,7 +140,7 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
         //SharedPreferences preferences = Parent_Map.this.getSharedPreferences("User Session", MODE_PRIVATE);
         //token = preferences.getString("Token", null);
         //currentUserEmail = preferences.getString("Email", null);
-        //getUserId();
+        getUserId();
         //Log.d(TAG, "onMapReady: The current token is: " + token);
         //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
         session=Session.getSession(getApplicationContext());
@@ -195,9 +195,10 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
             @Override
             public void onClick(View v) {
                 System.out.println("timer cancel");
-                timer.cancel();
+                Toast.makeText(Parent_Map.this,"Stop Dowanloading",Toast.LENGTH_SHORT).show();
+                //timer.cancel();
                 timer_get.cancel();
-                timer=new Timer();
+                //timer=new Timer();
                 timer_get=new Timer();
             }
         });
@@ -230,12 +231,11 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
         mLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Toast.makeText(Parent_Map.this,"Start Dowanloading",Toast.LENGTH_SHORT).show();
                 timer_get.scheduleAtFixedRate(new TimerTask() {
                     @Override
                     public void run() {
                         startDowanloadGpsLocation();
-                        counts++;
                     }
                 },0,5000);
             }
@@ -456,9 +456,10 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if(times==10) {
-                    times = 0;
+                if(counts==20) {
+                    counts = 0;
                     timer.cancel();
+                    timer=new Timer();
                 }
                 else {
                     getDeviceLocation();
@@ -467,10 +468,10 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
                     gpsLocation.setGpsLocation(currentposition, time);
                     Call<GpsLocation> caller = proxy.setLastGpsLocation(currentUser.getId(), gpsLocation);
                     ProxyBuilder.callProxy(Parent_Map.this, caller, returnGps -> gpsResponse(returnGps));
-                    times++;
+                    counts++;
                 }
             }
-        },0,3000);
+        },0,30000);
     }
 
     //get the size of user list of monitoring
