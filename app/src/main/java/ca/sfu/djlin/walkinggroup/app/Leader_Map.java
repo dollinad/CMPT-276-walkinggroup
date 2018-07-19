@@ -133,14 +133,14 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
             init();
             setUpStart();
             setUpStop();
-            setGroupMarker();
+            getUserId();
         }
 
         // Need to check ordering for this
         SharedPreferences preferences = Leader_Map.this.getSharedPreferences("User Session", MODE_PRIVATE);
         token = preferences.getString("Token", null);
         currentUserEmail = preferences.getString("Email", null);
-        getUserId();
+
         Log.d(TAG, "onMapReady: The current token is: " + token);
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
 
@@ -150,8 +150,7 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
             String groupName=intent.getStringExtra("groupName");
             Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(groupName));
             markers.add(marker);
-            // System.out.println(markers.size());
-            // System.out.println(markers.get(0));
+
 
             // Store marker in HashMap for onClick retrieval
             mHashMap.put(marker, intent.getLongExtra("groupId", 0));
@@ -223,28 +222,38 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
     }
 
     public void setGroupMarker(){
+        /*
         Log.d(TAG, "setGroupMarker: The current token is " + token);
+
         Call<List<Group>> caller = proxy.getGroups();
         ProxyBuilder.callProxy(Leader_Map.this, caller, returnedGroups -> response(returnedGroups));
-    }
+        */
+        List<Group> groups= currentUser.getLeadsGroups();
+        for(int i=0;i<groups.size();i++)
+        {
+            Call<Group> caller=proxy.getGroupById(groups.get(i).getId());
+            ProxyBuilder.callProxy(Leader_Map.this,caller, returnedGroup->response(returnedGroup));
 
-    private void response(List<Group> returnedGroups) {
-        Log.d(TAG, "The current token is: " + token);
-        int i = 0;
-        for (Group group : returnedGroups) {
-            double lat = group.getRouteLatArray().get(i);
-            double lng = group.getRouteLngArray().get(i);
-            LatLng latLng=new LatLng(lat,lng);
-
-            Log.d(TAG, "The type of groupID is: " + group.getId());
-            // Add marker to map
-            Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(group.getGroupDescription()));
-            // Add marker to list
-            markers.add(marker);
-            // Store marker in HashMap for onClick retrieval
-            mHashMap.put(marker, group.getId());
         }
     }
+
+    private void response(Group returnedGroup) {
+        Log.d(TAG, "The current token is: " + token);
+        int i = 0;
+
+                double lat = returnedGroup.getRouteLatArray().get(i);
+                double lng = returnedGroup.getRouteLngArray().get(i);
+                LatLng latLng = new LatLng(lat, lng);
+
+                Log.d(TAG, "The type of groupID is: " + returnedGroup.getId());
+                // Add marker to map
+                Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(returnedGroup.getGroupDescription()));
+                // Add marker to list
+                markers.add(marker);
+                // Store marker in HashMap for onClick retrieval
+                mHashMap.put(marker, returnedGroup.getId());
+    }
+
 
 
 
@@ -326,7 +335,7 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
                             Log.d(TAG, "Found Location!");
                             Location currentLocation = (Location) task.getResult();
 
-                            System.out.println(currentLocation.getLatitude());
+                            //System.out.println(currentLocation.getLatitude());
                             currentposition=new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM, "My Location");
@@ -450,7 +459,6 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
     private void groupResponseForSize(Group returnGroup) {
         ArrayList<User> users=returnGroup.getMemberUsers();
         groupSize=groupSize+returnGroup.getMemberUsers().size();
-        System.out.println("the size is "+ groupSize);
     }
 
     //get the group that current user is leadering
@@ -474,7 +482,6 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
 
     //get users gps location information
     private void singleUserResponse(User returnUser) {
-        System.out.println("dijici");
         Call<GpsLocation> caller=proxy.getLastGpsLocation(returnUser.getId());
         temp_name=returnUser.getName();
         ProxyBuilder.callProxy(this,caller,returnGps->gpsResponseForEachUser(returnGps));
@@ -482,13 +489,11 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
     }
 //each user return a gps location to show in the map
     private void gpsResponseForEachUser(GpsLocation returnGps) {
-        System.out.println("gps is " +returnGps.toString());
         int btnWidth = 70;
         int btnHeight = 100;
         Bitmap originBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user);
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(originBitmap, btnWidth, btnHeight, false);
 
-        System.out.println("jicia");
         if(marker_user.isEmpty()==true) {
             marker_user.add(mMap.addMarker(new MarkerOptions().position(returnGps.toLatlng(returnGps))
                     .title(temp_name).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap))));
@@ -506,15 +511,15 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
                         .title(temp_name).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap))));
             }
         }
-        System.out.println("important "+groupSize);
+
         index++;
         index=index%groupSize;
-        System.out.println(returnGps.toLatlng(returnGps));
+
     }
 
     //do nothing for getting gps response by proxy
     private void updateGpsResponse(GpsLocation returnGps) {
-        System.out.println("gpslocation done");
+       //do nothing
     }
 
 
@@ -527,6 +532,7 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
 
     private void userResponse(User returnedUser) {
         currentUser=returnedUser;
+        setGroupMarker();
         getGroupSize();
 
     }

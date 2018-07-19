@@ -131,7 +131,7 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
             init();
             setUpStart();
             setUpStop();
-            setGroupMarker();
+
         }
 
         // Need to check ordering for this
@@ -148,8 +148,6 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
             String groupName=intent.getStringExtra("groupName");
             Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(groupName));
             markers.add(marker);
-            // System.out.println(markers.size());
-            // System.out.println(markers.get(0));
 
             // Store marker in HashMap for onClick retrieval
             mHashMap.put(marker, intent.getLongExtra("groupId", 0));
@@ -352,7 +350,7 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
                             Log.d(TAG, "Found Location!");
                             Location currentLocation = (Location) task.getResult();
 
-                            System.out.println(currentLocation.getLatitude());
+                            //System.out.println(currentLocation.getLatitude());
                             currentposition=new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM, "My Location");
@@ -482,7 +480,6 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
     }
     //get users gps location information
     private void singleUserResponse(User returnUser) {
-        System.out.println("dijici");
         Call<GpsLocation> caller=proxy.getLastGpsLocation(returnUser.getId());
         temp_name=returnUser.getName();
         ProxyBuilder.callProxy(this,caller,returnGps->gpsResponseForEachUser(returnGps));
@@ -490,13 +487,11 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
     }
     //each user return a gps location to show in the map
     private void gpsResponseForEachUser(GpsLocation returnGps) {
-        System.out.println("gps is " +returnGps.toString());
         int btnWidth = 70;
         int btnHeight = 100;
         Bitmap originBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user);
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(originBitmap, btnWidth, btnHeight, false);
 
-        System.out.println("jicia");
         if(marker_user.isEmpty()==true) {
             marker_user.add(mMap.addMarker(new MarkerOptions().position(returnGps.toLatlng(returnGps))
                     .title(temp_name).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap))));
@@ -514,16 +509,14 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
                         .title(temp_name).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap))));
             }
         }
-        System.out.println("important "+groupSize);
         index++;
         index = index %groupSize;
         //marker_user.add(marker);
-        System.out.println(returnGps.toLatlng(returnGps));
     }
 
     //do thing for get gps response by proxy
     private void gpsResponse(GpsLocation returnGps) {
-        System.out.println("gpslocation done");
+        //do nothing
     }
 
 
@@ -536,6 +529,7 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
 
     private void userResponse(User returnedUser) {
         currentUser=returnedUser;
+        //setGroupMarker();
         getUserSize();
 
     }
