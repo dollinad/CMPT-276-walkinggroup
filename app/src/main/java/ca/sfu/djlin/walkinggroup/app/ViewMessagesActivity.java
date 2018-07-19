@@ -10,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -183,13 +184,26 @@ public class ViewMessagesActivity extends AppCompatActivity {
 
                 // Display message in dialog
                 ca.cmpt276.walkinggroup.dataobjects.Message messageToRead = currentMessageList.get(position);
-                new AlertDialog.Builder(ViewMessagesActivity.this)
-                        .setMessage(messageToRead.getText())
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                            }
-                        }).show();
+                View viewInflated = LayoutInflater.from(ViewMessagesActivity.this).inflate(R.layout.dialog_read_message, findViewById(R.id.messages_list), false);
+
+
+                // Set the details of the dialog box
+                TextView messageSenderName = (TextView) viewInflated.findViewById(R.id.from_user_text);
+                TextView messageBodyText = (TextView) viewInflated.findViewById(R.id.message_body_text);
+                TextView messageIsEmergency = (TextView) viewInflated.findViewById(R.id.is_emergency_text);
+                messageSenderName.setText(messageToRead.getFromUser().getName());
+                messageIsEmergency.setText(""+ messageToRead.isEmergency());
+                messageBodyText.setText(messageToRead.getText());
+
+                // Build and show the dialog box
+                AlertDialog.Builder builder = new AlertDialog.Builder(ViewMessagesActivity.this);
+                builder.setView(viewInflated);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                    }
+                });
+                builder.show();
 
                 // Set message to be read
                 if (!currentMessageList.get(position).isRead()) {
@@ -211,7 +225,7 @@ public class ViewMessagesActivity extends AppCompatActivity {
     private void setupTestButtons() {
         // Details for the test message
         testMessage.setText("This is a test message 10");
-        testMessage.setEmergency(true);
+        testMessage.setEmergency(false);
 
         // Button to test sending a message
         Button sendMessageButton = (Button) findViewById(R.id.send_message_btn);
