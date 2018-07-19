@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,6 +69,8 @@ public class PreferencesActivity extends AppCompatActivity {
         proxy=session.getProxy();
         currentUser=session.getUser();
         currentUserEmail=currentUser.getEmail();
+        Log.d(TAG, "The current User Email is: " + currentUserEmail);
+
 
         // Get current user information
         Call<User> caller = proxy.getUserByEmail(currentUserEmail);
@@ -165,13 +168,14 @@ public class PreferencesActivity extends AppCompatActivity {
 
     private void responseCurrent(User user) {
         // Store retrieved user into currentUser
+        Log.d(TAG, "responseCurrent: " + user);
         currentUser = user;
         monitoredBy();
         refresh();
     }
 
     private void refresh() {
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);;
+        // proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);;
         Call<List<User>> call = proxy.getMonitorsUsers(currentUser.getId());
         ProxyBuilder.callProxy(PreferencesActivity.this, call, returnedList -> response(returnedList));
     }
@@ -490,7 +494,7 @@ public class PreferencesActivity extends AppCompatActivity {
 
     private void monitoredBy() {
         // Make a call to server to retrieve monitored by users
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
+        // proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
 
         Call<List<User>> call = proxy.getMonitoredByUsers(currentUser.getId());
         ProxyBuilder.callProxy(PreferencesActivity.this, call, returnedListMon -> responseMonitoredByUsers(returnedListMon));
