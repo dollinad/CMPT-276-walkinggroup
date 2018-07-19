@@ -49,6 +49,7 @@ import java.util.TimerTask;
 
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
+import ca.sfu.djlin.walkinggroup.dataobjects.GpsLocation;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
@@ -76,7 +77,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
     private LatLng latlng;
     List<Marker> markers = new ArrayList();
     private Marker meetingMarker;
-    private Timer timer;
+    private Timer timer=new Timer();
     // Create HashMap used for storing group ID
     private HashMap<Marker, Long> mHashMap = new HashMap<Marker, Long>();
 
@@ -85,6 +86,9 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
 
     // User Variables
     private User currentUser=new User();
+    int counts=0;
+    private String time="1991-1-1,11:11:11-";
+
     String token;
     String currentUserEmail;
     String currentUserName;
@@ -121,6 +125,8 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
 
 
         getLocationPermission();
+        setUpStart();
+        setUpStop();
 
     }
 
@@ -167,6 +173,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
             setUpTest();
             setUpTest2();
             getUserId();
+
         }
 
         SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
@@ -570,22 +577,64 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         finish();
     }
 
-    //Update Gps Location
-    public void updateGpsLoaction(){
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                System.out.println();
-                getDeviceLocation();
-            }
-        },0,5000);
-    }
-
     public void getUserId(){
         Call<User> caller=proxy.getUserByEmail(currentUserEmail);
         ProxyBuilder.callProxy(this,caller,returnedUser->UserResponse(returnedUser));
     }
 
+
+//uploading gps location
+
+    private void setUpStart() {
+        Button button=findViewById(R.id.button_start);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("timer start");
+                updateGpsLoaction();
+            }
+        });
+
+    }
+
+    private void setUpStop() {
+        Button button=findViewById(R.id.button_stop);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("timer cancel");
+                timer.cancel();
+                timer=new Timer();
+            }
+        });
+
+    }
+    public void updateGpsLoaction(){
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                if(counts==10) {
+                    counts = 0;
+                    timer.cancel();
+                    timer=new Timer();
+                }
+                else {
+                    getDeviceLocation();
+                    time = time + 1;
+                    GpsLocation gpsLocation = new GpsLocation();
+                    gpsLocation.setGpsLocation(currentposition, time);
+                    System.out.println("xian zai shi shui "+ currentUser.getId()+ "  ming zi shi "+ currentUser.getName() + "ma de ling yi ge! "+ UserId);
+                    System.out.println("qu NA le ? "+ currentposition);
+                    Call<GpsLocation> caller = proxy.setLastGpsLocation(UserId, gpsLocation);
+                    ProxyBuilder.callProxy(Map_activityDrawer.this, caller, returnGps -> updateGpsResponse(returnGps));
+                    counts++;
+                }
+            }
+        },0,30000);
+    }
+    private void updateGpsResponse(GpsLocation returnGps) {
+        //do nothing
+    }
     private void UserResponse(User returnedUser) {
         currentUser=returnedUser;
     }
