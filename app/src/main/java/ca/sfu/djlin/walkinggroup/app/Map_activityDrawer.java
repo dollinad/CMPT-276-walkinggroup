@@ -607,7 +607,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("timer start");
+                System.out.println("start Uploading gps location");
                 updateGpsLoaction();
             }
         });
