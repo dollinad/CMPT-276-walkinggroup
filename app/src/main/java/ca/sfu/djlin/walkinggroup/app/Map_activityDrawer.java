@@ -7,8 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -41,7 +39,6 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -58,7 +55,6 @@ import java.util.TimerTask;
 
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
-import ca.sfu.djlin.walkinggroup.app.messaging.LeaderMessagingActivity;
 import ca.sfu.djlin.walkinggroup.dataobjects.GpsLocation;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
 import ca.sfu.djlin.walkinggroup.model.Session;
@@ -126,13 +122,14 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         toggle.syncState();
 
         SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
-        //token = preferences.getString("Token", null);
+        token = preferences.getString("Token", null);
         //currentUserEmail = preferences.getString("Email", null);
         //currentUserName=preferences.getString("Name", null);
         //UserId=preferences.getLong("User Id", 0);
 
         // Build new proxy
-       // proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+       //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey));
         data=Session.getSession(getApplicationContext());
         proxy=data.getProxy();
         currentUser=data.getUser();
@@ -140,8 +137,11 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         UserId=currentUser.getId();
         Log.i("JKJK", UserId+"");
 
-        Call<User> call=proxy.getUserById(UserId);
-        ProxyBuilder.callProxy(Map_activityDrawer.this, call, returnedNothing -> responseCurrent(returnedNothing));
+        if(UserId!=0) {
+            proxy=data.getProxy();
+            Call<User> call = proxy.getUserById(UserId);
+            ProxyBuilder.callProxy(Map_activityDrawer.this, call, returnedNothing -> responseCurrent(returnedNothing));
+        }
 
         getLocationPermission();
         setUpTest();
@@ -186,6 +186,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
                         newMessage.setEmergency(isEmergencyText);
 
                         // Make a new call to send message to all parents and leaders
+                        proxy=data.getProxy();
                         Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> call = proxy.newMessageToParentsOf(data.getUser().getId(), newMessage);
                         ProxyBuilder.callProxy(Map_activityDrawer.this, call, returnedList -> sendMessageResponse(returnedList));
                     }
@@ -265,10 +266,10 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         }
 
         SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
-        //token = preferences.getString("Token", null);
+        token = preferences.getString("Token", null);
         //currentUserEmail = preferences.getString("Email", null);
         //Log.d(TAG, "onMapReady: The current token is: " + token);
-        //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
         proxy=data.getProxy();
         currentUser=data.getUser();
         currentUserEmail=currentUser.getEmail();
@@ -295,6 +296,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
 
                 // Draw the meeting location marker
                 if (!marker.equals(meetingMarker)) {
+                    proxy=data.getProxy();
                     Call<Group> call = proxy.getGroupById(groupId);
                     ProxyBuilder.callProxy(Map_activityDrawer.this, call, returnedGroup -> drawMeetingMarker(returnedGroup));
                 } else if (marker.equals(meetingMarker)){
@@ -344,6 +346,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
 
     public void setGroupMarker(){
         Log.d(TAG, "setGroupMarker: The current token is " + token);
+        proxy=data.getProxy();
         Call<List<Group>> caller = proxy.getGroups();
         ProxyBuilder.callProxy(Map_activityDrawer.this, caller, returnedGroups -> response(returnedGroups));
     }
@@ -630,16 +633,18 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         }
         else if(id==R.id.Drawersettings){
             Intent pass_intent=SettingsActivity.launchIntentSettings(Map_activityDrawer.this);
-            //SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
-            //token = preferences.getString("Token", null);
-            //currentUserEmail = preferences.getString("Email", null);
+            SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
+            token = preferences.getString("Token", null);
+            currentUserEmail = preferences.getString("Email", null);
 
             //pass_intent.putExtra("Token", token);
+            Log.i("LALALL", currentUserEmail);
             pass_intent.putExtra("Email", currentUserEmail);
             pass_intent.putExtra("User Id", UserId);
 
             startActivity(pass_intent);
         }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
@@ -675,6 +680,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
     }
 
     public void getUserId(){
+        proxy=data.getProxy();
         Call<User> caller=proxy.getUserByEmail(currentUserEmail);
         ProxyBuilder.callProxy(this,caller,returnedUser->UserResponse(returnedUser));
     }
@@ -727,6 +733,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
                     getDeviceLocation();
                     GpsLocation gpsLocation = new GpsLocation();
                     gpsLocation.setGpsLocation(currentposition, getTime());
+                    proxy=data.getProxy();
                     Call<GpsLocation> caller = proxy.setLastGpsLocation(UserId, gpsLocation);
                     ProxyBuilder.callProxy(Map_activityDrawer.this, caller, returnGps -> updateGpsResponse(returnGps));
                     counts++;
