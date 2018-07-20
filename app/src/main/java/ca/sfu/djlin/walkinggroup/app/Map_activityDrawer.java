@@ -24,6 +24,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -82,6 +83,8 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
     // Create HashMap used for storing group ID
     private HashMap<Marker, Long> mHashMap = new HashMap<Marker, Long>();
 
+    private ImageView onWalkMessaging;
+
     // Proxy
     private WGServerProxy proxy;
 
@@ -117,7 +120,12 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         //currentUserName=preferences.getString("Name", null);
         //UserId=preferences.getLong("User Id", 0);
 
+        // Set up image view for on walk messaging, initially invisible
+        onWalkMessaging = (ImageView) findViewById(R.id.ic_messages);
+        onWalkMessaging.setVisibility(View.INVISIBLE);
 
+        // set up onclick listener for emergency message
+        onWalkMessagingListener();
 
         // Build new proxy
        // proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
@@ -131,13 +139,21 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         Call<User> call=proxy.getUserById(UserId);
         ProxyBuilder.callProxy(Map_activityDrawer.this, call, returnedNothing -> responseCurrent(returnedNothing));
 
-
         getLocationPermission();
         setUpTest();
         setUpTest2();
         setUpStart();
         setUpStop();
 
+    }
+
+    private void onWalkMessagingListener() {
+         onWalkMessaging.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "PPP", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void responseCurrent(User returnedNothing) {
@@ -602,7 +618,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
     }
 
 
-//uploading gps location
+    //uploading gps location
 
     private void setUpStart() {
         Button button=findViewById(R.id.button_start);
