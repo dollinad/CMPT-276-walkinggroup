@@ -89,7 +89,6 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
     List<Marker> marker_user=new ArrayList();
 
     List <String> temp_name=new ArrayList();
-    List <GpsLocation> gpsLocationList=new ArrayList();
     int groupSize=0;
 
     // Create HashMap used for storing group ID
@@ -214,7 +213,7 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
                     public void run() {
                         startDowanloadGpsLocation();
                     }
-                },0,10000);
+                },0,5000);
             }
         });
 
