@@ -31,8 +31,8 @@
 
     <Button
         android:id="@+id/button_test"
-        android:layout_width="55dp"
-        android:layout_height="45dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginTop="100dp"
         android:text="@string/leader"
@@ -41,8 +41,8 @@
 
     <Button
         android:id="@+id/button_test2"
-        android:layout_width="53dp"
-        android:layout_height="51dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="352dp"
         android:layout_marginEnd="32dp"
         android:text="@string/parent"
@@ -51,8 +51,8 @@
 
     <Button
         android:id="@+id/button_start"
-        android:layout_width="73dp"
-        android:layout_height="43dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="128dp"
         android:layout_marginEnd="32dp"
         android:text="@string/start"
@@ -61,8 +61,8 @@
 
     <Button
         android:id="@+id/button_stop"
-        android:layout_width="72dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginBottom="80dp"
         android:layout_marginEnd="32dp"
         android:text="@string/stop"
