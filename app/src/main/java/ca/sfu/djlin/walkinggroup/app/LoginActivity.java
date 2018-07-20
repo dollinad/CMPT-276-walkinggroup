@@ -65,8 +65,9 @@ public class LoginActivity extends AppCompatActivity {
             Log.i("YUYU", UserId+"88888");
             Call<User> call=proxy.getUserById(UserId);
             ProxyBuilder.callProxy(LoginActivity.this, call, returnedNothing -> responseSingleton(returnedNothing));
+
             // Start checking for new mail
-            Utilities.startMessageChecking();
+            Utilities.startMessageChecking(LoginActivity.this, proxy, session.getUser());
 
             // Need to change method of starting activity
             Intent intent = Map_activityDrawer.launchIntentMap(LoginActivity.this);
@@ -230,7 +231,7 @@ public class LoginActivity extends AppCompatActivity {
         editor.apply();
 
         // Start checking for new mail
-        Utilities.startMessageChecking();
+        Utilities.startMessageChecking(LoginActivity.this, proxy, session.getUser());
 
         // Launch the Maps Activity
         Intent intent = Map_activityDrawer.launchIntentMap(LoginActivity.this);

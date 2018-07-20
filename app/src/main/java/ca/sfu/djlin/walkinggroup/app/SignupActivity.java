@@ -46,7 +46,7 @@ public class SignupActivity extends AppCompatActivity {
     String userCurrentGradeString;
     String userTeacherNameString;
     String EmergencyContactInfo;
-    static  User usertosend;
+    static User usertosend;
 
     Long UserId;
 
@@ -649,8 +649,6 @@ public class SignupActivity extends AppCompatActivity {
     }
 
     private void launchMapActivity() {
-        Utilities.startMessageChecking();
-
         // Launch Map Activity
 
         Intent mapIntent = Map_activityDrawer.launchIntentMap(SignupActivity.this);
