@@ -240,7 +240,7 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
                     public void run() {
                         startDowanloadGpsLocation();
                     }
-                },0,10000);
+                },0,5000);
             }
         });
 
