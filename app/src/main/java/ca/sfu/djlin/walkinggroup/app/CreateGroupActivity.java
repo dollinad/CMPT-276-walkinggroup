@@ -117,17 +117,19 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
         getLocationPermission();
 
         // Get current user id
-        //SharedPreferences preferences = CreateGroupActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
-       // currentUserId = preferences.getLong("User Id", 0);
+        // SharedPreferences preferences = CreateGroupActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
+        // currentUserId = preferences.getLong("User Id", 0);
 
         // Set up proxy
-       // proxy = ProxyBuilder.getProxy(getString(R.string.apikey),token);
+        // proxy = ProxyBuilder.getProxy(getString(R.string.apikey),token);
         //retrieveCurrentUserInformation();
 
-        data=Session.getSession(getApplicationContext());
-        proxy=data.getProxy();
-        currentUser=data.getUser();
-        currentUserId=currentUser.getId();
+        // Get data from singleton
+        data = Session.getSession(getApplicationContext());
+        proxy = data.getProxy();
+        currentUser = data.getUser();
+        currentUserId = currentUser.getId();
+
         // Buttons
         setupConfirmGroup();
 
@@ -169,7 +171,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
         });
     }
 
-    //Response for Add user
+    // Response for Add user
     private void addUserResponse(User returnedUser) {
         Long userId = returnedUser.getId();
 
@@ -186,14 +188,14 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
         }
     }
 
-    //response for adding member
+    // response for adding member
     private void addMemberResponse(List<User> listOfUsers) {
         Toast.makeText(CreateGroupActivity.this, CreateGroupActivity.this.getString(R.string.joined_group_toast), Toast.LENGTH_SHORT).show();
         // Update the UI
         refreshUI();
     }
 
-    //response for remove User
+    // response for remove User
     private void removeUserResponse(User returnedUser) {
         Long userId = returnedUser.getId();
 
@@ -218,7 +220,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
         }
     }
 
-    //response for deleting user
+    // response for deleting user
     private void deleteUserResponse (Void response) {
         Toast.makeText(CreateGroupActivity.this,CreateGroupActivity.this.getString(R.string.user_deleted_toast), Toast.LENGTH_SHORT).show();
 
@@ -226,7 +228,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
         refreshUI();
     }
 
-    //setup Confirm Group
+    // setup Confirm Group
     private void setupConfirmGroup() {
         Button confirmGroup=findViewById(R.id.confirm_btn);
         confirmGroup.setOnClickListener(new View.OnClickListener() {
@@ -294,7 +296,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
         });
     }
 
-    //function for retrieving Current user info
+    // Function for retrieving Current user info
     private void retrieveCurrentUserInformation() {
         // Set up proxy
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey),token);
@@ -304,8 +306,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
 
 
 
-    //                                                                                    Map functions
-
+    // Map functions
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -438,7 +439,6 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
                 if (flag) {
                     Log.d(TAG, "This intent was started by create groups!");
 
-
                     meetingMarkerLatLng =  new LatLng(latLng.latitude,latLng.longitude);
 
                     // Add lat and long to list
@@ -500,8 +500,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
     }
 
 
-    //                                                                          GROUP FUNCTIONS
-
+    // GROUP FUNCTIONS
 
     // Refresh UI for the adapter
     private void refreshUI() {
