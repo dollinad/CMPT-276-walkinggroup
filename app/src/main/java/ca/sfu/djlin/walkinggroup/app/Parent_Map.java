@@ -39,7 +39,9 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
@@ -84,7 +86,7 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
     List<Marker> markers = new ArrayList();
     List<Marker> marker_user=new ArrayList();
 
-    String temp_name;
+    List<String> temp_name=new ArrayList();
     int groupSize=0;
     private String time="1991-1-1,11:11:11-";
     // Create HashMap used for storing group ID
@@ -103,6 +105,7 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
     //User currentUser=new User();
     User currentUser;
     Session session;
+
 
 
     GpsLocation gpsLocation=new GpsLocation();
@@ -237,7 +240,7 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
                     public void run() {
                         startDowanloadGpsLocation();
                     }
-                },0,5000);
+                },0,10000);
             }
         });
 
@@ -492,7 +495,10 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
     //get users gps location information
     private void singleUserResponse(User returnUser) {
         Call<GpsLocation> caller=proxy.getLastGpsLocation(returnUser.getId());
-        temp_name=returnUser.getName();
+        if(temp_name.size()!=groupSize)
+            temp_name.add(returnUser.getName());
+        times++;
+        times=times%groupSize;
         ProxyBuilder.callProxy(this,caller,returnGps->gpsResponseForEachUser(returnGps));
 
     }
@@ -502,27 +508,29 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
         int btnHeight = 100;
         Bitmap originBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user);
         Bitmap scaledBitmap = Bitmap.createScaledBitmap(originBitmap, btnWidth, btnHeight, false);
-
-        if(marker_user.isEmpty()==true) {
-            marker_user.add(mMap.addMarker(new MarkerOptions().position(returnGps.toLatlng(returnGps))
-                    .title(temp_name).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap))));
-        }
-        else if(marker_user.isEmpty()==false) {
-            if(index <marker_user.size()) {
-                if (marker_user.get(index) != null) {
-                    marker_user.get(index).remove();
-                }
-                marker_user.set(index, mMap.addMarker(new MarkerOptions().position(returnGps.toLatlng(returnGps))
-                        .title(temp_name).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap))));
-            }
-            else{
+        if (returnGps.getTimestamp() == null)
+            Log.i("time", "No gps data for user");
+        else {
+            if (marker_user.isEmpty() == true) {
                 marker_user.add(mMap.addMarker(new MarkerOptions().position(returnGps.toLatlng(returnGps))
-                        .title(temp_name).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap))));
+                        .title(temp_name+ " " + returnGps.getTimestamp()).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap))));
             }
+            else if (marker_user.isEmpty() == false) {
+                if (index < marker_user.size()) {
+                    if (marker_user.get(index) != null) {
+                        marker_user.get(index).remove();
+                    }
+                         marker_user.set(index, mMap.addMarker(new MarkerOptions().position(returnGps.toLatlng(returnGps))
+                            .title(temp_name + " " + returnGps.getTimestamp()).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap))));
+                } else {
+                    marker_user.add(mMap.addMarker(new MarkerOptions().position(returnGps.toLatlng(returnGps))
+                            .title(temp_name + " " + returnGps.getTimestamp()).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap))));
+                }
+            }
+            index++;
+            index = index % groupSize;
+            //marker_user.add(marker);
         }
-        index++;
-        index = index %groupSize;
-        //marker_user.add(marker);
     }
 
     //do thing for get gps response by proxy
@@ -544,4 +552,5 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
         getUserSize();
 
     }
+
 }
