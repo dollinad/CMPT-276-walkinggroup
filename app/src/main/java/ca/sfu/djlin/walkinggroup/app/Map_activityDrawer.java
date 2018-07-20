@@ -42,7 +42,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Timer;
@@ -91,7 +93,6 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
     // User Variables
     private User currentUser=new User();
     int counts=0;
-    private String time="1991-1-1,11:11:11-";
 
     String token;
     String currentUserEmail;
@@ -657,9 +658,8 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
                 }
                 else {
                     getDeviceLocation();
-                    time = time + 1;
                     GpsLocation gpsLocation = new GpsLocation();
-                    gpsLocation.setGpsLocation(currentposition, time);
+                    gpsLocation.setGpsLocation(currentposition, getTime());
                     Call<GpsLocation> caller = proxy.setLastGpsLocation(UserId, gpsLocation);
                     ProxyBuilder.callProxy(Map_activityDrawer.this, caller, returnGps -> updateGpsResponse(returnGps));
                     counts++;
@@ -673,6 +673,16 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
 
     private void UserResponse(User returnedUser) {
         currentUser=returnedUser;
+    }
+
+    //get system time;
+    private String getTime(){
+
+        Calendar calendar=Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        String strDate = sdf.format(calendar.getTime());
+        return strDate;
+
     }
     //                                                                  INTENTS
 
