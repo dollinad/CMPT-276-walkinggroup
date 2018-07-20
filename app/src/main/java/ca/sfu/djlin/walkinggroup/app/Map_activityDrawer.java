@@ -167,7 +167,6 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
                 AlertDialog.Builder builder = new AlertDialog.Builder(Map_activityDrawer.this);
                 LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
                 View viewInflated = getLayoutInflater().inflate(R.layout.dialog_send_message, null);
-                // View viewInflated = LayoutInflater.from(Map_activityDrawer.this).inflate(R.layout.dialog_send_message, findViewById(R.id.leads_group_list), false);
 
                 // Set up the input
                 final EditText input = (EditText) viewInflated.findViewById(R.id.input);
