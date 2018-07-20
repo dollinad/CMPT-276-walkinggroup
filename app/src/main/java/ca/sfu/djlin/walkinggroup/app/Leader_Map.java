@@ -98,7 +98,6 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
     private WGServerProxy proxy;
 
     //count times for uploading data or retreiving data from server
-    int times=0;
     int counts=0;
     int index=0;
 
@@ -484,7 +483,12 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
         ArrayList<User> users=returnGroup.getMemberUsers();
         for(int i=0;i<users.size();i++){
               Call<User> caller=proxy.getUserById(users.get(i).getId());
-              ProxyBuilder.callProxy(Leader_Map.this,caller,returnUser->singleUserResponse(returnUser));
+              ProxyBuilder.callProxy(Leader_Map.this, caller, new ProxyBuilder.SimpleCallback<User>() {
+                  @Override
+                  public void callback(User ans) {
+                      singleUserResponse(ans);
+                  }
+              });
         }
     }
 
@@ -493,12 +497,43 @@ public class Leader_Map extends AppCompatActivity implements OnMapReadyCallback 
     private void singleUserResponse(User returnUser) {
         Call<GpsLocation> caller=proxy.getLastGpsLocation(returnUser.getId());
 
-        if(temp_name.size()!=groupSize)
-            temp_name.add(returnUser.getName());
+        String temp_name_=returnUser.getName();
 
-        times++;
-        times=times%groupSize;
-        ProxyBuilder.callProxy(this,caller,returnGps->gpsResponseForEachUser(returnGps));
+        ProxyBuilder.callProxy(this, caller, new ProxyBuilder.SimpleCallback<GpsLocation>() {
+            @Override
+            public void callback(GpsLocation returnGps) {
+                int btnWidth = 70;
+                int btnHeight = 100;
+                Bitmap originBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.user);
+                Bitmap scaledBitmap = Bitmap.createScaledBitmap(originBitmap, btnWidth, btnHeight, false);
+                if (returnGps.getTimestamp() == null)
+                    Log.i("time", "No gps data for user");
+                else {
+
+                    System.out.println("the index is  "+index);
+                    if (marker_user.isEmpty() == true) {
+                        marker_user.add(mMap.addMarker(new MarkerOptions().position(returnGps.toLatlng(returnGps))
+                                .title(temp_name_+ " " + returnGps.getTimestamp()).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap))));
+                    }
+                    else if (marker_user.isEmpty() == false)
+                    {
+                        if (index < marker_user.size()) {
+                            if (marker_user.get(index) != null) {
+                                marker_user.get(index).remove();
+                            }
+                            marker_user.set(index, mMap.addMarker(new MarkerOptions().position(returnGps.toLatlng(returnGps))
+                                    .title(temp_name_ + " " + returnGps.getTimestamp()).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap))));
+                        }
+                        else {
+                            marker_user.add(mMap.addMarker(new MarkerOptions().position(returnGps.toLatlng(returnGps))
+                                    .title(temp_name_+ " " + returnGps.getTimestamp()).icon(BitmapDescriptorFactory.fromBitmap(scaledBitmap))));
+                        }
+                    }
+                    index++;
+                    index = index % groupSize;
+                }
+            }
+        });
 
     }
 //each user return a gps location to show in the map
