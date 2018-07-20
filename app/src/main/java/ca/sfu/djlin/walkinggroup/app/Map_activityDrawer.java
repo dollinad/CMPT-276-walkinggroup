@@ -3,6 +3,7 @@ package ca.sfu.djlin.walkinggroup.app;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -17,13 +18,19 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,6 +58,7 @@ import java.util.TimerTask;
 
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
+import ca.sfu.djlin.walkinggroup.app.messaging.LeaderMessagingActivity;
 import ca.sfu.djlin.walkinggroup.dataobjects.GpsLocation;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
 import ca.sfu.djlin.walkinggroup.model.Session;
@@ -83,6 +91,11 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
     private Timer timer=new Timer();
     // Create HashMap used for storing group ID
     private HashMap<Marker, Long> mHashMap = new HashMap<Marker, Long>();
+
+    // On walk messaging
+    private ImageView onWalkMessaging;
+    private String mSendMessageText;
+    private boolean isEmergencyText;
 
     // Proxy
     private WGServerProxy proxy;
@@ -118,8 +131,6 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         //currentUserName=preferences.getString("Name", null);
         //UserId=preferences.getLong("User Id", 0);
 
-
-
         // Build new proxy
        // proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
         data=Session.getSession(getApplicationContext());
@@ -132,13 +143,79 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         Call<User> call=proxy.getUserById(UserId);
         ProxyBuilder.callProxy(Map_activityDrawer.this, call, returnedNothing -> responseCurrent(returnedNothing));
 
-
         getLocationPermission();
         setUpTest();
         setUpTest2();
         setUpStart();
         setUpStop();
 
+        // Set up image view for on walk messaging, initially invisible
+        onWalkMessaging = (ImageView) findViewById(R.id.ic_messages);
+        onWalkMessaging.setVisibility(View.INVISIBLE);
+
+        // set up onclick listener for emergency message
+        onWalkMessagingListener();
+    }
+
+    private void onWalkMessagingListener() {
+         onWalkMessaging.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(), "PPP", Toast.LENGTH_SHORT).show();
+
+                // Build a dialog box
+                AlertDialog.Builder builder = new AlertDialog.Builder(Map_activityDrawer.this);
+                LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
+                View viewInflated = getLayoutInflater().inflate(R.layout.dialog_send_message, null);
+
+                // Set up the input
+                final EditText input = (EditText) viewInflated.findViewById(R.id.input);
+                builder.setView(viewInflated);
+
+                // Set up the buttons
+                builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Remove dialog and grab information
+                        dialog.dismiss();
+                        mSendMessageText = input.getText().toString();
+
+                        // Generate a new message
+                        ca.cmpt276.walkinggroup.dataobjects.Message newMessage = new ca.cmpt276.walkinggroup.dataobjects.Message();
+                        newMessage.setText(mSendMessageText);
+                        newMessage.setEmergency(isEmergencyText);
+
+                        // Make a new call to send message to all parents and leaders
+                        Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> call = proxy.newMessageToParentsOf(data.getUser().getId(), newMessage);
+                        ProxyBuilder.callProxy(Map_activityDrawer.this, call, returnedList -> sendMessageResponse(returnedList));
+                    }
+                });
+                builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                // Display the dialog
+                builder.show();
+
+                // Onclick listener for checkbox
+                CheckBox isEmergencyCheckbox = (CheckBox) viewInflated.findViewById(R.id.emergency_checkbox);
+                isEmergencyCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        // Update the status of the checkbox
+                        isEmergencyText = isChecked;
+                    }
+                });
+            }
+        });
+    }
+
+    private void sendMessageResponse(List<ca.cmpt276.walkinggroup.dataobjects.Message> messages) {
+        Log.d("TAG", "Sent messages");
+        Log.d("TAG", "sendMessageResponse: " + messages.toString());
     }
 
     private void responseCurrent(User returnedNothing) {
@@ -603,7 +680,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
     }
 
 
-//uploading gps location
+    //uploading gps location
 
     private void setUpStart() {
         Button button=findViewById(R.id.button_start);
@@ -613,6 +690,9 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
                 System.out.println("start Uploading gps location");
                 Toast.makeText(Map_activityDrawer.this,"start Uploading gps location",Toast.LENGTH_SHORT).show();
                 updateGpsLoaction();
+
+                // Display on walk messaging features
+                onWalkMessaging.setVisibility(View.VISIBLE);
             }
         });
 
@@ -626,7 +706,10 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
                 System.out.println("timer cancel");
                 Toast.makeText(Map_activityDrawer.this,"Stop Uploading",Toast.LENGTH_SHORT).show();
                 timer.cancel();
-                timer=new Timer();
+                timer = new Timer();
+
+                // Hide on walk messaging features
+                onWalkMessaging.setVisibility(View.INVISIBLE);
             }
         });
 
@@ -661,12 +744,10 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
 
     //get system time;
     private String getTime(){
-
         Calendar calendar=Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String strDate = sdf.format(calendar.getTime());
         return strDate;
-
     }
     //                                                                  INTENTS
 
