@@ -100,5 +100,6 @@
     <string name="body_label">Body:</string>
     <string name="title_activity_leader__map">Map</string>
     <string name="title_activity_parent__map">Map</string>
+    <string name="select">SELECT</string>
 
 </resources>
