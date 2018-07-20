@@ -6,7 +6,6 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -16,8 +15,6 @@ import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 import retrofit2.Call;
-
-import static java.security.AccessController.getContext;
 
 public class Utilities {
     private static final String TAG = "Utilities";
