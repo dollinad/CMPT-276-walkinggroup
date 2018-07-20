@@ -62,7 +62,7 @@
         android:id="@+id/send_message_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send Message to Group"
+        android:text="@string/send_message_to_group"
         app:layout_constraintBottom_toTopOf="@id/launch_leader_send_btn"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>
@@ -71,7 +71,7 @@
         android:id="@+id/launch_leader_send_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send message as a leader"
+        android:text="@string/send_message_as_a_leader"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"/>

@@ -22,7 +22,7 @@
                 android:id="@+id/SettingsTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Your Account"
+                android:text="@string/your_account"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textSize="24sp"
                 tools:layout_editor_absoluteX="16dp"
@@ -49,7 +49,7 @@
                     android:id="@+id/id_name"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
-                    android:text="Name"
+                    android:text="@string/name"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                 <Space
@@ -90,7 +90,7 @@
                     android:id="@+id/id_birthYear"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
-                    android:text="Birth Year"
+                    android:text="@string/birth_year"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                 <Space
@@ -130,7 +130,7 @@
                     android:id="@+id/id_birthMonth"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:text="Birth Month"
+                    android:text="@string/birth_month"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                 <Space
@@ -171,7 +171,7 @@
                     android:id="@+id/id_address"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:text="Address"
+                    android:text="@string/address"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                 <Space
@@ -212,7 +212,7 @@
                     android:id="@+id/id_homePhone"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:text="Home phone"
+                    android:text="@string/home_phone"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                 <Space
@@ -253,7 +253,7 @@
                     android:id="@+id/id_cellPhone"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:text="Cell Phone"
+                    android:text="@string/cell_phone"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                 <Space
@@ -293,7 +293,7 @@
                     android:id="@+id/id_email"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:text="Email"
+                    android:text="@string/email"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                 <Space
@@ -333,7 +333,7 @@
                     android:id="@+id/id_currentGrade"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:text="Current Grade"
+                    android:text="@string/current_grade"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                 <Space
@@ -373,7 +373,7 @@
                     android:id="@+id/id_teachersName"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:text="Teacher's Name"
+                    android:text="@string/teacher_s_name"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                 <Space
@@ -403,7 +403,7 @@
                 android:id="@+id/textView29"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Emergency Contact"
+                android:text="@string/emergency_contact"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textSize="24sp"
                 tools:layout_editor_absoluteX="5dp"
@@ -449,7 +449,7 @@
         android:id="@+id/deleteAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete Account"
+        android:text="@string/delete_account"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.945"

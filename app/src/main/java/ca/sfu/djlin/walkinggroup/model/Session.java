@@ -2,7 +2,6 @@ package ca.sfu.djlin.walkinggroup.model;
 
 import android.content.Context;
 
-import ca.sfu.djlin.walkinggroup.app.LoginActivity;
 import ca.sfu.djlin.walkinggroup.app.SignupActivity;
 import ca.sfu.djlin.walkinggroup.app.WelcomeActivity;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
@@ -21,9 +20,10 @@ public class Session {
         if(session==null){
             session=new Session();
         }
-        session= SignupActivity.sendUser(context, session);
+        session= WelcomeActivity.sendUser(context, session);
+
         if(session==null){
-            session= WelcomeActivity.sendUser(context, session);
+            session= SignupActivity.sendUser(context, session);
         }
         return session;
     }

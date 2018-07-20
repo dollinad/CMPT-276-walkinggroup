@@ -38,7 +38,7 @@
             android:layout_height="wrap_content"
             android:text="@string/email"
             android:paddingLeft="4dp"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:textColor="#000"/>
 
         <EditText
@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:text="@string/password"
             android:paddingLeft="4dp"
-            android:textSize="16dp"
+            android:textSize="16sp"
             android:textColor="#000"/>
 
         <EditText
