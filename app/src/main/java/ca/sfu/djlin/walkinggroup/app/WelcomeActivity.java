@@ -106,18 +106,11 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void isUserLoggedIn() {
-        // Get shared preferences
-        SharedPreferences prefs = this.getSharedPreferences("User Session", MODE_PRIVATE);
-        Log.d(TAG, "isUserLoggedIn: " + prefs.getString("Token",null));
-
-
-
         // Check if user is currently logged in with Shared Preferences
         String[] data = getData(getApplicationContext());
         session=Session.getSession(getApplicationContext());
         // If Shared Preferences is not empty
         Log.d(TAG, "isUserLoggedIn: " + data[0]);
-        // Retrieve proxy and store the current user
 
 
         if(data[0] != null) {
