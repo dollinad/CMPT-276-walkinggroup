@@ -100,6 +100,8 @@
     <string name="body_label">Body:</string>
     <string name="title_activity_leader__map">Map</string>
     <string name="title_activity_parent__map">Map</string>
+    <string name="select">SELECT</string>
+
     <string name="enter_address_city_or_zip_code">Enter address, city, or Zip Code</string>
     <string name="be_the_leader_of_this_group">Be the leader of this group</string>
     <string name="add_members">Add Members</string>

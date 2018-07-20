@@ -134,4 +134,14 @@
             android:layout_weight="1"
             android:text="@string/leave_group" />
     </LinearLayout>
+
+    <Button
+        android:id="@+id/button_start"
+        android:layout_width="161dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="36dp"
+        android:layout_marginStart="108dp"
+        android:text="@string/select"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

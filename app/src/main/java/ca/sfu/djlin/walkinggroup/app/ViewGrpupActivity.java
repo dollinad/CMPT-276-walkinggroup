@@ -1,5 +1,6 @@
 package ca.sfu.djlin.walkinggroup.app;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +28,8 @@ import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 import retrofit2.Call;
 
 public class ViewGrpupActivity extends AppCompatActivity {
+    public static final int REQUEST_CODE_GETDATA = 1023;
+
     private WGServerProxy proxy;
     String currentUserToken;
     String currentUserEmail;
@@ -219,14 +222,35 @@ public class ViewGrpupActivity extends AppCompatActivity {
         intent.putExtra("token",currentUserToken);
         intent.putExtra("email",currentUserEmail);
         intent.putExtra("groupId",returnedGroup.getId());
-        startActivity(intent);
+        startActivityForResult(intent,REQUEST_CODE_GETDATA);
         intent.removeExtra("token");
         intent.removeExtra("email");
         intent.removeExtra("groupId");
     }
 
-
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CODE_GETDATA:
+                if(resultCode == Activity.RESULT_OK)
+                {
+                    Long groupID_pass=GroupInfoActivity.getResultGroupId(data);
+                    Intent intent=new Intent();
+                    intent.putExtra("eventGroupId",groupID_pass);
+                    setResult(Activity.RESULT_OK,intent);
+                    finish();
+                }
+                else
+                {
+                    Log.i("My app","Activity cancelled.");
+                }
+        }
+    }
+    public  static Long getResultGroupId(Intent intent )
+    {
+        return intent.getLongExtra("eventGroupId",0);
+    }
     public static Intent launchIntentViewGroups(Context context) {
         Intent intentViewGroups = new Intent(context, ViewGrpupActivity.class);
         return intentViewGroups;

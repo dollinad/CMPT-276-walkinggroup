@@ -24,11 +24,13 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,6 +52,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -63,11 +66,14 @@ import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 import retrofit2.Call;
 
+import static java.lang.Math.abs;
+
 public class Map_activityDrawer extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
     private static final String TAG = "MapActivity";
 
     // Constants
     private static final int REQUEST_CODE_GET_DATA = 1024;
+    private static final int REQUEST_CODE_GETDATA = 1020;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
     private static final float DEFAULT_ZOOM = 15f;;
 
@@ -99,13 +105,14 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
     // User Variables
     private User currentUser=new User();
     int counts=0;
-
+    Group eventGroup=new Group();
     String token;
     String currentUserEmail;
     String currentUserName;
     Long selectedGroupId;
     Long UserId;
     Session data;
+    boolean ifreached=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -321,7 +328,6 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
                     Intent intent = Leader_Map.launchIntentMap(Map_activityDrawer.this);
                     startActivity(intent);
                 } else {
-                    System.out.println("You have no group to lead right now");
                     Toast.makeText(Map_activityDrawer.this,"You have no group to lead right now",Toast.LENGTH_LONG).show();
                 }
             }
@@ -337,7 +343,6 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
                     startActivity(intent);
                 }
                 else{
-                    System.out.println("You have no user that you are monitoring now");
                     Toast.makeText(Map_activityDrawer.this,"You are not monitoring any user now",Toast.LENGTH_LONG).show();
                 }
             }
@@ -485,7 +490,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         Intent intent=GroupInfoActivity.launchGroupInfoIntent(Map_activityDrawer.this);
         intent.putExtra("groupId", group.getId());
         intent.putExtra("token", token);
-        startActivity(intent);
+        startActivityForResult(intent,REQUEST_CODE_GETDATA);
     }
 
 
@@ -629,7 +634,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
 
             //pass_intent.putExtra("Token", token);
             pass_intent.putExtra("Email", currentUserEmail);
-            startActivity(pass_intent);
+            startActivityForResult(pass_intent,REQUEST_CODE_GETDATA);
         }
         else if(id==R.id.Drawersettings){
             Intent pass_intent=SettingsActivity.launchIntentSettings(Map_activityDrawer.this);
@@ -665,6 +670,23 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
             super.onBackPressed();
         }
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case REQUEST_CODE_GETDATA:
+                if(resultCode == Activity.RESULT_OK)
+                {
+                   Long eventgroupId=ViewGrpupActivity.getResultGroupId(data);
+                   eventGroup=getEventGroup(eventgroupId);
+                }
+                else
+                {
+                    Log.i("My app","Activity cancelled.");
+                }
+        }
+    }
     private void logout() {
         Log.d(TAG, "logout: Attempting to logout...");
         Intent intent = WelcomeActivity.launchWelcomeIntent(Map_activityDrawer.this);
@@ -693,7 +715,6 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                System.out.println("start Uploading gps location");
                 Toast.makeText(Map_activityDrawer.this,"start Uploading gps location",Toast.LENGTH_SHORT).show();
                 updateGpsLoaction();
 
@@ -724,11 +745,19 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
-                if(counts==10) {
-                    counts = 0;
-                    timer.cancel();
-                    timer=new Timer();
+                ifarrived(eventGroup);
+                if(ifreached){
+                    Log.i("GPS","User has reached destination");
+                    //timer.cancel();
+                    //timer=new Timer();
+                    counts++;
+                    if(counts==10) {
+                        counts = 0;
+                        timer.cancel();
+                        timer=new Timer();
+                    }
                 }
+
                 else {
                     getDeviceLocation();
                     GpsLocation gpsLocation = new GpsLocation();
@@ -736,11 +765,13 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
                     proxy=data.getProxy();
                     Call<GpsLocation> caller = proxy.setLastGpsLocation(UserId, gpsLocation);
                     ProxyBuilder.callProxy(Map_activityDrawer.this, caller, returnGps -> updateGpsResponse(returnGps));
-                    counts++;
+
                 }
             }
-        },0,30000);
+        },0,3000);
+
     }
+
     private void updateGpsResponse(GpsLocation returnGps) {
         //do nothing
     }
@@ -749,6 +780,43 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         currentUser=returnedUser;
     }
 
+
+    //check if reach the destination
+    public Group getEventGroup(Long group_Id){
+        Group group=new Group();
+        Call<Group> caller = proxy.getGroupById(group_Id);
+        ProxyBuilder.callProxy(Map_activityDrawer.this, caller, new ProxyBuilder.SimpleCallback<Group>() {
+            @Override
+            public void callback(Group ans) {
+                eventGroup=ans;
+            }
+        });
+        return group;
+    }
+    public void ifarrived(Group returnGroup){
+        if(eventGroup.getId()==null) {
+            ifreached=false;
+        }
+        else {
+            Call<GpsLocation> caller_=proxy.getLastGpsLocation(currentUser.getId());
+            ProxyBuilder.callProxy(Map_activityDrawer.this, caller_, new ProxyBuilder.SimpleCallback<GpsLocation>() {
+                @Override
+                public void callback(GpsLocation ans) {
+                    LatLng meeting = new LatLng(returnGroup.getRouteLatArray().get(0), returnGroup.getRouteLngArray().get(0));
+                    double range = 0.00015;
+                    double diff_1=abs(ans.getLat()-meeting.latitude);
+                    double diff_2=abs(ans.getLng()-meeting.longitude);
+                    if (diff_1<range && diff_2<range) {
+                        ifreached = true;
+                    }
+                    else {
+                        ifreached=false;
+                    }
+
+                }
+            });
+        }
+    }
     //get system time;
     private String getTime(){
         Calendar calendar=Calendar.getInstance();
@@ -767,5 +835,4 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         Intent intent = new Intent(context, Map_activityDrawer.class);
         return intent;
     }
-
 }
