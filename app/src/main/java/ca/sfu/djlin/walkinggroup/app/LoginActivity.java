@@ -62,9 +62,10 @@ public class LoginActivity extends AppCompatActivity {
             proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
             //session.setProxy(proxy);
             Long UserId=Long.valueOf(data[2]);
-            Log.i("YUYU", UserId+"88888");
-            Call<User> call=proxy.getUserById(UserId);
-            ProxyBuilder.callProxy(LoginActivity.this, call, returnedNothing -> responseSingleton(returnedNothing));
+            if(UserId!=0){
+                Call<User> call = proxy.getUserById(UserId);
+                ProxyBuilder.callProxy(LoginActivity.this, call, returnedNothing -> responseSingleton(returnedNothing));
+            }
 
             // Start checking for new mail
             Utilities.startMessageChecking(LoginActivity.this, proxy, session.getUser());
@@ -81,6 +82,7 @@ public class LoginActivity extends AppCompatActivity {
        // Call<User> call = proxy.getUserByEmail(userEmailString);
         //ProxyBuilder.callProxy(LoginActivity.this, call, returnedUser -> getUserIdResponse(returnedUser));
         //session.setUser(returnedNothing);
+
     }
 
     // Getting the data token and email using Shared Preferences
@@ -92,7 +94,6 @@ public class LoginActivity extends AppCompatActivity {
         returnedData[0] = preferences.getString("Token", null);
         returnedData[1] = preferences.getString("Email", null);
         returnedData[2]= String.valueOf(preferences.getLong("User Id", 0));
-        Log.i("LOLO", returnedData[2]+"BHJBBN");
         return returnedData;
     }
 
@@ -185,12 +186,17 @@ public class LoginActivity extends AppCompatActivity {
 
                 // Make call to login
                 User user = new User();
-                user.setEmail(userEmailString);
-                user.setPassword(userPasswordString);
-
+                if(userEmailString!=null){
+                    user.setEmail(userEmailString);
+                }
+                if(userPasswordString!=null){
+                    user.setPassword(userPasswordString);
+                }
                 // Finish the login process
-                Call<Void> caller = proxy.login(user);
-                ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing));
+                if(user!=null) {
+                    Call<Void> caller = proxy.login(user);
+                    ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing));
+                }
             }
         });
     }
@@ -203,8 +209,10 @@ public class LoginActivity extends AppCompatActivity {
         saveUserInformation(newToken);
 
         // Rebuild the proxy with updated token
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), newToken);
-        session.setProxy(proxy);
+        if(newToken!=null) {
+            proxy = ProxyBuilder.getProxy(getString(R.string.apikey), newToken);
+            session.setProxy(proxy);
+        }
     }
 
     private void saveUserInformation(String newToken) {
@@ -218,12 +226,18 @@ public class LoginActivity extends AppCompatActivity {
     // Login actually completes by calling this; nothing to do as it was all done when we got the token.
     private void response(Void returnedNothing) {
         // Retrieve user id
-        Call<User> call = proxy.getUserByEmail(userEmailString);
-        ProxyBuilder.callProxy(LoginActivity.this, call, returnedUser -> getUserIdResponse(returnedUser));
+        if(userEmailString!=null) {
+            Log.i("LOOK HERE", userEmailString+"");
+            Call<User> call = proxy.getUserByEmail(userEmailString);
+            ProxyBuilder.callProxy(LoginActivity.this, call, returnedUser -> getUserIdResponse(returnedUser));
+        }
     }
 
     private void getUserIdResponse(User user) {
-        session.setUser(user);
+        if(user!=null){
+            session.setUser(user);
+        }
+
         // Store returned user id in shared preferences
         SharedPreferences preferences = LoginActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -251,14 +265,14 @@ public class LoginActivity extends AppCompatActivity {
         Long Id=preferences.getLong("User Id", 0);
         WGServerProxy proxy;
         proxy = ProxyBuilder.getProxy(context.getString(R.string.apikey), token);
-        Call<User> call=proxy.getUserById(Id);
-        ProxyBuilder.callProxy(context, call, b -> session.setUser(b));
-
-        session.setProxy(proxy);
+        if(Id!=0){
+            Call<User> call=proxy.getUserById(Id);
+            ProxyBuilder.callProxy(context, call, b -> session.setUser(b));
+        }
+        if(proxy!=null){
+            session.setProxy(proxy);
+        }
         //session.setUser(b);
         return session;
-    }
-    private static void responseSingletonUser(User returnedNothing) {
-        usertosend=returnedNothing;
     }
 }

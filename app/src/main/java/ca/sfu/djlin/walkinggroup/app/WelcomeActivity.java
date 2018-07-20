@@ -43,6 +43,7 @@ public class WelcomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_welcome);
 
         // Build the server proxy
+
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey));
 
         // Check for Google Play Services
@@ -116,14 +117,18 @@ public class WelcomeActivity extends AppCompatActivity {
         if(data[0] != null) {
             String token = data[0];
             Log.i("TYUYUY", data[2]);
-            proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
-            session.setProxy(proxy);
+
 
             //session.setProxy(proxy);
             Long UserId = Long.valueOf(data[2]);
             Log.i("YUYU", UserId + "8888");
-            Call<User> call = proxy.getUserById(UserId);
-            ProxyBuilder.callProxy(WelcomeActivity.this, call, returnedNothing -> responseSingleton(returnedNothing));
+            if(UserId!=0) {
+                proxy = ProxyBuilder.getProxy(getString(R.string.apikey));
+                proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+                session.setProxy(proxy);
+                Call<User> call = proxy.getUserById(UserId);
+                ProxyBuilder.callProxy(WelcomeActivity.this, call, returnedNothing -> responseSingleton(returnedNothing));
+            }
 
         }
     }
@@ -202,10 +207,16 @@ public class WelcomeActivity extends AppCompatActivity {
         Long Id=preferences.getLong("User Id", 0);
         WGServerProxy proxy;
         proxy = ProxyBuilder.getProxy(context.getString(R.string.apikey), token);
-        Call<User> call=proxy.getUserById(Id);
-        ProxyBuilder.callProxy(context, call, returnedNothing -> session.setUser(returnedNothing));
+        if(proxy!=null){
+            session.setProxy(proxy);
+        }
 
-        session.setProxy(proxy);
+        if(Id!=0) {
+            Call<User> call = proxy.getUserById(Id);
+            ProxyBuilder.callProxy(context, call, returnedNothing -> session.setUser(returnedNothing));
+        }
+
+
         return session;
     }
     private static void responseSingletonUser(User returnedNothing) {
