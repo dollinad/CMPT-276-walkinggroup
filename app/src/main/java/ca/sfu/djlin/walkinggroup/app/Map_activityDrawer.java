@@ -118,7 +118,6 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         //UserId=preferences.getLong("User Id", 0);
 
 
-
         // Build new proxy
        // proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
         data=Session.getSession(getApplicationContext());
