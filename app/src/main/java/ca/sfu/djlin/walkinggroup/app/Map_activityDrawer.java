@@ -168,8 +168,6 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
          onWalkMessaging.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "PPP", Toast.LENGTH_SHORT).show();
-
                 // Build a dialog box
                 AlertDialog.Builder builder = new AlertDialog.Builder(Map_activityDrawer.this);
                 LayoutInflater inflater = LayoutInflater.from(getApplicationContext());

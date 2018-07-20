@@ -200,7 +200,7 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
             @Override
             public void onClick(View v) {
                 System.out.println("timer cancel");
-                Toast.makeText(Parent_Map.this,"Stop Dowanloading",Toast.LENGTH_SHORT).show();
+                Toast.makeText(Parent_Map.this, getString(R.string.stop_downloading),Toast.LENGTH_SHORT).show();
                 //timer.cancel();
                 timer_get.cancel();
                 //timer=new Timer();
@@ -236,7 +236,7 @@ public class Parent_Map extends AppCompatActivity implements OnMapReadyCallback 
         mLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(Parent_Map.this,"Start Dowanloading",Toast.LENGTH_SHORT).show();
+                Toast.makeText(Parent_Map.this, getString(R.string.start_downloading),Toast.LENGTH_SHORT).show();
                 timer_get.scheduleAtFixedRate(new TimerTask() {
                     @Override
                     public void run() {

@@ -59,7 +59,7 @@
     <string name="unable_to_get_location">Unable to get current location!</string>
     <string name="password_check_toast">Unable to get current location!</string>
     <string name="map_request_issue_toast">You can\'t make map requests!</string>
-
+    <string name="edited">Edited!</string>
 
     <string name="readme">ReadMe</string>
     <string name="back">BACK</string>
@@ -110,6 +110,8 @@
     <string name="stop">STOP</string>
     <string name="leader">Leader</string>
     <string name="parent">Parent</string>
+    <string name="stop_downloading">GPS Downloading Stopped!</string>
+    <string name="start_downloading">GPS Downloading Started!</string>
 
     <string name="your_account">Your Account</string>
     <string name="birth_year">Birth Year</string>

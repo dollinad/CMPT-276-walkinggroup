@@ -549,6 +549,7 @@ public class SettingsActivity extends AppCompatActivity{
 
     private void responseEdit(User returnedUser) {
         //session.setUser(returnedUser);
+        Toast.makeText(SettingsActivity.this, getString(R.string.edited),Toast.LENGTH_SHORT).show();
         CurrentUser=returnedUser;
     }
 
