@@ -51,10 +51,6 @@ public class LeaderMessagingActivity extends AppCompatActivity {
 
     private boolean isEmergencyText = false;
 
-    // Used for testing
-    ca.cmpt276.walkinggroup.dataobjects.Message testMessage = new ca.cmpt276.walkinggroup.dataobjects.Message();
-    // End used for testing
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
