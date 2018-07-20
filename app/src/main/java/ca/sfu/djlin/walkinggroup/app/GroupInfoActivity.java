@@ -1,5 +1,6 @@
 package ca.sfu.djlin.walkinggroup.app;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -83,6 +84,7 @@ public class GroupInfoActivity extends AppCompatActivity {
         refreshUI();
 
         registerClickCallback();
+        set_OK_button();
 
         // Setup add user button
         Button addUserBtn = (Button) findViewById(R.id.add_user_btn);
@@ -357,17 +359,24 @@ public class GroupInfoActivity extends AppCompatActivity {
     }
 
 
-    public void test(){
-        Timer timer=new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
+    private void set_OK_button() {
+
+
+        Button button_ok = findViewById(R.id.button_start);
+        button_ok.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                if(time==5)
-                    timer.cancel();
-                System.out.println("honghonghuohuo1");
-                time++;
+            public void onClick(View v) {
+
+                Intent intent = new Intent();
+                intent.putExtra("eventGroupId", groupId);
+
+                setResult(Activity.RESULT_OK, intent);
+                finish();
             }
-        },
-        0,5000);
+        });
+    }
+    public  static Long getResultGroupId(Intent intent )
+    {
+        return intent.getLongExtra("eventGroupId",0);
     }
 }
