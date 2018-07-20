@@ -42,25 +42,17 @@ public class ViewMessagesActivity extends AppCompatActivity {
     Session session;
     User currentUser;
 
-    // Used for testing
-    ca.cmpt276.walkinggroup.dataobjects.Message testMessage = new ca.cmpt276.walkinggroup.dataobjects.Message();
-    // End used for testing
-
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_messages);
 
-        // Retrieve current user information
-       // getCurrentUserInformation();
-
-        // Set up proxy, include depth of 1 to get more information about the users
-        //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken, 1);
-        session=Session.getSession(getApplicationContext());
-        currentUser=session.getUser();
-        currentUserEmail=currentUser.getEmail();
-        currentUserId=currentUser.getId();
-        proxy=session.getProxy();
+        // Get up user session
+        session = Session.getSession(getApplicationContext());
+        currentUser = session.getUser();
+        currentUserEmail = currentUser.getEmail();
+        currentUserId = currentUser.getId();
+        proxy = session.getProxy();
 
         Log.d("TAG", "The retrieved user is: " + currentUser.toString());
 
@@ -77,17 +69,8 @@ public class ViewMessagesActivity extends AppCompatActivity {
         // Set up listener to read mail
         readMailListener();
 
-        // Setup temporary button to send the test group some messages
-        setupTestButtons();
-        // End temporary button to send the test group some messages
-    }
-
-    private void getCurrentUserInformation() {
-        // Get shared preferences
-        SharedPreferences preferences = this.getSharedPreferences("User Session", MODE_PRIVATE);
-        currentUserToken = preferences.getString("Token", null);
-        currentUserEmail = preferences.getString("Email", null);
-        currentUserId = preferences.getLong("User Id", 0);
+        // Set up launch leader messaging
+        launchLeaderMessaging();
     }
 
     private void getMessageListResponse(List<ca.cmpt276.walkinggroup.dataobjects.Message> messageList) {
@@ -107,7 +90,6 @@ public class ViewMessagesActivity extends AppCompatActivity {
     }
 
     private void setMailAsRead(ca.cmpt276.walkinggroup.dataobjects.Message returnedMessage) {
-
         // Make a call to set mail as read
         Long messageId = returnedMessage.getId();
         Call<ca.cmpt276.walkinggroup.dataobjects.Message> call = proxy.markMessageAsRead(messageId, true);
@@ -222,22 +204,7 @@ public class ViewMessagesActivity extends AppCompatActivity {
     }
 
     // Used for testing
-    private void setupTestButtons() {
-        // Details for the test message
-        testMessage.setText("This is a test message 10");
-        testMessage.setEmergency(false);
-
-        // Button to test sending a message
-        Button sendMessageButton = (Button) findViewById(R.id.send_message_btn);
-        sendMessageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Long groupNumber = new Long(105);
-                Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> call = proxy.newMessageToGroup(groupNumber, testMessage);
-                ProxyBuilder.callProxy(ViewMessagesActivity.this, call, sentMessageList -> sentMessageResponse(sentMessageList));
-            }
-        });
-
+    private void launchLeaderMessaging() {
         // Button to join test group
         Button leaderSendMessageBtn = (Button) findViewById(R.id.launch_leader_send_btn);
         leaderSendMessageBtn.setOnClickListener(new View.OnClickListener() {
@@ -248,17 +215,6 @@ public class ViewMessagesActivity extends AppCompatActivity {
 
             }
         });
-    }
-
-    private void getCurrentUserResponse(User user) {
-        Long groupNumber = new Long(105);
-        // Call<List<User>> addGroupMember(@Path("id") Long groupId, @Body User user);
-        Call<List<User>> call = proxy.addGroupMember(groupNumber, user);
-        ProxyBuilder.callProxy(ViewMessagesActivity.this, call, listOfMembers -> addGroupMemberResponse(listOfMembers));
-    }
-
-    private void addGroupMemberResponse(List<User> listOfUsers) {
-
     }
 
     private void sentMessageResponse(List<ca.cmpt276.walkinggroup.dataobjects.Message> messageList) {

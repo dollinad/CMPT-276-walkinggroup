@@ -204,6 +204,7 @@ public class SettingsActivity extends AppCompatActivity{
                 ProxyBuilder.callProxy(SettingsActivity.this, call, returnedUser -> responseEditEmail(returnedUser));
                 SharedPreferences preferences = SettingsActivity.this.getSharedPreferences("User Session" , MODE_PRIVATE);
                 SharedPreferences.Editor editor = preferences.edit();
+                editor.apply();
                 editor.remove("Token");
                 editor.remove("Email");
 
@@ -217,10 +218,12 @@ public class SettingsActivity extends AppCompatActivity{
         CurrentUser=returnedUser;
         SharedPreferences preferences = SettingsActivity.this.getSharedPreferences("User Session" , MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
+        editor.apply();
         editor.remove("Token");
         editor.remove("Email");
         // Register for token received
         ProxyBuilder.setOnTokenReceiveCallback(token -> onReceiveToken(token, returnedUser));
+        Toast.makeText(getApplicationContext(), "Edited!", Toast.LENGTH_SHORT).show();
     }
 
     // Handle the token by generating a new Proxy which is encoded with it.
@@ -552,6 +555,7 @@ public class SettingsActivity extends AppCompatActivity{
     }
 
     private void responseEdit(User returnedUser) {
+        Toast.makeText(getApplicationContext(), "Edited!", Toast.LENGTH_SHORT).show();
         CurrentUser=returnedUser;
     }
 

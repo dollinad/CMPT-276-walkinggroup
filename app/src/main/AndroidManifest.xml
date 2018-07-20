@@ -68,6 +68,7 @@
         <activity android:name=".app.ViewGrpupActivity"/>
         <activity android:name=".app.SettingsActivity"/>
         <activity android:name=".app.ViewEmergencyContactActivity"/>
+        <activity android:name=".app.ViewBeingMonitoredByUsers"/>
         <activity
             android:name=".app.Map_activityDrawer"
             android:label="@string/title_activity_map_drawer_test"

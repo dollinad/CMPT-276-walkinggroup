@@ -102,4 +102,66 @@
     <string name="title_activity_parent__map">Map</string>
     <string name="select">SELECT</string>
 
+    <string name="select">SELECT</string>
+    <string name="enter_address_city_or_zip_code">Enter address, city, or Zip Code</string>
+    <string name="be_the_leader_of_this_group">Be the leader of this group</string>
+    <string name="add_members">Add Members</string>
+    <string name="group_names">Group Names</string>
+    <string name="start">START</string>
+    <string name="stop">STOP</string>
+    <string name="leader">Leader</string>
+    <string name="parent">Parent</string>
+
+    <string name="your_account">Your Account</string>
+    <string name="birth_year">Birth Year</string>
+    <string name="birth_month">Birth Month</string>
+    <string name="address">Address</string>
+    <string name="home_phone">Home phone</string>
+    <string name="cell_phone">Cell Phone</string>
+    <string name="current_grade">Current Grade</string>
+    <string name="teacher_s_name">Teacher\'s Name</string>
+    <string name="emergency_contact">Emergency Contact</string>
+    <string name="delete_account">Delete Account</string>
+    <string name="birth_year_two">Birth Year:</string>
+    <string name="_1998">1998</string>
+    <string name="birth_month_two">Birth Month:</string>
+    <string name="_2">2</string>
+    <string name="cell_phonee">Cell Phone:</string>
+    <string name="_123_123_1234">123 123 1234</string>
+    <string name="e">Home Phone:</string>
+    <string name="_123_123_12344">123 123 1234</string>
+    <string name="addresss">Address:</string>
+    <string name="_123_way">123 Way</string>
+    <string name="current_gradee">Current Grade:</string>
+    <string name="_3">3</string>
+    <string name="teacher_s_name_">Teacher\'s Name:</string>
+    <string name="mr_smith">Mr. Smith</string>
+    <string name="emergency_contact_info">Emergency Contact Info:</string>
+    <string name="call_my_mom">Call my mom!</string>
+    <string name="users_monitoring">Users monitoring</string>
+    <string name="send_message_to_group">Send Message to Group</string>
+    <string name="send_message_as_a_leader">Send message as a leader</string>
+    <string name="emergency_contact_information_for">Emergency contact information for</string>
+    <string name="create_groupp">CREATE GROUP</string>
+    <string name="currently_leader_of">Currently leader of:</string>
+    <string name="from">From:</string>
+    <string name="jane">Jane</string>
+    <string name="emergency_text">Emergency Text:</string>
+    <string name="message">Message</string>
+    <string name="the_message_details">The Message Details</string>
+    <string name="enter_message_here">Enter message here</string>
+    <string name="send_as_emergency_text">Send as Emergency Text?</string>
+    <string name="broadcast_message">Broadcast Message</string>
+    <string name="textview">TextView</string>
+    <string name="currently_member_of">Currently member of:</string>
+    <string name="_9_to_view_and_edit_information_use_the_navigation_drawer_and_click_on_settings_to_edit_a_child_s_emergency_contact_info_use_the_navigation_drawer_and_go_to_monitoring_prefrences_and_long_click_on_any_child_you_are_monitoring_to_edit_their_emergency_information">9.To view and edit information, use the navigation drawer and click on Settings. To edit a child\'s emergency contact info, use the navigation drawer and go to Monitoring Prefrences and long click on any child you are monitoring to edit their emergency information.</string>
+    <string name="_10_as_a_leader_you_can_use_the_navigation_drawer_and_select_view_groups_this_will_allow_you_to_see_the_groups_you_are_leading_you_can_then_select_any_group_you_want_to_get_more_information_of_and_view_all_the_members_of_that_group_you_can_then_click_on_any_member_to_get_more_information_about_them">10. As a leader, you can use the navigation drawer and select View groups, this will allow you to see the groups you are leading you can then select any group you want to get more information of and view all the members of that group. You can then click on any member to get more information about them.</string>
+    <string name="_11_as_a_member_of_any_group_you_can_use_the_navigation_drawer_and_select_view_groups_this_will_allow_you_to_see_the_groups_you_are_currently_a_member_of_you_can_then_select_any_group_you_want_to_get_more_information_of_and_view_all_the_members_of_that_group_you_can_further_click_on_any_member_to_get_more_information_about_them">11. As a member of any group, you can use the navigation drawer and select View groups, this will allow you to see the groups you are currently a member of, you can then select any group you want to get more information of and view all the members of that group. You can further click on any member to get more information about them.</string>
+    <string name="_12_as_a_parent_you_can_view_the_groups_your_child_is_in_by_going_to_monitoring_prefrences_in_the_navigation_drawer_this_will_show_you_the_users_you_are_monitoring_and_by_clcking_on_any_of_these_users_you_can_view_the_groups_they_are_in_and_more_information_about_that_group_members_and_their_emergency_contact">12. As a parent you can view the groups your child is in by going to Monitoring prefrences in the navigation drawer. This will show you the users you are monitoring and by clcking on any of these users, you can view the groups they are in and more information about that group (Members and their emergency contact)</string>
+    <string name="_13_as_a_parent_you_can_view_the_groups_your_child_is_in_by_going_to_monitoring_prefrences_in_the_navigation_drawer_this_will_show_you_the_users_you_are_monitoring_and_by_clcking_on_any_of_these_users_you_can_view_the_groups_they_are_in_and_more_information_about_that_group_members_and_their_emergency_contact">13. As a parent you can view the groups your child is in by going to Monitoring prefrences in the navigation drawer. This will show you the users you are monitoring and by clcking on any of these users, you can view the groups they are in and more information about that group (Members and their emergency contact)</string>
+    <string name="_14_as_leader_you_can_click_on_the_leader_button_on_the_main_map_to_get_to_the_leader_dashboard_map_where_you_can_upload_you_location_or_stop_uploading_your_location">14.As Leader, you can click on the Leader button on the main map to get to the leader dashboard/map where you can upload you location or stop uploading your location.</string>
+    <string name="_15_as_a_parent_you_could_click_on_the_parent_button_on_the_main_map_which_would_allow_you_to_start_stop_downloading_the_loaction_of_your_child">15. As a parent, you could click on the parent button on the main map which would allow you to start/stop downloading the loaction of your child.</string>
+    <string name="_16_as_a_member_you_could_use_the_start_stop_button_to_start_stop_uploading_yor_location">16. As a member you could use the start/stop button to start/stop uploading yor location</string>
+
+
 </resources>

@@ -189,16 +189,21 @@ public class GroupInfoActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Build Proxy
                 //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
-
-                proxy=data.getProxy();
-                Call<User> caller = proxy.getUserById(monitorsUsersList.get(position).getId());
-                ProxyBuilder.callProxy(GroupInfoActivity.this, caller, returnedUser -> UserReturned(returnedUser));
+                Intent intent = ViewBeingMonitoredByUsers.launchIntentBeingMonitored(GroupInfoActivity.this);
+                //intent.putExtra("token", token);
+                //Log.i("PLEASE WORK", returnedUser.getId()+"");
+                intent.putExtra("UserId",monitorsUsersList.get(position).getId());
+                startActivity(intent);
+                //proxy=data.getProxy();
+                //Call<User> caller = proxy.getUserById(monitorsUsersList.get(position).getId());
+                //ProxyBuilder.callProxy(GroupInfoActivity.this, caller, returnedUser -> UserReturned(returnedUser));
             }
         });
     }
     private void UserReturned(User returnedUser) {
         Intent intent = ViewBeingMonitoredByUsers.launchIntentBeingMonitored(GroupInfoActivity.this);
         //intent.putExtra("token", token);
+        Log.i("PLEASE WORK", returnedUser.getId()+"");
         intent.putExtra("UserId",returnedUser.getId());
         startActivity(intent);
     }

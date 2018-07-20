@@ -141,7 +141,7 @@
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:paddingLeft="4dp"
-                    android:text="Birth Year:"
+                    android:text="@string/birth_year_two"
                     android:textColor="#000"
                     android:textSize="16sp" />
 
@@ -150,7 +150,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:hint="1998"
+                    android:hint="@string/_1998"
                     android:imeOptions="actionDone"
                     android:inputType="number"
                     android:background="@android:color/transparent"/>
@@ -165,7 +165,7 @@
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:paddingLeft="4dp"
-                    android:text="Birth Month:"
+                    android:text="@string/birth_month_two"
                     android:textColor="#000"
                     android:textSize="16sp" />
 
@@ -174,7 +174,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:hint="2"
+                    android:hint="@string/_2"
                     android:imeOptions="actionDone"
                     android:inputType="number"
                     android:background="@android:color/transparent"/>
@@ -189,7 +189,7 @@
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:paddingLeft="4dp"
-                    android:text="Cell Phone:"
+                    android:text="@string/cell_phonee"
                     android:textColor="#000"
                     android:textSize="16sp" />
 
@@ -198,7 +198,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:hint="123 123 1234"
+                    android:hint="@string/_123_123_1234"
                     android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:background="@android:color/transparent"/>
@@ -213,7 +213,7 @@
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:paddingLeft="4dp"
-                    android:text="Home Phone:"
+                    android:text="@string/e"
                     android:textColor="#000"
                     android:textSize="16sp" />
 
@@ -222,7 +222,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:hint="123 123 1234"
+                    android:hint="@string/_123_123_12344"
                     android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:background="@android:color/transparent"/>
@@ -237,16 +237,16 @@
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:paddingLeft="4dp"
-                    android:text="Address:"
+                    android:text="@string/addresss"
                     android:textColor="#000"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
 
                 <EditText
                     android:id="@+id/Address_input"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:hint="123 Way"
+                    android:hint="@string/_123_way"
                     android:imeOptions="actionDone"
                     android:inputType="textPostalAddress"
                     android:background="@android:color/transparent"/>
@@ -261,7 +261,7 @@
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:paddingLeft="4dp"
-                    android:text="Current Grade:"
+                    android:text="@string/current_gradee"
                     android:textColor="#000"
                     android:textSize="16sp" />
 
@@ -270,7 +270,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:hint="3"
+                    android:hint="@string/_3"
                     android:imeOptions="actionDone"
                     android:inputType="number"
                     android:background="@android:color/transparent"/>
@@ -285,7 +285,7 @@
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:paddingLeft="4dp"
-                    android:text="Teacher's Name:"
+                    android:text="@string/teacher_s_name_"
                     android:textColor="#000"
                     android:textSize="16sp" />
 
@@ -294,7 +294,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:hint="Mr. Smith"
+                    android:hint="@string/mr_smith"
                     android:imeOptions="actionDone"
                     android:inputType="textPersonName"
                     android:background="@android:color/transparent"/>
@@ -309,7 +309,7 @@
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:paddingLeft="4dp"
-                    android:text="Emergency Contact Info:"
+                    android:text="@string/emergency_contact_info"
                     android:textColor="#000"
                     android:textSize="16sp" />
 
@@ -319,7 +319,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
                     android:background="@android:color/transparent"
-                    android:hint="Call my mom!"
+                    android:hint="@string/call_my_mom"
                     android:imeOptions="actionDone"
                     android:inputType="textShortMessage" />
             </TableRow>
