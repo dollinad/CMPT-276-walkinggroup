@@ -9,7 +9,7 @@
         android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Broadcast Message"
+        android:text="@string/broadcast_message"
         android:layout_marginTop="30dp"
         android:textSize="40sp"
         android:textColor="#000"
@@ -36,7 +36,7 @@
             android:textSize="24sp"
             android:textColor="#000"
             android:fontFamily="casual"
-            android:text="Group Names"/>
+            android:text="@string/group_names"/>
     </LinearLayout>
 
     <ListView

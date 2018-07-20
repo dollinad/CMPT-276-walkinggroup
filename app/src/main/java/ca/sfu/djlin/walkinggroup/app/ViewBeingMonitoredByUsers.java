@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -34,10 +35,11 @@ public class ViewBeingMonitoredByUsers extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_beingmonitoredby_info);
-
+        Log.i("PLEASEWORK2", "hhhhh");
         Intent intent=getIntent();
         //token=intent.getStringExtra("token");
         getInfoOfUserId=intent.getLongExtra("UserId", 0);
+
         session=Session.getSession(getApplicationContext());
         proxy=session.getProxy();
        // proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);

@@ -41,12 +41,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@null"
-            android:hint="Enter address, city, or Zip Code"
+            android:hint="@string/enter_address_city_or_zip_code"
             android:singleLine="true"
             android:textColor="#000"
             android:textSize="15sp"
             android:visibility="invisible"
-            tools:layout_editor_absoluteX="28dp" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
 
@@ -65,8 +67,8 @@
         android:id="@+id/ic_logout"
         android:layout_width="42dp"
         android:layout_height="40dp"
-        android:layout_marginBottom="68dp"
-        android:layout_marginEnd="324dp"
+        android:layout_marginBottom="84dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginLeft="328dp"
         android:scaleType="centerCrop"
         android:src="@drawable/arrow_png"
@@ -102,18 +104,18 @@
         android:layout_height="56dp"
         android:layout_marginBottom="268dp"
         android:layout_marginEnd="16dp"
-        android:text="START"
+        android:text="@string/start"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <Button
         android:id="@+id/button_stop"
-        android:layout_width="67dp"
-        android:layout_height="45dp"
-        android:layout_marginBottom="16dp"
-        android:layout_marginEnd="300dp"
-        android:text="STOP"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:layout_marginEnd="20dp"
+        android:text="@string/stop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
