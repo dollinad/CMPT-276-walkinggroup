@@ -396,12 +396,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mMonitorSettings.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(), "PPP", Toast.LENGTH_SHORT).show();
                 Intent pass_intent = PreferencesActivity.launchIntentPreferences(MapActivity.this);
 
-               // SharedPreferences preferences = MapActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
-                //token = preferences.getString("Token", null);
-               // currentUserEmail = preferences.getString("Email", null);
+                // SharedPreferences preferences = MapActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
+                // token = preferences.getString("Token", null);
+                // currentUserEmail = preferences.getString("Email", null);
 
                 pass_intent.putExtra("Token", token);
                 pass_intent.putExtra("Email", currentUserEmail);
