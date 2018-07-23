@@ -651,7 +651,7 @@ public class SignupActivity extends AppCompatActivity {
     private void launchMapActivity() {
         // Launch Map Activity
 
-        Intent mapIntent = Map_activityDrawer.launchIntentMap(SignupActivity.this);
+        Intent mapIntent = MapActivityDrawer.launchIntentMap(SignupActivity.this);
         //mapIntent.putExtra("UserId", UserId);
         startActivity(mapIntent);
         finish();

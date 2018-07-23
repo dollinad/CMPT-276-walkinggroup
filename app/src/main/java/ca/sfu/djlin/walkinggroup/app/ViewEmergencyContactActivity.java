@@ -31,7 +31,7 @@ public class ViewEmergencyContactActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_viewcontact_info);
+        setContentView(R.layout.activity_view_contact_info);
         //Intent intent=getIntent();
         //CurrentUserId=intent.getLongExtra("User Id", 0);
         //currentUserToken=intent.getStringExtra("Token");

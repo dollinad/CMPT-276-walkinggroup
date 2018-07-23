@@ -24,13 +24,11 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,12 +50,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
+import ca.sfu.djlin.walkinggroup.app.messaging.ViewMessagesActivity;
 import ca.sfu.djlin.walkinggroup.dataobjects.GpsLocation;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
 import ca.sfu.djlin.walkinggroup.model.Session;
@@ -68,7 +66,7 @@ import retrofit2.Call;
 
 import static java.lang.Math.abs;
 
-public class Map_activityDrawer extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
+public class MapActivityDrawer extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, OnMapReadyCallback {
     private static final String TAG = "MapActivity";
 
     // Constants
@@ -147,7 +145,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         if(UserId!=0) {
             proxy=data.getProxy();
             Call<User> call = proxy.getUserById(UserId);
-            ProxyBuilder.callProxy(Map_activityDrawer.this, call, returnedNothing -> responseCurrent(returnedNothing));
+            ProxyBuilder.callProxy(MapActivityDrawer.this, call, returnedNothing -> responseCurrent(returnedNothing));
         }
 
         getLocationPermission();
@@ -169,7 +167,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
             @Override
             public void onClick(View view) {
                 // Build a dialog box
-                AlertDialog.Builder builder = new AlertDialog.Builder(Map_activityDrawer.this);
+                AlertDialog.Builder builder = new AlertDialog.Builder(MapActivityDrawer.this);
                 LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
                 View viewInflated = getLayoutInflater().inflate(R.layout.dialog_send_message, null);
 
@@ -193,7 +191,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
                         // Make a new call to send message to all parents and leaders
                         proxy=data.getProxy();
                         Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> call = proxy.newMessageToParentsOf(data.getUser().getId(), newMessage);
-                        ProxyBuilder.callProxy(Map_activityDrawer.this, call, returnedList -> sendMessageResponse(returnedList));
+                        ProxyBuilder.callProxy(MapActivityDrawer.this, call, returnedList -> sendMessageResponse(returnedList));
                     }
                 });
                 builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
@@ -270,7 +268,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
 
         }
 
-        SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
+        SharedPreferences preferences = MapActivityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
         token = preferences.getString("Token", null);
         //currentUserEmail = preferences.getString("Email", null);
         //Log.d(TAG, "onMapReady: The current token is: " + token);
@@ -303,12 +301,12 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
                 if (!marker.equals(meetingMarker)) {
                     proxy=data.getProxy();
                     Call<Group> call = proxy.getGroupById(groupId);
-                    ProxyBuilder.callProxy(Map_activityDrawer.this, call, returnedGroup -> drawMeetingMarker(returnedGroup));
+                    ProxyBuilder.callProxy(MapActivityDrawer.this, call, returnedGroup -> drawMeetingMarker(returnedGroup));
                 } else if (marker.equals(meetingMarker)){
-                    Toast.makeText(Map_activityDrawer.this, Map_activityDrawer.this.getString(R.string.meeting_location), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MapActivityDrawer.this, MapActivityDrawer.this.getString(R.string.meeting_location), Toast.LENGTH_SHORT).show();
 
                 } else {
-                    Toast.makeText(Map_activityDrawer.this, Map_activityDrawer.this.getString(R.string.no_meeting_location), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MapActivityDrawer.this, MapActivityDrawer.this.getString(R.string.no_meeting_location), Toast.LENGTH_SHORT).show();
                 }
 
                 return true;
@@ -323,10 +321,10 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
             @Override
             public void onClick(View v) {
                 if (currentUser.getLeadsGroups().isEmpty() == false) {
-                    Intent intent = Leader_Map.launchIntentMap(Map_activityDrawer.this);
+                    Intent intent = LeaderMapActivity.launchIntentMap(MapActivityDrawer.this);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(Map_activityDrawer.this,"You have no group to lead right now",Toast.LENGTH_LONG).show();
+                    Toast.makeText(MapActivityDrawer.this,"You have no group to lead right now",Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -337,11 +335,11 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
             @Override
             public void onClick(View v) {
                 if(currentUser.getMonitorsUsers().isEmpty()==false) {
-                    Intent intent = Parent_Map.launchIntentMap(Map_activityDrawer.this);
+                    Intent intent = ParentMapActivity.launchIntentMap(MapActivityDrawer.this);
                     startActivity(intent);
                 }
                 else{
-                    Toast.makeText(Map_activityDrawer.this,"You are not monitoring any user now",Toast.LENGTH_LONG).show();
+                    Toast.makeText(MapActivityDrawer.this,"You are not monitoring any user now",Toast.LENGTH_LONG).show();
                 }
             }
         });
@@ -351,7 +349,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         Log.d(TAG, "setGroupMarker: The current token is " + token);
         proxy=data.getProxy();
         Call<List<Group>> caller = proxy.getGroups();
-        ProxyBuilder.callProxy(Map_activityDrawer.this, caller, returnedGroups -> response(returnedGroups));
+        ProxyBuilder.callProxy(MapActivityDrawer.this, caller, returnedGroups -> response(returnedGroups));
     }
 
     //Response for GroupMarker function
@@ -381,7 +379,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         Log.d(TAG, "init: initializing");
 
         // Hides keyboard
-        Utilities.hideKeyboard(Map_activityDrawer.this);
+        Utilities.hideKeyboard(MapActivityDrawer.this);
 
     }
 
@@ -405,7 +403,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM, "My Location");
                         } else {
                             Log.d(TAG, "Current location is null!");
-                            Toast.makeText(Map_activityDrawer.this, Map_activityDrawer.this.getString(R.string.unable_to_get_location), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MapActivityDrawer.this, MapActivityDrawer.this.getString(R.string.unable_to_get_location), Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -439,7 +437,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
                     finish();
                 } else {
                     Log.d(TAG, "This is going to start a new activity");
-                    Intent intent = new Intent(Map_activityDrawer.this, CreateGroupActivity.class);
+                    Intent intent = new Intent(MapActivityDrawer.this, CreateGroupActivity.class);
                     intent.putExtra("lat", latLng.latitude);
                     intent.putExtra("lng", latLng.longitude);
                     intent.putExtra("token", token);
@@ -483,9 +481,9 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
             // Set new meeting marker to draw next time
             meetingMarker = marker;
         } else {
-            Toast.makeText(Map_activityDrawer.this, Map_activityDrawer.this.getString(R.string.no_meeting_location), Toast.LENGTH_SHORT).show();
+            Toast.makeText(MapActivityDrawer.this, MapActivityDrawer.this.getString(R.string.no_meeting_location), Toast.LENGTH_SHORT).show();
         }*/
-        Intent intent=GroupInfoActivity.launchGroupInfoIntent(Map_activityDrawer.this);
+        Intent intent=GroupInfoActivity.launchGroupInfoIntent(MapActivityDrawer.this);
         intent.putExtra("groupId", group.getId());
         intent.putExtra("token", token);
         startActivityForResult(intent,REQUEST_CODE_GETDATA);
@@ -506,7 +504,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         }
 
         // Hides keyboard
-        Utilities.hideKeyboard(Map_activityDrawer.this);
+        Utilities.hideKeyboard(MapActivityDrawer.this);
     }
 
     private void getLocationPermission() {
@@ -529,7 +527,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         Log.d(TAG, "initMap: initializing map");
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
 
-        mapFragment.getMapAsync(Map_activityDrawer.this);
+        mapFragment.getMapAsync(MapActivityDrawer.this);
     }
 
     @Override
@@ -563,7 +561,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.map_activity_drawer_test, menu);
+        getMenuInflater().inflate(R.menu.map_activity_drawer, menu);
         return true;
     }
 
@@ -598,23 +596,23 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         }
         else if(id == R.id.messages) {
             // Launch view messages activity
-            Intent intent = ViewMessagesActivity.launchViewMessageIntent(Map_activityDrawer.this);
+            Intent intent = ViewMessagesActivity.launchViewMessageIntent(MapActivityDrawer.this);
             startActivity(intent);
         }
         else if (id == R.id.create_group) {
             Log.d(TAG, "Clicking on group info button");
 
             // Launch Group Info Activity and pass groupId
-            Intent intent = CreateGroupActivity.makeintent(Map_activityDrawer.this);
+            Intent intent = CreateGroupActivity.makeintent(MapActivityDrawer.this);
             intent.putExtra("groupId", selectedGroupId);
             intent.putExtra("token", token);
             startActivity(intent);
         }
         else if (id == R.id.monitoring_preferences) {
             Toast.makeText(getApplicationContext(), "PPP", Toast.LENGTH_SHORT).show();
-            Intent pass_intent = PreferencesActivity.launchIntentPreferences(Map_activityDrawer.this);
+            Intent pass_intent = PreferencesActivity.launchIntentPreferences(MapActivityDrawer.this);
 
-            //SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
+            //SharedPreferences preferences = MapActivityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
             //token = preferences.getString("Token", null);
             //currentUserEmail = preferences.getString("Email", null);
 
@@ -624,9 +622,9 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         }
         else if(id==R.id.view_groups){
             Toast.makeText(getApplicationContext(), "PPP", Toast.LENGTH_SHORT).show();
-            Intent pass_intent = ViewGrpupActivity.launchIntentViewGroups(Map_activityDrawer.this);
+            Intent pass_intent = ViewGroupActivity.launchIntentViewGroups(MapActivityDrawer.this);
 
-            //SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
+            //SharedPreferences preferences = MapActivityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
             //token = preferences.getString("Token", null);
             //currentUserEmail = preferences.getString("Email", null);
 
@@ -635,8 +633,8 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
             startActivityForResult(pass_intent,REQUEST_CODE_GETDATA);
         }
         else if(id==R.id.Drawersettings){
-            Intent pass_intent=SettingsActivity.launchIntentSettings(Map_activityDrawer.this);
-            SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
+            Intent pass_intent=SettingsActivity.launchIntentSettings(MapActivityDrawer.this);
+            SharedPreferences preferences = MapActivityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
             token = preferences.getString("Token", null);
             currentUserEmail = preferences.getString("Email", null);
 
@@ -676,7 +674,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
             case REQUEST_CODE_GETDATA:
                 if(resultCode == Activity.RESULT_OK)
                 {
-                   Long eventgroupId=ViewGrpupActivity.getResultGroupId(data);
+                   Long eventgroupId= ViewGroupActivity.getResultGroupId(data);
                    eventGroup=getEventGroup(eventgroupId);
                 }
                 else
@@ -687,9 +685,9 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
     }
     private void logout() {
         Log.d(TAG, "logout: Attempting to logout...");
-        Intent intent = WelcomeActivity.launchWelcomeIntent(Map_activityDrawer.this);
+        Intent intent = WelcomeActivity.launchWelcomeIntent(MapActivityDrawer.this);
 
-        SharedPreferences preferences = Map_activityDrawer.this.getSharedPreferences("User Session" , MODE_PRIVATE);
+        SharedPreferences preferences = MapActivityDrawer.this.getSharedPreferences("User Session" , MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove("Token");
         editor.remove("Email");
@@ -713,7 +711,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(Map_activityDrawer.this,"start Uploading gps location",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapActivityDrawer.this,"start Uploading gps location",Toast.LENGTH_SHORT).show();
                 updateGpsLoaction();
 
                 // Display on walk messaging features
@@ -729,7 +727,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
             @Override
             public void onClick(View v) {
                 System.out.println("timer cancel");
-                Toast.makeText(Map_activityDrawer.this,"Stop Uploading",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapActivityDrawer.this,"Stop Uploading",Toast.LENGTH_SHORT).show();
                 timer.cancel();
                 timer = new Timer();
 
@@ -762,7 +760,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
                     gpsLocation.setGpsLocation(currentposition, getTime());
                     proxy=data.getProxy();
                     Call<GpsLocation> caller = proxy.setLastGpsLocation(UserId, gpsLocation);
-                    ProxyBuilder.callProxy(Map_activityDrawer.this, caller, returnGps -> updateGpsResponse(returnGps));
+                    ProxyBuilder.callProxy(MapActivityDrawer.this, caller, returnGps -> updateGpsResponse(returnGps));
 
                 }
             }
@@ -783,7 +781,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
     public Group getEventGroup(Long group_Id){
         Group group=new Group();
         Call<Group> caller = proxy.getGroupById(group_Id);
-        ProxyBuilder.callProxy(Map_activityDrawer.this, caller, new ProxyBuilder.SimpleCallback<Group>() {
+        ProxyBuilder.callProxy(MapActivityDrawer.this, caller, new ProxyBuilder.SimpleCallback<Group>() {
             @Override
             public void callback(Group ans) {
                 eventGroup=ans;
@@ -797,7 +795,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
         }
         else {
             Call<GpsLocation> caller_=proxy.getLastGpsLocation(currentUser.getId());
-            ProxyBuilder.callProxy(Map_activityDrawer.this, caller_, new ProxyBuilder.SimpleCallback<GpsLocation>() {
+            ProxyBuilder.callProxy(MapActivityDrawer.this, caller_, new ProxyBuilder.SimpleCallback<GpsLocation>() {
                 @Override
                 public void callback(GpsLocation ans) {
                     LatLng meeting = new LatLng(returnGroup.getRouteLatArray().get(0), returnGroup.getRouteLngArray().get(0));
@@ -825,12 +823,12 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
     //                                                                  INTENTS
 
     public static Intent launchIntentMap(Context context) {
-        Intent intent = new Intent(context, Map_activityDrawer.class);
+        Intent intent = new Intent(context, MapActivityDrawer.class);
         return intent;
     }
 
     public static Intent launchIntentMapForMarker(Context context) {
-        Intent intent = new Intent(context, Map_activityDrawer.class);
+        Intent intent = new Intent(context, MapActivityDrawer.class);
         return intent;
     }
 }

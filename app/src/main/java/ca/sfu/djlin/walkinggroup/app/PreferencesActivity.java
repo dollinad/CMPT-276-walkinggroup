@@ -426,7 +426,7 @@ public class PreferencesActivity extends AppCompatActivity {
         monitoring.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent passIntent = ViewGrpupActivity.launchIntentViewGroups(PreferencesActivity.this);
+                Intent passIntent = ViewGroupActivity.launchIntentViewGroups(PreferencesActivity.this);
                 passIntent.putExtra("Email", monitorsUsers.get(position).getEmail());
                 passIntent.putExtra("Token", currentUserToken);
                 startActivity(passIntent);

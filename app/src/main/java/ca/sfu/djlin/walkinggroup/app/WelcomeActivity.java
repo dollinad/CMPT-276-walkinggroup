@@ -62,7 +62,7 @@ public class WelcomeActivity extends AppCompatActivity {
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= ReadMe.launchReadMe(WelcomeActivity.this);
+                Intent intent= ReadMeActivity.launchReadMe(WelcomeActivity.this);
                 startActivity(intent);
             }
         });
@@ -143,7 +143,7 @@ public class WelcomeActivity extends AppCompatActivity {
         // Start checking for new mail
         Utilities.startMessageChecking(WelcomeActivity.this, proxy, session.getUser());
 
-        Intent intent = Map_activityDrawer.launchIntentMap(WelcomeActivity.this);
+        Intent intent = MapActivityDrawer.launchIntentMap(WelcomeActivity.this);
         //intent.putExtra("UserId", UserId);
         startActivity(intent);
         finish();

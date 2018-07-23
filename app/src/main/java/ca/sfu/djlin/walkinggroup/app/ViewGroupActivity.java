@@ -15,7 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.List;
 
@@ -27,7 +26,7 @@ import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 import retrofit2.Call;
 
-public class ViewGrpupActivity extends AppCompatActivity {
+public class ViewGroupActivity extends AppCompatActivity {
     public static final int REQUEST_CODE_GETDATA = 1023;
 
     private WGServerProxy proxy;
@@ -48,7 +47,7 @@ public class ViewGrpupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_viewgroups);
+        setContentView(R.layout.activity_view_groups);
 
         Button button=findViewById(R.id.id_creteGroup);
         button.setVisibility(View.INVISIBLE);
@@ -69,7 +68,7 @@ public class ViewGrpupActivity extends AppCompatActivity {
 
         // Get current user information
         Call<User> caller = proxy.getUserByEmail(currentUserEmail);
-        ProxyBuilder.callProxy(ViewGrpupActivity.this, caller, returnedUser -> responseCurrent(returnedUser));
+        ProxyBuilder.callProxy(ViewGroupActivity.this, caller, returnedUser -> responseCurrent(returnedUser));
         registerClickCallbackMember();
         registerClickCallbackLeader();
 
@@ -102,7 +101,7 @@ public class ViewGrpupActivity extends AppCompatActivity {
     //Adapter for the Member of list
     private class myListMemberAdapter extends ArrayAdapter<Group> {
         public myListMemberAdapter() {
-                super(ViewGrpupActivity.this, R.layout.layout_viewgroups, currentMemberGroups);
+                super(ViewGroupActivity.this, R.layout.layout_view_groups, currentMemberGroups);
         }
 
         View itemView;
@@ -111,7 +110,7 @@ public class ViewGrpupActivity extends AppCompatActivity {
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
            itemView = convertView;
             if (itemView == null) {
-                itemView = getLayoutInflater().inflate(R.layout.layout_viewgroups, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.layout_view_groups, parent, false);
             }
 
             //list layout (des= description of the group and leader)
@@ -125,7 +124,7 @@ public class ViewGrpupActivity extends AppCompatActivity {
             if(currentUser.getMemberOfGroups().size()!=0) {
 
                 Call<Group> call = proxy.getGroupById(currentUser.getMemberOfGroups().get(position).getId());
-                ProxyBuilder.callProxy(ViewGrpupActivity.this, call, returnedGroup -> Groupreturned(returnedGroup, des, leader));
+                ProxyBuilder.callProxy(ViewGroupActivity.this, call, returnedGroup -> Groupreturned(returnedGroup, des, leader));
             }
 
             return itemView;
@@ -143,7 +142,7 @@ public class ViewGrpupActivity extends AppCompatActivity {
     //Adapter for the Member of list
     private class myListLeaderAdapter extends ArrayAdapter<Group> {
         public myListLeaderAdapter() {
-            super(ViewGrpupActivity.this, R.layout.layout_viewgroups, curretLeaderGroups);
+            super(ViewGroupActivity.this, R.layout.layout_view_groups, curretLeaderGroups);
         }
 
         View itemView;
@@ -152,7 +151,7 @@ public class ViewGrpupActivity extends AppCompatActivity {
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             itemView = convertView;
             if (itemView == null) {
-                itemView = getLayoutInflater().inflate(R.layout.layout_viewgroups, parent, false);
+                itemView = getLayoutInflater().inflate(R.layout.layout_view_groups, parent, false);
             }
 
             //list layout (des= description of the group and leader)
@@ -164,7 +163,7 @@ public class ViewGrpupActivity extends AppCompatActivity {
             //checking if the current group is leading any groups
             if(currentUser.getLeadsGroups().size()!=0) {
                 Call<Group> caller = proxy.getGroupById(currentUser.getLeadsGroups().get(position).getId());
-                ProxyBuilder.callProxy(ViewGrpupActivity.this, caller, returnedGroup -> GroupreturnedLead(returnedGroup, des, leader));
+                ProxyBuilder.callProxy(ViewGroupActivity.this, caller, returnedGroup -> GroupreturnedLead(returnedGroup, des, leader));
             }
             return itemView;
         }
@@ -183,7 +182,7 @@ public class ViewGrpupActivity extends AppCompatActivity {
 
     private void getUserById(Long Id){
         Call<User> caller = proxy.getUserById(Id);
-        ProxyBuilder.callProxy(ViewGrpupActivity.this,caller,returnedUser -> userResponse(returnedUser));
+        ProxyBuilder.callProxy(ViewGroupActivity.this,caller, returnedUser -> userResponse(returnedUser));
     }
 
     private void userResponse(User returnedUser) {
@@ -198,7 +197,7 @@ public class ViewGrpupActivity extends AppCompatActivity {
                 //Build Proxy
                 //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
                 Call<Group> caller = proxy.getGroupById(currentUser.getMemberOfGroups().get(position).getId());
-                ProxyBuilder.callProxy(ViewGrpupActivity.this, caller, returnedGroup -> GroupreturnedPass(returnedGroup));
+                ProxyBuilder.callProxy(ViewGroupActivity.this, caller, returnedGroup -> GroupreturnedPass(returnedGroup));
             }
         });
 
@@ -212,13 +211,13 @@ public class ViewGrpupActivity extends AppCompatActivity {
                 //Build Proxy
                 //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
                 Call<Group> caller = proxy.getGroupById(currentUser.getLeadsGroups().get(position).getId());
-                ProxyBuilder.callProxy(ViewGrpupActivity.this, caller, returnedGroup -> GroupreturnedPass(returnedGroup));
+                ProxyBuilder.callProxy(ViewGroupActivity.this, caller, returnedGroup -> GroupreturnedPass(returnedGroup));
             }
         });
     }
 
     private void GroupreturnedPass(Group returnedGroup) {
-        Intent intent = GroupInfoActivity.launchGroupInfoIntent(ViewGrpupActivity.this);
+        Intent intent = GroupInfoActivity.launchGroupInfoIntent(ViewGroupActivity.this);
         intent.putExtra("token",currentUserToken);
         intent.putExtra("email",currentUserEmail);
         intent.putExtra("groupId",returnedGroup.getId());
@@ -252,7 +251,7 @@ public class ViewGrpupActivity extends AppCompatActivity {
         return intent.getLongExtra("eventGroupId",0);
     }
     public static Intent launchIntentViewGroups(Context context) {
-        Intent intentViewGroups = new Intent(context, ViewGrpupActivity.class);
+        Intent intentViewGroups = new Intent(context, ViewGroupActivity.class);
         return intentViewGroups;
     }
 }

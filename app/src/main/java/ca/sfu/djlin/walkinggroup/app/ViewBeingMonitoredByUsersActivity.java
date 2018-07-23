@@ -23,7 +23,7 @@ import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 import retrofit2.Call;
 
-public class ViewBeingMonitoredByUsers extends AppCompatActivity {
+public class ViewBeingMonitoredByUsersActivity extends AppCompatActivity {
     WGServerProxy proxy;
     String token;
     User getInfoOfUser;
@@ -34,7 +34,7 @@ public class ViewBeingMonitoredByUsers extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_beingmonitoredby_info);
+        setContentView(R.layout.activity_view_being_monitored_by_info);
         Log.i("PLEASEWORK2", "hhhhh");
         Intent intent=getIntent();
         //token=intent.getStringExtra("token");
@@ -45,7 +45,7 @@ public class ViewBeingMonitoredByUsers extends AppCompatActivity {
        // proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
 
         Call<User> caller = proxy.getUserById(getInfoOfUserId);
-        ProxyBuilder.callProxy(ViewBeingMonitoredByUsers.this, caller, returnedUser -> UserReturned(returnedUser));
+        ProxyBuilder.callProxy(ViewBeingMonitoredByUsersActivity.this, caller, returnedUser -> UserReturned(returnedUser));
 
     }
 
@@ -55,7 +55,7 @@ public class ViewBeingMonitoredByUsers extends AppCompatActivity {
         TextView getInfoOfUserName=findViewById(R.id.getUserInfoOfUserName);
         getInfoOfUserName.setText(returnedUser.getName());
         Call<List<User>> call=proxy.getMonitoredByUsers(getInfoOfUserId);
-        ProxyBuilder.callProxy(ViewBeingMonitoredByUsers.this, call, returnedList -> ListReturned(returnedList));
+        ProxyBuilder.callProxy(ViewBeingMonitoredByUsersActivity.this, call, returnedList -> ListReturned(returnedList));
 
     }
 
@@ -66,13 +66,13 @@ public class ViewBeingMonitoredByUsers extends AppCompatActivity {
         listView.setAdapter(adapter);
     }
     public static Intent launchIntentBeingMonitored(Context context) {
-        Intent intentViewBeingMonitoredBy = new Intent(context, ViewBeingMonitoredByUsers.class);
+        Intent intentViewBeingMonitoredBy = new Intent(context, ViewBeingMonitoredByUsersActivity.class);
         return intentViewBeingMonitoredBy;
     }
 
     private class myListAdapter extends ArrayAdapter<User> {
         public myListAdapter() {
-            super(ViewBeingMonitoredByUsers.this, R.layout.layout_monitoring_list, beingMonitoredBy);
+            super(ViewBeingMonitoredByUsersActivity.this, R.layout.layout_monitoring_list, beingMonitoredBy);
         }
 
         View itemView;
@@ -93,7 +93,7 @@ public class ViewBeingMonitoredByUsers extends AppCompatActivity {
             TextView Address=itemView.findViewById(R.id.in_depthAddress);
             // Make a call to collect the name and email of the user
             Call<User> call = proxy.getUserById(monitoredBy.getId());
-            ProxyBuilder.callProxy(ViewBeingMonitoredByUsers.this, call, returnUser -> respond(returnUser, name, email, cellPhone, homePhone, Address));
+            ProxyBuilder.callProxy(ViewBeingMonitoredByUsersActivity.this, call, returnUser -> respond(returnUser, name, email, cellPhone, homePhone, Address));
 
             return itemView;
         }

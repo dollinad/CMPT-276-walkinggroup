@@ -235,7 +235,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
             @Override
             public void onClick(View v) {
                 // Store information in intent
-                Intent intent = Map_activityDrawer.launchIntentMap(getApplicationContext());
+                Intent intent = MapActivityDrawer.launchIntentMap(getApplicationContext());
                 intent.putExtra("groupId", groupId);
                 intent.putExtra("groupName", groupDescription);
                 intent.putExtra("lat", intendedLatLng.latitude);

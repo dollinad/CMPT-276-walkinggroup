@@ -63,27 +63,27 @@
         <activity
             android:name=".app.GroupInfoActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity android:name=".app.ReadMe" />
+        <activity android:name=".app.ReadMeActivity" />
 
-        <activity android:name=".app.ViewGrpupActivity"/>
+        <activity android:name=".app.ViewGroupActivity"/>
         <activity android:name=".app.SettingsActivity"/>
         <activity android:name=".app.ViewEmergencyContactActivity"/>
-        <activity android:name=".app.ViewBeingMonitoredByUsers"/>
+        <activity android:name=".app.ViewBeingMonitoredByUsersActivity"/>
         <activity
-            android:name=".app.Map_activityDrawer"
+            android:name=".app.MapActivityDrawer"
             android:label="@string/title_activity_map_drawer_test"
             android:theme="@style/AppTheme"/>
 
         <!-- Messaging Activity -->
-        <activity android:name=".app.ViewMessagesActivity"/>
+        <activity android:name=".app.messaging.ViewMessagesActivity"/>
 
         <!-- Leader Messaging Activity-->
         <activity android:name=".app.messaging.LeaderMessagingActivity"/>
         <activity
-            android:name=".app.Leader_Map"
+            android:name=".app.LeaderMapActivity"
             android:label="@string/title_activity_leader__map" />
         <activity
-            android:name=".app.Parent_Map"
+            android:name=".app.ParentMapActivity"
             android:label="@string/title_activity_parent__map"></activity>
     </application>
 

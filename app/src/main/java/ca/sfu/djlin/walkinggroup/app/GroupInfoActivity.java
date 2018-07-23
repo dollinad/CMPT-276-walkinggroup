@@ -20,8 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
@@ -189,7 +187,7 @@ public class GroupInfoActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Build Proxy
                 //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
-                Intent intent = ViewBeingMonitoredByUsers.launchIntentBeingMonitored(GroupInfoActivity.this);
+                Intent intent = ViewBeingMonitoredByUsersActivity.launchIntentBeingMonitored(GroupInfoActivity.this);
                 //intent.putExtra("token", token);
                 //Log.i("PLEASE WORK", returnedUser.getId()+"");
                 intent.putExtra("UserId",monitorsUsersList.get(position).getId());
@@ -201,7 +199,7 @@ public class GroupInfoActivity extends AppCompatActivity {
         });
     }
     private void UserReturned(User returnedUser) {
-        Intent intent = ViewBeingMonitoredByUsers.launchIntentBeingMonitored(GroupInfoActivity.this);
+        Intent intent = ViewBeingMonitoredByUsersActivity.launchIntentBeingMonitored(GroupInfoActivity.this);
         //intent.putExtra("token", token);
         Log.i("PLEASE WORK", returnedUser.getId()+"");
         intent.putExtra("UserId",returnedUser.getId());
