@@ -93,7 +93,7 @@ public class SettingsActivity extends AppCompatActivity{
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
-                                proxy=session.getProxy();
+                                //proxy=session.getProxy();
                                 Call<Void> caller = proxy.deleteUser(UserId);
                                 ProxyBuilder.callProxy(SettingsActivity.this, caller, returnNothing-> responseDelete(returnNothing));
                             }
@@ -128,7 +128,7 @@ public class SettingsActivity extends AppCompatActivity{
            public void onClick(View v) {
                Toast.makeText(getApplicationContext(), CurrentUser.getId()+"", Toast.LENGTH_SHORT).show();
                //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
-               proxy=session.getProxy();
+               //proxy=session.getProxy();
                Call<User> call=proxy.editUser(CurrentUser.getId(), CurrentUser);
                ProxyBuilder.callProxy(SettingsActivity.this, call, returnedUser -> responseEdit(returnedUser));
 
@@ -144,7 +144,7 @@ public class SettingsActivity extends AppCompatActivity{
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), CurrentUser.getId()+"", Toast.LENGTH_SHORT).show();
                 //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
-                // proxy=session.getProxy();
+                //proxy=session.getProxy();
                 Call<User> call=proxy.editUser(CurrentUser.getId(), CurrentUser);
                 ProxyBuilder.callProxy(SettingsActivity.this, call, returnedUser -> responseEdit(returnedUser));
 
@@ -157,7 +157,7 @@ public class SettingsActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), CurrentUser.getId()+"", Toast.LENGTH_SHORT).show();
-                // proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+                //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
                 Call<User> call=proxy.editUser(CurrentUser.getId(), CurrentUser);
                 ProxyBuilder.callProxy(SettingsActivity.this, call, returnedUser -> responseEdit(returnedUser));
 
@@ -171,7 +171,7 @@ public class SettingsActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), CurrentUser.getId()+"", Toast.LENGTH_SHORT).show();
-                // proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+                //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
                 Call<User> call=proxy.editUser(CurrentUser.getId(), CurrentUser);
                 ProxyBuilder.callProxy(SettingsActivity.this, call, returnedUser -> responseEdit(returnedUser));
 
@@ -185,7 +185,7 @@ public class SettingsActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), CurrentUser.getId()+"", Toast.LENGTH_SHORT).show();
-                // proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+               // proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
                 Call<User> call=proxy.editUser(CurrentUser.getId(), CurrentUser);
                 ProxyBuilder.callProxy(SettingsActivity.this, call, returnedUser -> responseEdit(returnedUser));
 
@@ -199,17 +199,9 @@ public class SettingsActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), CurrentUser.getId()+"", Toast.LENGTH_SHORT).show();
-                // proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+                //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
                 Call<User> call=proxy.editUser(CurrentUser.getId(), CurrentUser);
-                ProxyBuilder.callProxy(SettingsActivity.this, call, returnedUser -> responseEditEmail(returnedUser));
-                SharedPreferences preferences = SettingsActivity.this.getSharedPreferences("User Session" , MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.apply();
-                editor.remove("Token");
-                editor.remove("Email");
-
-
-
+                ProxyBuilder.callProxy(SettingsActivity.this, call, returnedUser -> responseEdit(returnedUser));
             }
         });
     }
@@ -218,9 +210,10 @@ public class SettingsActivity extends AppCompatActivity{
         CurrentUser=returnedUser;
         SharedPreferences preferences = SettingsActivity.this.getSharedPreferences("User Session" , MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.apply();
         editor.remove("Token");
         editor.remove("Email");
+        editor.apply();
+        editor.commit();
         // Register for token received
         ProxyBuilder.setOnTokenReceiveCallback(token -> onReceiveToken(token, returnedUser));
         Toast.makeText(getApplicationContext(), "Edited!", Toast.LENGTH_SHORT).show();
@@ -229,7 +222,7 @@ public class SettingsActivity extends AppCompatActivity{
     // Handle the token by generating a new Proxy which is encoded with it.
     private void onReceiveToken(String newToken, User returnedUser) {
         // Save token using Shared Preferences
-        saveUserInformation(newToken, returnedUser);
+        //saveUserInformation(newToken, returnedUser);
 
         // Rebuild the proxy with updated token
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), newToken);
@@ -256,7 +249,7 @@ public class SettingsActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), CurrentUser.getId()+"", Toast.LENGTH_SHORT).show();
-                // proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+               // proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
                 Call<User> call=proxy.editUser(CurrentUser.getId(), CurrentUser);
                 ProxyBuilder.callProxy(SettingsActivity.this, call, returnedUser -> responseEdit(returnedUser));
 
@@ -269,9 +262,9 @@ public class SettingsActivity extends AppCompatActivity{
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+                //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
                 Call<User> call=proxy.editUser(CurrentUser.getId(), CurrentUser);
-                ProxyBuilder.callProxy(SettingsActivity.this, call, returnedUser -> responseEdit(returnedUser));
+                ProxyBuilder.callProxy(SettingsActivity.this, call, returnedUser -> responseEditEmail(returnedUser));
 
             }
         });
@@ -283,7 +276,7 @@ public class SettingsActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), CurrentUser.getId()+"", Toast.LENGTH_SHORT).show();
-                // proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+                //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
                 Call<User> call=proxy.editUser(CurrentUser.getId(), CurrentUser);
                 ProxyBuilder.callProxy(SettingsActivity.this, call, returnedUser -> responseEdit(returnedUser));
 
@@ -297,7 +290,7 @@ public class SettingsActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 Toast.makeText(getApplicationContext(), CurrentUser.getId()+"", Toast.LENGTH_SHORT).show();
-                // proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+                //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
                 Call<User> call=proxy.editUser(CurrentUser.getId(), CurrentUser);
                 ProxyBuilder.callProxy(SettingsActivity.this, call, returnedUser -> responseEdit(returnedUser));
 
@@ -555,7 +548,8 @@ public class SettingsActivity extends AppCompatActivity{
     }
 
     private void responseEdit(User returnedUser) {
-        Toast.makeText(getApplicationContext(), "Edited!", Toast.LENGTH_SHORT).show();
+        //session.setUser(returnedUser);
+        Toast.makeText(SettingsActivity.this, getString(R.string.edited),Toast.LENGTH_SHORT).show();
         CurrentUser=returnedUser;
     }
 

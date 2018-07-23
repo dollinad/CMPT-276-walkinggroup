@@ -84,7 +84,7 @@ public class ViewGrpupActivity extends AppCompatActivity {
             textView.setText("You are currently not a part of any group!");
             Button button=findViewById(R.id.id_creteGroup);
             button.setVisibility(View.VISIBLE);
-            Toast.makeText(getApplicationContext(), "KK", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(getApplicationContext(), "KK", Toast.LENGTH_SHORT).show();
         }
         currentMemberGroups=user.getMemberOfGroups();
         curretLeaderGroups=user.getLeadsGroups();
@@ -121,7 +121,7 @@ public class ViewGrpupActivity extends AppCompatActivity {
             //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
             //checking if the current user is currently in any groups
             Log.i("KIKIKIKIKI", currentUser.getMemberOfGroups().size()+"");
-            Toast.makeText(getApplicationContext(), currentUser.getMemberOfGroups().size()+"HYHYH", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(getApplicationContext(), currentUser.getMemberOfGroups().size()+"HYHYH", Toast.LENGTH_SHORT).show();
             if(currentUser.getMemberOfGroups().size()!=0) {
 
                 Call<Group> call = proxy.getGroupById(currentUser.getMemberOfGroups().get(position).getId());

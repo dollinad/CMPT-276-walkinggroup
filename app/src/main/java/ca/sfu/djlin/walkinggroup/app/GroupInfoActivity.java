@@ -320,8 +320,7 @@ public class GroupInfoActivity extends AppCompatActivity {
     }
 
     private void updateGroupDescription (Group group) {
-
-        Toast.makeText(getApplicationContext(), group.getGroupDescription()+"", Toast.LENGTH_SHORT).show();
+        // Toast.makeText(getApplicationContext(), group.getGroupDescription()+"", Toast.LENGTH_SHORT).show();
         // Save information used to populate activity
         String groupDescription = group.getGroupDescription();
 
