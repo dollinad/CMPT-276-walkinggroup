@@ -9,7 +9,7 @@ import android.widget.Button;
 
 import ca.sfu.djlin.walkinggroup.R;
 
-public class ReadMe extends AppCompatActivity {
+public class ReadMeActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +31,7 @@ public class ReadMe extends AppCompatActivity {
 
 
     public static Intent launchReadMe(Context context) {
-        Intent intent = new Intent(context, ReadMe.class);
+        Intent intent = new Intent(context, ReadMeActivity.class);
         return intent;
     }
 }

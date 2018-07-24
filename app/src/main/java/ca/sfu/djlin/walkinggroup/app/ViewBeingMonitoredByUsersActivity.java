@@ -23,7 +23,7 @@ import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 import retrofit2.Call;
 
-public class ViewBeingMonitoredByUsers extends AppCompatActivity {
+public class ViewBeingMonitoredByUsersActivity extends AppCompatActivity {
     WGServerProxy proxy;
     String token;
     User getInfoOfUser;
@@ -31,48 +31,50 @@ public class ViewBeingMonitoredByUsers extends AppCompatActivity {
     List<User> beingMonitoredBy;
     ArrayAdapter<User> adapter;
     Session session;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_beingmonitoredby_info);
+        setContentView(R.layout.activity_view_being_monitored_by_info);
         Log.i("PLEASEWORK2", "hhhhh");
-        Intent intent=getIntent();
+        Intent intent = getIntent();
         //token=intent.getStringExtra("token");
-        getInfoOfUserId=intent.getLongExtra("UserId", 0);
+        getInfoOfUserId = intent.getLongExtra("userId", 0);
 
-        session=Session.getSession(getApplicationContext());
-        proxy=session.getProxy();
-       // proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+        session = Session.getSession(getApplicationContext());
+        proxy = session.getProxy();
+        // proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
 
         Call<User> caller = proxy.getUserById(getInfoOfUserId);
-        ProxyBuilder.callProxy(ViewBeingMonitoredByUsers.this, caller, returnedUser -> UserReturned(returnedUser));
+        ProxyBuilder.callProxy(ViewBeingMonitoredByUsersActivity.this, caller, returnedUser -> UserReturned(returnedUser));
 
     }
 
-    private void UserReturned(User returnedUser){
-        getInfoOfUser=returnedUser;
+    private void UserReturned(User returnedUser) {
+        getInfoOfUser = returnedUser;
         Toast.makeText(getApplicationContext(), returnedUser.getName(), Toast.LENGTH_SHORT).show();
-        TextView getInfoOfUserName=findViewById(R.id.getUserInfoOfUserName);
+        TextView getInfoOfUserName = findViewById(R.id.get_user_info_of_user_name);
         getInfoOfUserName.setText(returnedUser.getName());
-        Call<List<User>> call=proxy.getMonitoredByUsers(getInfoOfUserId);
-        ProxyBuilder.callProxy(ViewBeingMonitoredByUsers.this, call, returnedList -> ListReturned(returnedList));
+        Call<List<User>> call = proxy.getMonitoredByUsers(getInfoOfUserId);
+        ProxyBuilder.callProxy(ViewBeingMonitoredByUsersActivity.this, call, returnedList -> ListReturned(returnedList));
 
     }
 
-    private void ListReturned(List<User> returnedList){
-        beingMonitoredBy=returnedList;
-        adapter=new myListAdapter();
-        ListView listView=findViewById(R.id.usersMonitoringCurrent);
+    private void ListReturned(List<User> returnedList) {
+        beingMonitoredBy = returnedList;
+        adapter = new myListAdapter();
+        ListView listView = findViewById(R.id.users_monitoring_current);
         listView.setAdapter(adapter);
     }
+
     public static Intent launchIntentBeingMonitored(Context context) {
-        Intent intentViewBeingMonitoredBy = new Intent(context, ViewBeingMonitoredByUsers.class);
+        Intent intentViewBeingMonitoredBy = new Intent(context, ViewBeingMonitoredByUsersActivity.class);
         return intentViewBeingMonitoredBy;
     }
 
     private class myListAdapter extends ArrayAdapter<User> {
         public myListAdapter() {
-            super(ViewBeingMonitoredByUsers.this, R.layout.layout_monitoring_list, beingMonitoredBy);
+            super(ViewBeingMonitoredByUsersActivity.this, R.layout.layout_monitoring_list, beingMonitoredBy);
         }
 
         View itemView;
@@ -84,16 +86,16 @@ public class ViewBeingMonitoredByUsers extends AppCompatActivity {
             if (itemView == null) {
                 itemView = getLayoutInflater().inflate(R.layout.layout_being_monitored_indepth, parent, false);
             }
-            User monitoredBy=beingMonitoredBy.get(position);
+            User monitoredBy = beingMonitoredBy.get(position);
 
             TextView name = itemView.findViewById(R.id.in_depthlist_name);
             TextView email = itemView.findViewById(R.id.in_depthlist_email);
-            TextView cellPhone=itemView.findViewById(R.id.in_depthCellPhone);
-            TextView homePhone=itemView.findViewById(R.id.in_depthHomePhone);
-            TextView Address=itemView.findViewById(R.id.in_depthAddress);
+            TextView cellPhone = itemView.findViewById(R.id.in_depth_cellphone);
+            TextView homePhone = itemView.findViewById(R.id.in_depth_home_phone);
+            TextView Address = itemView.findViewById(R.id.in_depth_address);
             // Make a call to collect the name and email of the user
             Call<User> call = proxy.getUserById(monitoredBy.getId());
-            ProxyBuilder.callProxy(ViewBeingMonitoredByUsers.this, call, returnUser -> respond(returnUser, name, email, cellPhone, homePhone, Address));
+            ProxyBuilder.callProxy(ViewBeingMonitoredByUsersActivity.this, call, returnUser -> respond(returnUser, name, email, cellPhone, homePhone, Address));
 
             return itemView;
         }
@@ -101,10 +103,10 @@ public class ViewBeingMonitoredByUsers extends AppCompatActivity {
         private void respond(User returnUser, TextView name, TextView email, TextView cellPhone, TextView homePhone, TextView Address) {
             // Update the item view with user information
             name.setText(returnUser.getName());
-            email.setText("Email: "+returnUser.getEmail());
-            cellPhone.setText("Cell Phone: "+returnUser.getCellPhone()+"");
-            homePhone.setText("Home Phone: "+returnUser.getHomePhone()+"");
-            Address.setText("Address: "+returnUser.getAddress());
+            email.setText("Email: " + returnUser.getEmail());
+            cellPhone.setText("Cell Phone: " + returnUser.getCellPhone() + "");
+            homePhone.setText("Home Phone: " + returnUser.getHomePhone() + "");
+            Address.setText("Address: " + returnUser.getAddress());
 
         }
     }

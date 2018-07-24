@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/currentgroups"
+        android:id="@+id/current_groups"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/currently_member_of"
@@ -21,7 +21,7 @@
         app:layout_constraintVertical_bias="0.029" />
 
     <ListView
-        android:id="@+id/id_currentGrps"
+        android:id="@+id/id_current_groups"
         android:layout_width="332dp"
         android:layout_height="182dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -32,7 +32,7 @@
         app:layout_constraintVertical_bias="0.166" />
 
     <Button
-        android:id="@+id/id_creteGroup"
+        android:id="@+id/id_create_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/create_groupp"
@@ -59,7 +59,7 @@
         app:layout_constraintVertical_bias="0.499" />
 
     <ListView
-        android:id="@+id/currentlyLeaderOf"
+        android:id="@+id/currently_leader_of"
         android:layout_width="347dp"
         android:layout_height="207dp"
         app:layout_constraintBottom_toBottomOf="parent"

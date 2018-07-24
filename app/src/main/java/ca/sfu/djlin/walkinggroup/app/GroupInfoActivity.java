@@ -20,8 +20,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
@@ -183,16 +181,16 @@ public class GroupInfoActivity extends AppCompatActivity {
     }
 
     private void registerClickCallback() {
-        ListView listView = findViewById(R.id.createGroupmember_list);
+        ListView listView = findViewById(R.id.create_group_member_list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Build Proxy
                 //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
-                Intent intent = ViewBeingMonitoredByUsers.launchIntentBeingMonitored(GroupInfoActivity.this);
+                Intent intent = ViewBeingMonitoredByUsersActivity.launchIntentBeingMonitored(GroupInfoActivity.this);
                 //intent.putExtra("token", token);
                 //Log.i("PLEASE WORK", returnedUser.getId()+"");
-                intent.putExtra("UserId",monitorsUsersList.get(position).getId());
+                intent.putExtra("userId",monitorsUsersList.get(position).getId());
                 startActivity(intent);
                 //proxy=data.getProxy();
                 //Call<User> caller = proxy.getUserById(monitorsUsersList.get(position).getId());
@@ -201,10 +199,10 @@ public class GroupInfoActivity extends AppCompatActivity {
         });
     }
     private void UserReturned(User returnedUser) {
-        Intent intent = ViewBeingMonitoredByUsers.launchIntentBeingMonitored(GroupInfoActivity.this);
+        Intent intent = ViewBeingMonitoredByUsersActivity.launchIntentBeingMonitored(GroupInfoActivity.this);
         //intent.putExtra("token", token);
         Log.i("PLEASE WORK", returnedUser.getId()+"");
-        intent.putExtra("UserId",returnedUser.getId());
+        intent.putExtra("userId",returnedUser.getId());
         startActivity(intent);
     }
     private void addUserResponse(User returnedUser) {
@@ -249,7 +247,7 @@ public class GroupInfoActivity extends AppCompatActivity {
 
         // Set up array adapter
         adapterMemberList = new memberListAdapter();
-        ListView list = findViewById(R.id.createGroupmember_list);
+        ListView list = findViewById(R.id.create_group_member_list);
         list.setAdapter(adapterMemberList);
     }
 

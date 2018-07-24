@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".app.Map_activityDrawer">
+    tools:context=".app.MapActivityDrawer">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -24,13 +24,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/map"
-        tools:context=".app.Map_activityDrawer"
+        tools:context=".app.MapActivityDrawer"
         android:name="com.google.android.gms.maps.SupportMapFragment" />
 
     <include layout="@layout/content_map_activity_drawer" />
 
     <Button
-        android:id="@+id/button_test"
+        android:id="@+id/leader_dashboard_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
@@ -40,7 +40,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button_test2"
+        android:id="@+id/parent_dashboard_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="352dp"

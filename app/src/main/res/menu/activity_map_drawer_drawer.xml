@@ -19,7 +19,7 @@
             android:title="@string/get_location" />
 
         <item
-            android:id="@+id/Drawersettings"
+            android:id="@+id/drawer_settings"
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/settings" />
 

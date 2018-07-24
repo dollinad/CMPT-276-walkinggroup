@@ -1,9 +1,8 @@
-package ca.sfu.djlin.walkinggroup.app;
+package ca.sfu.djlin.walkinggroup.app.messaging;
 
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -23,7 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.R;
-import ca.sfu.djlin.walkinggroup.app.messaging.LeaderMessagingActivity;
 import ca.sfu.djlin.walkinggroup.model.Session;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
