@@ -131,13 +131,13 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
     }
 
     private void setupRemoveUserButton() {
-        Button removeUserBtn = (Button) findViewById(R.id.createGroupremove_user_btn);
+        Button removeUserBtn = (Button) findViewById(R.id.create_group_remove_user_btn);
         removeUserBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Get input string
                 String removeUserEmail;
-                EditText removeUserEmailInput = (EditText) findViewById(R.id.createGroupremove_user_input);
+                EditText removeUserEmailInput = (EditText) findViewById(R.id.create_group_remove_user_input);
                 removeUserEmail = removeUserEmailInput.getText().toString();
 
                 // First make a call to proxy to get the id of user to remove
@@ -148,13 +148,13 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
     }
 
     private void setupAddUserButton() {
-        Button addUserBtn = (Button) findViewById(R.id.createGroupadd_user_btn);
+        Button addUserBtn = (Button) findViewById(R.id.create_group_add_user_btn);
         addUserBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Get input string
                 String addUserEmail;
-                EditText addUserEmailInput = (EditText) findViewById(R.id.createGroupadd_user_input);
+                EditText addUserEmailInput = (EditText) findViewById(R.id.create_group_add_user_input);
                 addUserEmail = addUserEmailInput.getText().toString();
 
                 // Make a call to proxy to obtain the user id
@@ -173,7 +173,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
             // Add the user if he is being monitored by current user
             if (userId.equals(user.getId())) {
 
-                EditText addUser=findViewById(R.id.createGroupadd_user_input);
+                EditText addUser=findViewById(R.id.create_group_add_user_input);
                 addUser.setText("");
                 Call<List<User>> call = proxy.addGroupMember(groupId, returnedUser);
                 ProxyBuilder.callProxy(CreateGroupActivity.this, call, returnedUserList -> addMemberResponse(returnedUserList));
@@ -196,7 +196,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
         if (currentGroup.getLeader() != null) {
             if (currentUserId.equals(currentGroup.getLeader().getId())) {
                 // Proceed to remove user
-                EditText removeUser=findViewById(R.id.createGroupremove_user_input);
+                EditText removeUser=findViewById(R.id.create_group_remove_user_input);
                 removeUser.setText("");
                 Call<Void> call = proxy.removeGroupMember(groupId, userId);
                 ProxyBuilder.callProxy( CreateGroupActivity.this, call, returnedNothing -> deleteUserResponse(returnedNothing));
@@ -254,7 +254,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
             @Override
             public void afterTextChanged(Editable editable) {
                 String name = editText.getText().toString();
-                Button confirmButton = findViewById(R.id.confirmGroup);
+                Button confirmButton = findViewById(R.id.confirm_group);
                 confirmButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -510,7 +510,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
 
         // Set up array adapter
         adapterMemberList = new memberListAdapter();
-        ListView list = findViewById(R.id.createGroupmember_list);
+        ListView list = findViewById(R.id.create_group_member_list);
         list.setAdapter(adapterMemberList);
     }
 

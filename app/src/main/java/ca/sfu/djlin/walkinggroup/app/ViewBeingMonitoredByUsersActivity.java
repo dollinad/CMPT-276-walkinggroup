@@ -52,7 +52,7 @@ public class ViewBeingMonitoredByUsersActivity extends AppCompatActivity {
     private void UserReturned(User returnedUser){
         getInfoOfUser=returnedUser;
         Toast.makeText(getApplicationContext(), returnedUser.getName(), Toast.LENGTH_SHORT).show();
-        TextView getInfoOfUserName=findViewById(R.id.getUserInfoOfUserName);
+        TextView getInfoOfUserName=findViewById(R.id.get_user_info_of_user_name);
         getInfoOfUserName.setText(returnedUser.getName());
         Call<List<User>> call=proxy.getMonitoredByUsers(getInfoOfUserId);
         ProxyBuilder.callProxy(ViewBeingMonitoredByUsersActivity.this, call, returnedList -> ListReturned(returnedList));
@@ -62,7 +62,7 @@ public class ViewBeingMonitoredByUsersActivity extends AppCompatActivity {
     private void ListReturned(List<User> returnedList){
         beingMonitoredBy=returnedList;
         adapter=new myListAdapter();
-        ListView listView=findViewById(R.id.usersMonitoringCurrent);
+        ListView listView=findViewById(R.id.users_monitoring_current);
         listView.setAdapter(adapter);
     }
     public static Intent launchIntentBeingMonitored(Context context) {
@@ -88,9 +88,9 @@ public class ViewBeingMonitoredByUsersActivity extends AppCompatActivity {
 
             TextView name = itemView.findViewById(R.id.in_depthlist_name);
             TextView email = itemView.findViewById(R.id.in_depthlist_email);
-            TextView cellPhone=itemView.findViewById(R.id.in_depthCellPhone);
-            TextView homePhone=itemView.findViewById(R.id.in_depthHomePhone);
-            TextView Address=itemView.findViewById(R.id.in_depthAddress);
+            TextView cellPhone=itemView.findViewById(R.id.in_depth_cellphone);
+            TextView homePhone=itemView.findViewById(R.id.in_depth_home_phone);
+            TextView Address=itemView.findViewById(R.id.in_depth_address);
             // Make a call to collect the name and email of the user
             Call<User> call = proxy.getUserById(monitoredBy.getId());
             ProxyBuilder.callProxy(ViewBeingMonitoredByUsersActivity.this, call, returnUser -> respond(returnUser, name, email, cellPhone, homePhone, Address));

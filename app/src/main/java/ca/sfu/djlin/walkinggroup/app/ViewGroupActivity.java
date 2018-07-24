@@ -49,7 +49,7 @@ public class ViewGroupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_groups);
 
-        Button button=findViewById(R.id.id_creteGroup);
+        Button button=findViewById(R.id.id_create_group);
         button.setVisibility(View.INVISIBLE);
 
 
@@ -79,9 +79,9 @@ public class ViewGroupActivity extends AppCompatActivity {
         // Store retrieved user into currentUser
         currentUser = user;
         if(user.getMemberOfGroups().size()==0 && user.getLeadsGroups().size()==0){
-            TextView textView=findViewById(R.id.currentgroups);
+            TextView textView=findViewById(R.id.current_groups);
             textView.setText("You are currently not a part of any group!");
-            Button button=findViewById(R.id.id_creteGroup);
+            Button button=findViewById(R.id.id_create_group);
             button.setVisibility(View.VISIBLE);
             // Toast.makeText(getApplicationContext(), "KK", Toast.LENGTH_SHORT).show();
         }
@@ -89,11 +89,11 @@ public class ViewGroupActivity extends AppCompatActivity {
         curretLeaderGroups=user.getLeadsGroups();
         int j;
         adapter = new myListMemberAdapter();
-        ListView list = findViewById(R.id.id_currentGrps);
+        ListView list = findViewById(R.id.id_current_groups);
         list.setAdapter(adapter);
         //j=1;
         leaderadapter= new myListLeaderAdapter();
-        ListView listLeader=findViewById(R.id.currentlyLeaderOf);
+        ListView listLeader=findViewById(R.id.currently_leader_of);
         listLeader.setAdapter(leaderadapter);
     }
 
@@ -114,8 +114,8 @@ public class ViewGroupActivity extends AppCompatActivity {
             }
 
             //list layout (des= description of the group and leader)
-            TextView des = itemView.findViewById(R.id.idGrpDes);
-            TextView leader = itemView.findViewById(R.id.idGrpLead);
+            TextView des = itemView.findViewById(R.id.id_group_description);
+            TextView leader = itemView.findViewById(R.id.id_group_leader);
 
             //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
             //checking if the current user is currently in any groups
@@ -155,8 +155,8 @@ public class ViewGroupActivity extends AppCompatActivity {
             }
 
             //list layout (des= description of the group and leader)
-            TextView des = itemView.findViewById(R.id.idGrpDes);
-            TextView leader = itemView.findViewById(R.id.idGrpLead);
+            TextView des = itemView.findViewById(R.id.id_group_description);
+            TextView leader = itemView.findViewById(R.id.id_group_leader);
 
             //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
 
@@ -190,7 +190,7 @@ public class ViewGroupActivity extends AppCompatActivity {
     }
 
     private void registerClickCallbackMember() {
-        ListView listView = findViewById(R.id.id_currentGrps);
+        ListView listView = findViewById(R.id.id_current_groups);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -204,7 +204,7 @@ public class ViewGroupActivity extends AppCompatActivity {
     }
 
     private void registerClickCallbackLeader() {
-        ListView listViewLeader = findViewById(R.id.currentlyLeaderOf);
+        ListView listViewLeader = findViewById(R.id.currently_leader_of);
         listViewLeader.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

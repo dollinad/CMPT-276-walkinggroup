@@ -181,7 +181,7 @@ public class GroupInfoActivity extends AppCompatActivity {
     }
 
     private void registerClickCallback() {
-        ListView listView = findViewById(R.id.createGroupmember_list);
+        ListView listView = findViewById(R.id.create_group_member_list);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -247,7 +247,7 @@ public class GroupInfoActivity extends AppCompatActivity {
 
         // Set up array adapter
         adapterMemberList = new memberListAdapter();
-        ListView list = findViewById(R.id.createGroupmember_list);
+        ListView list = findViewById(R.id.create_group_member_list);
         list.setAdapter(adapterMemberList);
     }
 

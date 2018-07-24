@@ -122,7 +122,7 @@ public class SettingsActivity extends AppCompatActivity{
     }
 
     private void setupNameEdit() {
-       ImageView btn=findViewById(R.id.nameClick);
+       ImageView btn=findViewById(R.id.name_click);
        btn.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -138,7 +138,7 @@ public class SettingsActivity extends AppCompatActivity{
     }
 
     private void setupBirthYearEdit() {
-        ImageView btn=findViewById(R.id.BirthYearClick);
+        ImageView btn=findViewById(R.id.birth_year_click);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -152,7 +152,7 @@ public class SettingsActivity extends AppCompatActivity{
         });
     }
     private void setupBirthMonthEdit() {
-        ImageView btn=findViewById(R.id.BirthMonthClick);
+        ImageView btn=findViewById(R.id.birth_month_click);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -166,7 +166,7 @@ public class SettingsActivity extends AppCompatActivity{
     }
 
     private void setupAddressEdit() {
-        ImageView btn=findViewById(R.id.AddressClick);
+        ImageView btn=findViewById(R.id.address_click);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,7 +180,7 @@ public class SettingsActivity extends AppCompatActivity{
     }
 
     private void setupHomePhoneEdit() {
-        ImageView btn=findViewById(R.id.HomePhoneClick);
+        ImageView btn=findViewById(R.id.home_phone_click);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -194,7 +194,7 @@ public class SettingsActivity extends AppCompatActivity{
     }
 
     private void setupCellPhoneEdit() {
-        ImageView btn=findViewById(R.id.CellPhoneClick);
+        ImageView btn=findViewById(R.id.cell_phone_click);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -244,7 +244,7 @@ public class SettingsActivity extends AppCompatActivity{
     }
 
     private void setupEmergencyContactEdit() {
-        ImageView btn=findViewById(R.id.EmergencyClick);
+        ImageView btn=findViewById(R.id.emergency_contact_click);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -258,7 +258,7 @@ public class SettingsActivity extends AppCompatActivity{
     }
 
     private void setupEmailEdit() {
-        ImageView btn=findViewById(R.id.EmailClick);
+        ImageView btn=findViewById(R.id.email_click);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -271,7 +271,7 @@ public class SettingsActivity extends AppCompatActivity{
     }
 
     private void setupGradeEdit() {
-        ImageView btn=findViewById(R.id.CurrentGradeClick);
+        ImageView btn=findViewById(R.id.current_grade_click);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -285,7 +285,7 @@ public class SettingsActivity extends AppCompatActivity{
     }
 
     private void setupTeacherEdit() {
-        ImageView btn=findViewById(R.id.TeachersNameClick);
+        ImageView btn=findViewById(R.id.teachers_name_click);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -305,43 +305,43 @@ public class SettingsActivity extends AppCompatActivity{
         // Store retrieved user into currentUser
         CurrentUser = user;
         //Toast.makeText(getApplicationContext(), CurrentUser.getName(), Toast.LENGTH_SHORT).show();
-        EditText nameDisplay=findViewById(R.id.nameDisplay);
+        EditText nameDisplay=findViewById(R.id.name_display);
         nameDisplay.setText(CurrentUser.getName());
         NameEdit(CurrentUser);
 
-        EditText EmailDisplay=findViewById(R.id.EmailDisplay);
+        EditText EmailDisplay=findViewById(R.id.email_display);
         EmailDisplay.setText(UserEmail);
         EmailEdit();
 
-        EditText birthYearDisplay=findViewById(R.id.birthYearDisplay);
+        EditText birthYearDisplay=findViewById(R.id.birth_year_display);
         birthYearDisplay.setText(user.getBirthYear()+"");
         BirthYearEdit();
 
-        EditText birthMonthDisplay=findViewById(R.id.birthMonthDisplay);
+        EditText birthMonthDisplay=findViewById(R.id.birth_month_display);
         birthMonthDisplay.setText(user.getBirthMonth()+"");
         BirthMonthEdit();
 
-        EditText AddressDisplay=findViewById(R.id.adressDisplay);
+        EditText AddressDisplay=findViewById(R.id.address_display);
         AddressDisplay.setText(user.getAddress());
         AddressEdit();
 
-        EditText HomePhoneDisplay=findViewById(R.id.homePhoneDisplay);
+        EditText HomePhoneDisplay=findViewById(R.id.home_phone_display);
         HomePhoneDisplay.setText(user.getHomePhone());
         HomePhoneEdit();
 
-        EditText CellPhoneDisplay=findViewById(R.id.cellPhoneDisplay);
+        EditText CellPhoneDisplay=findViewById(R.id.cell_phone_display);
         CellPhoneDisplay.setText(user.getCellPhone());
         CellPhoneEdit();
 
-        EditText GradeDisplay=findViewById(R.id.currentgradeDisplay);
+        EditText GradeDisplay=findViewById(R.id.current_grade_display);
         GradeDisplay.setText(user.getGrade());
         gradeEdit();
 
-        EditText teacherNameDisplay=findViewById(R.id.teacgersNameDisplay);
+        EditText teacherNameDisplay=findViewById(R.id.teachers_name_display);
         teacherNameDisplay.setText(user.getTeacherName());
         teacherNameEdit();
 
-        EditText EmergencyContactInfo=findViewById(R.id.emergencyNameDisplay);
+        EditText EmergencyContactInfo=findViewById(R.id.emergency_contact_name_display);
         EmergencyContactInfo.setText(user.getEmergencyContactInfo());
         EmergencyEdit();
 
@@ -350,7 +350,7 @@ public class SettingsActivity extends AppCompatActivity{
 
     private void EmergencyEdit() {
         Utilities.hideKeyboard(SettingsActivity.this);
-        EditText Emergency=findViewById(R.id.emergencyNameDisplay);
+        EditText Emergency=findViewById(R.id.emergency_contact_name_display);
         Emergency.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -360,7 +360,7 @@ public class SettingsActivity extends AppCompatActivity{
 
             @Override
             public void afterTextChanged(Editable s) {
-                EditText Emergency=findViewById(R.id.emergencyNameDisplay);
+                EditText Emergency=findViewById(R.id.emergency_contact_name_display);
                 EmergencyContactInfoEntered=Emergency.getText().toString();
                 CurrentUser.setEmergencyContactInfo(EmergencyContactInfoEntered);
             }
@@ -371,7 +371,7 @@ public class SettingsActivity extends AppCompatActivity{
 
     private void NameEdit(User user) {
         Utilities.hideKeyboard(SettingsActivity.this);
-        EditText nameDisplay=findViewById(R.id.nameDisplay);
+        EditText nameDisplay=findViewById(R.id.name_display);
         nameDisplay.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -381,7 +381,7 @@ public class SettingsActivity extends AppCompatActivity{
 
             @Override
             public void afterTextChanged(Editable s) {
-                EditText nameDisplay=findViewById(R.id.nameDisplay);
+                EditText nameDisplay=findViewById(R.id.name_display);
                 nameEntered=nameDisplay.getText().toString();
                 CurrentUser.setName(nameEntered);
             }
@@ -391,7 +391,7 @@ public class SettingsActivity extends AppCompatActivity{
 
     private void EmailEdit() {
         Utilities.hideKeyboard(SettingsActivity.this);
-        EditText EmailDisplay=findViewById(R.id.EmailDisplay);
+        EditText EmailDisplay=findViewById(R.id.email_display);
         EmailDisplay.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -401,7 +401,7 @@ public class SettingsActivity extends AppCompatActivity{
 
             @Override
             public void afterTextChanged(Editable s) {
-                EditText EmailDisplay=findViewById(R.id.EmailDisplay);
+                EditText EmailDisplay=findViewById(R.id.email_display);
                 emailEntered=EmailDisplay.getText().toString();
                 CurrentUser.setEmail(emailEntered);
             }
@@ -410,7 +410,7 @@ public class SettingsActivity extends AppCompatActivity{
 
     private void BirthYearEdit() {
         Utilities.hideKeyboard(SettingsActivity.this);
-        EditText BirthYearDisplay=findViewById(R.id.birthYearDisplay);
+        EditText BirthYearDisplay=findViewById(R.id.birth_year_display);
         BirthYearDisplay.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -420,7 +420,7 @@ public class SettingsActivity extends AppCompatActivity{
 
             @Override
             public void afterTextChanged(Editable s) {
-                EditText BirthYearDisplay=findViewById(R.id.birthYearDisplay);
+                EditText BirthYearDisplay=findViewById(R.id.birth_year_display);
                 birthYearEnteredString=BirthYearDisplay.getText().toString();
                 if(!birthYearEnteredString.isEmpty()){
                     birthYearEnteredint=Integer.parseInt(birthYearEnteredString);
@@ -432,7 +432,7 @@ public class SettingsActivity extends AppCompatActivity{
 
     private void BirthMonthEdit() {
         Utilities.hideKeyboard(SettingsActivity.this);
-        EditText BirthMonthDisplay=findViewById(R.id.birthMonthDisplay);
+        EditText BirthMonthDisplay=findViewById(R.id.birth_month_display);
         BirthMonthDisplay.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -442,7 +442,7 @@ public class SettingsActivity extends AppCompatActivity{
 
             @Override
             public void afterTextChanged(Editable s) {
-                EditText BirthMonthDisplay=findViewById(R.id.birthMonthDisplay);
+                EditText BirthMonthDisplay=findViewById(R.id.birth_month_display);
                 birthMonthEnteredString=BirthMonthDisplay.getText().toString();
                 if(!birthMonthEnteredString.isEmpty()){
                     birthMonthEnteredint=Integer.parseInt(birthMonthEnteredString);
@@ -454,7 +454,7 @@ public class SettingsActivity extends AppCompatActivity{
 
     private void CellPhoneEdit() {
         Utilities.hideKeyboard(SettingsActivity.this);
-        EditText CellPhoneDisplay=findViewById(R.id.cellPhoneDisplay);
+        EditText CellPhoneDisplay=findViewById(R.id.cell_phone_display);
         CellPhoneDisplay.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -464,7 +464,7 @@ public class SettingsActivity extends AppCompatActivity{
 
             @Override
             public void afterTextChanged(Editable s) {
-                EditText CellPhoneDisplay=findViewById(R.id.cellPhoneDisplay);
+                EditText CellPhoneDisplay=findViewById(R.id.cell_phone_display);
                 cellPhoneEnteredString=CellPhoneDisplay.getText().toString();
                 CurrentUser.setCellPhone(cellPhoneEnteredString);
             }
@@ -473,7 +473,7 @@ public class SettingsActivity extends AppCompatActivity{
 
     private void HomePhoneEdit() {
         Utilities.hideKeyboard(SettingsActivity.this);
-        EditText homePhoneDisplay=findViewById(R.id.homePhoneDisplay);
+        EditText homePhoneDisplay=findViewById(R.id.home_phone_display);
         homePhoneDisplay.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -483,7 +483,7 @@ public class SettingsActivity extends AppCompatActivity{
 
             @Override
             public void afterTextChanged(Editable s) {
-                EditText homePhoneDisplay=findViewById(R.id.homePhoneDisplay);
+                EditText homePhoneDisplay=findViewById(R.id.home_phone_display);
                 homePhoneEnteredString=homePhoneDisplay.getText().toString();
                 CurrentUser.setHomePhone(homePhoneEnteredString);
             }
@@ -492,7 +492,7 @@ public class SettingsActivity extends AppCompatActivity{
 
     private void gradeEdit() {
         Utilities.hideKeyboard(SettingsActivity.this);
-        EditText GradeDisplay=findViewById(R.id.currentgradeDisplay);
+        EditText GradeDisplay=findViewById(R.id.current_grade_display);
         GradeDisplay.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -502,7 +502,7 @@ public class SettingsActivity extends AppCompatActivity{
 
             @Override
             public void afterTextChanged(Editable s) {
-                EditText GradeDisplay=findViewById(R.id.currentgradeDisplay);
+                EditText GradeDisplay=findViewById(R.id.current_grade_display);
                 gradeEnteredString=GradeDisplay.getText().toString();
                 CurrentUser.setGrade(gradeEnteredString);
             }
@@ -511,7 +511,7 @@ public class SettingsActivity extends AppCompatActivity{
 
     private void AddressEdit() {
         Utilities.hideKeyboard(SettingsActivity.this);
-        EditText AddressDisplay=findViewById(R.id.adressDisplay);
+        EditText AddressDisplay=findViewById(R.id.address_display);
         AddressDisplay.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -521,7 +521,7 @@ public class SettingsActivity extends AppCompatActivity{
 
             @Override
             public void afterTextChanged(Editable s) {
-                EditText AddressDisplay=findViewById(R.id.adressDisplay);
+                EditText AddressDisplay=findViewById(R.id.address_display);
                 AddressEnteredString=AddressDisplay.getText().toString();
                 CurrentUser.setAddress(AddressEnteredString);
             }
@@ -530,7 +530,7 @@ public class SettingsActivity extends AppCompatActivity{
 
     private void teacherNameEdit() {
         Utilities.hideKeyboard(SettingsActivity.this);
-        EditText TeacherDisplay=findViewById(R.id.teacgersNameDisplay);
+        EditText TeacherDisplay=findViewById(R.id.teachers_name_display);
         TeacherDisplay.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -540,7 +540,7 @@ public class SettingsActivity extends AppCompatActivity{
 
             @Override
             public void afterTextChanged(Editable s) {
-                EditText TeacherDisplay=findViewById(R.id.teacgersNameDisplay);
+                EditText TeacherDisplay=findViewById(R.id.teachers_name_display);
                 teacherNameEnteredString=TeacherDisplay.getText().toString();
                 CurrentUser.setTeacherName(teacherNameEnteredString);
             }

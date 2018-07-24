@@ -51,16 +51,16 @@ public class ViewEmergencyContactActivity extends AppCompatActivity {
 
     private void responseCurrent(User returnedUser) {
         CurrentUser=returnedUser;
-        TextView username=findViewById(R.id.Username);
+        TextView username=findViewById(R.id.username);
         username.setText(returnedUser.getName());
-        EditText EmergencyContactInfo=findViewById(R.id.UserContactInfo);
+        EditText EmergencyContactInfo=findViewById(R.id.user_contact_info);
         EmergencyContactInfo.setText(returnedUser.getEmergencyContactInfo());
     }
 
     //get the new contact information
     private void EmergencyEdit() {
         Utilities.hideKeyboard(ViewEmergencyContactActivity.this);
-        EditText Emergency=findViewById(R.id.UserContactInfo);
+        EditText Emergency=findViewById(R.id.user_contact_info);
         Emergency.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
@@ -70,7 +70,7 @@ public class ViewEmergencyContactActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                EditText Emergency=findViewById(R.id.UserContactInfo);
+                EditText Emergency=findViewById(R.id.user_contact_info);
                 EmergencyContactInfoEntered=Emergency.getText().toString();
                 CurrentUser.setEmergencyContactInfo(EmergencyContactInfoEntered);
             }
@@ -80,7 +80,7 @@ public class ViewEmergencyContactActivity extends AppCompatActivity {
 
     //button that confirms the edit! Send the info to the user
     private void setupEditbutton() {
-        ImageView editButton=findViewById(R.id.editContactInfo);
+        ImageView editButton=findViewById(R.id.edit_contact_info);
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

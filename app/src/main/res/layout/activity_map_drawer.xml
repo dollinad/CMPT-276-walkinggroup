@@ -30,7 +30,7 @@
     <include layout="@layout/content_map_activity_drawer" />
 
     <Button
-        android:id="@+id/button_test"
+        android:id="@+id/leader_dashboard_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
@@ -40,7 +40,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/button_test2"
+        android:id="@+id/parent_dashboard_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="352dp"

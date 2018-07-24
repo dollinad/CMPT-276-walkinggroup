@@ -115,7 +115,7 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_map_drawer_test);
+        setContentView(R.layout.activity_map_drawer_nav_menu);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -230,9 +230,9 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
         View header=navigationView.getHeaderView(0);
 
         //customising navigation drawer Header
-        TextView name=(TextView)header.findViewById(R.id.navUserName);
+        TextView name=(TextView)header.findViewById(R.id.nav_user_name);
         name.setText(returnedNothing.getName());
-        TextView email=(TextView)header.findViewById(R.id.navUserEmail);
+        TextView email=(TextView)header.findViewById(R.id.nav_user_email);
         email.setText(returnedNothing.getEmail());
         currentUserEmail=returnedNothing.getEmail();
 
@@ -316,7 +316,7 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
     }
 
     private void setUpTest() {
-        Button button = findViewById(R.id.button_test);
+        Button button = findViewById(R.id.leader_dashboard_button);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -330,7 +330,7 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
         });
     }
     private void setUpTest2() {
-        Button button2=findViewById(R.id.button_test2);
+        Button button2=findViewById(R.id.parent_dashboard_button);
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -632,7 +632,7 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
             pass_intent.putExtra("Email", currentUserEmail);
             startActivityForResult(pass_intent,REQUEST_CODE_GETDATA);
         }
-        else if(id==R.id.Drawersettings){
+        else if(id==R.id.drawer_settings){
             Intent pass_intent=SettingsActivity.launchIntentSettings(MapActivityDrawer.this);
             SharedPreferences preferences = MapActivityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
             token = preferences.getString("Token", null);

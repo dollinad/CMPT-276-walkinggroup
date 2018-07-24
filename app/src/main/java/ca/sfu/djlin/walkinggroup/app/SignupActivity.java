@@ -234,7 +234,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Setup text watcher for user's birthYear
-        EditText userBirthYear = findViewById(R.id.birthYear_input);
+        EditText userBirthYear = findViewById(R.id.birth_year_input);
         userBirthYear.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -244,7 +244,7 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText userBirthYear = findViewById(R.id.birthYear_input);
+                EditText userBirthYear = findViewById(R.id.birth_year_input);
                 userBirthYearString= userBirthYear.getText().toString();
                 if(!userBirthYearString.isEmpty()){
                     userBirthYearint=Integer.parseInt(userBirthYearString);
@@ -278,7 +278,7 @@ public class SignupActivity extends AppCompatActivity {
 
 
         // Setup text watcher for user's Birth Month
-        EditText userBirthMonth = findViewById(R.id.birthMonth_input);
+        EditText userBirthMonth = findViewById(R.id.birth_month_input);
         userBirthMonth.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -288,7 +288,7 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText userBirthMonth = findViewById(R.id.birthMonth_input);
+                EditText userBirthMonth = findViewById(R.id.birth_month_input);
                 userBirthMonthString= userBirthMonth.getText().toString();
                 if(!userBirthYearString.isEmpty()){
                     userBirthMonthint=Integer.parseInt(userBirthMonthString);
@@ -321,7 +321,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Setup text watcher for user's Celll Phone
-        EditText userCellPhone = findViewById(R.id.CellPhone_input);
+        EditText userCellPhone = findViewById(R.id.cellphone_input);
         userCellPhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -331,7 +331,7 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText userCellPhone = findViewById(R.id.CellPhone_input);
+                EditText userCellPhone = findViewById(R.id.cellphone_input);
                 userCellPhoneString = userCellPhone.getText().toString();
             }
         });
@@ -361,7 +361,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Setup text watcher for user's Home Phone
-        EditText userHomePhone = findViewById(R.id.HomePhone_input);
+        EditText userHomePhone = findViewById(R.id.home_phone_input);
         userHomePhone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -371,7 +371,7 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText userHomePhone = findViewById(R.id.HomePhone_input);
+                EditText userHomePhone = findViewById(R.id.home_phone_input);
                 userHomePhoneString = userHomePhone.getText().toString();
             }
         });
@@ -401,7 +401,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Setup text watcher for user's address
-        EditText userAddress = findViewById(R.id.Address_input);
+        EditText userAddress = findViewById(R.id.address_input);
         userAddress.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -411,7 +411,7 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText userAddress = findViewById(R.id.Address_input);
+                EditText userAddress = findViewById(R.id.address_input);
                 userAddressString = userAddress.getText().toString();
             }
         });
@@ -441,7 +441,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Setup text watcher for user's Current Grade
-        EditText userGrade = findViewById(R.id.CurrentGrade_input);
+        EditText userGrade = findViewById(R.id.current_grade_input);
         userGrade.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -451,7 +451,7 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText userGrade = findViewById(R.id.CurrentGrade_input);
+                EditText userGrade = findViewById(R.id.current_grade_input);
                 userCurrentGradeString = userGrade.getText().toString();
             }
         });
@@ -481,7 +481,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Setup text watcher for user's teachers name
-        EditText userTeacherName = findViewById(R.id.TeacherName_input);
+        EditText userTeacherName = findViewById(R.id.teacher_name_input);
         userTeacherName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -491,7 +491,7 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText userTeacherName = findViewById(R.id.TeacherName_input);
+                EditText userTeacherName = findViewById(R.id.teacher_name_input);
                 userTeacherNameString = userTeacherName.getText().toString();
             }
         });
@@ -521,7 +521,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Setup text watcher for user's emergency info
-        EditText EmergencyName = findViewById(R.id.EmergencyContact_input);
+        EditText EmergencyName = findViewById(R.id.emergency_contact_input);
         EmergencyName.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -531,7 +531,7 @@ public class SignupActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText EmergencyName = findViewById(R.id.EmergencyContact_input);
+                EditText EmergencyName = findViewById(R.id.emergency_contact_input);
                 EmergencyContactInfo = EmergencyName.getText().toString();
             }
         });

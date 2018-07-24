@@ -96,7 +96,7 @@ public class PreferencesActivity extends AppCompatActivity {
 
 
     private void deleteMonitors() {
-        ImageView h=findViewById(R.id.removeUser);
+        ImageView h=findViewById(R.id.remove_user);
         ListView list = findViewById(R.id.monitoring_list);
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -191,7 +191,7 @@ public class PreferencesActivity extends AppCompatActivity {
     }
 
     private void setupAddMonitoringUser() {
-        EditText userEmail = findViewById(R.id.addMonitoredUserInput);
+        EditText userEmail = findViewById(R.id.add_monitored_user_input);
         userEmail.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
@@ -201,7 +201,7 @@ public class PreferencesActivity extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText userEmail = findViewById(R.id.addMonitoredUserInput);
+                EditText userEmail = findViewById(R.id.add_monitored_user_input);
                 userToAddEmail = userEmail.getText().toString();
             }
         });
@@ -230,7 +230,7 @@ public class PreferencesActivity extends AppCompatActivity {
             }
         });
 
-        Button AddButton = findViewById(R.id.addMonitoredUserBtn);
+        Button AddButton = findViewById(R.id.add_monitored_user_button);
         AddButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -368,7 +368,7 @@ public class PreferencesActivity extends AppCompatActivity {
             User monitors = currentUser.getMonitorsUsers().get(position);
             TextView name = itemView.findViewById(R.id.list_name);
             TextView email = itemView.findViewById(R.id.list_email);
-            ImageView remove=itemView.findViewById(R.id.removeUser);
+            ImageView remove=itemView.findViewById(R.id.remove_user);
 
             // Make a call to collect the name and email of the user
             Call<User> call = proxy.getUserById(monitors.getId());
@@ -455,7 +455,7 @@ public class PreferencesActivity extends AppCompatActivity {
             User monitoredBy = currentUser.getMonitoredByUsers().get(position);
             TextView name = itemView.findViewById(R.id.list_name);
             TextView email = itemView.findViewById(R.id.list_email);
-            ImageView remove=itemView.findViewById(R.id.removeUser);
+            ImageView remove=itemView.findViewById(R.id.remove_user);
 
             // Make a call to collect the name and email of the user
             Call<User> call = proxy.getUserById(monitoredBy.getId());
