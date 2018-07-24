@@ -23,26 +23,23 @@ import retrofit2.Call;
 
 public class ViewEmergencyContactActivity extends AppCompatActivity {
     WGServerProxy proxy;
-    User CurrentUser;
-    Long CurrentUserId;
+    User currentUser;
+    Long currentUserId;
     String currentUserToken;
-    String EmergencyContactInfoEntered;
+    String emergencyContactInfoEntered;
     Session session;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_contact_info);
-        //Intent intent=getIntent();
-        //CurrentUserId=intent.getLongExtra("User Id", 0);
-        //currentUserToken=intent.getStringExtra("Token");
 
-        //proxy= ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
-        session=Session.getSession(getApplicationContext());
-        proxy=session.getProxy();
-        CurrentUser=session.getUser();
-        CurrentUserId=CurrentUser.getId();
+        session = Session.getSession(getApplicationContext());
+        proxy = session.getProxy();
+        currentUser = session.getUser();
+        currentUserId = currentUser.getId();
         // Get current user information
-        Call<User> caller = proxy.getUserById(CurrentUserId);
+        Call<User> caller = proxy.getUserById(currentUserId);
         ProxyBuilder.callProxy(ViewEmergencyContactActivity.this, caller, returnedUser -> responseCurrent(returnedUser));
 
         setupEditbutton();
@@ -50,50 +47,52 @@ public class ViewEmergencyContactActivity extends AppCompatActivity {
     }
 
     private void responseCurrent(User returnedUser) {
-        CurrentUser=returnedUser;
-        TextView username=findViewById(R.id.username);
+        currentUser = returnedUser;
+        TextView username = findViewById(R.id.username);
         username.setText(returnedUser.getName());
-        EditText EmergencyContactInfo=findViewById(R.id.user_contact_info);
+        EditText EmergencyContactInfo = findViewById(R.id.user_contact_info);
         EmergencyContactInfo.setText(returnedUser.getEmergencyContactInfo());
     }
 
     //get the new contact information
     private void EmergencyEdit() {
         Utilities.hideKeyboard(ViewEmergencyContactActivity.this);
-        EditText Emergency=findViewById(R.id.user_contact_info);
+        EditText Emergency = findViewById(R.id.user_contact_info);
         Emergency.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) { }
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
-                EditText Emergency=findViewById(R.id.user_contact_info);
-                EmergencyContactInfoEntered=Emergency.getText().toString();
-                CurrentUser.setEmergencyContactInfo(EmergencyContactInfoEntered);
+                EditText Emergency = findViewById(R.id.user_contact_info);
+                emergencyContactInfoEntered = Emergency.getText().toString();
+                currentUser.setEmergencyContactInfo(emergencyContactInfoEntered);
             }
 
         });
     }
 
-    //button that confirms the edit! Send the info to the user
+    // Button that confirms the edit! Send the info to the user
     private void setupEditbutton() {
-        ImageView editButton=findViewById(R.id.edit_contact_info);
+        ImageView editButton = findViewById(R.id.edit_contact_info);
         editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), CurrentUser.getId()+"", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), currentUser.getId() + "", Toast.LENGTH_SHORT).show();
                 proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
-                Call<User> call=proxy.editUser(CurrentUser.getId(), CurrentUser);
+                Call<User> call = proxy.editUser(currentUser.getId(), currentUser);
                 ProxyBuilder.callProxy(ViewEmergencyContactActivity.this, call, returnedUser -> responseEdit(returnedUser));
             }
         });
     }
 
     private void responseEdit(User returnedUser) {
-        CurrentUser=returnedUser;
+        currentUser = returnedUser;
     }
 
     public static Intent launchIntentViewEmergency(Context context) {

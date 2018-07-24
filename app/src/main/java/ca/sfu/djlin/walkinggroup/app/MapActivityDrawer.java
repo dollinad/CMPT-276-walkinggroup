@@ -73,7 +73,8 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
     private static final int REQUEST_CODE_GET_DATA = 1024;
     private static final int REQUEST_CODE_GETDATA = 1020;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1234;
-    private static final float DEFAULT_ZOOM = 15f;;
+    private static final float DEFAULT_ZOOM = 15f;
+    ;
 
     // Map Permissions
     private static final String FINE_LOCATION = Manifest.permission.ACCESS_FINE_LOCATION;
@@ -84,11 +85,11 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
     private FusedLocationProviderClient mFusedLocationProviderClient;
     public static GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
-    private LatLng currentposition = new LatLng(0,0);
+    private LatLng currentposition = new LatLng(0, 0);
     private LatLng latlng;
     List<Marker> markers = new ArrayList();
     private Marker meetingMarker;
-    private Timer timer=new Timer();
+    private Timer timer = new Timer();
     // Create HashMap used for storing group ID
     private HashMap<Marker, Long> mHashMap = new HashMap<Marker, Long>();
 
@@ -101,16 +102,16 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
     private WGServerProxy proxy;
 
     // User Variables
-    private User currentUser=new User();
-    int counts=0;
-    Group eventGroup=new Group();
+    private User currentUser = new User();
+    int counts = 0;
+    Group eventGroup = new Group();
     String token;
     String currentUserEmail;
     String currentUserName;
     Long selectedGroupId;
     Long UserId;
     Session data;
-    boolean ifreached=false;
+    boolean ifreached = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,20 +131,20 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
         token = preferences.getString("Token", null);
         //currentUserEmail = preferences.getString("Email", null);
         //currentUserName=preferences.getString("Name", null);
-        //UserId=preferences.getLong("User Id", 0);
+        //userId=preferences.getLong("User Id", 0);
 
         // Build new proxy
-       //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+        //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey));
-        data=Session.getSession(getApplicationContext());
-        proxy=data.getProxy();
-        currentUser=data.getUser();
+        data = Session.getSession(getApplicationContext());
+        proxy = data.getProxy();
+        currentUser = data.getUser();
 
-        UserId=currentUser.getId();
-        Log.i("JKJK", UserId+"");
+        UserId = currentUser.getId();
+        Log.i("JKJK", UserId + "");
 
-        if(UserId!=0) {
-            proxy=data.getProxy();
+        if (UserId != 0) {
+            proxy = data.getProxy();
             Call<User> call = proxy.getUserById(UserId);
             ProxyBuilder.callProxy(MapActivityDrawer.this, call, returnedNothing -> responseCurrent(returnedNothing));
         }
@@ -163,7 +164,7 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
     }
 
     private void onWalkMessagingListener() {
-         onWalkMessaging.setOnClickListener(new View.OnClickListener() {
+        onWalkMessaging.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Build a dialog box
@@ -189,7 +190,7 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
                         newMessage.setEmergency(isEmergencyText);
 
                         // Make a new call to send message to all parents and leaders
-                        proxy=data.getProxy();
+                        proxy = data.getProxy();
                         Call<List<ca.cmpt276.walkinggroup.dataobjects.Message>> call = proxy.newMessageToParentsOf(data.getUser().getId(), newMessage);
                         ProxyBuilder.callProxy(MapActivityDrawer.this, call, returnedList -> sendMessageResponse(returnedList));
                     }
@@ -227,14 +228,14 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
         //Navigation Drawer Header layout
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        View header=navigationView.getHeaderView(0);
+        View header = navigationView.getHeaderView(0);
 
         //customising navigation drawer Header
-        TextView name=(TextView)header.findViewById(R.id.nav_user_name);
+        TextView name = (TextView) header.findViewById(R.id.nav_user_name);
         name.setText(returnedNothing.getName());
-        TextView email=(TextView)header.findViewById(R.id.nav_user_email);
+        TextView email = (TextView) header.findViewById(R.id.nav_user_email);
         email.setText(returnedNothing.getEmail());
-        currentUserEmail=returnedNothing.getEmail();
+        currentUserEmail = returnedNothing.getEmail();
 
     }
 
@@ -273,13 +274,13 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
         //currentUserEmail = preferences.getString("Email", null);
         //Log.d(TAG, "onMapReady: The current token is: " + token);
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
-        proxy=data.getProxy();
-        currentUser=data.getUser();
-        currentUserEmail=currentUser.getEmail();
-        Intent intent=getIntent();
-        if(intent.getExtras()!=null) {
-            latlng=new LatLng(intent.getDoubleExtra("lat",0), intent.getDoubleExtra("lng", 0));
-            String groupName=intent.getStringExtra("groupName");
+        proxy = data.getProxy();
+        currentUser = data.getUser();
+        currentUserEmail = currentUser.getEmail();
+        Intent intent = getIntent();
+        if (intent.getExtras() != null) {
+            latlng = new LatLng(intent.getDoubleExtra("lat", 0), intent.getDoubleExtra("lng", 0));
+            String groupName = intent.getStringExtra("groupName");
             Marker marker = mMap.addMarker(new MarkerOptions().position(latlng).title(groupName));
             markers.add(marker);
             mHashMap.put(marker, intent.getLongExtra("groupId", 0));
@@ -289,7 +290,7 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
         setGroupMarker();
 
         // Listener for group marker clicks
-        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener(){
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
                 // Obtain groupId
@@ -299,10 +300,10 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
 
                 // Draw the meeting location marker
                 if (!marker.equals(meetingMarker)) {
-                    proxy=data.getProxy();
+                    proxy = data.getProxy();
                     Call<Group> call = proxy.getGroupById(groupId);
                     ProxyBuilder.callProxy(MapActivityDrawer.this, call, returnedGroup -> drawMeetingMarker(returnedGroup));
-                } else if (marker.equals(meetingMarker)){
+                } else if (marker.equals(meetingMarker)) {
                     Toast.makeText(MapActivityDrawer.this, MapActivityDrawer.this.getString(R.string.meeting_location), Toast.LENGTH_SHORT).show();
 
                 } else {
@@ -324,30 +325,30 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
                     Intent intent = LeaderMapActivity.launchIntentMap(MapActivityDrawer.this);
                     startActivity(intent);
                 } else {
-                    Toast.makeText(MapActivityDrawer.this,"You have no group to lead right now",Toast.LENGTH_LONG).show();
-                }
-            }
-        });
-    }
-    private void setUpTest2() {
-        Button button2=findViewById(R.id.parent_dashboard_button);
-        button2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(currentUser.getMonitorsUsers().isEmpty()==false) {
-                    Intent intent = ParentMapActivity.launchIntentMap(MapActivityDrawer.this);
-                    startActivity(intent);
-                }
-                else{
-                    Toast.makeText(MapActivityDrawer.this,"You are not monitoring any user now",Toast.LENGTH_LONG).show();
+                    Toast.makeText(MapActivityDrawer.this, "You have no group to lead right now", Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
 
-    public void setGroupMarker(){
+    private void setUpTest2() {
+        Button button2 = findViewById(R.id.parent_dashboard_button);
+        button2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentUser.getMonitorsUsers().isEmpty() == false) {
+                    Intent intent = ParentMapActivity.launchIntentMap(MapActivityDrawer.this);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(MapActivityDrawer.this, "You are not monitoring any user now", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+    }
+
+    public void setGroupMarker() {
         Log.d(TAG, "setGroupMarker: The current token is " + token);
-        proxy=data.getProxy();
+        proxy = data.getProxy();
         Call<List<Group>> caller = proxy.getGroups();
         ProxyBuilder.callProxy(MapActivityDrawer.this, caller, returnedGroups -> response(returnedGroups));
     }
@@ -388,7 +389,7 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
         Log.d(TAG, "getDeviceLocation: getting device location");
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         try {
-            if (mLocationPermissionsGranted){
+            if (mLocationPermissionsGranted) {
                 Task location = mFusedLocationProviderClient.getLastLocation();
                 location.addOnCompleteListener(new OnCompleteListener() {
                     @Override
@@ -398,7 +399,7 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
                             Location currentLocation = (Location) task.getResult();
 
                             //System.out.println(currentLocation.getLatitude());
-                            currentposition=new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                            currentposition = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM, "My Location");
                         } else {
@@ -413,7 +414,7 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
         }
     }
 
-    public void setMapClickListeners(){
+    public void setMapClickListeners() {
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
@@ -483,10 +484,10 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
         } else {
             Toast.makeText(MapActivityDrawer.this, MapActivityDrawer.this.getString(R.string.no_meeting_location), Toast.LENGTH_SHORT).show();
         }*/
-        Intent intent=GroupInfoActivity.launchGroupInfoIntent(MapActivityDrawer.this);
+        Intent intent = GroupInfoActivity.launchGroupInfoIntent(MapActivityDrawer.this);
         intent.putExtra("groupId", group.getId());
         intent.putExtra("token", token);
-        startActivityForResult(intent,REQUEST_CODE_GETDATA);
+        startActivityForResult(intent, REQUEST_CODE_GETDATA);
     }
 
 
@@ -511,7 +512,7 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
         Log.d(TAG, "getLocationPermission: getting location permissions");
         String[] permissions = {FINE_LOCATION, COARSE_LOCATION};
 
-        if(ContextCompat.checkSelfPermission(this.getApplicationContext(), FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(), FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             if (ContextCompat.checkSelfPermission(this.getApplicationContext(), COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 mLocationPermissionsGranted = true;
                 initMap();
@@ -536,10 +537,10 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         mLocationPermissionsGranted = false;
 
-        switch(requestCode) {
-            case LOCATION_PERMISSION_REQUEST_CODE:{
-                if(grantResults.length > 0) {
-                    for (int i = 0 ; i < grantResults.length; i++) {
+        switch (requestCode) {
+            case LOCATION_PERMISSION_REQUEST_CODE: {
+                if (grantResults.length > 0) {
+                    for (int i = 0; i < grantResults.length; i++) {
                         if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
                             Log.d(TAG, "onRequestPermissionsResult: permission failed");
                             mLocationPermissionsGranted = false;
@@ -589,17 +590,14 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
 
         if (id == R.id.logout) {
             logout();
-        }
-        else if (id == R.id.get_location) {
+        } else if (id == R.id.get_location) {
             Log.d(TAG, "onClick: clicked gps icon");
             getDeviceLocation();
-        }
-        else if(id == R.id.messages) {
+        } else if (id == R.id.messages) {
             // Launch view messages activity
             Intent intent = ViewMessagesActivity.launchViewMessageIntent(MapActivityDrawer.this);
             startActivity(intent);
-        }
-        else if (id == R.id.create_group) {
+        } else if (id == R.id.create_group) {
             Log.d(TAG, "Clicking on group info button");
 
             // Launch Group Info Activity and pass groupId
@@ -607,8 +605,7 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
             intent.putExtra("groupId", selectedGroupId);
             intent.putExtra("token", token);
             startActivity(intent);
-        }
-        else if (id == R.id.monitoring_preferences) {
+        } else if (id == R.id.monitoring_preferences) {
             Toast.makeText(getApplicationContext(), "PPP", Toast.LENGTH_SHORT).show();
             Intent pass_intent = PreferencesActivity.launchIntentPreferences(MapActivityDrawer.this);
 
@@ -619,8 +616,7 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
             //pass_intent.putExtra("Token", token);
             pass_intent.putExtra("Email", currentUserEmail);
             startActivity(pass_intent);
-        }
-        else if(id==R.id.view_groups){
+        } else if (id == R.id.view_groups) {
             Toast.makeText(getApplicationContext(), "PPP", Toast.LENGTH_SHORT).show();
             Intent pass_intent = ViewGroupActivity.launchIntentViewGroups(MapActivityDrawer.this);
 
@@ -630,10 +626,9 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
 
             //pass_intent.putExtra("Token", token);
             pass_intent.putExtra("Email", currentUserEmail);
-            startActivityForResult(pass_intent,REQUEST_CODE_GETDATA);
-        }
-        else if(id==R.id.drawer_settings){
-            Intent pass_intent=SettingsActivity.launchIntentSettings(MapActivityDrawer.this);
+            startActivityForResult(pass_intent, REQUEST_CODE_GETDATA);
+        } else if (id == R.id.drawer_settings) {
+            Intent pass_intent = SettingsActivity.launchIntentSettings(MapActivityDrawer.this);
             SharedPreferences preferences = MapActivityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
             token = preferences.getString("Token", null);
             currentUserEmail = preferences.getString("Email", null);
@@ -653,7 +648,8 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
 
     //Navigation drawer related function (Came with the class)
     @Override
-    public void onPointerCaptureChanged(boolean hasCapture) { }
+    public void onPointerCaptureChanged(boolean hasCapture) {
+    }
 
     //                                                                  ANDROID BACK BUTTON AND LOGOUT
 
@@ -672,22 +668,20 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
         //super.onActivityResult(requestCode, resultCode, data);
         switch (requestCode) {
             case REQUEST_CODE_GETDATA:
-                if(resultCode == Activity.RESULT_OK)
-                {
-                   Long eventgroupId= ViewGroupActivity.getResultGroupId(data);
-                   eventGroup=getEventGroup(eventgroupId);
-                }
-                else
-                {
-                    Log.i("My app","Activity cancelled.");
+                if (resultCode == Activity.RESULT_OK) {
+                    Long eventgroupId = ViewGroupActivity.getResultGroupId(data);
+                    eventGroup = getEventGroup(eventgroupId);
+                } else {
+                    Log.i("My app", "Activity cancelled.");
                 }
         }
     }
+
     private void logout() {
         Log.d(TAG, "logout: Attempting to logout...");
         Intent intent = WelcomeActivity.launchWelcomeIntent(MapActivityDrawer.this);
 
-        SharedPreferences preferences = MapActivityDrawer.this.getSharedPreferences("User Session" , MODE_PRIVATE);
+        SharedPreferences preferences = MapActivityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.remove("Token");
         editor.remove("Email");
@@ -697,21 +691,21 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
         finish();
     }
 
-    public void getUserId(){
-        proxy=data.getProxy();
-        Call<User> caller=proxy.getUserByEmail(currentUserEmail);
-        ProxyBuilder.callProxy(this,caller,returnedUser->UserResponse(returnedUser));
+    public void getUserId() {
+        proxy = data.getProxy();
+        Call<User> caller = proxy.getUserByEmail(currentUserEmail);
+        ProxyBuilder.callProxy(this, caller, returnedUser -> UserResponse(returnedUser));
     }
 
 
     //uploading gps location
 
     private void setUpStart() {
-        Button button=findViewById(R.id.button_start);
+        Button button = findViewById(R.id.button_start);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MapActivityDrawer.this,"start Uploading gps location",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapActivityDrawer.this, "start Uploading gps location", Toast.LENGTH_SHORT).show();
                 updateGpsLoaction();
 
                 // Display on walk messaging features
@@ -722,12 +716,12 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
     }
 
     private void setUpStop() {
-        Button button=findViewById(R.id.button_stop);
+        Button button = findViewById(R.id.button_stop);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 System.out.println("timer cancel");
-                Toast.makeText(MapActivityDrawer.this,"Stop Uploading",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MapActivityDrawer.this, "Stop Uploading", Toast.LENGTH_SHORT).show();
                 timer.cancel();
                 timer = new Timer();
 
@@ -737,34 +731,33 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
         });
 
     }
-    public void updateGpsLoaction(){
+
+    public void updateGpsLoaction() {
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
                 ifarrived(eventGroup);
-                if(ifreached){
-                    Log.i("GPS","User has reached destination");
+                if (ifreached) {
+                    Log.i("GPS", "User has reached destination");
                     //timer.cancel();
                     //timer=new Timer();
                     counts++;
-                    if(counts==10) {
+                    if (counts == 10) {
                         counts = 0;
                         timer.cancel();
-                        timer=new Timer();
+                        timer = new Timer();
                     }
-                }
-
-                else {
+                } else {
                     getDeviceLocation();
                     GpsLocation gpsLocation = new GpsLocation();
                     gpsLocation.setGpsLocation(currentposition, getTime());
-                    proxy=data.getProxy();
+                    proxy = data.getProxy();
                     Call<GpsLocation> caller = proxy.setLastGpsLocation(UserId, gpsLocation);
                     ProxyBuilder.callProxy(MapActivityDrawer.this, caller, returnGps -> updateGpsResponse(returnGps));
 
                 }
             }
-        },0,3000);
+        }, 0, 3000);
 
     }
 
@@ -773,49 +766,49 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
     }
 
     private void UserResponse(User returnedUser) {
-        currentUser=returnedUser;
+        currentUser = returnedUser;
     }
 
 
     //check if reach the destination
-    public Group getEventGroup(Long group_Id){
-        Group group=new Group();
+    public Group getEventGroup(Long group_Id) {
+        Group group = new Group();
         Call<Group> caller = proxy.getGroupById(group_Id);
         ProxyBuilder.callProxy(MapActivityDrawer.this, caller, new ProxyBuilder.SimpleCallback<Group>() {
             @Override
             public void callback(Group ans) {
-                eventGroup=ans;
+                eventGroup = ans;
             }
         });
         return group;
     }
-    public void ifarrived(Group returnGroup){
-        if(eventGroup.getId()==null) {
-            ifreached=false;
-        }
-        else {
-            Call<GpsLocation> caller_=proxy.getLastGpsLocation(currentUser.getId());
+
+    public void ifarrived(Group returnGroup) {
+        if (eventGroup.getId() == null) {
+            ifreached = false;
+        } else {
+            Call<GpsLocation> caller_ = proxy.getLastGpsLocation(currentUser.getId());
             ProxyBuilder.callProxy(MapActivityDrawer.this, caller_, new ProxyBuilder.SimpleCallback<GpsLocation>() {
                 @Override
                 public void callback(GpsLocation ans) {
                     LatLng meeting = new LatLng(returnGroup.getRouteLatArray().get(0), returnGroup.getRouteLngArray().get(0));
                     double range = 0.00015;
-                    double diff_1=abs(ans.getLat()-meeting.latitude);
-                    double diff_2=abs(ans.getLng()-meeting.longitude);
-                    if (diff_1<range && diff_2<range) {
+                    double diff_1 = abs(ans.getLat() - meeting.latitude);
+                    double diff_2 = abs(ans.getLng() - meeting.longitude);
+                    if (diff_1 < range && diff_2 < range) {
                         ifreached = true;
-                    }
-                    else {
-                        ifreached=false;
+                    } else {
+                        ifreached = false;
                     }
 
                 }
             });
         }
     }
+
     //get system time;
-    private String getTime(){
-        Calendar calendar=Calendar.getInstance();
+    private String getTime() {
+        Calendar calendar = Calendar.getInstance();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String strDate = sdf.format(calendar.getTime());
         return strDate;

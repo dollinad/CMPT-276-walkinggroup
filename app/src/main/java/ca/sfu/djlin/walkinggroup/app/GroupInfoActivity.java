@@ -190,7 +190,7 @@ public class GroupInfoActivity extends AppCompatActivity {
                 Intent intent = ViewBeingMonitoredByUsersActivity.launchIntentBeingMonitored(GroupInfoActivity.this);
                 //intent.putExtra("token", token);
                 //Log.i("PLEASE WORK", returnedUser.getId()+"");
-                intent.putExtra("UserId",monitorsUsersList.get(position).getId());
+                intent.putExtra("userId",monitorsUsersList.get(position).getId());
                 startActivity(intent);
                 //proxy=data.getProxy();
                 //Call<User> caller = proxy.getUserById(monitorsUsersList.get(position).getId());
@@ -202,7 +202,7 @@ public class GroupInfoActivity extends AppCompatActivity {
         Intent intent = ViewBeingMonitoredByUsersActivity.launchIntentBeingMonitored(GroupInfoActivity.this);
         //intent.putExtra("token", token);
         Log.i("PLEASE WORK", returnedUser.getId()+"");
-        intent.putExtra("UserId",returnedUser.getId());
+        intent.putExtra("userId",returnedUser.getId());
         startActivity(intent);
     }
     private void addUserResponse(User returnedUser) {

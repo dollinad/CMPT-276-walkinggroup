@@ -95,7 +95,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
     private FusedLocationProviderClient mFusedLocationProviderClient;
     private GoogleMap mMap;
     private GoogleApiClient mGoogleApiClient;
-    private LatLng currentposition = new LatLng(0,0);
+    private LatLng currentposition = new LatLng(0, 0);
     private LatLng latlng;
     List<Marker> markers = new ArrayList();
     private Marker meetingMarker;
@@ -112,7 +112,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
         token = intent.getStringExtra("token");
 
         // Store current group information
-        intendedLatLng = new LatLng(intent.getDoubleExtra("lat",0),intent.getDoubleExtra("lng",0));
+        intendedLatLng = new LatLng(intent.getDoubleExtra("lat", 0), intent.getDoubleExtra("lng", 0));
 
         getLocationPermission();
 
@@ -173,7 +173,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
             // Add the user if he is being monitored by current user
             if (userId.equals(user.getId())) {
 
-                EditText addUser=findViewById(R.id.create_group_add_user_input);
+                EditText addUser = findViewById(R.id.create_group_add_user_input);
                 addUser.setText("");
                 Call<List<User>> call = proxy.addGroupMember(groupId, returnedUser);
                 ProxyBuilder.callProxy(CreateGroupActivity.this, call, returnedUserList -> addMemberResponse(returnedUserList));
@@ -196,10 +196,10 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
         if (currentGroup.getLeader() != null) {
             if (currentUserId.equals(currentGroup.getLeader().getId())) {
                 // Proceed to remove user
-                EditText removeUser=findViewById(R.id.create_group_remove_user_input);
+                EditText removeUser = findViewById(R.id.create_group_remove_user_input);
                 removeUser.setText("");
                 Call<Void> call = proxy.removeGroupMember(groupId, userId);
-                ProxyBuilder.callProxy( CreateGroupActivity.this, call, returnedNothing -> deleteUserResponse(returnedNothing));
+                ProxyBuilder.callProxy(CreateGroupActivity.this, call, returnedNothing -> deleteUserResponse(returnedNothing));
             }
         }
 
@@ -214,8 +214,8 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
     }
 
     // response for deleting user
-    private void deleteUserResponse (Void response) {
-        Toast.makeText(CreateGroupActivity.this,CreateGroupActivity.this.getString(R.string.user_deleted_toast), Toast.LENGTH_SHORT).show();
+    private void deleteUserResponse(Void response) {
+        Toast.makeText(CreateGroupActivity.this, CreateGroupActivity.this.getString(R.string.user_deleted_toast), Toast.LENGTH_SHORT).show();
 
         // Update the UI
         refreshUI();
@@ -223,7 +223,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
 
     // setup Confirm Group
     private void setupConfirmGroup() {
-        Button confirmGroup=findViewById(R.id.confirm_btn);
+        Button confirmGroup = findViewById(R.id.confirm_btn);
         confirmGroup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -276,7 +276,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
         groupId = group.getId();
         groupDescription = group.getGroupDescription();
         currentUser.getLeadsGroups().add(group);
-        Log.i("NMNMNM", currentUser.getLeadsGroups().get(0)+"");
+        Log.i("NMNMNM", currentUser.getLeadsGroups().get(0) + "");
     }
 
     private void setupBackButton() {
@@ -292,11 +292,10 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
     // Function for retrieving Current user info
     private void retrieveCurrentUserInformation() {
         // Set up proxy
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey),token);
+        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
         Call<User> call = proxy.getUserById(currentUserId);
         ProxyBuilder.callProxy(CreateGroupActivity.this, call, returnedUser -> storeUserInfo(returnedUser));
     }
-
 
 
     // Map functions
@@ -332,7 +331,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
         Log.d(TAG, "getDeviceLocation: getting device location");
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         try {
-            if (mLocationPermissionsGranted){
+            if (mLocationPermissionsGranted) {
                 Task location = mFusedLocationProviderClient.getLastLocation();
                 location.addOnCompleteListener(new OnCompleteListener() {
                     @Override
@@ -342,7 +341,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
                             Location currentLocation = (Location) task.getResult();
 
                             System.out.println(currentLocation.getLatitude());
-                            currentposition=new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+                            currentposition = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
 
                             moveCamera(new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude()), DEFAULT_ZOOM, "My Location");
                         } else {
@@ -378,7 +377,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
         Log.d(TAG, "getLocationPermission: getting location permissions");
         String[] permissions = {FINE_LOCATION, COARSE_LOCATION};
 
-        if(ContextCompat.checkSelfPermission(this.getApplicationContext(), FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(), FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
             if (ContextCompat.checkSelfPermission(this.getApplicationContext(), COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 mLocationPermissionsGranted = true;
                 initMap();
@@ -393,7 +392,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
 
     private void init() {
         Log.d(TAG, "init: initializing");
-        EditText searchText=findViewById(R.id.search_input);
+        EditText searchText = findViewById(R.id.search_input);
         searchText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
@@ -414,7 +413,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
         Utilities.hideKeyboard(CreateGroupActivity.this);
     }
 
-    public void setMapClickListeners(){
+    public void setMapClickListeners() {
         mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
@@ -432,7 +431,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
                 if (flag) {
                     Log.d(TAG, "This intent was started by create groups!");
 
-                    meetingMarkerLatLng =  new LatLng(latLng.latitude,latLng.longitude);
+                    meetingMarkerLatLng = new LatLng(latLng.latitude, latLng.longitude);
 
                     // Add lat and long to list
                     latList.add(meetingMarkerLatLng.latitude);
@@ -443,18 +442,18 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
                     group.setRouteLngArray(lngList);
                 } else {
 
-                    if(markerexists==true){
+                    if (markerexists == true) {
                         mMap.clear();
                     }
                     // Add the intended group location to lists
-                    intendedLatLng=new LatLng(latLng.latitude, latLng.longitude);
+                    intendedLatLng = new LatLng(latLng.latitude, latLng.longitude);
                     latlng = latLng;
                     latList.add(intendedLatLng.latitude);
                     lngList.add(intendedLatLng.longitude);
                     group.setRouteLatArray(latList);
                     group.setRouteLngArray(lngList);
-                    marker=mMap.addMarker(new MarkerOptions().position(latlng).title(groupDescription));
-                    markerexists=true;
+                    marker = mMap.addMarker(new MarkerOptions().position(latlng).title(groupDescription));
+                    markerexists = true;
                 }
             }
         });
@@ -464,7 +463,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
         Log.d(TAG, "geoLocate: geolocating");
 
         // Get search string from search text box
-        EditText SearchText=findViewById(R.id.search_input);
+        EditText SearchText = findViewById(R.id.search_input);
         String searchString = SearchText.getText().toString();
 
         // Create new geocoder
@@ -476,7 +475,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
         // Try to populate arraylist
         try {
             list = geocoder.getFromLocationName(searchString, 1);
-        } catch (IOException e){
+        } catch (IOException e) {
             Log.e(TAG, "geoLocate: IOException: " + e.getMessage());
         }
 
@@ -516,16 +515,17 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
 
     // Set up group member list (ADAPTER FOR THE LIST)
     private class memberListAdapter extends ArrayAdapter<User> {
-        public memberListAdapter(){
+        public memberListAdapter() {
             super(CreateGroupActivity.this, R.layout.layout_monitoring_list, currentGroup.getMemberUsers());
         }
+
         View itemView;
 
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             itemView = convertView;
-            if(itemView == null){
+            if (itemView == null) {
                 itemView = getLayoutInflater().inflate(R.layout.layout_monitoring_list, parent, false);
             }
 
@@ -553,12 +553,12 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
         monitorsUsersList = returnedUser.getMonitorsUsers();
     }
 
-    public static Intent makeintent(Context context){
+    public static Intent makeintent(Context context) {
         Intent intent = new Intent(context, CreateGroupActivity.class);
         return intent;
     }
 
-    public static String getresult(Intent intent){
+    public static String getresult(Intent intent) {
         return intent.getStringExtra("groupName");
     }
 
