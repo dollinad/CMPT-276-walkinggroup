@@ -30,7 +30,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
     Session session;
     private WGServerProxy proxy;
-    static User usertosend;
+    static User userToSend;
 
     // Used for checking correct version of Google Play Services
     private static final int ERROR_DIALOG_REQUEST = 9001;
@@ -58,11 +58,11 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void setUpReadMe() {
-        Button btn=findViewById(R.id.welcome_readme);
+        Button btn = findViewById(R.id.welcome_readme);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= ReadMeActivity.launchReadMe(WelcomeActivity.this);
+                Intent intent = ReadMeActivity.launchReadMe(WelcomeActivity.this);
                 startActivity(intent);
             }
         });
@@ -109,24 +109,20 @@ public class WelcomeActivity extends AppCompatActivity {
     private void isUserLoggedIn() {
         // Check if user is currently logged in with Shared Preferences
         String[] data = getData(getApplicationContext());
-        session=Session.getSession(getApplicationContext());
+        session = Session.getSession(getApplicationContext());
         // If Shared Preferences is not empty
         Log.d(TAG, "isUserLoggedIn: " + data[0]);
 
-
         if(data[0] != null) {
             String token = data[0];
-            Log.i("TYUYUY", data[2]);
 
+            Long userId = Long.valueOf(data[2]);
 
-            //session.setProxy(proxy);
-            Long UserId = Long.valueOf(data[2]);
-            Log.i("YUYU", UserId + "8888");
-            if(UserId!=0) {
+            if(userId != 0) {
                 proxy = ProxyBuilder.getProxy(getString(R.string.apikey));
                 proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
                 session.setProxy(proxy);
-                Call<User> call = proxy.getUserById(UserId);
+                Call<User> call = proxy.getUserById(userId);
                 ProxyBuilder.callProxy(WelcomeActivity.this, call, returnedNothing -> responseSingleton(returnedNothing));
             }
 
@@ -134,17 +130,13 @@ public class WelcomeActivity extends AppCompatActivity {
     }
 
     private void responseSingleton(User returnedNothing) {
-        // Retrieve user id
-        // Call<User> call = proxy.getUserByEmail(userEmailString);
-        //ProxyBuilder.callProxy(LoginActivity.this, call, returnedUser -> getUserIdResponse(returnedUser));
-        Log.i("PPPPPPPP", returnedNothing.getName());
+
         session.setUser(returnedNothing);
 
         // Start checking for new mail
         Utilities.startMessageChecking(WelcomeActivity.this, proxy, session.getUser());
 
         Intent intent = MapActivityDrawer.launchIntentMap(WelcomeActivity.this);
-        //intent.putExtra("UserId", UserId);
         startActivity(intent);
         finish();
     }
@@ -203,23 +195,23 @@ public class WelcomeActivity extends AppCompatActivity {
     }
     public static Session sendUser(Context context, Session session){
         SharedPreferences preferences = context.getSharedPreferences("User Session", MODE_PRIVATE);
-        String token=preferences.getString("Token", "");
-        Long Id=preferences.getLong("User Id", 0);
+        String token = preferences.getString("Token", "");
+        Long userId = preferences.getLong("User Id", 0);
         WGServerProxy proxy;
         proxy = ProxyBuilder.getProxy(context.getString(R.string.apikey), token);
-        if(proxy!=null){
+
+        if(proxy != null){
             session.setProxy(proxy);
         }
 
-        if(Id!=0) {
-            Call<User> call = proxy.getUserById(Id);
+        if(userId != 0) {
+            Call<User> call = proxy.getUserById(userId);
             ProxyBuilder.callProxy(context, call, returnedNothing -> session.setUser(returnedNothing));
         }
-
 
         return session;
     }
     private static void responseSingletonUser(User returnedNothing) {
-        usertosend=returnedNothing;
+        userToSend = returnedNothing;
     }
 }

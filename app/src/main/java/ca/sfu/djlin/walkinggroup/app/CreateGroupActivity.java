@@ -99,7 +99,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
     private LatLng latlng;
     List<Marker> markers = new ArrayList();
     private Marker meetingMarker;
-    Boolean markerexists=false;
+    Boolean markerexists = false;
     Marker marker;
 
     @Override
@@ -116,28 +116,38 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
 
         getLocationPermission();
 
-        // Get current user id
-        // SharedPreferences preferences = CreateGroupActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
-        // currentUserId = preferences.getLong("User Id", 0);
-
-        // Set up proxy
-        // proxy = ProxyBuilder.getProxy(getString(R.string.apikey),token);
-        //retrieveCurrentUserInformation();
-
         // Get data from singleton
         data = Session.getSession(getApplicationContext());
         proxy = data.getProxy();
         currentUser = data.getUser();
         currentUserId = currentUser.getId();
 
-        // Buttons
+        // Setup Buttons
         setupConfirmGroup();
-
         setupBackButton();
+        setupConfirmButton();
+        setupAddUserButton();
+        setupRemoveUserButton();
+    }
 
-        setupConfrimButton();
+    private void setupRemoveUserButton() {
+        Button removeUserBtn = (Button) findViewById(R.id.createGroupremove_user_btn);
+        removeUserBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Get input string
+                String removeUserEmail;
+                EditText removeUserEmailInput = (EditText) findViewById(R.id.createGroupremove_user_input);
+                removeUserEmail = removeUserEmailInput.getText().toString();
 
-        // Setup add user button
+                // First make a call to proxy to get the id of user to remove
+                Call<User> call = proxy.getUserByEmail(removeUserEmail);
+                ProxyBuilder.callProxy(CreateGroupActivity.this, call, returnedUserInfo -> removeUserResponse(returnedUserInfo));
+            }
+        });
+    }
+
+    private void setupAddUserButton() {
         Button addUserBtn = (Button) findViewById(R.id.createGroupadd_user_btn);
         addUserBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,23 +160,6 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
                 // Make a call to proxy to obtain the user id
                 Call<User> call = proxy.getUserByEmail(addUserEmail);
                 ProxyBuilder.callProxy(CreateGroupActivity.this, call, returnedUserInfo -> addUserResponse(returnedUserInfo));
-            }
-        });
-
-        // Setup remove user button
-        Button removeUserBtn = (Button) findViewById(R.id.createGroupremove_user_btn);
-        removeUserBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Get input string
-                String removeUserEmail;
-                EditText removeUserEmailInput = (EditText) findViewById(R.id.createGroupremove_user_input);
-                removeUserEmail = removeUserEmailInput.getText().toString();
-
-                // First make a call to proxy to get the id of user to remove
-                Call<User> call = proxy.getUserByEmail(removeUserEmail);
-                // ProxyBuilder.callProxy(GroupInfoActivity.this, call, returnedUserInfo -> retrieveUserByEmail(returnedUserInfo));
-                ProxyBuilder.callProxy(CreateGroupActivity.this, call, returnedUserInfo -> removeUserResponse(returnedUserInfo));
             }
         });
     }
@@ -247,7 +240,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
     }
 
     //Function to create group (getting the id of the group)
-    private void setupConfrimButton() {
+    private void setupConfirmButton() {
         EditText editText = findViewById(R.id.group_description_input);
         editText.addTextChangedListener(new TextWatcher() {
             @Override

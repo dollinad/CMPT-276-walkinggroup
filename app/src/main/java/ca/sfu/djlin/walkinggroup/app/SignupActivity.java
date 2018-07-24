@@ -696,7 +696,7 @@ public class SignupActivity extends AppCompatActivity {
         proxy = ProxyBuilder.getProxy(context.getString(R.string.apikey), token);
         Call<User> call=proxy.getUserById(Id);
         ProxyBuilder.callProxy(context, call, returnedNothing -> session.setUser(returnedNothing));
-        //User b=usertosend;
+        //User b=userToSend;
         session.setProxy(proxy);
         //session.setUser(b);
         return session;
