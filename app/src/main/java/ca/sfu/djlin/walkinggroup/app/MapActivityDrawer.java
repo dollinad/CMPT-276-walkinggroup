@@ -143,7 +143,7 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
         UserId = currentUser.getId();
         Log.i("JKJK", UserId + "");
 
-        if (UserId != 0) {
+        if (UserId != null) {
             proxy = data.getProxy();
             Call<User> call = proxy.getUserById(UserId);
             ProxyBuilder.callProxy(MapActivityDrawer.this, call, returnedNothing -> responseCurrent(returnedNothing));
