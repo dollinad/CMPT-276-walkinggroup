@@ -68,13 +68,14 @@ public class PreferencesActivity extends AppCompatActivity {
         session=Session.getSession(getApplicationContext());
         proxy=session.getProxy();
         currentUser=session.getUser();
+        Log.d(TAG, "The current user session is: " + currentUser.toString());
         currentUserEmail=currentUser.getEmail();
         Log.d(TAG, "The current User Email is: " + currentUserEmail);
 
 
         // Get current user information
-        Call<User> caller = proxy.getUserByEmail(currentUserEmail);
-        ProxyBuilder.callProxy(PreferencesActivity.this, caller, returnedUser -> responseCurrent(returnedUser));
+        // Call<User> caller = proxy.getUserByEmail(currentUserEmail);
+        // ProxyBuilder.callProxy(PreferencesActivity.this, caller, returnedUser -> responseCurrent(returnedUser));
 
         // Set up input and button to add monitored user
         setupAddMonitoringUser();
@@ -176,8 +177,14 @@ public class PreferencesActivity extends AppCompatActivity {
 
     private void refresh() {
         // proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);;
-        Call<List<User>> call = proxy.getMonitorsUsers(currentUser.getId());
-        ProxyBuilder.callProxy(PreferencesActivity.this, call, returnedList -> response(returnedList));
+        // Call<List<User>> call = proxy.getMonitorsUsers(currentUser.getId());
+        // ProxyBuilder.callProxy(PreferencesActivity.this, call, returnedList -> response(returnedList));
+        if (adapter != null) {
+            adapter.notifyDataSetChanged();
+        }
+        if (adapterMonitored != null) {
+            adapterMonitored.notifyDataSetChanged();
+        }
     }
 
     private void response(List<User> list) {
@@ -300,11 +307,10 @@ public class PreferencesActivity extends AppCompatActivity {
         // notifyUserViaLogAndToast("Server replied with user: " + user.toString());
 
         Call<List<User>> call = proxy.addToMonitoredByUsers(currentUser.getId(), user);
-        ProxyBuilder.callProxy(PreferencesActivity.this, call, returnedList-> responseToBeMonitored(returnedList));
+        ProxyBuilder.callProxy(PreferencesActivity.this, call, returnedList-> responseAddMonitoring(returnedList));
 
         Call<List<User>> called = proxy.addToMonitorsUsers(user.getId(), currentUser);
         ProxyBuilder.callProxy(PreferencesActivity.this, called, returnedList-> responseMonitored(returnedList));
-        adapter.notifyDataSetChanged();
 
         refresh();
     }
@@ -324,13 +330,17 @@ public class PreferencesActivity extends AppCompatActivity {
 
         currentUser.setMonitorsUsers(currentUser.getMonitorsUsers());
         Call<List<User>> call = proxy.addToMonitorsUsers(currentUser.getId(), user);
-        ProxyBuilder.callProxy(PreferencesActivity.this, call, returnedList->response(returnedList));
+        ProxyBuilder.callProxy(PreferencesActivity.this, call, returnedList->addMonitoredUser(returnedList));
 
-        Call<List<User>> caller = proxy.addToMonitoredByUsers(user.getId(), currentUser);
-        ProxyBuilder.callProxy(PreferencesActivity.this, caller, returnedList-> responseMonitored(returnedList));
-        adapter.notifyDataSetChanged();
+        // Call<List<User>> caller = proxy.addToMonitoredByUsers(user.getId(), currentUser);
+        // ProxyBuilder.callProxy(PreferencesActivity.this, caller, returnedList-> responseMonitored(returnedList));
+        // adapter.notifyDataSetChanged();
 
         refresh();
+    }
+
+    private void responseAddMonitoring(List<User> returnedList) {
+
     }
 
     private void addMonitoredUser(List<User> returnedList) {
