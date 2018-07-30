@@ -597,6 +597,10 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
             // Launch view messages activity
             Intent intent = ViewMessagesActivity.launchViewMessageIntent(MapActivityDrawer.this);
             startActivity(intent);
+        } else if (id == R.id.permissions) {
+            // Launch view pending permissions activity
+            Intent intent = ViewPendingPermissionsActivity.launchViewPendingPermissionsIntent(MapActivityDrawer.this);
+            startActivity(intent);
         } else if (id == R.id.create_group) {
             Log.d(TAG, "Clicking on group info button");
 
