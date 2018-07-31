@@ -745,7 +745,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
                     //timer.cancel();
                     //timer=new Timer();
                     counts++;
-                    if(counts==10) {
+                    if(counts==20) {
                         counts = 0;
                         timer.cancel();
                         timer=new Timer();
@@ -761,7 +761,7 @@ public class Map_activityDrawer extends AppCompatActivity implements NavigationV
 
                 }
             }
-        },0,3000);
+        },0,30000);
 
     }
 
