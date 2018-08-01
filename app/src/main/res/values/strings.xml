@@ -155,6 +155,8 @@
     <!-- Permissions -->
     <string name="permissions">Pending Permissions</string>
     <string name="pending_permissions">Pending Permissions</string>
+    <string name="pending_permissions_placeholder">&#60;Pending Permission&#62;</string>
+
 </resources>
 
 
