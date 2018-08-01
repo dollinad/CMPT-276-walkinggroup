@@ -66,7 +66,7 @@ public class PreferencesActivity extends AppCompatActivity {
         // Build proxy
         //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
         session=Session.getSession(getApplicationContext());
-        proxy=session.getProxy();
+        proxy = session.getProxy();
         currentUser=session.getUser();
         Log.d(TAG, "The current user session is: " + currentUser.toString());
         currentUserEmail=currentUser.getEmail();
@@ -92,6 +92,17 @@ public class PreferencesActivity extends AppCompatActivity {
         EditEmergencyInfoFormonitoringUser();
 
         ViewMyChildsGroups();
+
+
+        // Build new adapter for monitoring list
+        adapter = new myListAdapterMonitors();
+        ListView monitoringList = findViewById(R.id.monitoring_list);
+        monitoringList.setAdapter(adapter);
+
+        // Build new adapter for monitored list
+        adapterMonitored = new myListAdapterMonitored();
+        ListView monitoredByList = findViewById(R.id.monitored_by_list);
+        monitoredByList.setAdapter(adapterMonitored);
     }
 
 
@@ -192,9 +203,9 @@ public class PreferencesActivity extends AppCompatActivity {
         currentUser.setMonitorsUsers(monitorsUsers);
 
         // Build new adapter
-        adapter = new myListAdapterMonitors();
-        ListView monitoringList = findViewById(R.id.monitoring_list);
-        monitoringList.setAdapter(adapter);
+        // adapter = new myListAdapterMonitors();
+        // ListView monitoringList = findViewById(R.id.monitoring_list);
+        // monitoringList.setAdapter(adapter);
     }
 
     private void setupAddMonitoringUser() {
@@ -242,8 +253,8 @@ public class PreferencesActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 // Build proxy
-                //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
-                proxy=session.getProxy();
+                // proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
+                // proxy=session.getProxy();
                 Call<User> caller = proxy.getUserByEmail(userToAddEmail);
                 ProxyBuilder.callProxy(PreferencesActivity.this, caller, returnedUser -> response(returnedUser));
             }
@@ -296,7 +307,7 @@ public class PreferencesActivity extends AppCompatActivity {
             public void onClick(View view) {
                 // Build proxy
                 //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
-                proxy=session.getProxy();
+                // proxy = session.getProxy();
                 Call<User> caller = proxy.getUserByEmail(userToBeMonitoredBy);
                 ProxyBuilder.callProxy(PreferencesActivity.this, caller, returnedUser -> responseToBeMonitored(returnedUser));
             }
@@ -309,8 +320,8 @@ public class PreferencesActivity extends AppCompatActivity {
         Call<List<User>> call = proxy.addToMonitoredByUsers(currentUser.getId(), user);
         ProxyBuilder.callProxy(PreferencesActivity.this, call, returnedList-> responseAddMonitoring(returnedList));
 
-        Call<List<User>> called = proxy.addToMonitorsUsers(user.getId(), currentUser);
-        ProxyBuilder.callProxy(PreferencesActivity.this, called, returnedList-> responseMonitored(returnedList));
+        // Call<List<User>> called = proxy.addToMonitorsUsers(user.getId(), currentUser);
+        // ProxyBuilder.callProxy(PreferencesActivity.this, called, returnedList-> responseMonitored(returnedList));
 
         refresh();
     }
@@ -320,9 +331,9 @@ public class PreferencesActivity extends AppCompatActivity {
         currentUser.setMonitoredByUsers(monitoredByUsers);
 
         // Build new adapter
-        adapterMonitored = new myListAdapterMonitored();
-        ListView monitoredByList = findViewById(R.id.monitored_by_list);
-        monitoredByList.setAdapter(adapterMonitored);
+        // adapterMonitored = new myListAdapterMonitored();
+        // ListView monitoredByList = findViewById(R.id.monitored_by_list);
+        // monitoredByList.setAdapter(adapterMonitored);
     }
 
     private void response(User user) {
