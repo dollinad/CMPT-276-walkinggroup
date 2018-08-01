@@ -118,7 +118,7 @@ public class WelcomeActivity extends AppCompatActivity {
 
             Long userId = Long.valueOf(data[2]);
 
-            if(userId != 0) {
+            if(userId != null) {
                 proxy = ProxyBuilder.getProxy(getString(R.string.apikey));
                 proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
                 session.setProxy(proxy);
