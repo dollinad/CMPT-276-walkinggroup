@@ -13,9 +13,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.R;
+import ca.sfu.djlin.walkinggroup.dataobjects.PermissionRequest;
 import ca.sfu.djlin.walkinggroup.model.Session;
 import ca.sfu.djlin.walkinggroup.model.User;
+import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
+import retrofit2.Call;
 
 public class ViewPendingPermissionsActivity extends AppCompatActivity {
     private WGServerProxy proxy;
@@ -42,6 +45,14 @@ public class ViewPendingPermissionsActivity extends AppCompatActivity {
         proxy = session.getProxy();
 
         Log.d("TAG", "The retrieved user is: " + currentUser.toString());
+
+        // Make a call to retrieve current pending requests
+        Call<List<PermissionRequest>> call = proxy.getPermissions(currentUser.getId(), WGServerProxy.PermissionStatus.PENDING);
+        ProxyBuilder.callProxy(ViewPendingPermissionsActivity.this, call, permissionList -> returnedResponse(permissionList));
+    }
+
+    private void returnedResponse(List<PermissionRequest> permissionList) {
+        Log.d("TAG", "The returned permission list is" + permissionList.toString());
     }
 
     public static Intent launchViewPendingPermissionsIntent(Context context) {

@@ -75,6 +75,7 @@ public class ViewMessagesActivity extends AppCompatActivity {
         // Update current message list
         Log.d("TAG", "getMessageListResponse: attempting updating message list: ");
         currentMessageList = messageList;
+        Log.d("TAG", "The current message list is " + currentMessageList.toString());
 
         // Refresh the list
         refreshMessageList();
@@ -164,8 +165,9 @@ public class ViewMessagesActivity extends AppCompatActivity {
 
                 // Display message in dialog
                 ca.cmpt276.walkinggroup.dataobjects.Message messageToRead = currentMessageList.get(position);
-                View viewInflated = LayoutInflater.from(ViewMessagesActivity.this).inflate(R.layout.dialog_read_message, findViewById(R.id.messages_list), false);
 
+                AlertDialog.Builder builder = new AlertDialog.Builder(ViewMessagesActivity.this);
+                View viewInflated = LayoutInflater.from(ViewMessagesActivity.this).inflate(R.layout.dialog_read_message, findViewById(R.id.messages_list), false);
 
                 // Set the details of the dialog box
                 TextView messageSenderName = (TextView) viewInflated.findViewById(R.id.from_user_text);
@@ -176,8 +178,8 @@ public class ViewMessagesActivity extends AppCompatActivity {
                 messageBodyText.setText(messageToRead.getText());
 
                 // Build and show the dialog box
-                AlertDialog.Builder builder = new AlertDialog.Builder(ViewMessagesActivity.this);
-                //builder.setView(viewInflated);
+
+                builder.setView(viewInflated);
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
