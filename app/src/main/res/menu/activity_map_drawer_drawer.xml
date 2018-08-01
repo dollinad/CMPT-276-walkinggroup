@@ -10,6 +10,10 @@
             android:icon="@drawable/ic_menu_message"
             android:title="@string/messages" />
         <item
+            android:id="@+id/permissions"
+            android:icon="@drawable/ic_permission"
+            android:title="@string/permissions" />
+        <item
             android:id="@+id/monitoring_preferences"
             android:icon="@drawable/ic_menu_monitoring"
             android:title="@string/monitoring_preferences" />
@@ -19,7 +23,7 @@
             android:title="@string/get_location" />
 
         <item
-            android:id="@+id/Drawersettings"
+            android:id="@+id/drawer_settings"
             android:icon="@drawable/ic_menu_manage"
             android:title="@string/settings" />
 

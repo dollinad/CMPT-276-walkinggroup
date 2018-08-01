@@ -19,7 +19,7 @@
         android:text="@string/email_hint"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
     <ImageView
-        android:id="@+id/removeUser"
+        android:id="@+id/remove_user"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"

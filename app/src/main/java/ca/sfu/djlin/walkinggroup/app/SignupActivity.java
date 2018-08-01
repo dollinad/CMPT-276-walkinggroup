@@ -46,7 +46,9 @@ public class SignupActivity extends AppCompatActivity {
     String userCurrentGradeString;
     String userTeacherNameString;
     String EmergencyContactInfo;
-    static User usertosend;
+    static User userToSend;
+
+    Session session;
 
     Long UserId;
 
@@ -55,16 +57,14 @@ public class SignupActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        createUser=Session.getSession(getApplicationContext());
+        createUser = Session.getSession(getApplicationContext());
         // Build server proxy
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey));
 
         // Setting up buttons
         setupCreateAccountInputs();
-
         setupCreateAccount();
     }
-
 
 
     public static Intent launchIntentSignup(Context context) {
@@ -77,10 +77,12 @@ public class SignupActivity extends AppCompatActivity {
         EditText userName = findViewById(R.id.name_input);
         userName.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -104,7 +106,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Hide keyboard on focus change
-        userName.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        userName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (!hasFocus) {
@@ -117,10 +119,12 @@ public class SignupActivity extends AppCompatActivity {
         EditText userEmail = findViewById(R.id.email_input);
         userEmail.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -144,7 +148,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Hide keyboard on focus change
-        userEmail.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        userEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (!hasFocus) {
@@ -157,10 +161,12 @@ public class SignupActivity extends AppCompatActivity {
         EditText userPassword = findViewById(R.id.password_input);
         userPassword.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -184,7 +190,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Hide keyboard on focus change
-        userPassword.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        userPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (!hasFocus) {
@@ -197,10 +203,12 @@ public class SignupActivity extends AppCompatActivity {
         EditText userConfirmPassword = findViewById(R.id.confirm_password_input);
         userConfirmPassword.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -224,7 +232,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Hide keyboard on focus change
-        userConfirmPassword.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        userConfirmPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (!hasFocus) {
@@ -234,20 +242,22 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Setup text watcher for user's birthYear
-        EditText userBirthYear = findViewById(R.id.birthYear_input);
+        EditText userBirthYear = findViewById(R.id.birth_year_input);
         userBirthYear.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText userBirthYear = findViewById(R.id.birthYear_input);
-                userBirthYearString= userBirthYear.getText().toString();
-                if(!userBirthYearString.isEmpty()){
-                    userBirthYearint=Integer.parseInt(userBirthYearString);
+                EditText userBirthYear = findViewById(R.id.birth_year_input);
+                userBirthYearString = userBirthYear.getText().toString();
+                if (!userBirthYearString.isEmpty()) {
+                    userBirthYearint = Integer.parseInt(userBirthYearString);
                 }
             }
         });
@@ -267,7 +277,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Hide keyboard on focus change
-        userBirthYear.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        userBirthYear.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (!hasFocus) {
@@ -278,20 +288,22 @@ public class SignupActivity extends AppCompatActivity {
 
 
         // Setup text watcher for user's Birth Month
-        EditText userBirthMonth = findViewById(R.id.birthMonth_input);
+        EditText userBirthMonth = findViewById(R.id.birth_month_input);
         userBirthMonth.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText userBirthMonth = findViewById(R.id.birthMonth_input);
-                userBirthMonthString= userBirthMonth.getText().toString();
-                if(!userBirthYearString.isEmpty()){
-                    userBirthMonthint=Integer.parseInt(userBirthMonthString);
+                EditText userBirthMonth = findViewById(R.id.birth_month_input);
+                userBirthMonthString = userBirthMonth.getText().toString();
+                if (!userBirthYearString.isEmpty()) {
+                    userBirthMonthint = Integer.parseInt(userBirthMonthString);
                 }
             }
         });
@@ -311,7 +323,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Hide keyboard on focus change
-        userBirthMonth.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        userBirthMonth.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (!hasFocus) {
@@ -321,17 +333,19 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Setup text watcher for user's Celll Phone
-        EditText userCellPhone = findViewById(R.id.CellPhone_input);
+        EditText userCellPhone = findViewById(R.id.cellphone_input);
         userCellPhone.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText userCellPhone = findViewById(R.id.CellPhone_input);
+                EditText userCellPhone = findViewById(R.id.cellphone_input);
                 userCellPhoneString = userCellPhone.getText().toString();
             }
         });
@@ -351,7 +365,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Hide keyboard on focus change
-        userCellPhone.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        userCellPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (!hasFocus) {
@@ -361,17 +375,19 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Setup text watcher for user's Home Phone
-        EditText userHomePhone = findViewById(R.id.HomePhone_input);
+        EditText userHomePhone = findViewById(R.id.home_phone_input);
         userHomePhone.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText userHomePhone = findViewById(R.id.HomePhone_input);
+                EditText userHomePhone = findViewById(R.id.home_phone_input);
                 userHomePhoneString = userHomePhone.getText().toString();
             }
         });
@@ -391,7 +407,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Hide keyboard on focus change
-        userHomePhone.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        userHomePhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (!hasFocus) {
@@ -401,17 +417,19 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Setup text watcher for user's address
-        EditText userAddress = findViewById(R.id.Address_input);
+        EditText userAddress = findViewById(R.id.address_input);
         userAddress.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText userAddress = findViewById(R.id.Address_input);
+                EditText userAddress = findViewById(R.id.address_input);
                 userAddressString = userAddress.getText().toString();
             }
         });
@@ -431,7 +449,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Hide keyboard on focus change
-        userAddress.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        userAddress.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (!hasFocus) {
@@ -441,17 +459,19 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Setup text watcher for user's Current Grade
-        EditText userGrade = findViewById(R.id.CurrentGrade_input);
+        EditText userGrade = findViewById(R.id.current_grade_input);
         userGrade.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText userGrade = findViewById(R.id.CurrentGrade_input);
+                EditText userGrade = findViewById(R.id.current_grade_input);
                 userCurrentGradeString = userGrade.getText().toString();
             }
         });
@@ -471,7 +491,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Hide keyboard on focus change
-        userGrade.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        userGrade.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (!hasFocus) {
@@ -481,17 +501,19 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Setup text watcher for user's teachers name
-        EditText userTeacherName = findViewById(R.id.TeacherName_input);
+        EditText userTeacherName = findViewById(R.id.teacher_name_input);
         userTeacherName.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText userTeacherName = findViewById(R.id.TeacherName_input);
+                EditText userTeacherName = findViewById(R.id.teacher_name_input);
                 userTeacherNameString = userTeacherName.getText().toString();
             }
         });
@@ -511,7 +533,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Hide keyboard on focus change
-        userTeacherName.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        userTeacherName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (!hasFocus) {
@@ -521,17 +543,19 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Setup text watcher for user's emergency info
-        EditText EmergencyName = findViewById(R.id.EmergencyContact_input);
+        EditText EmergencyName = findViewById(R.id.emergency_contact_input);
         EmergencyName.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
-                EditText EmergencyName = findViewById(R.id.EmergencyContact_input);
+                EditText EmergencyName = findViewById(R.id.emergency_contact_input);
                 EmergencyContactInfo = EmergencyName.getText().toString();
             }
         });
@@ -551,7 +575,7 @@ public class SignupActivity extends AppCompatActivity {
         });
 
         // Hide keyboard on focus change
-        EmergencyName.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        EmergencyName.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (!hasFocus) {
@@ -605,11 +629,17 @@ public class SignupActivity extends AppCompatActivity {
 
     // Create user response from server
     private void createUserResponse(User user) {
-        usertosend=user;
+        userToSend = user;
         // User creation is successful
 
         // Grab the current token session
         notifyUserViaLogAndToast("Server replied with user: " + user.toString());
+
+        // Add the user to the current session - currently crashes the app...
+        if (user != null) {
+            Log.d(TAG, "Attempting to set user to session");
+            session.setUser(user);
+        }
 
         // Register callback for token
         ProxyBuilder.setOnTokenReceiveCallback(token -> onReceiveToken(token));
@@ -644,15 +674,15 @@ public class SignupActivity extends AppCompatActivity {
         editor.putString("Name", user.getName());
         editor.putString("Email", user.getEmail());
         editor.putLong("User Id", user.getId());
-        UserId=user.getId();
+        UserId = user.getId();
         editor.apply();
     }
 
     private void launchMapActivity() {
         // Launch Map Activity
 
-        Intent mapIntent = Map_activityDrawer.launchIntentMap(SignupActivity.this);
-        //mapIntent.putExtra("UserId", UserId);
+        Intent mapIntent = MapActivityDrawer.launchIntentMap(SignupActivity.this);
+        //mapIntent.putExtra("userId", userId);
         startActivity(mapIntent);
         finish();
     }
@@ -663,7 +693,7 @@ public class SignupActivity extends AppCompatActivity {
         Log.w(TAG, "   --> NOW HAVE TOKEN: " + token);
         proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
         createUser.setProxy(proxy);
-         //Save token in shared preferences
+        //Save token in shared preferences
         saveToken(token);
     }
 
@@ -686,23 +716,24 @@ public class SignupActivity extends AppCompatActivity {
         Log.w(TAG, message);
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
-    public static Session sendUser(Context context, Session session){
+
+    public static Session sendUser(Context context, Session session) {
         SharedPreferences preferences = context.getSharedPreferences("User Session", MODE_PRIVATE);
         //Session createUser;
 
-        String token=preferences.getString("Token", "");
-        Long Id=preferences.getLong("User Id", 0);
+        String token = preferences.getString("Token", "");
+        Long Id = preferences.getLong("User Id", 0);
         WGServerProxy proxy;
         proxy = ProxyBuilder.getProxy(context.getString(R.string.apikey), token);
-        Call<User> call=proxy.getUserById(Id);
+        Call<User> call = proxy.getUserById(Id);
         ProxyBuilder.callProxy(context, call, returnedNothing -> session.setUser(returnedNothing));
-        //User b=usertosend;
+        //User b=userToSend;
         session.setProxy(proxy);
         //session.setUser(b);
         return session;
     }
 
     private static void responseSingleton(User returnedNothing) {
-        usertosend=returnedNothing;
+        userToSend = returnedNothing;
     }
 }

@@ -55,32 +55,34 @@ public class LoginActivity extends AppCompatActivity {
 
         // Check if user is currently logged in with Shared Preferences
         String[] data = getData(getApplicationContext());
-        session=Session.getSession(getApplicationContext());
+        session = Session.getSession(getApplicationContext());
         //If Shared Preferences is not null
-        if(data[0] != null) {
+        if (data[0] != null) {
             String token = data[0];
             proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
             //session.setProxy(proxy);
-            Long UserId=Long.valueOf(data[2]);
-            Log.i("YUYU", UserId+"88888");
-            Call<User> call=proxy.getUserById(UserId);
-            ProxyBuilder.callProxy(LoginActivity.this, call, returnedNothing -> responseSingleton(returnedNothing));
+            Long UserId = Long.valueOf(data[2]);
+            if (UserId != 0) {
+                Call<User> call = proxy.getUserById(UserId);
+                ProxyBuilder.callProxy(LoginActivity.this, call, returnedNothing -> responseSingleton(returnedNothing));
+            }
 
             // Start checking for new mail
             Utilities.startMessageChecking(LoginActivity.this, proxy, session.getUser());
 
             // Need to change method of starting activity
-            Intent intent = Map_activityDrawer.launchIntentMap(LoginActivity.this);
-            intent.putExtra("UserId", UserId);
+            Intent intent = MapActivityDrawer.launchIntentMap(LoginActivity.this);
+            intent.putExtra("userId", UserId);
             startActivity(intent);
         }
     }
 
     private void responseSingleton(User returnedNothing) {
         // Retrieve user id
-       // Call<User> call = proxy.getUserByEmail(userEmailString);
+        // Call<User> call = proxy.getUserByEmail(userEmailString);
         //ProxyBuilder.callProxy(LoginActivity.this, call, returnedUser -> getUserIdResponse(returnedUser));
         //session.setUser(returnedNothing);
+
     }
 
     // Getting the data token and email using Shared Preferences
@@ -91,8 +93,7 @@ public class LoginActivity extends AppCompatActivity {
         String[] returnedData = new String[3];
         returnedData[0] = preferences.getString("Token", null);
         returnedData[1] = preferences.getString("Email", null);
-        returnedData[2]= String.valueOf(preferences.getLong("User Id", 0));
-        Log.i("LOLO", returnedData[2]+"BHJBBN");
+        returnedData[2] = String.valueOf(preferences.getLong("User Id", 0));
         return returnedData;
     }
 
@@ -101,10 +102,12 @@ public class LoginActivity extends AppCompatActivity {
         EditText userEmail = findViewById(R.id.email_input);
         userEmail.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -128,7 +131,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         // Hide keyboard on focus change
-        userEmail.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        userEmail.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (!hasFocus) {
@@ -140,10 +143,12 @@ public class LoginActivity extends AppCompatActivity {
         EditText userPassword = findViewById(R.id.password_input);
         userPassword.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
 
             @Override
             public void afterTextChanged(Editable editable) {
@@ -167,7 +172,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         // Hide keyboard on focus change
-        userPassword.setOnFocusChangeListener(new View.OnFocusChangeListener(){
+        userPassword.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean hasFocus) {
                 if (!hasFocus) {
@@ -185,12 +190,17 @@ public class LoginActivity extends AppCompatActivity {
 
                 // Make call to login
                 User user = new User();
-                user.setEmail(userEmailString);
-                user.setPassword(userPasswordString);
-
+                if (userEmailString != null) {
+                    user.setEmail(userEmailString);
+                }
+                if (userPasswordString != null) {
+                    user.setPassword(userPasswordString);
+                }
                 // Finish the login process
-                Call<Void> caller = proxy.login(user);
-                ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing));
+                if (user != null) {
+                    Call<Void> caller = proxy.login(user);
+                    ProxyBuilder.callProxy(LoginActivity.this, caller, returnedNothing -> response(returnedNothing));
+                }
             }
         });
     }
@@ -203,8 +213,10 @@ public class LoginActivity extends AppCompatActivity {
         saveUserInformation(newToken);
 
         // Rebuild the proxy with updated token
-        proxy = ProxyBuilder.getProxy(getString(R.string.apikey), newToken);
-        session.setProxy(proxy);
+        if (newToken != null) {
+            proxy = ProxyBuilder.getProxy(getString(R.string.apikey), newToken);
+            session.setProxy(proxy);
+        }
     }
 
     private void saveUserInformation(String newToken) {
@@ -218,12 +230,18 @@ public class LoginActivity extends AppCompatActivity {
     // Login actually completes by calling this; nothing to do as it was all done when we got the token.
     private void response(Void returnedNothing) {
         // Retrieve user id
-        Call<User> call = proxy.getUserByEmail(userEmailString);
-        ProxyBuilder.callProxy(LoginActivity.this, call, returnedUser -> getUserIdResponse(returnedUser));
+        if (userEmailString != null) {
+            Log.i("LOOK HERE", userEmailString + "");
+            Call<User> call = proxy.getUserByEmail(userEmailString);
+            ProxyBuilder.callProxy(LoginActivity.this, call, returnedUser -> getUserIdResponse(returnedUser));
+        }
     }
 
     private void getUserIdResponse(User user) {
-        session.setUser(user);
+        if (user != null) {
+            session.setUser(user);
+        }
+
         // Store returned user id in shared preferences
         SharedPreferences preferences = LoginActivity.this.getSharedPreferences("User Session", MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -234,31 +252,32 @@ public class LoginActivity extends AppCompatActivity {
         Utilities.startMessageChecking(LoginActivity.this, proxy, session.getUser());
 
         // Launch the Maps Activity
-        Intent intent = Map_activityDrawer.launchIntentMap(LoginActivity.this);
+        Intent intent = MapActivityDrawer.launchIntentMap(LoginActivity.this);
         startActivity(intent);
         finish();
     }
 
-    public static Intent launchIntentLogin (Context context) {
+    public static Intent launchIntentLogin(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
         return intent;
     }
-    public static Session sendUser(Context context, Session session){
+
+    public static Session sendUser(Context context, Session session) {
         SharedPreferences preferences = context.getSharedPreferences("User Session", MODE_PRIVATE);
         //Session createUser;
 
-        String token=preferences.getString("Token", "");
-        Long Id=preferences.getLong("User Id", 0);
+        String token = preferences.getString("Token", "");
+        Long Id = preferences.getLong("User Id", 0);
         WGServerProxy proxy;
         proxy = ProxyBuilder.getProxy(context.getString(R.string.apikey), token);
-        Call<User> call=proxy.getUserById(Id);
-        ProxyBuilder.callProxy(context, call, b -> session.setUser(b));
-
-        session.setProxy(proxy);
+        if (Id != 0) {
+            Call<User> call = proxy.getUserById(Id);
+            ProxyBuilder.callProxy(context, call, b -> session.setUser(b));
+        }
+        if (proxy != null) {
+            session.setProxy(proxy);
+        }
         //session.setUser(b);
         return session;
-    }
-    private static void responseSingletonUser(User returnedNothing) {
-        usertosend=returnedNothing;
     }
 }
