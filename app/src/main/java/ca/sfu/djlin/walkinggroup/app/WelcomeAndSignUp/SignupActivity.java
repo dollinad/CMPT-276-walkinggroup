@@ -51,6 +51,7 @@ public class SignupActivity extends AppCompatActivity {
     Integer userCurrentPoints;
     Integer userEarnedPoints;
     EarnedRewards userEarnedRewards;
+    Session session;
     static User userToSend;
     Long UserId;
 
@@ -642,6 +643,12 @@ public class SignupActivity extends AppCompatActivity {
 
         // Grab the current token session
         notifyUserViaLogAndToast("Server replied with user: " + user.toString());
+
+        // Add the user to the current session - currently crashes the app...
+        if (user != null) {
+            Log.d(TAG, "Attempting to set user to session");
+            session.setUser(user);
+        }
 
         // Register callback for token
         ProxyBuilder.setOnTokenReceiveCallback(token -> onReceiveToken(token));

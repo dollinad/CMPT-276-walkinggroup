@@ -10,20 +10,21 @@ public class Session {
     User user;
     WGServerProxy proxy;
 
-    //singleton instance
+    // singleton instance
     private static Session session;
     private Session(){
-        //private to prevent public instantiating
+        // private to prevent public instantiating
     }
 
     public static Session getSession(Context context){
-        if(session==null){
-            session=new Session();
+        if(session == null){
+            session = new Session();
         }
-        session= WelcomeActivity.sendUser(context, session);
+
+        session = WelcomeActivity.sendUser(context, session);
 
         if(session==null){
-            session= SignupActivity.sendUser(context, session);
+            session = SignupActivity.sendUser(context, session);
         }
         return session;
     }

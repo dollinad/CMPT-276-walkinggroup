@@ -81,6 +81,10 @@
 
         <!-- Leader Messaging Activity-->
         <activity android:name=".app.messaging.LeaderMessagingActivity"/>
+
+        <!-- Permissions Activity -->
+        <activity android:name=".app.ViewPendingPermissionsActivity"/>
+
         <activity
             android:name=".app.Map.LeaderMapActivity"
             android:label="@string/title_activity_leader_map" />

@@ -63,6 +63,7 @@ import ca.sfu.djlin.walkinggroup.app.Leaderoard.Shop;
 import ca.sfu.djlin.walkinggroup.app.Prefrences.PreferencesActivity;
 import ca.sfu.djlin.walkinggroup.app.Rewards.popUpReachedDestination;
 import ca.sfu.djlin.walkinggroup.app.Settings.SettingsActivity;
+import ca.sfu.djlin.walkinggroup.app.ViewPendingPermissionsActivity;
 import ca.sfu.djlin.walkinggroup.app.WelcomeAndSignUp.WelcomeActivity;
 import ca.sfu.djlin.walkinggroup.app.messaging.ViewMessagesActivity;
 import ca.sfu.djlin.walkinggroup.dataobjects.GpsLocation;
@@ -606,6 +607,10 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
         } else if (id == R.id.messages) {
             // Launch view messages activity
             Intent intent = ViewMessagesActivity.launchViewMessageIntent(MapActivityDrawer.this);
+            startActivity(intent);
+        } else if (id == R.id.permissions) {
+            // Launch view pending permissions activity
+            Intent intent = ViewPendingPermissionsActivity.launchViewPendingPermissionsIntent(MapActivityDrawer.this);
             startActivity(intent);
         } else if (id == R.id.create_group) {
             Log.d(TAG, "Clicking on group info button");

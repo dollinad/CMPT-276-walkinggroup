@@ -151,4 +151,14 @@
     <string name="readme_paragraph_14">14.As Leader, you can click on the Leader button on the main map to get to the leader dashboard/map where you can upload you location or stop uploading your location.</string>
     <string name="readme_paragraph_15">15. As a parent, you could click on the parent button on the main map which would allow you to start/stop downloading the loaction of your child.</string>
     <string name="readme_paragraph_16">16. As a member you could use the start/stop button to start/stop uploading yor location</string>
+
+    <!-- Permissions -->
+    <string name="permissions">Pending Permissions</string>
+    <string name="pending_permissions">Pending Permissions</string>
+    <string name="pending_permissions_placeholder">&#60;Pending Permission&#62;</string>
+    <string name="approved_toast">The permission request has been approved!</string>
+    <string name="denied_toast">The permission request has been denied!</string>
+
 </resources>
+
+
