@@ -162,8 +162,7 @@ public class ViewMessagesActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-                // Display message in dialog
+                // Get message clicked from list view
                 ca.cmpt276.walkinggroup.dataobjects.Message messageToRead = currentMessageList.get(position);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(ViewMessagesActivity.this);
@@ -178,7 +177,6 @@ public class ViewMessagesActivity extends AppCompatActivity {
                 messageBodyText.setText(messageToRead.getText());
 
                 // Build and show the dialog box
-
                 builder.setView(viewInflated);
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
