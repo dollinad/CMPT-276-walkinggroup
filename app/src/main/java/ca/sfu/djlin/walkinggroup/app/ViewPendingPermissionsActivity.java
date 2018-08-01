@@ -17,7 +17,9 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import java.security.Permission;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,14 +53,18 @@ public class ViewPendingPermissionsActivity extends AppCompatActivity {
         Log.d("TAG", "The retrieved user is: " + currentUser.toString());
 
         // Make a call to retrieve current pending requests
-        Call<List<PermissionRequest>> call = proxy.getPermissions(currentUser.getId(), WGServerProxy.PermissionStatus.PENDING);
-        ProxyBuilder.callProxy(ViewPendingPermissionsActivity.this, call, permissionList -> returnedResponse(permissionList));
+        retrievePendingRequests();
 
         // Build array adapter for monitored by list
         setupArrayAdapter();
 
         // Setup on-click listener for permission request list items
         setupPendingPermissionListener();
+    }
+
+    private void retrievePendingRequests() {
+        Call<List<PermissionRequest>> call = proxy.getPermissions(currentUser.getId(), WGServerProxy.PermissionStatus.PENDING);
+        ProxyBuilder.callProxy(ViewPendingPermissionsActivity.this, call, permissionList -> returnedResponse(permissionList));
     }
 
     private void setupArrayAdapter() {
@@ -117,6 +123,8 @@ public class ViewPendingPermissionsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // TODO: Approve the request
+                        Call<PermissionRequest> call = proxy.approveOrDenyPermissionRequest(pendingPermission.getId(), WGServerProxy.PermissionStatus.APPROVED);
+                        ProxyBuilder.callProxy(ViewPendingPermissionsActivity.this,call,  returnedPermissionResponse -> returnedApproveResponse(returnedPermissionResponse));
                     }
                 });
 
@@ -125,6 +133,8 @@ public class ViewPendingPermissionsActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
                         // TODO: Deny the request
+                        Call<PermissionRequest> call = proxy.approveOrDenyPermissionRequest(pendingPermission.getId(), WGServerProxy.PermissionStatus.DENIED);
+                        ProxyBuilder.callProxy(ViewPendingPermissionsActivity.this,call,  returnedPermissionResponse -> returnedDenyResponse(returnedPermissionResponse));
                     }
                 });
 
@@ -142,6 +152,22 @@ public class ViewPendingPermissionsActivity extends AppCompatActivity {
 
         // Refresh the pending permissions list view
         refreshPendingPermissionsList();
+    }
+
+    private void returnedApproveResponse(PermissionRequest permissionRequest) {
+        Log.d("TAG", "returnedApproveResponse: The request has been approved!");
+        Toast.makeText(ViewPendingPermissionsActivity.this,
+                ViewPendingPermissionsActivity.this.getString(R.string.approved_toast),
+                Toast.LENGTH_SHORT).show();
+        retrievePendingRequests();
+    }
+
+    private void returnedDenyResponse(PermissionRequest permissionRequest) {
+        Log.d("TAG", "returnedDenyResponse: The request has been denied!");
+        Toast.makeText(ViewPendingPermissionsActivity.this,
+                ViewPendingPermissionsActivity.this.getString(R.string.denied_toast),
+                Toast.LENGTH_SHORT).show();
+        retrievePendingRequests();
     }
 
     private void refreshPendingPermissionsList() {

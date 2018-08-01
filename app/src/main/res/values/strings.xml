@@ -156,6 +156,8 @@
     <string name="permissions">Pending Permissions</string>
     <string name="pending_permissions">Pending Permissions</string>
     <string name="pending_permissions_placeholder">&#60;Pending Permission&#62;</string>
+    <string name="approved_toast">The permission request has been approved!</string>
+    <string name="denied_toast">The permission request has been denied!</string>
 
 </resources>
 
