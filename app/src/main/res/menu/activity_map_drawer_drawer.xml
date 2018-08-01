@@ -32,6 +32,15 @@
             android:id="@+id/view_groups"
             android:icon="@drawable/ic_menu_group_info"
             android:title="@string/view_current_groups" />
+        <item
+            android:id="@+id/view_leader_board"
+            android:icon="@drawable/leader_board_neww"
+            android:title="View Leader"/>
+        <item
+            android:title="Shop"
+            android:icon="@drawable/shopp"
+            android:id="@+id/view_shop"/>
+        
     </group>
     <group>
         <item

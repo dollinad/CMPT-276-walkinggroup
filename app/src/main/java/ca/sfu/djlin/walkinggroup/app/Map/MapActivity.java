@@ -1,4 +1,4 @@
-package ca.sfu.djlin.walkinggroup.app;
+package ca.sfu.djlin.walkinggroup.app.Map;
 
 import android.Manifest;
 import android.app.Activity;
@@ -47,6 +47,10 @@ import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
+import ca.sfu.djlin.walkinggroup.app.Group.CreateGroupActivity;
+import ca.sfu.djlin.walkinggroup.app.Group.GroupInfoActivity;
+import ca.sfu.djlin.walkinggroup.app.Prefrences.PreferencesActivity;
+import ca.sfu.djlin.walkinggroup.app.WelcomeAndSignUp.WelcomeActivity;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
 import ca.sfu.djlin.walkinggroup.model.Session;
 import ca.sfu.djlin.walkinggroup.model.User;

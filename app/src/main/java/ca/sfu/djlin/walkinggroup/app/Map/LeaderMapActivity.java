@@ -1,4 +1,4 @@
-package ca.sfu.djlin.walkinggroup.app;
+package ca.sfu.djlin.walkinggroup.app.Map;
 
 import android.Manifest;
 import android.content.Context;

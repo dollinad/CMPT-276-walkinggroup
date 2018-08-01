@@ -1,4 +1,4 @@
-package ca.sfu.djlin.walkinggroup.app;
+package ca.sfu.djlin.walkinggroup.app.WelcomeAndSignUp;
 
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +19,8 @@ import android.widget.Toast;
 
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
+import ca.sfu.djlin.walkinggroup.app.Map.MapActivityDrawer;
+import ca.sfu.djlin.walkinggroup.dataobjects.EarnedRewards;
 import ca.sfu.djlin.walkinggroup.model.Session;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
@@ -46,8 +48,10 @@ public class SignupActivity extends AppCompatActivity {
     String userCurrentGradeString;
     String userTeacherNameString;
     String EmergencyContactInfo;
+    Integer userCurrentPoints;
+    Integer userEarnedPoints;
+    EarnedRewards userEarnedRewards;
     static User userToSend;
-
     Long UserId;
 
     @Override
@@ -604,6 +608,12 @@ public class SignupActivity extends AppCompatActivity {
                 user.setGrade(userCurrentGradeString);
                 user.setTeacherName(userTeacherNameString);
                 user.setEmergencyContactInfo(EmergencyContactInfo);
+                user.setCurrentPoints(0);
+                user.setTotalPointsEarned(0);
+                //EarnedRewards earnedRewards= new EarnedRewards();
+                //List<Drawable> earnedRewardsList=Collections.emptyList();
+                //earnedRewards.setPossible_stickers(new EarnedRewards());
+                user.setRewards(new EarnedRewards());
                 //createUser.setUser(user);
 
                 /*
@@ -651,6 +661,12 @@ public class SignupActivity extends AppCompatActivity {
         createdUser.setGrade(userCurrentGradeString);
         createdUser.setTeacherName(userTeacherNameString);
         createdUser.setEmergencyContactInfo(EmergencyContactInfo);
+        createdUser.setCurrentPoints(0);
+        createdUser.setTotalPointsEarned(0);
+        EarnedRewards earnedRewards= new EarnedRewards();
+        //List<Drawable> earnedRewardsList=Collections.emptyList();
+        //earnedRewards.setPossible_stickers(null);
+        user.setRewards(earnedRewards);
         createUser.setUser(createdUser);
 
         // Finish the login process
