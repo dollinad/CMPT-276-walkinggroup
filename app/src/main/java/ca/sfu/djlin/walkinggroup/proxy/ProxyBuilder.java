@@ -209,6 +209,9 @@ public class ProxyBuilder {
                 builder.header("JSON-DEPTH", depth);
             }
 
+            // Enable permission requests
+            builder.header("permissions-enabled", "true");
+
             Request modifiedRequest = builder.build();
 
             return chain.proceed(modifiedRequest);

@@ -143,7 +143,7 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
         UserId = currentUser.getId();
         Log.i("JKJK", UserId + "");
 
-        if (UserId != 0) {
+        if (UserId != null) {
             proxy = data.getProxy();
             Call<User> call = proxy.getUserById(UserId);
             ProxyBuilder.callProxy(MapActivityDrawer.this, call, returnedNothing -> responseCurrent(returnedNothing));
@@ -596,6 +596,10 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
         } else if (id == R.id.messages) {
             // Launch view messages activity
             Intent intent = ViewMessagesActivity.launchViewMessageIntent(MapActivityDrawer.this);
+            startActivity(intent);
+        } else if (id == R.id.permissions) {
+            // Launch view pending permissions activity
+            Intent intent = ViewPendingPermissionsActivity.launchViewPendingPermissionsIntent(MapActivityDrawer.this);
             startActivity(intent);
         } else if (id == R.id.create_group) {
             Log.d(TAG, "Clicking on group info button");
