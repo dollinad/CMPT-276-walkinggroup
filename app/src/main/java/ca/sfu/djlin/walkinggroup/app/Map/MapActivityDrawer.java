@@ -1,4 +1,4 @@
-package ca.sfu.djlin.walkinggroup.app;
+package ca.sfu.djlin.walkinggroup.app.Map;
 
 import android.Manifest;
 import android.app.Activity;
@@ -55,6 +55,16 @@ import java.util.TimerTask;
 
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
+import ca.sfu.djlin.walkinggroup.app.Group.CreateGroupActivity;
+import ca.sfu.djlin.walkinggroup.app.Group.GroupInfoActivity;
+import ca.sfu.djlin.walkinggroup.app.Group.ViewGroupActivity;
+import ca.sfu.djlin.walkinggroup.app.Leaderoard.LeaderBoard;
+import ca.sfu.djlin.walkinggroup.app.Leaderoard.Shop;
+import ca.sfu.djlin.walkinggroup.app.Prefrences.PreferencesActivity;
+import ca.sfu.djlin.walkinggroup.app.Rewards.popUpReachedDestination;
+import ca.sfu.djlin.walkinggroup.app.Settings.SettingsActivity;
+import ca.sfu.djlin.walkinggroup.app.ViewPendingPermissionsActivity;
+import ca.sfu.djlin.walkinggroup.app.WelcomeAndSignUp.WelcomeActivity;
 import ca.sfu.djlin.walkinggroup.app.messaging.ViewMessagesActivity;
 import ca.sfu.djlin.walkinggroup.dataobjects.GpsLocation;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
@@ -143,11 +153,11 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
         UserId = currentUser.getId();
         Log.i("JKJK", UserId + "");
 
-        if (UserId != null) {
+        //if (UserId != 0) {
             proxy = data.getProxy();
             Call<User> call = proxy.getUserById(UserId);
             ProxyBuilder.callProxy(MapActivityDrawer.this, call, returnedNothing -> responseCurrent(returnedNothing));
-        }
+        //}
 
         getLocationPermission();
         setUpTest();
@@ -563,6 +573,7 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.map_activity_drawer, menu);
+
         return true;
     }
 
@@ -574,9 +585,9 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
+        //if (id == R.id.action_settings) {
+          //  return true;
+        //}
         return super.onOptionsItemSelected(item);
     }
 
@@ -644,6 +655,16 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
 
             startActivity(pass_intent);
         }
+        else if(id==R.id.view_leader_board){
+            Intent intent= LeaderBoard.LeaderBoard(getApplicationContext());
+            startActivity(intent);
+        }
+        else if(id==R.id.view_shop){
+            Intent intent= Shop.ShopIntent(getApplicationContext());
+            startActivity(intent);
+
+        }
+
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -728,7 +749,6 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
                 Toast.makeText(MapActivityDrawer.this, "Stop Uploading", Toast.LENGTH_SHORT).show();
                 timer.cancel();
                 timer = new Timer();
-
                 // Hide on walk messaging features
                 onWalkMessaging.setVisibility(View.INVISIBLE);
             }
@@ -742,15 +762,24 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
             public void run() {
                 ifarrived(eventGroup);
                 if (ifreached) {
-                    Log.i("GPS", "User has reached destination");
+                    //Toast.makeText(getApplicationContext(), currentUser.getCurrentPoints()+"", Toast.LENGTH_SHORT).show();
+
                     //timer.cancel();
                     //timer=new Timer();
+                    if(counts==0){
+                        Log.i("GPS", "User has reached destination");
+                        currentUser.setTotalPointsEarned(currentUser.getTotalPointsEarned()+1);
+                        currentUser.setCurrentPoints(currentUser.getCurrentPoints()+1);
+                        Call<User> call = proxy.editUser(currentUser.getId(), currentUser);
+                        ProxyBuilder.callProxy(MapActivityDrawer.this, call, returnedUser -> responseEdit(returnedUser));
+                    }
                     counts++;
                     if (counts == 10) {
                         counts = 0;
                         timer.cancel();
                         timer = new Timer();
                     }
+
                 } else {
                     getDeviceLocation();
                     GpsLocation gpsLocation = new GpsLocation();
@@ -808,6 +837,18 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
                 }
             });
         }
+    }
+
+    private void responseEdit(User returnedUser) {
+        //session.setUser(returnedUser);
+        Toast.makeText(MapActivityDrawer.this, getString(R.string.edited), Toast.LENGTH_SHORT).show();
+        currentUser = returnedUser;
+        android.support.v4.app.FragmentManager manager=getSupportFragmentManager();
+        popUpReachedDestination dialog=new popUpReachedDestination();
+        dialog.show(manager,"MessageDialog");
+    }
+
+    private void responseNothing(Void returnString) {
     }
 
     //get system time;
