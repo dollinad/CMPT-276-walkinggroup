@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,6 +52,17 @@ public class ViewPendingPermissionsActivity extends AppCompatActivity {
         proxy = session.getProxy();
 
         Log.d("TAG", "The retrieved user is: " + currentUser.toString());
+
+        // Setup onclick listener for view permissions history activity
+        Button launchPermissionHistoryButton = (Button) findViewById(R.id.launch_view_all_permissions);
+        launchPermissionHistoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = ViewPermissionsHistoryActivity.launchPermissionsHistoryIntent(ViewPendingPermissionsActivity.this);
+                startActivity(intent);
+            }
+        });
+
 
         // Make a call to retrieve current pending requests
         retrievePendingRequests();
@@ -122,7 +134,6 @@ public class ViewPendingPermissionsActivity extends AppCompatActivity {
                 builder.setPositiveButton("APPROVE", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        // TODO: Approve the request
                         Call<PermissionRequest> call = proxy.approveOrDenyPermissionRequest(pendingPermission.getId(), WGServerProxy.PermissionStatus.APPROVED);
                         ProxyBuilder.callProxy(ViewPendingPermissionsActivity.this,call,  returnedPermissionResponse -> returnedApproveResponse(returnedPermissionResponse));
                     }
@@ -132,7 +143,6 @@ public class ViewPendingPermissionsActivity extends AppCompatActivity {
                 builder.setNegativeButton("DENY", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        // TODO: Deny the request
                         Call<PermissionRequest> call = proxy.approveOrDenyPermissionRequest(pendingPermission.getId(), WGServerProxy.PermissionStatus.DENIED);
                         ProxyBuilder.callProxy(ViewPendingPermissionsActivity.this,call,  returnedPermissionResponse -> returnedDenyResponse(returnedPermissionResponse));
                     }

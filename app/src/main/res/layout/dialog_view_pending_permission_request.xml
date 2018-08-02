@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:text="Please approve or deny this request:" />
+            android:text="@string/approve_or_deny" />
         <TextView
             android:id="@+id/permission_request_message"
             android:layout_width="wrap_content"

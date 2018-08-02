@@ -621,7 +621,6 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
             intent.putExtra("token", token);
             startActivity(intent);
         } else if (id == R.id.monitoring_preferences) {
-            Toast.makeText(getApplicationContext(), "PPP", Toast.LENGTH_SHORT).show();
             Intent pass_intent = PreferencesActivity.launchIntentPreferences(MapActivityDrawer.this);
 
             //SharedPreferences preferences = MapActivityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);
@@ -632,7 +631,6 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
             pass_intent.putExtra("Email", currentUserEmail);
             startActivity(pass_intent);
         } else if (id == R.id.view_groups) {
-            Toast.makeText(getApplicationContext(), "PPP", Toast.LENGTH_SHORT).show();
             Intent pass_intent = ViewGroupActivity.launchIntentViewGroups(MapActivityDrawer.this);
 
             //SharedPreferences preferences = MapActivityDrawer.this.getSharedPreferences("User Session", MODE_PRIVATE);

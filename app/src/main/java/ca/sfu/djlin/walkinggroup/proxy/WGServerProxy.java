@@ -156,6 +156,9 @@ public interface WGServerProxy {
     Call<List<PermissionRequest>> getPermissions(@Query("userId") Long userId);
 
     @GET("/permissions")
+    Call<List<PermissionRequest>> getPermissions(@Query("userId") Long userId, @Header("JSON-DEPTH") Long depth);
+
+    @GET("/permissions")
     Call<List<PermissionRequest>> getPermissions(@Query("userId") Long userId, @Query("statusForUser") PermissionStatus status);
 
     @GET("/permissions/{id}")
