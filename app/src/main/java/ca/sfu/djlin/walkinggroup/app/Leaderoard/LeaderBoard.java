@@ -94,9 +94,27 @@ public class LeaderBoard extends AppCompatActivity{
 
     }
         private void respond(User returnedUser, TextView name, TextView points) {
-            name.setText(returnedUser.getName());
+            String fullname=getCorrectName(returnedUser.getName());
+            name.setText(fullname);
             points.setText(returnedUser.getTotalPointsEarned()+"");
         }
+    }
+    public String getCorrectName(String name){
+        String returnName="";
+        for(int i=0;i<name.length();i++){
+            if(name.isEmpty()){
+                return "";
+            }
+            else if(name.charAt(i)==' '){
+                returnName=returnName+' '+name.charAt(i+1);
+                return returnName;
+            }
+            else {
+                returnName=returnName+name.charAt(i);
+            }
+        }
+
+        return returnName;
     }
 }
 
