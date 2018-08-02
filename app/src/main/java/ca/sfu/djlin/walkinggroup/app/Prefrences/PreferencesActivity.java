@@ -115,6 +115,7 @@ public class PreferencesActivity extends AppCompatActivity {
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+
                 User userToRemove = monitorsUsers.get(position);
                 new AlertDialog.Builder(PreferencesActivity.this)
                         .setMessage("Are you sure you want to remove this User?")
@@ -139,7 +140,7 @@ public class PreferencesActivity extends AppCompatActivity {
     }
 
     private void response(Void returnedNothing, int position) {
-        monitorsUsers.remove(position);
+        currentUser.getMonitorsUsers().remove(position);
         currentUser.setMonitoredByUsers(monitorsUsers);
         adapter.notifyDataSetChanged();
         refresh();

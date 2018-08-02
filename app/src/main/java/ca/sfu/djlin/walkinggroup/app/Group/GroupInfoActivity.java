@@ -58,7 +58,6 @@ public class GroupInfoActivity extends AppCompatActivity {
         proxy=data.getProxy();
         currentUser=data.getUser();
         monitorsUsersList = currentUser.getMonitorsUsers();
-
         currentUserId=currentUser.getId();
         // Get token to set up proxy
         retrieveIntentData();
@@ -188,10 +187,12 @@ public class GroupInfoActivity extends AppCompatActivity {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Build Proxy
                 //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), token);
+                //monitorsUsersList = currentUser.getMonitorsUsers();
+                User user=currentGroup.getMemberUsers().get(position);
                 Intent intent = ViewBeingMonitoredByUsersActivity.launchIntentBeingMonitored(GroupInfoActivity.this);
                 //intent.putExtra("token", token);
                 //Log.i("PLEASE WORK", returnedUser.getId()+"");
-                intent.putExtra("userId",monitorsUsersList.get(position).getId());
+                intent.putExtra("userId",user.getId());
                 startActivity(intent);
                 //proxy=data.getProxy();
                 //Call<User> caller = proxy.getUserById(monitorsUsersList.get(position).getId());
