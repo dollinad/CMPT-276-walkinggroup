@@ -134,7 +134,6 @@ public class ViewPendingPermissionsActivity extends AppCompatActivity {
                 builder.setPositiveButton("APPROVE", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        // TODO: Approve the request
                         Call<PermissionRequest> call = proxy.approveOrDenyPermissionRequest(pendingPermission.getId(), WGServerProxy.PermissionStatus.APPROVED);
                         ProxyBuilder.callProxy(ViewPendingPermissionsActivity.this,call,  returnedPermissionResponse -> returnedApproveResponse(returnedPermissionResponse));
                     }
@@ -144,7 +143,6 @@ public class ViewPendingPermissionsActivity extends AppCompatActivity {
                 builder.setNegativeButton("DENY", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        // TODO: Deny the request
                         Call<PermissionRequest> call = proxy.approveOrDenyPermissionRequest(pendingPermission.getId(), WGServerProxy.PermissionStatus.DENIED);
                         ProxyBuilder.callProxy(ViewPendingPermissionsActivity.this,call,  returnedPermissionResponse -> returnedDenyResponse(returnedPermissionResponse));
                     }
