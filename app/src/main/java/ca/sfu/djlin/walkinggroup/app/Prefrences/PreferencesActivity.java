@@ -1,4 +1,4 @@
-package ca.sfu.djlin.walkinggroup.app;
+package ca.sfu.djlin.walkinggroup.app.Prefrences;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -28,6 +28,8 @@ import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
+import ca.sfu.djlin.walkinggroup.app.Group.ViewGroupActivity;
+import ca.sfu.djlin.walkinggroup.app.EmergencyContact.ViewEmergencyContactActivity;
 import ca.sfu.djlin.walkinggroup.model.Session;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
@@ -376,7 +378,7 @@ public class PreferencesActivity extends AppCompatActivity {
 
             // Make instance of user to retrieve information for
             User monitors = currentUser.getMonitorsUsers().get(position);
-            TextView name = itemView.findViewById(R.id.list_name);
+            TextView name = itemView.findViewById(R.id.list_name_leaderBoard);
             TextView email = itemView.findViewById(R.id.list_email);
             ImageView remove=itemView.findViewById(R.id.remove_user);
 
@@ -464,7 +466,7 @@ public class PreferencesActivity extends AppCompatActivity {
 
             // Make instance of user to retrieve information for
             User monitoredBy = currentUser.getMonitoredByUsers().get(position);
-            TextView name = itemView.findViewById(R.id.list_name);
+            TextView name = itemView.findViewById(R.id.list_name_leaderBoard);
             TextView email = itemView.findViewById(R.id.list_email);
             ImageView remove=itemView.findViewById(R.id.remove_user);
 

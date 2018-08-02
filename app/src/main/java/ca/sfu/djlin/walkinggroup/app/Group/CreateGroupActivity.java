@@ -1,4 +1,4 @@
-package ca.sfu.djlin.walkinggroup.app;
+package ca.sfu.djlin.walkinggroup.app.Group;
 
 import android.Manifest;
 import android.content.Context;
@@ -46,6 +46,7 @@ import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
+import ca.sfu.djlin.walkinggroup.app.Map.MapActivityDrawer;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
 import ca.sfu.djlin.walkinggroup.model.Session;
 import ca.sfu.djlin.walkinggroup.model.User;
@@ -531,7 +532,7 @@ public class CreateGroupActivity extends AppCompatActivity implements OnMapReady
 
             // Make instance of user to retrieve information for
             User user = currentGroup.getMemberUsers().get(position);
-            TextView name = itemView.findViewById(R.id.list_name);
+            TextView name = itemView.findViewById(R.id.list_name_leaderBoard);
             TextView email = itemView.findViewById(R.id.list_email);
 
             // Make a call to collect the name and email of the user

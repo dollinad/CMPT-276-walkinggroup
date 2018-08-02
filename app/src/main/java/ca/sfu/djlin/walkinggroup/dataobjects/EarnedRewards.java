@@ -1,10 +1,8 @@
 package ca.sfu.djlin.walkinggroup.dataobjects;
 
-import android.graphics.Color;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,16 +16,24 @@ import java.util.List;
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class EarnedRewards {
-    private String title = "Dragon slayer";
-    private List<File> possibleBackgroundFiles = new ArrayList<>();
-    private Integer selectedBackground = 1;
-    private Integer titleColor = Color.BLUE;
+   // private String title = "Dragon slayer";
+   // private List<File> possibleBackgroundFiles = new ArrayList<>();
+   // private Integer selectedBackground = 1;
+   // private Integer titleColor = Color.BLUE;
+    private List<Integer> possible_stickers=new ArrayList<>();
 
     // Needed for JSON deserialization
     public EarnedRewards() {
     }
 
-    public String getTitle() {
+    public void setPossible_stickers(List<Integer> possible_stickers){
+        this.possible_stickers=possible_stickers;
+    }
+
+    public List<Integer> getPossible_stickers() {
+        return possible_stickers;
+    }
+    /* public String getTitle() {
         return title;
     }
 
@@ -57,15 +63,16 @@ public class EarnedRewards {
 
     public void setTitleColor(int titleColor) {
         this.titleColor = titleColor;
-    }
+    }*/
 
     @Override
     public String toString() {
         return "EarnedRewards{" +
-                "title='" + title + '\'' +
-                ", possibleBackgroundFiles=" + possibleBackgroundFiles +
-                ", selectedBackground=" + selectedBackground +
-                ", titleColor=" + titleColor +
+                //"title='" + title + '\'' +
+                //", possibleBackgroundFiles=" + possibleBackgroundFiles +
+                //", selectedBackground=" + selectedBackground +
+                //", titleColor=" + titleColor +
+                "possible_stickers="+possible_stickers+
                 '}';
     }
 }

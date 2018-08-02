@@ -2,8 +2,8 @@ package ca.sfu.djlin.walkinggroup.model;
 
 import android.content.Context;
 
-import ca.sfu.djlin.walkinggroup.app.SignupActivity;
-import ca.sfu.djlin.walkinggroup.app.WelcomeActivity;
+import ca.sfu.djlin.walkinggroup.app.WelcomeAndSignUp.SignupActivity;
+import ca.sfu.djlin.walkinggroup.app.WelcomeAndSignUp.WelcomeActivity;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
 
 public class Session {

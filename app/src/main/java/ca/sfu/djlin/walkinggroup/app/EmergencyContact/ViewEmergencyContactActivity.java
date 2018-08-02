@@ -1,4 +1,4 @@
-package ca.sfu.djlin.walkinggroup.app;
+package ca.sfu.djlin.walkinggroup.app.EmergencyContact;
 
 import android.content.Context;
 import android.content.Intent;
