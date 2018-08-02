@@ -20,14 +20,14 @@
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:textStyle="bold"
-            android:text="Permission Request Details" />
+            android:text="@string/permission_request_details" />
         <TextView
             android:id="@+id/permission_request_status_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:layout_marginTop="12dp"
-            android:text="Status" />
+            android:text="@string/permission_status" />
         <TextView
             android:id="@+id/permission_request_status"
             android:layout_width="wrap_content"
@@ -35,14 +35,14 @@
             android:textSize="16sp"
             android:layout_marginTop="3dp"
             android:textStyle="italic"
-            android:text="&#60;Permission Status&#62;" />
+            android:text="@string/permission_status_placeholder" />
         <TextView
             android:id="@+id/permission_request_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:layout_marginTop="12dp"
-            android:text="Details" />
+            android:text="@string/details" />
         <TextView
             android:id="@+id/permission_request_message"
             android:layout_width="wrap_content"
@@ -50,14 +50,14 @@
             android:textSize="16sp"
             android:layout_marginTop="3dp"
             android:textStyle="italic"
-            android:text="&#60;Details&#62;" />
+            android:text="@string/details_placeholder" />
         <TextView
             android:id="@+id/pending_users_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:layout_marginTop="12dp"
-            android:text="Pending Users" />
+            android:text="@string/pending_users" />
         <TextView
             android:id="@+id/pending_users"
             android:layout_width="wrap_content"
@@ -65,14 +65,14 @@
             android:textSize="16sp"
             android:layout_marginTop="3dp"
             android:textStyle="italic"
-            android:text="&#60;Approved By&#62;" />
+            android:text="@string/pending_users_placeholder" />
         <TextView
             android:id="@+id/approved_by_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:layout_marginTop="12dp"
-            android:text="Approved By" />
+            android:text="@string/approved_by" />
         <TextView
             android:id="@+id/approved_by"
             android:layout_width="wrap_content"
@@ -80,14 +80,14 @@
             android:textSize="16sp"
             android:layout_marginTop="3dp"
             android:textStyle="italic"
-            android:text="&#60;Approved By&#62;" />
+            android:text="@string/approved_by_placeholder" />
         <TextView
             android:id="@+id/denied_by_label"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
             android:layout_marginTop="12dp"
-            android:text="Denied By" />
+            android:text="@string/denied_by" />
         <TextView
             android:id="@+id/denied_by"
             android:layout_width="wrap_content"
@@ -95,7 +95,7 @@
             android:textSize="16sp"
             android:layout_marginTop="3dp"
             android:textStyle="italic"
-            android:text="&#60;Denied By&#62;" />
+            android:text="@string/denied_by_placeholder" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
