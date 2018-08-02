@@ -74,10 +74,19 @@ public class PreferencesActivity extends AppCompatActivity {
         currentUserEmail=currentUser.getEmail();
         Log.d(TAG, "The current User Email is: " + currentUserEmail);
 
+        // Build new adapter for monitoring list
+        adapter = new myListAdapterMonitors();
+        ListView monitoringList = findViewById(R.id.monitoring_list);
+        monitoringList.setAdapter(adapter);
+
+        // Build new adapter for monitored list
+        adapterMonitored = new myListAdapterMonitored();
+        ListView monitoredByList = findViewById(R.id.monitored_by_list);
+        monitoredByList.setAdapter(adapterMonitored);
 
         // Get current user information
-        // Call<User> caller = proxy.getUserByEmail(currentUserEmail);
-        // ProxyBuilder.callProxy(PreferencesActivity.this, caller, returnedUser -> responseCurrent(returnedUser));
+        Call<User> caller = proxy.getUserByEmail(currentUserEmail);
+        ProxyBuilder.callProxy(PreferencesActivity.this, caller, returnedUser -> responseCurrent(returnedUser));
 
         // Set up input and button to add monitored user
         setupAddMonitoringUser();
@@ -95,16 +104,6 @@ public class PreferencesActivity extends AppCompatActivity {
 
         ViewMyChildsGroups();
 
-
-        // Build new adapter for monitoring list
-        adapter = new myListAdapterMonitors();
-        ListView monitoringList = findViewById(R.id.monitoring_list);
-        monitoringList.setAdapter(adapter);
-
-        // Build new adapter for monitored list
-        adapterMonitored = new myListAdapterMonitored();
-        ListView monitoredByList = findViewById(R.id.monitored_by_list);
-        monitoredByList.setAdapter(adapterMonitored);
     }
 
 
@@ -185,7 +184,7 @@ public class PreferencesActivity extends AppCompatActivity {
         // Store retrieved user into currentUser
         Log.d(TAG, "responseCurrent: " + user);
         currentUser = user;
-        monitoredBy();
+        // monitoredBy();
         refresh();
     }
 
