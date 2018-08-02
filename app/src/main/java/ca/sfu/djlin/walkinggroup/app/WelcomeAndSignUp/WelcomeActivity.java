@@ -1,4 +1,4 @@
-package ca.sfu.djlin.walkinggroup.app;
+package ca.sfu.djlin.walkinggroup.app.WelcomeAndSignUp;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -18,6 +18,8 @@ import com.google.android.gms.common.GoogleApiAvailability;
 
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.Utilities;
+import ca.sfu.djlin.walkinggroup.app.Map.MapActivityDrawer;
+import ca.sfu.djlin.walkinggroup.app.ReadMe.ReadMeActivity;
 import ca.sfu.djlin.walkinggroup.model.Session;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
