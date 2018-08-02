@@ -103,7 +103,7 @@ public class LeaderBoard extends AppCompatActivity{
         String returnName="";
         for(int i=0;i<name.length();i++){
             if(name.isEmpty()){
-                return "";
+                return "Unknow";
             }
             else if(name.charAt(i)==' '){
                 returnName=returnName+' '+name.charAt(i+1);
