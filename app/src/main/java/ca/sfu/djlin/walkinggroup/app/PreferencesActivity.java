@@ -84,10 +84,10 @@ public class PreferencesActivity extends AppCompatActivity {
         setupAddMonitoredUser();
 
         //remove from monitors
-        deleteMonitors();
+       // deleteMonitors();
 
         //remove from monitored By
-        deleteMonitoredBy();
+       // deleteMonitoredBy();
 
         EditEmergencyInfoFormonitoringUser();
 
@@ -400,7 +400,8 @@ public class PreferencesActivity extends AppCompatActivity {
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
+                                    //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
+                                    proxy = session.getProxy();
                                     Call<Void> caller = proxy.removeFromMonitorsUsers(currentUser.getId(), returnUser.getId());
                                     ProxyBuilder.callProxy(PreferencesActivity.this, caller, returnNothing-> response(returnNothing, position));
                                 }
@@ -486,7 +487,8 @@ public class PreferencesActivity extends AppCompatActivity {
                             .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
+                                    //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
+                                    proxy = session.getProxy();
                                     Call<Void> caller = proxy.removeFromMonitoredByUsers(currentUser.getId(), returnUser.getId());
                                     ProxyBuilder.callProxy(PreferencesActivity.this, caller, returnNothing-> responseMonitoredNothing(returnNothing, position));
                                 }
