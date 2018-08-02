@@ -154,10 +154,25 @@
 
     <!-- Permissions -->
     <string name="permissions">Pending Permissions</string>
+    <string name="permissions_list">Permission History</string>
     <string name="pending_permissions">Pending Permissions</string>
     <string name="pending_permissions_placeholder">&#60;Pending Permission&#62;</string>
     <string name="approved_toast">The permission request has been approved!</string>
     <string name="denied_toast">The permission request has been denied!</string>
+    <string name="permission_details">Permission Details</string>
+    <string name="view_all_permissions">View All Permissions</string>
+    <string name="denied_by_placeholder"><![CDATA[<Denied By>]]></string>
+    <string name="denied_by">Denied By</string>
+    <string name="approved_by_placeholder"><![CDATA[<Approved By>]]></string>
+    <string name="approved_by">Approved By</string>
+    <string name="pending_users_placeholder"><![CDATA[<Pending Users>]]></string>
+    <string name="pending_users">Pending Users</string>
+    <string name="details_placeholder"><![CDATA[<Details>]]></string>
+    <string name="details">Details</string>
+    <string name="permission_status_placeholder"><![CDATA[<Permission Status>]]></string>
+    <string name="permission_status">Permission Status</string>
+    <string name="permission_request_details">Permission Request Details</string>
+    <string name="approve_or_deny">Please approve or deny this request:</string>
 
 </resources>
 

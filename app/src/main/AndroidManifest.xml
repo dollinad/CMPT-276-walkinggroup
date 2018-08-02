@@ -85,6 +85,9 @@
         <!-- Permissions Activity -->
         <activity android:name=".app.ViewPendingPermissionsActivity"/>
 
+        <!-- View Permissions History Activity -->
+        <activity android:name=".app.ViewPermissionsHistoryActivity"/>
+
         <activity
             android:name=".app.Map.LeaderMapActivity"
             android:label="@string/title_activity_leader_map" />
