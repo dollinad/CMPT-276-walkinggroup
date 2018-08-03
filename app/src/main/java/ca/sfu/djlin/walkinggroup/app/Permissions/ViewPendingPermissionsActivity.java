@@ -1,4 +1,4 @@
-package ca.sfu.djlin.walkinggroup.app;
+package ca.sfu.djlin.walkinggroup.app.Permissions;
 
 
 import android.content.Context;
@@ -20,7 +20,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.security.Permission;
 import java.util.ArrayList;
 import java.util.List;
 

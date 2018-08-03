@@ -1,4 +1,4 @@
-package ca.sfu.djlin.walkinggroup.app.messaging;
+package ca.sfu.djlin.walkinggroup.app.Messaging;
 
 import android.content.Context;
 import android.content.DialogInterface;

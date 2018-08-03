@@ -33,7 +33,7 @@
                 android:id="@+id/textView20"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Fancy Shield 10 points"
+                android:text="@string/fancy_shield_price"
                 android:textColor="@android:color/background_light"
                 android:textSize="12sp"
                 android:textStyle="bold" />
@@ -48,7 +48,7 @@
                 android:id="@+id/textView27"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Fancy Sword 15 points"
+                android:text="@string/fancy_sword_price"
                 android:textColor="@android:color/background_light"
                 android:textSize="12sp"
                 android:textStyle="bold" />
@@ -63,7 +63,7 @@
                 android:id="@+id/textView26"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Precious Jewel              20 points"
+                android:text="@string/precious_jewel_price"
                 android:textColor="@android:color/background_light"
                 android:textSize="12sp"
                 android:textStyle="bold" />
@@ -79,7 +79,7 @@
                 android:id="@+id/textView24"
                 android:layout_width="match_parent"
                 android:layout_height="39dp"
-                android:text="Fire Fighting sword    30 points"
+                android:text="@string/fire_fighting_sword_price"
                 android:textColor="@android:color/background_light"
                 android:textSize="12sp"
                 android:textStyle="bold" />
@@ -94,7 +94,7 @@
                 android:id="@+id/textView23"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Dragon Slayer badge  40 points"
+                android:text="@string/dragon_slayer_badge_price"
                 android:textColor="@android:color/background_light"
                 android:textSize="12sp"
                 android:textStyle="bold" />
@@ -109,7 +109,7 @@
                 android:id="@+id/textView25"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="All mighty Shield          55 points"
+                android:text="@string/all_mighty_shield_price"
                 android:textColor="@android:color/background_light"
                 android:textSize="12sp"
                 android:textStyle="bold" />
@@ -220,7 +220,7 @@
         android:id="@+id/textView28"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Total Points Earned:"
+        android:text="@string/total_points_earned"
         android:textAppearance="@style/TextAppearance.AppCompat.Title"
         android:textColor="@android:color/background_light"
         android:textStyle="bold"

@@ -95,18 +95,16 @@ public class PreferencesActivity extends AppCompatActivity {
         setupAddMonitoredUser();
 
         //remove from monitors
-       // deleteMonitors();
+        // deleteMonitors();
 
         //remove from monitored By
-       // deleteMonitoredBy();
+        // deleteMonitoredBy();
 
         EditEmergencyInfoFormonitoringUser();
 
         ViewMyChildsGroups();
 
     }
-
-
 
     private void deleteMonitors() {
         ImageView h=findViewById(R.id.remove_user);
@@ -122,7 +120,7 @@ public class PreferencesActivity extends AppCompatActivity {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 //proxy = ProxyBuilder.getProxy(getString(R.string.apikey), currentUserToken);
-                                proxy=session.getProxy();
+                                proxy = session.getProxy();
                                 Call<Void> caller = proxy.removeFromMonitorsUsers(currentUser.getId(), userToRemove.getId());
                                 ProxyBuilder.callProxy(PreferencesActivity.this, caller, returnNothing-> response(returnNothing, position));
                             }

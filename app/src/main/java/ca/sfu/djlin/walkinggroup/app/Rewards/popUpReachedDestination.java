@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import ca.sfu.djlin.walkinggroup.R;
-import ca.sfu.djlin.walkinggroup.app.Leaderoard.Shop;
+import ca.sfu.djlin.walkinggroup.app.Leaderboard.Shop;
 import ca.sfu.djlin.walkinggroup.model.Session;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
@@ -41,9 +41,9 @@ public class popUpReachedDestination extends AppCompatDialogFragment {
         Toast.makeText(getContext(), CurrentUser.getName()+"", Toast.LENGTH_SHORT).show();
 
         TextView points=v.findViewById(R.id.earnedPoints);
-        points.setText(CurrentUser.getTotalPointsEarned()+1+"");
+        points.setText("You have earned "+ CurrentUser.getTotalPointsEarned()+1 + " points!");
         TextView current=v.findViewById(R.id.CurrentTotalPoints);
-        current.setText(CurrentUser.getCurrentPoints()+1+"");
+        current.setText("Your total points: " + CurrentUser.getCurrentPoints()+1);
 
 
         //create a button listner

@@ -73,20 +73,20 @@
             android:name=".app.Map.MapActivityDrawer"
             android:label="@string/title_activity_map_drawer"
             android:theme="@style/AppTheme"/>
-        <activity android:name=".app.Leaderoard.LeaderBoard"/>
-        <activity android:name=".app.Leaderoard.Shop"/>
+        <activity android:name=".app.Leaderboard.LeaderBoard"/>
+        <activity android:name=".app.Leaderboard.Shop"/>
 
         <!-- Messaging Activity -->
-        <activity android:name=".app.messaging.ViewMessagesActivity"/>
+        <activity android:name=".app.Messaging.ViewMessagesActivity"/>
 
         <!-- Leader Messaging Activity-->
-        <activity android:name=".app.messaging.LeaderMessagingActivity"/>
+        <activity android:name=".app.Messaging.LeaderMessagingActivity"/>
 
         <!-- Permissions Activity -->
-        <activity android:name=".app.ViewPendingPermissionsActivity"/>
+        <activity android:name=".app.Permissions.ViewPendingPermissionsActivity"/>
 
         <!-- View Permissions History Activity -->
-        <activity android:name=".app.ViewPermissionsHistoryActivity"/>
+        <activity android:name=".app.Permissions.ViewPermissionsHistoryActivity"/>
 
         <activity
             android:name=".app.Map.LeaderMapActivity"

@@ -1,4 +1,4 @@
-package ca.sfu.djlin.walkinggroup.app.Leaderoard;
+package ca.sfu.djlin.walkinggroup.app.Leaderboard;
 
 import android.content.ClipData;
 import android.content.Context;

@@ -1,4 +1,4 @@
-package ca.sfu.djlin.walkinggroup.app;
+package ca.sfu.djlin.walkinggroup.app.Permissions;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -20,7 +20,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import ca.sfu.djlin.walkinggroup.R;
 import ca.sfu.djlin.walkinggroup.dataobjects.PermissionRequest;
