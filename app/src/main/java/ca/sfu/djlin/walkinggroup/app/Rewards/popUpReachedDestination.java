@@ -13,7 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import ca.sfu.djlin.walkinggroup.R;
-import ca.sfu.djlin.walkinggroup.app.Leaderoard.Shop;
+import ca.sfu.djlin.walkinggroup.app.Leaderboard.Shop;
 import ca.sfu.djlin.walkinggroup.model.Session;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.WGServerProxy;
