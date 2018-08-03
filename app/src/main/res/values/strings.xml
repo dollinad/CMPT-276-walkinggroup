@@ -173,6 +173,7 @@
     <string name="permission_status">Permission Status</string>
     <string name="permission_request_details">Permission Request Details</string>
     <string name="approve_or_deny">Please approve or deny this request:</string>
+    <string name="you_have_earned">You have earned</string>
 
 </resources>
 

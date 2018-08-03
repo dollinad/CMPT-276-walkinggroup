@@ -41,9 +41,9 @@ public class popUpReachedDestination extends AppCompatDialogFragment {
         Toast.makeText(getContext(), CurrentUser.getName()+"", Toast.LENGTH_SHORT).show();
 
         TextView points=v.findViewById(R.id.earnedPoints);
-        points.setText(CurrentUser.getTotalPointsEarned()+1+"");
+        points.setText("You have earned "+ CurrentUser.getTotalPointsEarned()+1 + " points!");
         TextView current=v.findViewById(R.id.CurrentTotalPoints);
-        current.setText(CurrentUser.getCurrentPoints()+1+"");
+        current.setText("Your total points: " + CurrentUser.getCurrentPoints()+1);
 
 
         //create a button listner
