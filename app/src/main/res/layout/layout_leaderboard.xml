@@ -11,7 +11,7 @@
         android:orientation="horizontal">
         <TextView
             android:id="@+id/list_name_leaderBoard"
-            android:layout_width="250dp"
+            android:layout_width="190dp"
             android:layout_height="wrap_content"
             android:text="@string/name_hint"
             android:textAppearance="@style/TextAppearance.AppCompat.Title"
@@ -27,7 +27,7 @@
 
         <TextView
             android:id="@+id/points_leaderBoard"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:text="@string/points"
