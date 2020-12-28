@@ -74,28 +74,6 @@ public class PreferencesActivity extends AppCompatActivity {
         currentUserEmail=currentUser.getEmail();
         Log.d(TAG, "The current User Email is: " + currentUserEmail);
 
-
-        // Get current user information
-        // Call<User> caller = proxy.getUserByEmail(currentUserEmail);
-        // ProxyBuilder.callProxy(PreferencesActivity.this, caller, returnedUser -> responseCurrent(returnedUser));
-
-        // Set up input and button to add monitored user
-        setupAddMonitoringUser();
-
-        // Set up input and button to add user to be monitored by
-        setupAddMonitoredUser();
-
-        //remove from monitors
-        deleteMonitors();
-
-        //remove from monitored By
-        deleteMonitoredBy();
-
-        EditEmergencyInfoFormonitoringUser();
-
-        ViewMyChildsGroups();
-
-
         // Build new adapter for monitoring list
         adapter = new myListAdapterMonitors();
         ListView monitoringList = findViewById(R.id.monitoring_list);
@@ -105,6 +83,27 @@ public class PreferencesActivity extends AppCompatActivity {
         adapterMonitored = new myListAdapterMonitored();
         ListView monitoredByList = findViewById(R.id.monitored_by_list);
         monitoredByList.setAdapter(adapterMonitored);
+
+        // Get current user information
+        Call<User> caller = proxy.getUserByEmail(currentUserEmail);
+        ProxyBuilder.callProxy(PreferencesActivity.this, caller, returnedUser -> responseCurrent(returnedUser));
+
+        // Set up input and button to add monitored user
+        setupAddMonitoringUser();
+
+        // Set up input and button to add user to be monitored by
+        setupAddMonitoredUser();
+
+        //remove from monitors
+       // deleteMonitors();
+
+        //remove from monitored By
+       // deleteMonitoredBy();
+
+        EditEmergencyInfoFormonitoringUser();
+
+        ViewMyChildsGroups();
+
     }
 
 
@@ -115,6 +114,7 @@ public class PreferencesActivity extends AppCompatActivity {
         list.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long l) {
+
                 User userToRemove = monitorsUsers.get(position);
                 new AlertDialog.Builder(PreferencesActivity.this)
                         .setMessage("Are you sure you want to remove this User?")
@@ -139,7 +139,7 @@ public class PreferencesActivity extends AppCompatActivity {
     }
 
     private void response(Void returnedNothing, int position) {
-        monitorsUsers.remove(position);
+        currentUser.getMonitorsUsers().remove(position);
         currentUser.setMonitoredByUsers(monitorsUsers);
         adapter.notifyDataSetChanged();
         refresh();
@@ -184,7 +184,7 @@ public class PreferencesActivity extends AppCompatActivity {
         // Store retrieved user into currentUser
         Log.d(TAG, "responseCurrent: " + user);
         currentUser = user;
-        monitoredBy();
+        // monitoredBy();
         refresh();
     }
 

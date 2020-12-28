@@ -772,7 +772,7 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
                         ProxyBuilder.callProxy(MapActivityDrawer.this, call, returnedUser -> responseEdit(returnedUser));
                     }
                     counts++;
-                    if (counts == 10) {
+                    if (counts == 20) {
                         counts = 0;
                         timer.cancel();
                         timer = new Timer();
@@ -788,7 +788,7 @@ public class MapActivityDrawer extends AppCompatActivity implements NavigationVi
 
                 }
             }
-        }, 0, 3000);
+        }, 0, 30000);
 
     }
 
