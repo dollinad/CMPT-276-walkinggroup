@@ -151,6 +151,11 @@
     <string name="readme_paragraph_14">14.As Leader, you can click on the Leader button on the main map to get to the leader dashboard/map where you can upload you location or stop uploading your location.</string>
     <string name="readme_paragraph_15">15. As a parent, you could click on the parent button on the main map which would allow you to start/stop downloading the loaction of your child.</string>
     <string name="readme_paragraph_16">16. As a member you could use the start/stop button to start/stop uploading yor location</string>
+    <string name="readme_paragraph_17">17. Choose a group to walk to by clicking on the marker, and then clicking "Select". You can start uploading your GPS coordinates by clicking on "Start". Once you reach your destination, you will earn points for staying healthy!</string>
+    <string name="readme_paragraph_18">18. View the current leader board from the menu. Compete with your friends to get the high score!</string>
+    <string name="readme_paragraph_19">19. Once you collect enough points, you may go to the shop to buy pictures to show off with! Long click on the items on the right, and then drag them onto the sticker to buy!</string>
+    <string name="readme_paragraph_20">20. As a user, you can view pending permission requests. Click on one to approve or deny the request.</string>
+    <string name="readme_paragraph_21">21. As a user, you can view the history of your permission requests. This is accessible from the pending permission request screen. Click on a request to view more details!</string>
 
     <!-- Permissions -->
     <string name="permissions">Pending Permissions</string>
@@ -173,6 +178,16 @@
     <string name="permission_status">Permission Status</string>
     <string name="permission_request_details">Permission Request Details</string>
     <string name="approve_or_deny">Please approve or deny this request:</string>
+    <string name="you_have_earned">You have earned</string>
+    <string name="leader_board">LEADER BOARD</string>
+    <string name="fancy_shield_price">Fancy Shield 10 points</string>
+    <string name="fancy_sword_price">Fancy Sword 15 points</string>
+    <string name="precious_jewel_price">Precious Jewel 20 points</string>
+    <string name="fire_fighting_sword_price">Fire Fighting sword 30 points</string>
+    <string name="dragon_slayer_badge_price">Dragon Slayer badge 40 points</string>
+    <string name="all_mighty_shield_price">All mighty Shield 55 points</string>
+    <string name="total_points_earned">Total Points Earned:</string>
+    <string name="points">Points</string>
 
 </resources>
 
