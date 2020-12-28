@@ -19,13 +19,13 @@
             android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:text="From: " />
+            android:text="@string/from" />
         <TextView
             android:id="@+id/from_user_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:text="Jane" />
+            android:text="@string/jane" />
     </LinearLayout>
     <LinearLayout
         android:id="@+id/linear_layout_2"
@@ -38,7 +38,7 @@
             android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:text="Emergency Text: " />
+            android:text="@string/emergency_text" />
         <TextView
             android:id="@+id/is_emergency_text"
             android:layout_width="wrap_content"
@@ -57,13 +57,13 @@
             android:layout_width="130dp"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:text="Message " />
+            android:text="@string/message" />
         <TextView
             android:id="@+id/message_body_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="16sp"
-            android:text="The Message Details" />
+            android:text="@string/the_message_details" />
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>

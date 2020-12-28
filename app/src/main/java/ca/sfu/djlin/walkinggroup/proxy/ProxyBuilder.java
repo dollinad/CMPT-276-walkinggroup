@@ -152,7 +152,8 @@ public class ProxyBuilder {
                 } else {
                     String message;
                     try {
-                        message = "CALL TO SERVER FAILED:\n" + response.errorBody().string();
+                        int code=response.code();
+                        message = "CALL TO SERVER FAILED:\n" + response.errorBody().string()+"\n"+"With HTTP code: " + code;
                     } catch (IOException e) {
                         e.printStackTrace();
                         message = "Unable to decode response (body or error's body).";
@@ -207,6 +208,9 @@ public class ProxyBuilder {
             if (depth != null) {
                 builder.header("JSON-DEPTH", depth);
             }
+
+            // Enable permission requests
+            builder.header("permissions-enabled", "true");
 
             Request modifiedRequest = builder.build();
 

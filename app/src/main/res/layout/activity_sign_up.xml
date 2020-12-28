@@ -86,7 +86,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="30dp">
 
-
                 <TextView
                     android:id="@+id/password_label"
                     android:layout_width="150dp"
@@ -131,26 +130,45 @@
                     android:background="@android:color/transparent"/>
             </TableRow>
 
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="30dp">
+                <TextView
+                    android:id="@+id/birth_year_label"
+                    android:layout_width="150dp"
+                    android:layout_height="match_parent"
+                    android:paddingLeft="4dp"
+                    android:text="@string/birth_year_two"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+                <EditText
+                    android:id="@+id/birth_year_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="12dp"
+                    android:hint="@string/_1998"
+                    android:imeOptions="actionDone"
+                    android:inputType="number"
+                    android:background="@android:color/transparent"/>
+            </TableRow>
 
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="30dp">
-
                 <TextView
-                    android:id="@+id/BirthYear_label"
+                    android:id="@+id/birth_month_label"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:paddingLeft="4dp"
-                    android:text="Birth Year:"
+                    android:text="@string/birth_month_two"
                     android:textColor="#000"
                     android:textSize="16sp" />
-
                 <EditText
-                    android:id="@+id/birthYear_input"
+                    android:id="@+id/birth_month_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:hint="1998"
+                    android:hint="@string/_2"
                     android:imeOptions="actionDone"
                     android:inputType="number"
                     android:background="@android:color/transparent"/>
@@ -161,44 +179,20 @@
                 android:layout_height="30dp">
 
                 <TextView
-                    android:id="@+id/BirthMonth_label"
+                    android:id="@+id/cellphone_label"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:paddingLeft="4dp"
-                    android:text="Birth Month:"
+                    android:text="@string/cell_phonee"
                     android:textColor="#000"
                     android:textSize="16sp" />
 
                 <EditText
-                    android:id="@+id/birthMonth_input"
+                    android:id="@+id/cellphone_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:hint="2"
-                    android:imeOptions="actionDone"
-                    android:inputType="number"
-                    android:background="@android:color/transparent"/>
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="30dp">
-
-                <TextView
-                    android:id="@+id/CellPhone_label"
-                    android:layout_width="150dp"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="4dp"
-                    android:text="Cell Phone:"
-                    android:textColor="#000"
-                    android:textSize="16sp" />
-
-                <EditText
-                    android:id="@+id/CellPhone_input"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="12dp"
-                    android:hint="123 123 1234"
+                    android:hint="@string/_123_123_1234"
                     android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:background="@android:color/transparent"/>
@@ -209,20 +203,20 @@
                 android:layout_height="30dp">
 
                 <TextView
-                    android:id="@+id/HomePhone_label"
+                    android:id="@+id/home_phone_label"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:paddingLeft="4dp"
-                    android:text="Home Phone:"
+                    android:text="@string/e"
                     android:textColor="#000"
                     android:textSize="16sp" />
 
                 <EditText
-                    android:id="@+id/HomePhone_input"
+                    android:id="@+id/home_phone_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:hint="123 123 1234"
+                    android:hint="@string/_123_123_12344"
                     android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:background="@android:color/transparent"/>
@@ -233,20 +227,20 @@
                 android:layout_height="30dp">
 
                 <TextView
-                    android:id="@+id/Addres_label"
+                    android:id="@+id/address_label"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:paddingLeft="4dp"
-                    android:text="Address:"
+                    android:text="@string/addresss"
                     android:textColor="#000"
-                    android:textSize="16dp" />
+                    android:textSize="16sp" />
 
                 <EditText
-                    android:id="@+id/Address_input"
+                    android:id="@+id/address_input"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:hint="123 Way"
+                    android:hint="@string/_123_way"
                     android:imeOptions="actionDone"
                     android:inputType="textPostalAddress"
                     android:background="@android:color/transparent"/>
@@ -257,20 +251,20 @@
                 android:layout_height="30dp">
 
                 <TextView
-                    android:id="@+id/CurrentGrade_label"
+                    android:id="@+id/current_grade_label"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:paddingLeft="4dp"
-                    android:text="Current Grade:"
+                    android:text="@string/current_gradee"
                     android:textColor="#000"
                     android:textSize="16sp" />
 
                 <EditText
-                    android:id="@+id/CurrentGrade_input"
+                    android:id="@+id/current_grade_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:hint="3"
+                    android:hint="@string/_3"
                     android:imeOptions="actionDone"
                     android:inputType="number"
                     android:background="@android:color/transparent"/>
@@ -281,20 +275,20 @@
                 android:layout_height="30dp">
 
                 <TextView
-                    android:id="@+id/TeachersName_label"
+                    android:id="@+id/teachers_name_label"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:paddingLeft="4dp"
-                    android:text="Teacher's Name:"
+                    android:text="@string/teacher_s_name_"
                     android:textColor="#000"
                     android:textSize="16sp" />
 
                 <EditText
-                    android:id="@+id/TeacherName_input"
+                    android:id="@+id/teacher_name_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
-                    android:hint="Mr. Smith"
+                    android:hint="@string/mr_smith"
                     android:imeOptions="actionDone"
                     android:inputType="textPersonName"
                     android:background="@android:color/transparent"/>
@@ -305,21 +299,21 @@
                 android:layout_height="wrap_content">
 
                 <TextView
-                    android:id="@+id/EmergencyInfo_label"
+                    android:id="@+id/emergency_info_label"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
                     android:paddingLeft="4dp"
-                    android:text="Emergency Contact Info:"
+                    android:text="@string/emergency_contact_info"
                     android:textColor="#000"
                     android:textSize="16sp" />
 
                 <EditText
-                    android:id="@+id/EmergencyContact_input"
+                    android:id="@+id/emergency_contact_input"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="12dp"
                     android:background="@android:color/transparent"
-                    android:hint="Call my mom!"
+                    android:hint="@string/call_my_mom"
                     android:imeOptions="actionDone"
                     android:inputType="textShortMessage" />
             </TableRow>
@@ -327,7 +321,6 @@
             <TableRow
                 android:layout_width="match_parent"
                 android:layout_height="65dp">
-
                 <Button
                     android:id="@+id/create_account"
                     android:layout_width="150dp"
@@ -336,15 +329,7 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/linear_layout_input" />
-
             </TableRow>
-
-
-
         </LinearLayout>
-
         </ScrollView>
-
-
-
 </android.support.constraint.ConstraintLayout>

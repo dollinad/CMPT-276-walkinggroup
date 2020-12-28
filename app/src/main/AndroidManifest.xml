@@ -27,7 +27,7 @@
             android:value="@string/google_maps_key" />
 
         <!-- Welcome Activity - Default Activity on Launch of Application -->
-        <activity android:name=".app.WelcomeActivity">
+        <activity android:name=".app.WelcomeAndSignUp.WelcomeActivity">
             <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
@@ -37,53 +37,64 @@
 
         <!-- Google Maps Activity -->
         <activity
-            android:name=".app.MapActivity"
+            android:name=".app.Map.MapActivity"
             android:label="@string/title_activity_maps" />
 
         <!-- Signup Activity -->
         <activity
-            android:name=".app.SignupActivity"
+            android:name=".app.WelcomeAndSignUp.SignupActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <!-- Login Activity -->
         <activity
-            android:name=".app.LoginActivity"
+            android:name=".app.WelcomeAndSignUp.LoginActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
 
         <!-- Preferences Activity -->
         <activity
-            android:name=".app.PreferencesActivity"
+            android:name=".app.Prefrences.PreferencesActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <!-- Group Activities -->
         <activity
-            android:name=".app.CreateGroupActivity"
+            android:name=".app.Group.CreateGroupActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".app.GroupInfoActivity"
+            android:name=".app.Group.GroupInfoActivity"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity android:name=".app.ReadMe" />
+        <activity android:name=".app.ReadMe.ReadMeActivity" />
 
-        <activity android:name=".app.ViewGrpupActivity"/>
-        <activity android:name=".app.SettingsActivity"/>
-        <activity android:name=".app.ViewEmergencyContactActivity"/>
+        <activity android:name=".app.Group.ViewGroupActivity"/>
+        <activity android:name=".app.Settings.SettingsActivity"/>
+        <activity android:name=".app.EmergencyContact.ViewEmergencyContactActivity"/>
+        <activity android:name=".app.Prefrences.ViewBeingMonitoredByUsersActivity"/>
         <activity
-            android:name=".app.Map_activityDrawer"
-            android:label="@string/title_activity_map_drawer_test"
+            android:name=".app.Map.MapActivityDrawer"
+            android:label="@string/title_activity_map_drawer"
             android:theme="@style/AppTheme"/>
+        <activity android:name=".app.Leaderoard.LeaderBoard"/>
+        <activity android:name=".app.Leaderoard.Shop"/>
 
         <!-- Messaging Activity -->
-        <activity android:name=".app.ViewMessagesActivity"/>
+        <activity android:name=".app.messaging.ViewMessagesActivity"/>
 
         <!-- Leader Messaging Activity-->
         <activity android:name=".app.messaging.LeaderMessagingActivity"/>
+
+        <!-- Permissions Activity -->
+        <activity android:name=".app.ViewPendingPermissionsActivity"/>
+
+        <!-- View Permissions History Activity -->
+        <activity android:name=".app.ViewPermissionsHistoryActivity"/>
+
         <activity
-            android:name=".app.Leader_Map"
-            android:label="@string/title_activity_leader__map" />
+            android:name=".app.Map.LeaderMapActivity"
+            android:label="@string/title_activity_leader_map" />
         <activity
-            android:name=".app.Parent_Map"
-            android:label="@string/title_activity_parent__map"></activity>
+            android:name=".app.Map.ParentMapActivity"
+            android:label="@string/title_activity_parent_map"></activity>
+
     </application>
 
 </manifest>

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".app.CreateGroupActivity"
+    tools:context=".app.Group.CreateGroupActivity"
     tools:layout_editor_absoluteY="25dp">
 
     <ScrollView
@@ -88,7 +88,7 @@
                     android:textSize="15sp"
                     android:textColor="#000"
                     android:background="@null"
-                    android:hint="Enter address, city, or Zip Code"/>
+                    android:hint="@string/enter_address_city_or_zip_code"/>
 
             </android.support.constraint.ConstraintLayout>
 
@@ -105,21 +105,21 @@
                 android:layout_height="21dp" />
 
             <CheckBox
-                android:id="@+id/checkBox"
+                android:id="@+id/check_box"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:checked="true"
-                android:text="Be the leader of this group" />
+                android:text="@string/be_the_leader_of_this_group" />
 
             <Space
                 android:layout_width="match_parent"
                 android:layout_height="20dp" />
 
             <Button
-                android:id="@+id/confirmGroup"
+                android:id="@+id/confirm_group"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Create Group" />
+                android:text="@string/create_group" />
 
             <Space
                 android:layout_width="match_parent"
@@ -129,7 +129,7 @@
                 android:id="@+id/textView10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=" Add Members"
+                android:text="@string/add_members"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textSize="18sp" />
 
@@ -138,14 +138,14 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@id/createGroupmember_list">
+                app:layout_constraintTop_toBottomOf="@id/create_group_member_list">
 
                 <TableRow
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" >
 
                     <EditText
-                        android:id="@+id/createGroupadd_user_input"
+                        android:id="@+id/create_group_add_user_input"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
@@ -154,7 +154,7 @@
                         android:inputType="textEmailAddress" />
 
                     <Button
-                        android:id="@+id/createGroupadd_user_btn"
+                        android:id="@+id/create_group_add_user_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
@@ -168,7 +168,7 @@
                     android:layout_height="match_parent" >
 
                     <EditText
-                        android:id="@+id/createGroupremove_user_input"
+                        android:id="@+id/create_group_remove_user_input"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
@@ -177,7 +177,7 @@
                         android:inputType="textEmailAddress" />
 
                     <Button
-                        android:id="@+id/createGroupremove_user_btn"
+                        android:id="@+id/create_group_remove_user_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="8dp"
@@ -189,7 +189,7 @@
             </TableLayout>
 
             <ListView
-                android:id="@+id/createGroupmember_list"
+                android:id="@+id/create_group_member_list"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:layout_marginTop="12dp"

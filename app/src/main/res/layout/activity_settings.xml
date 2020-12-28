@@ -19,10 +19,10 @@
                 android:layout_height="20dp" />
 
             <TextView
-                android:id="@+id/SettingsTitle"
+                android:id="@+id/settings_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Your Account"
+                android:text="@string/your_account"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textSize="24sp"
                 tools:layout_editor_absoluteX="16dp"
@@ -49,7 +49,7 @@
                     android:id="@+id/id_name"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
-                    android:text="Name"
+                    android:text="@string/name"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                 <Space
@@ -57,7 +57,7 @@
                     android:layout_height="match_parent" />
 
                 <EditText
-                    android:id="@+id/nameDisplay"
+                    android:id="@+id/name_display"
                     android:layout_width="129dp"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
@@ -65,7 +65,7 @@
                     android:textSize="18sp" />
 
                 <ImageView
-                    android:id="@+id/nameClick"
+                    android:id="@+id/name_click"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/arrow_png" />
@@ -87,10 +87,10 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:id="@+id/id_birthYear"
+                    android:id="@+id/id_birth_year"
                     android:layout_width="150dp"
                     android:layout_height="match_parent"
-                    android:text="Birth Year"
+                    android:text="@string/birth_year"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                 <Space
@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content" />
 
                 <EditText
-                    android:id="@+id/birthYearDisplay"
+                    android:id="@+id/birth_year_display"
                     android:layout_width="129dp"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
@@ -106,7 +106,7 @@
                     android:textSize="18sp" />
 
                 <ImageView
-                    android:id="@+id/BirthYearClick"
+                    android:id="@+id/birth_year_click"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/arrow_png" />
@@ -127,10 +127,10 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:id="@+id/id_birthMonth"
+                    android:id="@+id/id_birth_month"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:text="Birth Month"
+                    android:text="@string/birth_month"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                 <Space
@@ -138,7 +138,7 @@
                     android:layout_height="wrap_content" />
 
                 <EditText
-                    android:id="@+id/birthMonthDisplay"
+                    android:id="@+id/birth_month_display"
                     android:layout_width="129dp"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
@@ -146,7 +146,7 @@
                     android:textSize="18sp" />
 
                 <ImageView
-                    android:id="@+id/BirthMonthClick"
+                    android:id="@+id/birth_month_click"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/arrow_png" />
@@ -171,7 +171,7 @@
                     android:id="@+id/id_address"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:text="Address"
+                    android:text="@string/address"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                 <Space
@@ -179,7 +179,7 @@
                     android:layout_height="wrap_content" />
 
                 <EditText
-                    android:id="@+id/adressDisplay"
+                    android:id="@+id/address_display"
                     android:layout_width="129dp"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
@@ -187,7 +187,7 @@
                     android:textSize="18sp" />
 
                 <ImageView
-                    android:id="@+id/AddressClick"
+                    android:id="@+id/address_click"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/arrow_png" />
@@ -209,10 +209,10 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:id="@+id/id_homePhone"
+                    android:id="@+id/id_home_phone"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:text="Home phone"
+                    android:text="@string/home_phone"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                 <Space
@@ -220,7 +220,7 @@
                     android:layout_height="wrap_content" />
 
                 <EditText
-                    android:id="@+id/homePhoneDisplay"
+                    android:id="@+id/home_phone_display"
                     android:layout_width="129dp"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
@@ -228,7 +228,7 @@
                     android:textSize="18sp" />
 
                 <ImageView
-                    android:id="@+id/HomePhoneClick"
+                    android:id="@+id/home_phone_click"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/arrow_png" />
@@ -250,10 +250,10 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:id="@+id/id_cellPhone"
+                    android:id="@+id/id_cell_phone"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:text="Cell Phone"
+                    android:text="@string/cell_phone"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                 <Space
@@ -261,7 +261,7 @@
                     android:layout_height="wrap_content" />
 
                 <EditText
-                    android:id="@+id/cellPhoneDisplay"
+                    android:id="@+id/cell_phone_display"
                     android:layout_width="129dp"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
@@ -269,7 +269,7 @@
                     android:textSize="18sp" />
 
                 <ImageView
-                    android:id="@+id/CellPhoneClick"
+                    android:id="@+id/cell_phone_click"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/arrow_png" />
@@ -293,7 +293,7 @@
                     android:id="@+id/id_email"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:text="Email"
+                    android:text="@string/email"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                 <Space
@@ -301,7 +301,7 @@
                     android:layout_height="wrap_content" />
 
                 <EditText
-                    android:id="@+id/EmailDisplay"
+                    android:id="@+id/email_display"
                     android:layout_width="129dp"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
@@ -309,7 +309,7 @@
                     android:textSize="18sp" />
 
                 <ImageView
-                    android:id="@+id/EmailClick"
+                    android:id="@+id/email_click"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/arrow_png" />
@@ -330,10 +330,10 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:id="@+id/id_currentGrade"
+                    android:id="@+id/id_current_grade"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:text="Current Grade"
+                    android:text="@string/current_grade"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                 <Space
@@ -341,7 +341,7 @@
                     android:layout_height="match_parent" />
 
                 <EditText
-                    android:id="@+id/currentgradeDisplay"
+                    android:id="@+id/current_grade_display"
                     android:layout_width="129dp"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
@@ -349,7 +349,7 @@
                     android:textSize="18sp" />
 
                 <ImageView
-                    android:id="@+id/CurrentGradeClick"
+                    android:id="@+id/current_grade_click"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/arrow_png" />
@@ -370,10 +370,10 @@
                     android:layout_height="wrap_content" />
 
                 <TextView
-                    android:id="@+id/id_teachersName"
+                    android:id="@+id/id_teachers_name"
                     android:layout_width="150dp"
                     android:layout_height="wrap_content"
-                    android:text="Teacher's Name"
+                    android:text="@string/teacher_s_name"
                     android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                 <Space
@@ -381,7 +381,7 @@
                     android:layout_height="match_parent" />
 
                 <EditText
-                    android:id="@+id/teacgersNameDisplay"
+                    android:id="@+id/teachers_name_display"
                     android:layout_width="129dp"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
@@ -389,7 +389,7 @@
                     android:textSize="18sp" />
 
                 <ImageView
-                    android:id="@+id/TeachersNameClick"
+                    android:id="@+id/teachers_name_click"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/arrow_png" />
@@ -400,10 +400,10 @@
                 android:layout_height="16dp" />
 
             <TextView
-                android:id="@+id/textView29"
+                android:id="@+id/emergency_contact"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Emergency Contact"
+                android:text="@string/emergency_contact"
                 android:textAppearance="@style/TextAppearance.AppCompat.Title"
                 android:textSize="24sp"
                 tools:layout_editor_absoluteX="5dp"
@@ -428,7 +428,7 @@
                     android:layout_height="match_parent" />
 
                 <EditText
-                    android:id="@+id/emergencyNameDisplay"
+                    android:id="@+id/emergency_contact_name_display"
                     android:layout_width="129dp"
                     android:layout_height="match_parent"
                     android:background="@android:color/transparent"
@@ -436,7 +436,7 @@
                     android:textSize="18sp" />
 
                 <ImageView
-                    android:id="@+id/EmergencyClick"
+                    android:id="@+id/emergency_contact_click"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/arrow_png" />
@@ -449,7 +449,7 @@
         android:id="@+id/deleteAccount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete Account"
+        android:text="@string/delete_account"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.945"

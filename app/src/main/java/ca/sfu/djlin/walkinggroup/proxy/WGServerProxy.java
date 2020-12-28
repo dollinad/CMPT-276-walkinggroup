@@ -1,11 +1,10 @@
 package ca.sfu.djlin.walkinggroup.proxy;
 
-import android.webkit.PermissionRequest;
-
 import java.util.List;
 
 import ca.sfu.djlin.walkinggroup.dataobjects.GpsLocation;
 import ca.sfu.djlin.walkinggroup.dataobjects.Group;
+import ca.sfu.djlin.walkinggroup.dataobjects.PermissionRequest;
 import ca.sfu.djlin.walkinggroup.model.User;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -152,6 +151,15 @@ public interface WGServerProxy {
     // TODO: Add query options
     @GET("/permissions")
     Call<List<PermissionRequest>> getPermissions();
+
+    @GET("/permissions")
+    Call<List<PermissionRequest>> getPermissions(@Query("userId") Long userId);
+
+    @GET("/permissions")
+    Call<List<PermissionRequest>> getPermissions(@Query("userId") Long userId, @Header("JSON-DEPTH") Long depth);
+
+    @GET("/permissions")
+    Call<List<PermissionRequest>> getPermissions(@Query("userId") Long userId, @Query("statusForUser") PermissionStatus status);
 
     @GET("/permissions/{id}")
     Call<PermissionRequest> getPermissionById(@Path("id") long permissionId);

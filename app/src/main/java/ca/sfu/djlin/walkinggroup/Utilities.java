@@ -9,7 +9,6 @@ import android.view.inputmethod.InputMethodManager;
 
 import java.util.List;
 
-import ca.sfu.djlin.walkinggroup.app.ViewMessagesActivity;
 import ca.sfu.djlin.walkinggroup.model.Session;
 import ca.sfu.djlin.walkinggroup.model.User;
 import ca.sfu.djlin.walkinggroup.proxy.ProxyBuilder;
